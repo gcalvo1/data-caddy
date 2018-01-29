@@ -31,7 +31,8 @@ router.post("/", middleware.isLoggedIn, function(req, res){
     var roundKey = {
         courseName: req.body.round.course,
         isFull: isFull,
-        date: req.body.round.datetime
+        date: req.body.round.datetime,
+        "player.username": req.user.username
     };
     
     var newRound = {
