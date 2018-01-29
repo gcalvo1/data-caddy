@@ -4,6 +4,7 @@ var express = require("express"),
     mongoose = require("mongoose"),
     passport = require("passport"),
     Course = require("./models/course"),
+    Round = require("./models/round"),
     LocalStrategy = require("passport-local"),
     User = require("./models/user"),
     seedDB = require("./seeds")
@@ -49,6 +50,31 @@ app.get('/coursedropdown', function(req, res){
             console.log(err);
         } else {
             res.send({course:course}); 
+        }
+    });
+});
+
+app.get('/roundkey', function(req, res){
+    var isFull = false;
+    if(req.query.numHoles === '18 Holes'){
+        isFull = true;
+    }
+    
+    var key = {
+        courseName: req.query.course,
+        isFull: isFull,
+        date: req.query.date
+    }
+ 
+    Round.find(key).exec(function(err, round){
+        if(err){
+            console.log(err);
+        } else {
+            if(round == null){
+                res.send(null);
+            } else {
+                res.send({round:round}); 
+            }
         }
     });
 });

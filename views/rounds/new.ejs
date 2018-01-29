@@ -164,7 +164,7 @@
                         <div class="form-group hole_submit">
                             <button type="submit" id="submit_<%=i%>" class="btn btn-xs btn-success save_btn">Save</button>
                             <button type="submit" class="btn btn-xs btn-warning">Edit</button>
-                            <button type="submit" class="btn btn-xs btn-danger">Clear</button>
+                            <button type="submit" id="clear_<%=i%>" class="btn btn-xs btn-danger clear_btn">Clear</button>
                         </div>
                         <input name="round[course]" type="hidden" value="" id="hidden_course_<%=i%>" class="hidden_course">
                         <input name="round[numHoles]" type="hidden" value="" id="hidden_num_holes_<%=i%>" class="hidden_num_holes">
@@ -345,23 +345,32 @@
                 data: {round: data},
             });
             
-            $('#fir_' + hole_submitted).prop("disabled", true);
-            $('#gir_' + hole_submitted).prop("disabled", true);
-            $("input#score_" + hole_submitted).prop("disabled", true);
-            $("input#putts_" + hole_submitted).prop("disabled", true);
-            $("#tsc_" + hole_submitted).prop("disabled", true);
-            $("#tsl_" + hole_submitted).prop("disabled", true);
-            $("#tsd_" + hole_submitted).prop("disabled", true);
-            $("#tsr_" + hole_submitted).prop("disabled", true);
-            $("#atg_" + hole_submitted).prop("disabled", true);
-            $("#ac_" + hole_submitted).prop("disabled", true);
-            $("#al_" + hole_submitted).prop("disabled", true);
-            $("#ad_" + hole_submitted).prop("disabled", true);
-            $("#ar_" + hole_submitted).prop("disabled", true);
-            $('#submit_' + hole_submitted).prop("disabled", true);
-            $('#submit_' + hole_submitted).html('Saved');
+            toggleInputs(hole_submitted,true);
             
             return false;       
+        });
+    });
+    
+     //Submit
+    $(function() {
+        $(".clear_btn").click(function() {
+            var hole_cleared = this.id.split('_').pop();
+            
+            $("input#putts_" + hole_cleared).val("");
+            $("input#score_" + hole_cleared).val("");
+            $("#tsc_" + hole_cleared).prop('selectedIndex', 0);
+            $("#tsl_" + hole_cleared).val("");
+            $("#tsd_" + hole_cleared).prop('selectedIndex', 0);
+            $("#tsr_" + hole_cleared).prop('selectedIndex', 0);
+            $("#atg_" + hole_cleared).prop('selectedIndex', 0);
+            $("#ac_" + hole_cleared).prop('selectedIndex', 0);
+            $("#al_" + hole_cleared).val("");
+            $("#ad_" + hole_cleared).prop('selectedIndex', 0);
+            $("#ar_" + hole_cleared).prop('selectedIndex', 0);
+            
+            toggleInputs(hole_cleared,false);
+            
+            return false;
         });
     });
     
@@ -369,7 +378,44 @@
     $('#datetimepicker1').on('dp.change', function() {
         var dateInput = $("#datetimepicker1").find("input").val();
         $('.hidden_datetime').val(dateInput);
-    });
+        
+        var parameters = { 
+            course: $("#course_dropdown :selected").text(),
+            numHoles: $('#holes_dropdown :selected').text(),
+            date: dateInput
+        }
+        
+        //Set values for pre-submitted rounds
+        $.get( '/roundkey',parameters, function(data) {
+            $(function() {
+                //Set Hole Data
+                if(data.round.length > 0){
+                    var roundObj = data.round[0];
+                    $.each(roundObj.holes, function(i, hole) {
+                        var holeNumber = hole.holeNumber;
+                        
+                        $("input#putts_" + holeNumber).val(hole.putts),
+                        $("input#score_" + holeNumber).val(hole.score),
+                        teeShotClub = $("#tsc_" + holeNumber).val(hole.teeShotClub),
+                        teeShotLength = $("#tsl_" + holeNumber).val(hole.teeShotLength),
+                        teeShotDirection = $("#tsd_" + holeNumber).val(hole.teeShotDirection),
+                        teeShotResult = $("#tsr_" + holeNumber).val(hole.teeShotResult),
+                        approachToGreen = $("#atg_" + holeNumber).val(hole.approachToGreen),
+                        approachClub = $("#ac_" + holeNumber).val(hole.approachClub),
+                        approachLength = $("#al_" + holeNumber).val(hole.approachLength),
+                        approachDirection = $("#ad_" + holeNumber).val(hole.approachDirection),
+                        approachResult = $("#ar_" + holeNumber).val(hole.approachResult)
+                        
+                        toggleInputs(holeNumber,true);
+                        
+                    });
+                }
+                
+                    
+                });
+            });
+        });
+   
     
     //Datetime picker
     $(function () {
@@ -389,5 +435,30 @@
             $('#form_hole_' + i).fadeOut();
         }
     }
+    
+    function toggleInputs(hole_submitted, bool){
+        $('#fir_' + hole_submitted).prop("disabled", bool);
+        $('#gir_' + hole_submitted).prop("disabled", bool);
+        $("input#score_" + hole_submitted).prop("disabled", bool);
+        $("input#putts_" + hole_submitted).prop("disabled", bool);
+        $("#tsc_" + hole_submitted).prop("disabled", bool);
+        $("#tsl_" + hole_submitted).prop("disabled", bool);
+        $("#tsd_" + hole_submitted).prop("disabled", bool);
+        $("#tsr_" + hole_submitted).prop("disabled", bool);
+        $("#atg_" + hole_submitted).prop("disabled", bool);
+        $("#ac_" + hole_submitted).prop("disabled", bool);
+        $("#al_" + hole_submitted).prop("disabled", bool);
+        $("#ad_" + hole_submitted).prop("disabled", bool);
+        $("#ar_" + hole_submitted).prop("disabled", bool);
+        $('#submit_' + hole_submitted).prop("disabled", bool);
+        
+        if(bool){
+            $('#submit_' + hole_submitted).html('Saved');
+        } else {
+            $('#submit_' + hole_submitted).html('Save');
+        }
+        
+    }
+    
 </script>
 <% include ../partials/footer %>
