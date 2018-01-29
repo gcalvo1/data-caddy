@@ -1,0 +1,34 @@
+<% include ../partials/header %>
+    <div class="container">
+        <header class="jumbotron">
+            <div class="container">
+                <h1>Welcome to DataCaddy!</h1>
+                <p>Bringing Analytics to Your Golf Game</p>
+                <p>
+                    <a class="btn btn-primary btn-lg" href="/rounds/new">Add New Round</a>
+                </p>
+            </div>
+        </header>
+        
+       <div class="row text-center" style="display:flex; flex-wrap: wrap;">
+            <% rounds.forEach(function(round){ %>
+                <div class="col-md-3 col-sm-6">
+                    <div class="thumbnail">
+                       <div class="caption">
+                           <h4><%= round.course[0].name %></h4>
+                           <p><%= round.date.toISOString().split('T')[0] %></p>
+                           <% var score = 0;
+                              round.holes.forEach(function(hole){ 
+                               score += hole.score;
+                            }); %>
+                            <p>Score: <strong><%= score %></strong></p>
+                       </div>
+                       <p>
+                           <a href="/rounds/<%= round._id %>" class="btn btn-primary">More Info</a>
+                       </p>
+                    </div>
+                </div>
+            <% }); %>
+        </div>  
+    </div>
+<% include ../partials/footer %>

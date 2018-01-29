@@ -1,0 +1,393 @@
+<% %>
+<% include ../partials/header %>
+
+    <div class="container">
+        <div class="row form-inline input_row">
+            <div class="form-group" id="course_image">
+            </div>
+            <div class="form-group">
+               <label for="course_dropdown">Course:</label>
+               <select class="form-control" id="course_dropdown">
+                    <option value=""></option>
+                    <% courses.forEach(function(course){ %>
+                      <option value=<% course.name %>><%= course.name %></option>
+                    <% }); %>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="holes_dropdown"># of Holes:</label>
+                <select class="form-control" id="holes_dropdown" disabled>
+                    <option id="default_num_holes" value="">Select Course</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="tees_dropdown">Tees:</label>
+                <select class="form-control" id="tees_dropdown" disabled>
+                    <option id="default_num_holes" value="">Select Course</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <div class='input-group date' id='datetimepicker1'>
+                    <label for="round_date">Round Date & Time:</label>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div> 
+    </div>  
+    <hr>
+    <div class="container-fluid">
+        <% for(var i = 1; i <= 18; i++) { %>
+            <form id='form_hole_<%=i%>' action="/rounds" method="POST">
+                <div class="row form-inline input_row">
+                    <fieldset>
+                        <div class="form-group input_card">
+                            <div id="hole_<%=i%>" class="form-group hole_desc">
+                        </div>
+                        <div class="form-group fg_input">
+                            <label for="tsc" class="Label_input">Tee Club</label>
+                            <select name="round[tsc]" class="form-control f_input" id="tsc_<%=i%>">
+                                <option value=""></option>
+                                  <option value="Driver">Driver</option>
+                                  <option value="3W">3W</option>
+                                  <option value="5W">5W</option>
+                                  <option value="Rescue">Rescue</option></option>
+                                  <option value="3I">3I</option>
+                                  <option value="4I">4I</option>
+                                  <option value="5I">5I</option>
+                                  <option value="6I">6I</option>
+                                  <option value="7I">7I</option>
+                                  <option value="8I">8I</option>
+                                  <option value="9I">9I</option>
+                                  <option value="PW">PW</option>
+                                  <option value="GW">GW</option>
+                                  <option value="SW">SW</option>
+                                  <option value="LW">LW</option>
+                            </select>
+                        </div>
+                        <div class="form-group fg_input">
+                            <label for="tsl" class="Label_input">Tee Length</label>
+                            <input type="number" name="round[tsl]" class="form-control f_input tsl" id="tsl_<%=i%>" min="0">
+                        </div>
+                        <div class="form-group fg_input">
+                            <label for="tsd" class="Label_input">Tee Direction</label>
+                            <select name="round[tsd]" class="form-control f_input tsd" id="tsd_<%=i%>">
+                                <option value=""></option>
+                                  <option value="Fairway">Fairway</option>
+                                  <option value="Left">Left</option>
+                                  <option value="Right">Right</option>
+                                  <option value="Short">Short</option></option>
+                                  <option value="Long">Long</option>
+                            </select>
+                        </div>
+                        <div class="form-group fg_input">
+                            <label for="tsr" class="Label_input">Tee Result</label>
+                            <select name="round[tsr]" class="form-control f_input" id="tsr_<%=i%>">
+                                <option value=""></option>
+                                  <option value="FIR">FIR</option>
+                                  <option value="Rough">Rough</option>
+                                  <option value="Bunker">Bunker</option>
+                                  <option value="Woods">Woods</option></option>
+                                  <option value="Fescue">Fescue</option>
+                                  <option value="Water">Water</option>
+                                  <option value="Lost Ball">Lost Ball</option>
+                            </select>
+                        </div>
+                        <div class="form-group fg_input">
+                            <label for="atg" class="Label_input">Appr. to Green</label>
+                            <select name="round[atg]" class="form-control f_input atg" id="atg_<%=i%>">
+                                <option value=""></option>
+                                  <option value="Yes">Yes</option>
+                                  <option value="No">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group fg_input">
+                            <label for="ac" class="Label_input">Appr. Club</label>
+                            <select name="round[ac]" class="form-control f_input" id="ac_<%=i%>">
+                                <option value=""></option>
+                                  <option value="Driver">Driver</option>
+                                  <option value="3W">3W</option>
+                                  <option value="5W">5W</option>
+                                  <option value="Rescue">Rescue</option></option>
+                                  <option value="3I">3I</option>
+                                  <option value="4I">4I</option>
+                                  <option value="5I">5I</option>
+                                  <option value="6I">6I</option>
+                                  <option value="7I">7I</option>
+                                  <option value="8I">8I</option>
+                                  <option value="9I">9I</option>
+                                  <option value="PW">PW</option>
+                                  <option value="GW">GW</option>
+                                  <option value="SW">SW</option>
+                                  <option value="LW">LW</option>
+                            </select>
+                        </div>
+                        <div class="form-group fg_input">
+                            <label for="al" class="Label_input">Appr. Length</label>
+                            <input type="number" name="round[al]" class="form-control f_input al" id="al_<%=i%>" min="0">
+                        </div>
+                        <div class="form-group fg_input">
+                            <label for="ad" class="Label_input">Appr. Direction</label>
+                            <select name="round[ad]" class="form-control f_input ad" id="ad_<%=i%>">
+                                <option value=""></option>
+                                  <option value="Green">Green</option>
+                                  <option value="Left">Left</option>
+                                  <option value="Right">Right</option>
+                                  <option value="Short">Short</option></option>
+                                  <option value="Long">Long</option>
+                            </select>
+                        </div>
+                        <div class="form-group fg_input">
+                            <label for="ar" class="Label_input">Appr. Result</label>
+                            <select name="round[ar]" class="form-control f_input" id="ar_<%=i%>">
+                                <option value=""></option>
+                                  <option value="GIR">GIR</option>
+                                  <option value="Fringe">Fringe</option>
+                                  <option value="Rough">Rough</option>
+                                  <option value="Bunker">Bunker</option>
+                                  <option value="Woods">Woods</option></option>
+                                  <option value="Fescue">Fescue</option>
+                                  <option value="Water">Water</option>
+                                  <option value="Lost Ball">Lost Ball</option>
+                            </select>
+                        </div>
+                        <div class="form-group fg_input xs_input">
+                            <label for="putts" class="Label_input">Putts</label>
+                            <input type="number" name="round[putts]" class="form-control f_input putts xs_input" id="putts_<%=i%>" min="0">
+                        </div>
+                        <div id="hole_<%=i%>_score" class="form-group fg_input xs_input">
+                            <label for="score" class="Label_input">Score</label>
+                            <input type="number" name="round[score]" class="form-control f_input xs_input" id="score_<%=i%>" min="1">
+                        </div>
+                        <div class="form-group hole_submit">
+                            <button type="submit" id="submit_<%=i%>" class="btn btn-xs btn-success save_btn">Save</button>
+                            <button type="submit" class="btn btn-xs btn-warning">Edit</button>
+                            <button type="submit" class="btn btn-xs btn-danger">Clear</button>
+                        </div>
+                        <input name="round[course]" type="hidden" value="" id="hidden_course_<%=i%>" class="hidden_course">
+                        <input name="round[numHoles]" type="hidden" value="" id="hidden_num_holes_<%=i%>" class="hidden_num_holes">
+                        <input name="round[datetime]" type="hidden" value="" id="hidden_datetime_<%=i%>" class="hidden_datetime">
+                        <input name="round[par]" type="hidden" value="" id="hidden_par_<%=i%>">
+                        <input name="round[holeNumber]" type="hidden" value="<%=i%>" id="hidden_hole_number_<%=i%>">
+                    </fieldset>
+                </div>
+            </form>
+            <hr>
+        <% } %>
+    </div>
+    
+<script>
+    //Get selection from course dropdown
+    $("#course_dropdown").change(function() {
+        $('.hole_desc').html('');
+        //console.log($("#dropdown :selected").text());
+        var parameters = { course: $("#course_dropdown :selected").text() };
+        
+        //Set hidden values for form
+        $('.hidden_course').val($("#course_dropdown :selected").text());
+        
+        //Get numHoles options
+        $.get( '/coursedropdown',parameters, function(data) {
+            $(function() {
+                //Set Hole Data
+                $.each(data.course.holes, function(i, item) {
+                    //Handle Par 3 Inputs
+                    if(item.par === 3) {
+                        $('#tsc_' + item.number).prop("disabled", true);
+                        $('#tsl_' + item.number).prop("disabled", true);
+                        $('#tsd_' + item.number).prop("disabled", true);
+                        $('#tsr_' + item.number).prop("disabled", true);
+                        $('#atg_' + item.number).prop("disabled", true).prop('selectedIndex', 1);
+                    }
+                    else {
+                        $('#tsc_' + item.number).prop("disabled", false);
+                        $('#tsl_' + item.number).prop("disabled", false);
+                        $('#tsd_' + item.number).prop("disabled", false);
+                        $('#tsr_' + item.number).prop("disabled", false);
+                        $('#atg_' + item.number).prop("disabled", false).prop('selectedIndex', 0);
+                    }
+                });
+            });
+            
+            //Set nine hole dropdown
+            if(data.course.isNine){
+                $(function() {
+                    $('#holes_dropdown').prop("disabled", false);
+                    $('#holes_dropdown').html('<option value=""></option><option value="eighteen">18 Holes</option><option value="front">Front 9</option><option value="back">Back 9</option>');
+                });    
+            } else {
+                $('#holes_dropdown').html('<option value="eighteen">18 Holes</option>');
+                $('#holes_dropdown').prop('selectedIndex', 0);
+                $('#holes_dropdown').prop("disabled", true);
+                
+                fadeInHoles(1, 18);
+                $('.hidden_num_holes').val('18 Holes');
+            }
+            
+            //Set Tees Dropdown
+            $(function() {
+                $('#tees_dropdown').prop("disabled", false);
+                var html = '<option value=""></option>';
+                $.each(data.course.tees, function(i, item) {
+                    html = html + '<option value="'+item+'">'+item+'</option>';
+                });
+                $('#tees_dropdown').html(html).prop('selectedIndex', 0);;
+            });
+        });
+    });
+    
+    //Set hole yardages
+    $("#tees_dropdown").change(function() {
+        var parameters = {course: $("#course_dropdown :selected").text()};
+        var teeSelection = $("#tees_dropdown :selected").text().toLowerCase();
+        $.get( '/coursedropdown',parameters, function(data) {
+            $.each(data.course.holes, function(i, item) {
+                $('#hole_' + item.number).html('<p>' + item.number + '</p><p>'+item.yardage[teeSelection]+'</p>');
+                $('#hidden_par_' + item.number).val(item.par);
+            });
+        });
+    });
+    
+    //Calculate score when possible
+    $(".putts").change(function() {
+        var hole_changed = this.id.split('_').pop();
+        var putts = parseInt($(this).val());
+        var gir = $('#ar_' + hole_changed).val();
+        var par = parseInt($("#hidden_par_" + hole_changed).val());
+        if(gir === 'GIR'){
+            $('#score_' + hole_changed).val(putts + (par - 2));
+        }
+        
+    });
+    
+    //Set Tee Result when possible
+    $(".tsd").change(function() {
+        var hole_changed = this.id.split('_').pop();
+        if($(this).val() === 'Fairway'){
+            $('#tsr_' + hole_changed).prop('selectedIndex', 1);
+        } else {
+            $('#tsr_' + hole_changed).prop('selectedIndex', 0);
+        }
+    });
+    //Set Appr. Result when possible
+    $(".ad").change(function() {
+        var hole_changed = this.id.split('_').pop();
+        if($(this).val() === 'Green'){
+            $('#ar_' + hole_changed).prop('selectedIndex', 1);
+        } else {
+            $('#ar_' + hole_changed).prop('selectedIndex', 0);
+        }
+    });
+    
+    
+    //Modify hole options based on selction in number of holes dropdown
+    $('#holes_dropdown').change(function(){
+        var numHoles = $('#holes_dropdown :selected').text();
+        
+        if (numHoles === '18 Holes') {
+            fadeInHoles(1, 18);
+        } else if (numHoles === 'Front 9') {
+            fadeInHoles(1, 9);
+            fadeOutHoles(10, 18);
+        } else if (numHoles === 'Back 9') {
+            fadeInHoles(10, 18);
+            fadeOutHoles(1, 9);
+        }
+        
+        $('.hidden_num_holes').val(numHoles);
+    });
+    
+    //Submit
+    $(function() {
+        $(".save_btn").click(function() {
+            var hole_submitted = this.id.split('_').pop(),
+                putts = $("input#putts_" + hole_submitted).val(),
+                score = $("input#score_" + hole_submitted).val(),
+                numHoles = $("#hidden_num_holes_" + hole_submitted).val(),
+                course = $("#hidden_course_" + hole_submitted).val(),
+                datetime = $("#hidden_datetime_" + hole_submitted).val(),
+                holeNumber = hole_submitted,
+                par = $("#hidden_par_" + hole_submitted).val(),
+                teeShotClub = $("#tsc_" + hole_submitted).val(),
+                teeShotLength = $("#tsl_" + hole_submitted).val(),
+                teeShotDirection = $("#tsd_" + hole_submitted).val(),
+                teeShotResult = $("#tsr_" + hole_submitted).val(),
+                approachToGreen = $("#atg_" + hole_submitted).val(),
+                approachClub = $("#ac_" + hole_submitted).val(),
+                approachLength = $("#al_" + hole_submitted).val(),
+                approachDirection = $("#ad_" + hole_submitted).val(),
+                approachResult = $("#ar_" + hole_submitted).val()
+          
+            var data = {
+                putts: putts,
+                score: score,
+                numHoles: numHoles,
+                course: course,
+                datetime: datetime,
+                holeNumber: holeNumber,
+                par: par,
+                teeShotClub: teeShotClub,
+                teeShotLength: teeShotLength,
+                teeShotDirection: teeShotDirection,
+                teeShotResult: teeShotResult,
+                approachToGreen: approachToGreen,
+                approachClub: approachClub,
+                approachLength: approachLength,
+                approachDirection: approachDirection,
+                approachResult: approachResult
+            };
+          
+            $.ajax({
+                url: '/rounds', 
+                type: 'POST', 
+                data: {round: data},
+            });
+            
+            $('#fir_' + hole_submitted).prop("disabled", true);
+            $('#gir_' + hole_submitted).prop("disabled", true);
+            $("input#score_" + hole_submitted).prop("disabled", true);
+            $("input#putts_" + hole_submitted).prop("disabled", true);
+            $("#tsc_" + hole_submitted).prop("disabled", true);
+            $("#tsl_" + hole_submitted).prop("disabled", true);
+            $("#tsd_" + hole_submitted).prop("disabled", true);
+            $("#tsr_" + hole_submitted).prop("disabled", true);
+            $("#atg_" + hole_submitted).prop("disabled", true);
+            $("#ac_" + hole_submitted).prop("disabled", true);
+            $("#al_" + hole_submitted).prop("disabled", true);
+            $("#ad_" + hole_submitted).prop("disabled", true);
+            $("#ar_" + hole_submitted).prop("disabled", true);
+            $('#submit_' + hole_submitted).prop("disabled", true);
+            $('#submit_' + hole_submitted).html('Saved');
+            
+            return false;       
+        });
+    });
+    
+   
+    $('#datetimepicker1').on('dp.change', function() {
+        var dateInput = $("#datetimepicker1").find("input").val();
+        $('.hidden_datetime').val(dateInput);
+    });
+    
+    //Datetime picker
+    $(function () {
+        $('#datetimepicker1').datetimepicker();
+    });
+
+    function fadeInHoles(startHole, endHole) {
+        for(var i = startHole; i <= endHole; i++){
+            if (!$('#form_hole_' + i).is(":visible")) {
+                $('#form_hole_' + i).fadeIn();
+            }
+        }
+    }
+    
+    function fadeOutHoles(startHole, endHole) {
+        for(var i = startHole; i <= endHole; i++){
+            $('#form_hole_' + i).fadeOut();
+        }
+    }
+</script>
+<% include ../partials/footer %>

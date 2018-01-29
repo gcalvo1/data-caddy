@@ -1,0 +1,58 @@
+.hole_desc {
+    width: 10px;
+    margin-right: 20px;
+}
+
+.hole_desc_col {
+    width: 10px;
+    margin-right: 20px;
+}
+
+.input_row {
+    padding-bottom: 10px;
+}
+
+.fg_input {
+    width:110px;
+}
+
+.fg_input .f_input {
+    width:110px;
+}
+
+.Label_input {
+    width:110px;
+}
+
+.xs_input {
+    width: 60px;
+}
+
+.xs_input .Label_input {
+    width: 60px;
+}
+
+.xs_input .xs_input {
+    width:60px;
+}
+
+.input_card {
+    margin-left: 20px;
+}
+
+.input_row {
+    margin-bottom: 10px;
+}
+
+.hole_submit {
+    height: 60px;
+    padding-top: 32px;
+}
+
+input, label {
+    display:block;
+}
+
+.new_round_img {
+    width: 5%;
+}
