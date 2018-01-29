@@ -2,9 +2,10 @@ var express = require("express");
 var router = express.Router();
 var Round = require("../models/round");
 var Course = require("../models/course");
+var middleware = require("../middleware");
 
-router.get("/", function(req, res){
-    Round.find({username: "georgecalvo@georgecalvo.com"}).populate("course").exec(function(err, rounds){
+router.get("/", middleware.isLoggedIn, function(req, res){
+    Round.find({"player.id": req.user._id}).populate("course").exec(function(err, rounds){
         if(err){
             console.log(err);
         } else {
@@ -15,7 +16,7 @@ router.get("/", function(req, res){
 });
 
 //CREATE
-router.post("/", function(req, res){
+router.post("/", middleware.isLoggedIn, function(req, res){
     var isFull = false;
     var approachToGreen = false;
     
@@ -37,7 +38,10 @@ router.post("/", function(req, res){
         date: req.body.round.datetime,
         isFull: isFull,
         roundType: req.body.round.numHoles,
-        username: 'INSERT USERNAME HERE',
+        player: {
+            id: req.user._id,
+            username: req.user.username
+        },
         courseName: req.body.round.course,
         holes: {
             holeNumber: req.body.round.holeNumber,
@@ -107,7 +111,7 @@ router.post("/", function(req, res){
     });
 });
 
-router.get("/new", function(req, res){
+router.get("/new", middleware.isLoggedIn, function(req, res){
     Course.find().exec(function(err, courses){
         if(err){
             console.log(err);

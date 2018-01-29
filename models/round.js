@@ -4,7 +4,6 @@ var roundSchema = new mongoose.Schema({
     date: Date,
     isFull: Boolean,
     roundType: String,
-    username: String,
     courseName: String,
     tees: String,
     weather: {
@@ -18,12 +17,13 @@ var roundSchema = new mongoose.Schema({
             ref: "Course"
         }
     ],
-    user: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User"
-        }
-    ],
+    player: {
+      id: {
+         type: mongoose.Schema.Types.ObjectId,
+         ref: "User"
+      },
+      username: String
+    },
     holes: [
         {
             holeNumber: Number,
