@@ -97,16 +97,38 @@ router.post("/", middleware.isLoggedIn, function(req, res){
                 }); 
             } else {
                 //found round
-                //push new hole
-                foundRound.holes.push(newRound.holes);
-                foundRound.save(function(err, data){  
-                    if(err){
-                        console.log(err);
-                    } else {
-                        //console.log("found course: " + data);
+                var foundHole = false;
+                var foundPos = 0;
+                
+                for (let i=0; i < foundRound.holes.length; i++) {
+                    if(foundRound.holes[i].holeNumber == newRound.holes.holeNumber){
+                        console.log("hole match");
+                        foundHole = true;
+                        foundPos = i;
                     }
-                });
-                console.log("found round");
+                }
+                console.log(foundHole);
+                if(foundHole){
+                    //Replace hole
+                    foundRound.holes.splice(foundPos, 1, newRound.holes);
+                    foundRound.save(function(err, data){  
+                        if(err){
+                            console.log(err);
+                        } else {
+                            //console.log("found course: " + data);
+                        }
+                    });
+                } else {
+                    //push new hole
+                    foundRound.holes.push(newRound.holes);
+                    foundRound.save(function(err, data){  
+                        if(err){
+                            console.log(err);
+                        } else {
+                            //console.log("found course: " + data);
+                        }
+                    });
+                }
             }
         }
     });

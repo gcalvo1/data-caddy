@@ -163,7 +163,7 @@
                         </div>
                         <div class="form-group hole_submit">
                             <button type="submit" id="submit_<%=i%>" class="btn btn-xs btn-success save_btn">Save</button>
-                            <button type="submit" class="btn btn-xs btn-warning">Edit</button>
+                            <button type="submit" id="edit_<%=i%>" class="btn btn-xs btn-warning edit_btn">Edit</button>
                             <button type="submit" id="clear_<%=i%>" class="btn btn-xs btn-danger clear_btn">Clear</button>
                         </div>
                         <input name="round[course]" type="hidden" value="" id="hidden_course_<%=i%>" class="hidden_course">
@@ -299,7 +299,7 @@
         $('.hidden_num_holes').val(numHoles);
     });
     
-    //Submit
+    //Save
     $(function() {
         $(".save_btn").click(function() {
             var hole_submitted = this.id.split('_').pop(),
@@ -351,7 +351,7 @@
         });
     });
     
-     //Submit
+     //Clear
     $(function() {
         $(".clear_btn").click(function() {
             var hole_cleared = this.id.split('_').pop();
@@ -374,6 +374,16 @@
         });
     });
     
+    //Edit
+    $(function() {
+        $(".edit_btn").click(function() {
+            var hole_edited = this.id.split('_').pop();
+            
+            toggleInputs(hole_edited,false);
+            
+            return false;
+        });
+    });
    
     $('#datetimepicker1').on('dp.change', function() {
         var dateInput = $("#datetimepicker1").find("input").val();
