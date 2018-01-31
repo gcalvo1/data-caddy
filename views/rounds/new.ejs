@@ -1,4 +1,3 @@
-<% %>
 <% include ../partials/header %>
 
     <div class="container">
@@ -171,6 +170,7 @@
                         <input name="round[datetime]" type="hidden" value="" id="hidden_datetime_<%=i%>" class="hidden_datetime">
                         <input name="round[par]" type="hidden" value="" id="hidden_par_<%=i%>">
                         <input name="round[holeNumber]" type="hidden" value="<%=i%>" id="hidden_hole_number_<%=i%>">
+                        <input name="round[tees]" type="hidden" value="" id="hidden_tees_<%=i%>">
                     </fieldset>
                 </div>
             </form>
@@ -246,6 +246,7 @@
             $.each(data.course.holes, function(i, item) {
                 $('#hole_' + item.number).html('<p>' + item.number + '</p><p>'+item.yardage[teeSelection]+'</p>');
                 $('#hidden_par_' + item.number).val(item.par);
+                $('#hidden_tees_' + item.number).val($("#tees_dropdown :selected").text());
             });
         });
     });
@@ -310,6 +311,7 @@
                 datetime = $("#hidden_datetime_" + hole_submitted).val(),
                 holeNumber = hole_submitted,
                 par = $("#hidden_par_" + hole_submitted).val(),
+                tees = $("#hidden_tees_" + hole_submitted).val(),
                 teeShotClub = $("#tsc_" + hole_submitted).val(),
                 teeShotLength = $("#tsl_" + hole_submitted).val(),
                 teeShotDirection = $("#tsd_" + hole_submitted).val(),
@@ -328,6 +330,7 @@
                 datetime: datetime,
                 holeNumber: holeNumber,
                 par: par,
+                tees: tees,
                 teeShotClub: teeShotClub,
                 teeShotLength: teeShotLength,
                 teeShotDirection: teeShotDirection,
@@ -356,18 +359,7 @@
         $(".clear_btn").click(function() {
             var hole_cleared = this.id.split('_').pop();
             
-            $("input#putts_" + hole_cleared).val("");
-            $("input#score_" + hole_cleared).val("");
-            $("#tsc_" + hole_cleared).prop('selectedIndex', 0);
-            $("#tsl_" + hole_cleared).val("");
-            $("#tsd_" + hole_cleared).prop('selectedIndex', 0);
-            $("#tsr_" + hole_cleared).prop('selectedIndex', 0);
-            $("#atg_" + hole_cleared).prop('selectedIndex', 0);
-            $("#ac_" + hole_cleared).prop('selectedIndex', 0);
-            $("#al_" + hole_cleared).val("");
-            $("#ad_" + hole_cleared).prop('selectedIndex', 0);
-            $("#ar_" + hole_cleared).prop('selectedIndex', 0);
-            
+            resetInputs(hole_cleared);
             toggleInputs(hole_cleared,false);
             
             return false;
@@ -419,12 +411,15 @@
                         toggleInputs(holeNumber,true);
                         
                     });
+                } else {
+                    for(let i=1; i<=1; i++){
+                        resetInputs(i);
+                        toggleInputs(i,false);
+                    };
                 }
-                
-                    
-                });
             });
         });
+    });
    
     
     //Datetime picker
@@ -468,6 +463,20 @@
             $('#submit_' + hole_submitted).html('Save');
         }
         
+    }
+    
+    function resetInputs(hole_cleared){
+        $("input#putts_" + hole_cleared).val("");
+            $("input#score_" + hole_cleared).val("");
+            $("#tsc_" + hole_cleared).prop('selectedIndex', 0);
+            $("#tsl_" + hole_cleared).val("");
+            $("#tsd_" + hole_cleared).prop('selectedIndex', 0);
+            $("#tsr_" + hole_cleared).prop('selectedIndex', 0);
+            $("#atg_" + hole_cleared).prop('selectedIndex', 0);
+            $("#ac_" + hole_cleared).prop('selectedIndex', 0);
+            $("#al_" + hole_cleared).val("");
+            $("#ad_" + hole_cleared).prop('selectedIndex', 0);
+            $("#ar_" + hole_cleared).prop('selectedIndex', 0);
     }
     
 </script>

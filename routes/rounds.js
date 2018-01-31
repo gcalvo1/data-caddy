@@ -39,6 +39,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
         date: req.body.round.datetime,
         isFull: isFull,
         roundType: req.body.round.numHoles,
+        tees: req.body.round.tees,
         player: {
             id: req.user._id,
             username: req.user.username
@@ -145,23 +146,16 @@ router.get("/new", middleware.isLoggedIn, function(req, res){
 });
 
 // //SHOW - shows more info about one campground
-// router.get("/:id", function(req, res) {
-//     //find the campground with id and render show page with the campground
-//     Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground){
-//       if(err){
-//           console.log(err);
-//       } else {
-//           console.log(foundCampground);
-//           res.render("campgrounds/show", {campground: foundCampground});
-//       }
-//     });
-// });
-
-// function isLoggedIn(req, res, next){
-//     if(req.isAuthenticated()){
-//         return next();
-//     }
-//     res.redirect("/login");
-// }
+router.get("/:id", function(req, res) {
+    //find the round with id and render show page with the round
+    Round.findById(req.params.id).populate("course").exec(function(err, foundRound){
+      if(err){
+          console.log(err);
+      } else {
+          console.log(req.user);
+          res.render("rounds/show", {round: foundRound, user: req.user});
+      }
+    });
+});
 
 module.exports = router;

@@ -16,7 +16,8 @@ var courseSchema = new mongoose.Schema({
                 black: Number
             }
         }
-    ]
+    ],
+    tees: []
 });
 
 module.exports = mongoose.model("Course", courseSchema);
