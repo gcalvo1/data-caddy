@@ -35,6 +35,11 @@
                     </span>
                 </div>
             </div>
+            <div class="form-group">
+                <form class="delete-form" action="/rounds/<%= round._id %>?_method=DELETE" method="POST">
+                    <button class="btn btn-m btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+                </form>
+            </div>
         </div> 
     </div>  
     <hr>
@@ -194,6 +199,11 @@
     setOption(document.getElementById('tees_dropdown'), tees);
     $("#tees_dropdown").trigger("change");
     $('#datetimepicker1').find("input").val(formattedDate);
+    
+    //Disable Round Key Inputs
+    $('#course_dropdown').prop("disabled", true);
+    $('#tees_dropdown').prop("disabled", true);
+    $('#datetimepicker1  > .form-control').prop("disabled", true);
     
     function formatDate(date) {
         var hours = date.getHours();

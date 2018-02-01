@@ -181,4 +181,15 @@ router.get("/:id/edit", middleware.checkRoundOwnership, function(req, res) {
     });
 });
 
+//DESTROY
+router.delete("/:id", middleware.checkRoundOwnership, function(req, res){
+    Round.findByIdAndRemove(req.params.id, function(err){
+        if(err){
+            res.redirect("/rounds");    
+        } else {
+            res.redirect("/rounds");
+        }
+    });
+});
+
 module.exports = router;

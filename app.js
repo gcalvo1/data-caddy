@@ -3,9 +3,10 @@ var express = require("express"),
     bodyParser = require("body-parser"),
     mongoose = require("mongoose"),
     passport = require("passport"),
+    LocalStrategy = require("passport-local"),
+    methodOverride = require("method-override"),
     Course = require("./models/course"),
     Round = require("./models/round"),
-    LocalStrategy = require("passport-local"),
     User = require("./models/user"),
     seedDB = require("./seeds")
     
@@ -17,6 +18,7 @@ mongoose.connect("mongodb://localhost/data_caddy");
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public")); 
+app.use(methodOverride("_method"));
 //seedDB();
 
 // PASSPORT CONFIGURATION
