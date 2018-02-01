@@ -145,7 +145,7 @@ router.get("/new", middleware.isLoggedIn, function(req, res){
     });
 });
 
-// //SHOW - shows more info about one campground
+//SHOW
 router.get("/:id", function(req, res) {
     //find the round with id and render show page with the round
     Round.findById(req.params.id).populate("course").exec(function(err, foundRound){
@@ -155,6 +155,29 @@ router.get("/:id", function(req, res) {
           console.log(req.user);
           res.render("rounds/show", {round: foundRound, user: req.user});
       }
+    });
+});
+
+//EDIT
+router.get("/:id/edit", middleware.checkRoundOwnership, function(req, res) {
+    Round.findById(req.params.id, function(err, foundRound){
+        if(err){
+            console.log(err);
+        } else {
+            Course.find().exec(function(err, courses){
+                if(err){
+                    console.log(err);
+                } else {
+                    Course.find({name:foundRound.courseName}).exec(function(err, course){
+                        if(err){
+                            console.log(err);
+                        } else {
+                            res.render("rounds/edit",{round: foundRound, courses:courses, course:course}); 
+                        }
+                    });
+                }
+            });
+        }
     });
 });
 

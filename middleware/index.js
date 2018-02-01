@@ -10,7 +10,7 @@ middlewareObj.checkRoundOwnership = function(req, res, next) {
                //req.flash("error","Round not found");
                res.redirect("back");
            }  else {
-               // does user own the campground?
+               // does user own the round?
             if(foundRound.player.id.equals(req.user._id)) {
                 next();
             } else {

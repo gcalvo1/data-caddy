@@ -1,5 +1,4 @@
 <% include ../partials/header %>
-
     <div class="container">
         <div class="row form-inline input_row">
             <div class="form-group" id="course_image">
@@ -9,7 +8,7 @@
                <select class="form-control" id="course_dropdown">
                     <option value=""></option>
                     <% courses.forEach(function(course){ %>
-                      <option value=<% course.name %>><%= course.name %></option>
+                      <option id=<% course.name %> value=<% course.name %>><%= course.name %></option>
                     <% }); %>
                 </select>
             </div>
@@ -21,8 +20,10 @@
             </div>
             <div class="form-group">
                 <label for="tees_dropdown">Tees:</label>
-                <select class="form-control" id="tees_dropdown" disabled>
-                    <option id="default_num_holes" value="">Select Course</option>
+                <select class="form-control" id="tees_dropdown">
+                    <% course[0].tees.forEach(function(tee) { %>
+                        <option value=<%=tee%>><%=tee%></option>
+                 <% }); %>
                 </select>
             </div>
             <div class="form-group">
@@ -165,12 +166,12 @@
                             <button type="submit" id="edit_<%=i%>" class="btn btn-xs btn-warning edit_btn">Edit</button>
                             <button type="submit" id="clear_<%=i%>" class="btn btn-xs btn-danger clear_btn">Clear</button>
                         </div>
-                        <input name="round[course]" type="hidden" value="" id="hidden_course_<%=i%>" class="hidden_course">
-                        <input name="round[numHoles]" type="hidden" value="" id="hidden_num_holes_<%=i%>" class="hidden_num_holes">
-                        <input name="round[datetime]" type="hidden" value="" id="hidden_datetime_<%=i%>" class="hidden_datetime">
+                        <input name="round[course]" type="hidden" value="<%= round.courseName %>" id="hidden_course_<%=i%>" class="hidden_course">
+                        <input name="round[numHoles]" type="hidden" value="<%= round.roundType %>" id="hidden_num_holes_<%=i%>" class="hidden_num_holes">
+                        <input name="round[datetime]" type="hidden" value="<%= round.date %>" id="hidden_datetime_<%=i%>" class="hidden_datetime">
                         <input name="round[par]" type="hidden" value="" id="hidden_par_<%=i%>">
                         <input name="round[holeNumber]" type="hidden" value="<%=i%>" id="hidden_hole_number_<%=i%>">
-                        <input name="round[tees]" type="hidden" value="" id="hidden_tees_<%=i%>">
+                        <input name="round[tees]" type="hidden" value="<%= round.tees %>" id="hidden_tees_<%=i%>">
                         <input name="round[edit]" type="hidden" value="edit" id="hidden_edit_<%=i%>">
                     </fieldset>
                 </div>
@@ -178,5 +179,65 @@
             <hr id="hr_<%=i%>">
         <% } %>
     </div>
-<script src="../scripts/rounds/new.js"></script>   
+<script src="../../scripts/rounds/new.js"></script>   
+<script>
+
+    //Set Dropdowns
+    var courseName = $('#hidden_course_1').val(),
+        numHoles = $('#hidden_num_holes_1').val(),
+        tees = $('#hidden_tees_1').val(),
+        date = new Date($('#hidden_datetime_1').val()),
+        formattedDate = formatDate(date);
+    
+    setOption(document.getElementById('course_dropdown'), courseName);
+    $("#course_dropdown").trigger("change");
+    setOption(document.getElementById('tees_dropdown'), tees);
+    $("#tees_dropdown").trigger("change");
+    $('#datetimepicker1').find("input").val(formattedDate);
+    
+    function formatDate(date) {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0'+minutes : minutes;
+        var strTime = hours + ':' + minutes + ' ' + ampm;
+        return date.getMonth()+1 + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
+    }
+    
+    function setOption(selectElement, value) {
+        var options = selectElement.options;
+        for (var i = 0; i < options.length; i++)  {
+            if (options[i].value == value) {
+                selectElement.selectedIndex = i;
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    function toggleInputs(hole_submitted, bool){
+        $('#fir_' + hole_submitted).prop("disabled", bool);
+        $('#gir_' + hole_submitted).prop("disabled", bool);
+        $("input#score_" + hole_submitted).prop("disabled", bool);
+        $("input#putts_" + hole_submitted).prop("disabled", bool);
+        $("#tsc_" + hole_submitted).prop("disabled", bool);
+        $("#tsl_" + hole_submitted).prop("disabled", bool);
+        $("#tsd_" + hole_submitted).prop("disabled", bool);
+        $("#tsr_" + hole_submitted).prop("disabled", bool);
+        $("#atg_" + hole_submitted).prop("disabled", bool);
+        $("#ac_" + hole_submitted).prop("disabled", bool);
+        $("#al_" + hole_submitted).prop("disabled", bool);
+        $("#ad_" + hole_submitted).prop("disabled", bool);
+        $("#ar_" + hole_submitted).prop("disabled", bool);
+        $('#submit_' + hole_submitted).prop("disabled", bool);
+        
+        if(bool){
+            $('#submit_' + hole_submitted).html('Saved');
+        } else {
+            $('#submit_' + hole_submitted).html('Save');
+        }
+    }
+</script>
 <% include ../partials/footer %>
