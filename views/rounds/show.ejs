@@ -64,8 +64,14 @@
                      <% }
                     } %>
                     <td><strong><%= inScore %></strong></td>
-             <% } %> 
+             <% }  
+                if(round.isFull) { %>
                 <td><strong><%= outScore + inScore %></strong></td>
+            <% } else if(round.roundType === "Front 9") { %>
+                    <td><strong><%= outScore %></strong></td>
+            <% } else if(round.roundType === "Back 9") { %>
+                    <td><strong><%= inScore %></strong></td>
+            <% } %>
             </tr>
           </tbody>
         </table>

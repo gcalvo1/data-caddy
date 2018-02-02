@@ -25,10 +25,12 @@ router.post("/register", function(req, res){
     User.register(newUser, req.body.password, function(err, user){
         if(err){
             console.log(err);
-            return res.render('register');
+            req.flash("error", err.message);
+            return res.render("register");
         }
         passport.authenticate("local")(req, res, function(){
-            res.redirect("/rounds");    
+            req.flash("success", "Welcome to DataCaddy " + user.username);
+            res.redirect("/rounds");   
         });
     });
 });
@@ -48,16 +50,9 @@ router.post("/login", passport.authenticate("local",
 
 //Logout Route
 router.get("/logout", function(req, res){
-    req.logout();
-    res.redirect("/landing");
+   req.logout();
+   req.flash("success", "Logged Out");
+   res.redirect("/");
 });
-
-// //Middleware
-// function isLoggedIn(req, res, next){
-//     if(req.isAuthenticated()){
-//         return next();
-//     }
-//     res.redirect("/login");
-// }
 
 module.exports = router;

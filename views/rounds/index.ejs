@@ -15,6 +15,7 @@
                 <div class="col-md-3 col-sm-6">
                     <div class="thumbnail">
                        <div class="caption">
+                           <img class="thumb_img" src='<%= round.course[0].img %>' alt="Course Image">
                            <h4><%= round.course[0].name %></h4>
                            <p><%= round.date.toISOString().split('T')[0] %></p>
                            <% var score = 0;

@@ -31,12 +31,12 @@ $("#course_dropdown").change(function() {
         });
         
         //Set nine hole dropdown
-        if(data.course.isNine){
+        if(data.course.isNine && $('#hidden_edit_1').val() != 'edit'){
             $(function() {
                 $('#holes_dropdown').prop("disabled", false);
                 $('#holes_dropdown').html('<option value=""></option><option value="eighteen">18 Holes</option><option value="front">Front 9</option><option value="back">Back 9</option>');
             });    
-        } else {
+        } else if(!data.course.isNine && $('#hidden_edit_1').val() != 'edit'){
             $('#holes_dropdown').html('<option value="eighteen">18 Holes</option>');
             $('#holes_dropdown').prop('selectedIndex', 0);
             $('#holes_dropdown').prop("disabled", true);

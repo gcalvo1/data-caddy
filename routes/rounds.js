@@ -89,7 +89,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
                                     if(err){
                                         console.log(err);
                                     } else {
-                                        //console.log("found course: " + data);
+                                        req.flash("success", "Hole Saved");
                                     }
                                 });
                             }
@@ -116,7 +116,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
                         if(err){
                             console.log(err);
                         } else {
-                            //console.log("found course: " + data);
+                            req.flash("success", "Hole Saved");
                         }
                     });
                 } else {
@@ -126,7 +126,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
                         if(err){
                             console.log(err);
                         } else {
-                            //console.log("found course: " + data);
+                            req.flash("success", "Hole Saved");
                         }
                     });
                 }
