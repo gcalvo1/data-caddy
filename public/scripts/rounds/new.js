@@ -79,7 +79,7 @@ $("#course_dropdown").change(function() {
     });
 });
 
-//Set hole yardages
+//Set hole yardages 
 $("#tees_dropdown").change(function() {
     var parameters = {course: $("#course_dropdown :selected").text()};
     var teeSelection = $("#tees_dropdown :selected").text().toLowerCase();
