@@ -5,7 +5,6 @@ $('#new_menu_option').addClass('active');
 //Get selection from course dropdown
 $("#course_dropdown").change(function() {
     $('.hole_desc').html('');
-    //console.log($("#dropdown :selected").text());
     var parameters = { course: $("#course_dropdown :selected").text() };
     
     //Set hidden values for form
@@ -69,13 +68,25 @@ $("#course_dropdown").change(function() {
     });
 });
 
+//Set hole number and par
+$("#course_dropdown").change(function() {
+    var parameters = {course: $("#course_dropdown :selected").text()};
+    $.get( '/coursedropdown',parameters, function(data) {
+        $.each(data.course.holes, function(i, item) {
+            $('#hole_' + item.number).html('<p><strong>' + item.number + '</strong></p><p>Par '+ item.par +'</p>');
+            $('#hidden_par_' + item.number).val(item.par);
+        });
+    });
+});
+
 //Set hole yardages
 $("#tees_dropdown").change(function() {
     var parameters = {course: $("#course_dropdown :selected").text()};
     var teeSelection = $("#tees_dropdown :selected").text().toLowerCase();
     $.get( '/coursedropdown',parameters, function(data) {
+        $('.hole_desc_yardage').remove();
         $.each(data.course.holes, function(i, item) {
-            $('#hole_' + item.number).html('<p><strong>' + item.number + '</strong></p><p>Par '+ item.par +'</p><p class="hole_desc_yardage">'+item.yardage[teeSelection]+' yds</p>');
+            $('#hole_' + item.number).html($('#hole_' + item.number).html() + '<p class="hole_desc_yardage">'+item.yardage[teeSelection]+' yds</p>');
             $('#hidden_par_' + item.number).val(item.par);
             $('#hidden_tees_' + item.number).val($("#tees_dropdown :selected").text());
             var teeColor = $('#hidden_tees_' + item.number).val();
@@ -96,7 +107,6 @@ $(".putts").change(function() {
     if(gir === 'GIR'){
         $('#score_' + hole_changed).val(putts + (par - 2));
     }
-    
 });
 
 //Set Tee Result when possible
@@ -108,6 +118,28 @@ $(".tsd").change(function() {
         $('#tsr_' + hole_changed).prop('selectedIndex', 0);
     }
 });
+
+//Disable approach inputs when approach is not to the green
+$(".atg").change(function() {
+    var hole_changed = this.id.split('_').pop();
+    var atg = $('#atg_' + hole_changed + " :selected").text();
+    if(atg === 'No'){
+        $('#ac_' + hole_changed).prop('selectedIndex', 0);
+        $('#ad_' + hole_changed).prop('selectedIndex', 0);
+        $("#al_" + hole_changed).val(null);
+        $('#ar_' + hole_changed).prop('selectedIndex', 0);
+        $("#ac_" + hole_changed).prop("disabled", true);
+        $("#al_" + hole_changed).prop("disabled", true);
+        $("#ad_" + hole_changed).prop("disabled", true);
+        $("#ar_" + hole_changed).prop("disabled", true);
+    } else {
+        $("#ac_" + hole_changed).prop("disabled", false);
+        $("#al_" + hole_changed).prop("disabled", false);
+        $("#ad_" + hole_changed).prop("disabled", false);
+        $("#ar_" + hole_changed).prop("disabled", false);
+    }
+});
+
 //Set Appr. Result when possible
 $(".ad").change(function() {
     var hole_changed = this.id.split('_').pop();
@@ -265,6 +297,8 @@ $('#datetimepicker1').on('dp.change', function() {
                     approachLength = $("#al_" + holeNumber).val(hole.approachLength),
                     approachDirection = $("#ad_" + holeNumber).val(hole.approachDirection),
                     approachResult = $("#ar_" + holeNumber).val(hole.approachResult)
+                    
+                    $(".atg").trigger("change");
                     
                     if($('#hidden_edit_1').val() != 'edit'){
                         toggleInputs(holeNumber,true);
