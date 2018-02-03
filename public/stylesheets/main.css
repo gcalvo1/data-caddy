@@ -20,6 +20,32 @@ ul.nav.navbar-nav.navbar-right .user_dropdown {
     margin-right: 5px;
 }
 
+.form-group .login-input {
+    width: 150px;
+    height: 25px;
+    margin-right: 5px;
+}
+
+.navbar-right .navbar-form {
+    margin-top: 1px;
+}
+
+.navbar-right label {
+    font-size: 12px;
+    color: white;
+    margin-bottom: 1px;
+}
+
+.navbar-right button {
+    margin-top: 16px;
+    margin-right: 5px;
+}
+
+.nav-sign-up {
+    margin-top: 15px;
+    margin-right: 5px;
+}
+
 body {
     background: #ECE9E6;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #FFFFFF, #ECE9E6);  /* Chrome 10-25, Safari 5.1-6 */

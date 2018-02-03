@@ -36,15 +36,15 @@ router.post("/register", function(req, res){
 });
 
 //Login Routes
-router.get("/login", function(req, res){
-    res.render("login");
-});
+// router.get("/login", function(req, res){
+//     res.render("login");
+// });
 
 // //Handle login logic
-router.post("/login", passport.authenticate("local", 
+router.post("/", passport.authenticate("local", 
     {
         successRedirect: "/rounds",
-        failureRedirect: "/login"
+        failureRedirect: "/"
     }), function(req, res){
 });
 

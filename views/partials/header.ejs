@@ -29,8 +29,18 @@
                     <ul class="nav navbar-nav navbar-right">
                         <% if(!currentUser){ %>
                             <ul class="nav navbar-nav navbar-right">
-                              <li><a href="/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                              <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                                <form class="navbar-form" action="/" method="POST">
+                                    <div class="form-group">
+                                        <label for="username">Username</label>
+                                        <input type="text" name="username" class="form-control login-input">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password">Password</label>
+                                        <input type="password" name="password" class="form-control login-input">
+                                    </div>
+                                    <button type="submit" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-log-in"></span> Login</button>
+                                    <button type="button" class="btn btn-default btn-xs" onclick="location.href='/register';"><span class="glyphicon glyphicon-user"></span> Sign Up</button>
+                                </form>
                             </ul>
                         <% } else { %>
                             <li class="dropdown">
