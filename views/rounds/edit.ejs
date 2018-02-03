@@ -1,9 +1,9 @@
 <% include ../partials/header %>
-    <div class="container">
+    <div class="container-fluid input_container">
         <div class="row form-inline input_row">
-            <div class="form-group" id="course_image">
+            <div id="input_img_div" class="form-group fg_input_head">
             </div>
-            <div class="form-group">
+            <div class="form-group fg_input_head">
                <label for="course_dropdown">Course:</label>
                <select class="form-control" id="course_dropdown">
                     <option value=""></option>
@@ -12,13 +12,13 @@
                     <% }); %>
                 </select>
             </div>
-            <div class="form-group">
+            <div class="form-group fg_input_head">
                 <label for="holes_dropdown"># of Holes:</label>
                 <select class="form-control" id="holes_dropdown" disabled>
                     <option id="default_num_holes" value=""><%= round.roundType %></option>
                 </select>
             </div>
-            <div class="form-group">
+            <div class="form-group fg_input_head">
                 <label for="tees_dropdown">Tees:</label>
                 <select class="form-control" id="tees_dropdown">
                     <% course[0].tees.forEach(function(tee) { %>
@@ -26,23 +26,23 @@
                  <% }); %>
                 </select>
             </div>
-            <div class="form-group">
+            <div class="form-group fg_input_head">
+                <label for="round_date">Round Date & Time:</label>
                 <div class='input-group date' id='datetimepicker1'>
-                    <label for="round_date">Round Date & Time:</label>
                     <input type='text' class="form-control" />
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group fg_input_head" id="delete_div">
                 <form class="delete-form" action="/rounds/<%= round._id %>?_method=DELETE" method="POST">
                     <button class="btn btn-m btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
                 </form>
             </div>
         </div> 
     </div>  
-    <hr>
+    <hr class='header_hr'>
     <div class="container-fluid">
         <% for(var i = 1; i <= 18; i++) { %>
             <form id='form_hole_<%=i%>' action="/rounds" method="POST">
@@ -183,7 +183,9 @@
             </form>
             <hr id="hr_<%=i%>">
         <% } %>
-        <a href="/rounds/<%= round._id %>" class="btn btn-primary">Complete Round</a>
+        <div id='complete_btn_div'>
+            <a href="/rounds/<%= round._id %>" class="btn btn-primary btn-complete">Complete Round</a>
+        </div>
     </div>
 <script src="../../scripts/rounds/new.js"></script>   
 <script src="../../scripts/rounds/edit.js"></script>

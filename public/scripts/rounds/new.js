@@ -1,3 +1,7 @@
+//Set Active Menu
+$('.menu_options li').removeClass('active');
+$('#new_menu_option').addClass('active');
+
 //Get selection from course dropdown
 $("#course_dropdown").change(function() {
     $('.hole_desc').html('');
@@ -56,6 +60,12 @@ $("#course_dropdown").change(function() {
                 $('#tees_dropdown').html(html).prop('selectedIndex', 0);;
             }
         });
+        
+        //Set course img
+        $('#input_img_div').html("");
+        $('#input_img_div').html("<img id='input_img' src='"+ data.course.img + "' alt=''>");
+        $('#input_img').addClass("thumb_img");
+        
     });
 });
 
@@ -65,9 +75,14 @@ $("#tees_dropdown").change(function() {
     var teeSelection = $("#tees_dropdown :selected").text().toLowerCase();
     $.get( '/coursedropdown',parameters, function(data) {
         $.each(data.course.holes, function(i, item) {
-            $('#hole_' + item.number).html('<p>' + item.number + '</p><p>'+item.yardage[teeSelection]+'</p>');
+            $('#hole_' + item.number).html('<p><strong>' + item.number + '</strong></p><p>Par '+ item.par +'</p><p class="hole_desc_yardage">'+item.yardage[teeSelection]+' yds</p>');
             $('#hidden_par_' + item.number).val(item.par);
             $('#hidden_tees_' + item.number).val($("#tees_dropdown :selected").text());
+            var teeColor = $('#hidden_tees_' + item.number).val();
+            if(teeColor === 'White'){
+                teeColor = 'gray';
+            }
+            $('.hole_desc_yardage').css("color", teeColor);
         });
     });
 });

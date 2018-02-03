@@ -14,6 +14,7 @@ middlewareObj.checkRoundOwnership = function(req, res, next) {
             if(foundRound.player.id.equals(req.user._id)) {
                 next();
             } else {
+                
                 req.flash("error", "You do not have permission to do that");
                 res.redirect("back");
             }

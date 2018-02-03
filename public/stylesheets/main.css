@@ -1,15 +1,84 @@
+.navbar-inverse {
+    background: #485563;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #29323c, #485563);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #29323c, #485563); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.navbar-inverse .navbar-brand {
+    color: white;
+}
+
+ul.nav.navbar-nav.navbar-right a {
+    color: white;
+}
+
+ul.nav.navbar-nav.navbar-right .user_dropdown {
+    color: gray;
+}
+
+.dropdown-toggle .glyphicon-user {
+    margin-right: 5px;
+}
+
+body {
+    background: #ECE9E6;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #FFFFFF, #ECE9E6);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #FFFFFF, #ECE9E6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.alert {
+    text-align: center;
+    width: 50%;
+    margin: auto;
+}
+
+.fg_input_head {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.input_container {
+    margin-bottom: 25px;
+}
+
+#input_img_div {
+    margin-left: 200px;
+    margin-right: 50px;
+}
+
+#delte_div {
+    height: 59px;
+}
+
+.delete-form{
+    padding-top: 23px;
+}
+
+.header_hr {
+	border-top: 3px double rgba(201, 208, 216, 0.8);
+	margin-bottom: 20px;
+}
+
+hr {
+	 border-color: #DDCECE;
+	 background-color: #DDCECE;
+	 color: #DDCECE;
+	 margin-top: 5px;
+	 margin-bottom: 5px;
+}
+
 .hole_desc {
-    width: 10px;
-    margin-right: 20px;
+    width: 50px;
+    margin-right: 10px;
+    padding-left: 1px;
+    padding-right: 1px;
+    text-align: center;
 }
 
-.hole_desc_col {
-    width: 10px;
-    margin-right: 20px;
-}
-
-.input_row {
-    padding-bottom: 10px;
+.hole_desc p {
+    margin-bottom: 4px;
+    width: 60px;
+    padding-right: 10px;
 }
 
 .fg_input {
@@ -40,10 +109,6 @@
     margin-left: 20px;
 }
 
-.input_row {
-    margin-bottom: 10px;
-}
-
 .hole_submit {
     height: 60px;
     padding-top: 32px;
@@ -60,4 +125,13 @@ input, label {
 .thumb_img {
     width: 75px;
     height: 75px;
+}
+
+#complete_btn_div {
+    text-align: center;
+}
+
+.btn-complete {
+    width: 300px;
+    margin-bottom: 20px;
 }
