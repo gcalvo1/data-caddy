@@ -19,6 +19,7 @@ router.post("/register", function(req, res){
                             {
                                 username: req.body.username,
                                 email: req.body.email,
+                                name: req.body.name,
                                 role: "user",
                                 signUpDate: Date.now()
                             });
@@ -35,12 +36,7 @@ router.post("/register", function(req, res){
     });
 });
 
-//Login Routes
-// router.get("/login", function(req, res){
-//     res.render("login");
-// });
-
-// //Handle login logic
+//Handle login logic
 router.post("/", passport.authenticate("local", 
     {
         successRedirect: "/rounds",

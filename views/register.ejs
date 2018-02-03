@@ -1,12 +1,33 @@
 <% include ./partials/header %>
 
-<h1>Sign Up!</h1>
-
-<form action="/register" method="POST">
-    <input type="text" name="username" placeholder="username">
-    <input type="email" name="email" placeholder="email">
-    <input type="password" name="password" placeholder="password">
-    <button>Submit</button>
-</form>
+<div class="container">
+    <div id="register_div">
+        <div>
+            <h2>Register for DataCaddy  <span> <i class="fas fa-golf-ball"></i></span></h2>
+            <hr>
+            <form action="/register" method="POST">
+                <div class="form-group">
+                    <label for="username">USERNAME</label>
+                    <input type="text" name="username" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-MAIL ADDRESS</label>
+                    <input type="email" name="email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="fullname">FULL NAME</label>
+                    <input type="text" name="name" class="form-control" placeholder="First Last" required>
+                </div>
+                <div class="form-group">
+                    <label for="pwd">PASSWORD</label>
+                    <input type="password" name="password" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-default"><strong>Submit</strong></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <% include ./partials/footer %>
