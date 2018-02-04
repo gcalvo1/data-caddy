@@ -1,34 +1,106 @@
 <% include ../partials/header %>
 
 <div class="container">
-    <h3> <span id="course_name"><%= round.courseName %></span> - <span id="round_date"> <%= round.date %> </span></span></h3>
+    <h3 id="scorecard_title"> <span><img src='<%= round.course[0].img %>'></span> <span id="course_name"><%= round.courseName %></span> - <span id="round_date"> <%= round.date %> </span></span></h3>
     <div>
         <table class="table table-bordered scorecard">
           <thead>
             <tr>
-                <th scope="col"><p>Hole</p><p id='tee_color' class='tee_color'><%= round.tees %></p></th>
+                <th scope="col">
+                    <div>
+                        Hole
+                    </div>
+                </th>
+                <%  var outYards = 0,
+                        inYards = 0;
+                    if(round.isFull || round.roundType === "Front 9") {
+                        for(let i=1; i<=9; i++){ %>
+                            <th scope="col">
+                                <div>
+                                    <%= i %>
+                                </div>
+                            </th>
+                       <% } %>
+                        <th scope="col">
+                            <div>
+                                Out
+                            </div>
+                        </th>
+                  <% } %> 
+                <% if(round.isFull || round.roundType == "Back 9") {
+                       for(let i=10; i<=18; i++){ %>
+                            <th scope="col">
+                                <div>
+                                    <%= i %>
+                                </div>
+                            </th>
+                       <% } %>
+                        <th scope="col">
+                            <div>
+                                In
+                            </div>
+                        </th>
+                <% } %>
+                <th scope="col">
+                    <div>
+                        Total
+                    </div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <!--Yardage-->
+            <tr>
+                <th scope="row">
+                    <div id='tee_color' class='tee_color'>
+                        <%= round.tees %>
+                    </div>
+                </th>
                 <%  var outYards = 0,
                         inYards = 0;
                     if(round.isFull || round.roundType === "Front 9") {
                         for(let i=1; i<=9; i++){ 
                             outYards += round.course[0].holes[i - 1].yardage[round.tees.toLowerCase()]; %>
-                            <th scope="col"><p><%= i %></p><p class='tee_color'><%= round.course[0].holes[i - 1].yardage[round.tees.toLowerCase()] %></p></th>
+                            <td scope="col"><div class='tee_color'><strong><%= round.course[0].holes[i - 1].yardage[round.tees.toLowerCase()] %></strong></div></td>
                        <% } %>
-                        <th scope="col"><p>Out</p><p class='tee_color'><%= outYards %></p></th>
-                  <% } %> 
-                    
+                        <td scope="col"><div class='tee_color'><strong><%= outYards %></strong></div></td>
+                  <% } %>
                 <% if(round.isFull || round.roundType == "Back 9") {
                        for(let i=10; i<=18; i++){ 
                             inYards += round.course[0].holes[i - 1].yardage[round.tees.toLowerCase()]; %>
-                            <th scope="col"><p><%= i %></p><p class='tee_color'><%= round.course[0].holes[i - 1].yardage[round.tees.toLowerCase()] %></p></th>
+                            <td scope="col"><div class='tee_color'><strong><%= round.course[0].holes[i - 1].yardage[round.tees.toLowerCase()] %></strong></div></td>
                        <% } %>
-                        <th scope="col"><p>In</p><p class='tee_color'><%= inYards %></p></th>
+                        <td scope="col"><div class='tee_color'><strong><%= inYards %></strong></div></td>
                 <% } %>
-                <th scope="col"><p>Total</p><p class='tee_color'><%= outYards + inYards %></p></th>
+                <td scope="col"><div class='tee_color'><strong><%= outYards + inYards %></strong></div></td>
             </tr>
-          </thead>
-          <tbody>
-            <tr>
+            <!--Par-->
+            <tr id="par_row">
+                <th scope="row">
+                    <div>
+                        Par
+                    </div>
+                </th>
+                <%  var outPar = 0,
+                        inPar = 0;
+                    if(round.isFull || round.roundType === "Front 9") {
+                        for(let i=1; i<=9; i++){ 
+                            outPar += round.course[0].holes[i - 1].par; %>
+                            <td scope="col"><div><strong><%= round.course[0].holes[i - 1].par %></strong></div></td>
+                       <% } %>
+                        <td scope="col"><div><strong><%= outPar %></strong></div></td>
+                  <% } %>
+                <% if(round.isFull || round.roundType == "Back 9") {
+                       for(let i=10; i<=18; i++){ 
+                            inPar += round.course[0].holes[i - 1].par; %>
+                            <td scope="col"><div><strong><%= round.course[0].holes[i - 1].par; %></strong></div></td>
+                       <% } %>
+                        <td scope="col"><div class='tee_color'></div><strong><%= inPar %></strong></div></td>
+                <% } %>
+                <td scope="col"><div><strong><%= outPar + inPar %></strong></div></td>
+            </tr>
+            <!--Score-->
+            <tr id="score_row">
                 <th id="player_name" scope="row"><%= user.name %></th>
                 <% if(round.isFull || round.roundType === "Front 9") {
                     var outScore = 0;
