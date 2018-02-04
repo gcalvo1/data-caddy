@@ -6,6 +6,37 @@ if($('#tee_color').text().toLowerCase() === 'white'){
 }
 $('.tee_color').css('color', tee_color);
 
+//Set score indicator
+var par_list = [];
+var parameters = {course: $('#course_name').text()};
+$.get( '/coursedropdown',parameters, function(data) {
+    $.each(data.course.holes, function(i, hole) {
+        par_list.push(hole.par);
+    });
+
+    var score_list = [];
+    for(let i=0; i<=17; i++){
+      score_list.push(parseInt($('#score_' + i).text())); 
+    }
+    
+    for(let i=0; i<=17; i++){
+        var scoreToPar = score_list[i] - par_list[i];
+        if(scoreToPar == 1){
+            $('#score_' + i).addClass('bogey');
+        } else if(scoreToPar == -1){
+            $('#score_' + i).addClass('birdie');
+        } else if(scoreToPar == 2){
+            $('#score_' + i).addClass('double_bogey');
+        } else if(scoreToPar == -2){
+            $('#score_' + i).addClass('eagle');
+        } else if(scoreToPar > 2){
+            $('#score_' + i).addClass('bogey_plus');
+        } else if(scoreToPar < -2){
+            $('#score_' + i).addClass('birdie_minus');
+        }
+    }
+});
+
 var rawDate = new Date($('#round_date').text());
 var formattedDate = formatDate(rawDate);
 $('#round_date').text(formattedDate);
