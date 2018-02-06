@@ -9,11 +9,13 @@ var express = require("express"),
     Course = require("./models/course"),
     Round = require("./models/round"),
     User = require("./models/user"),
-    seedDB = require("./seeds")
+    AWS = require('aws-sdk'),
+    seedDB = require("./seeds");
     
 //Requiring routes    
 var roundRoutes = require("./routes/rounds"),
-    indexRoutes = require("./routes/index")
+    indexRoutes = require("./routes/index"),
+    dashboardRoutes = require("./routes/dashboard");
 
 mongoose.connect("mongodb://localhost/data_caddy");
 app.use(bodyParser.urlencoded({extended: true}));
@@ -44,7 +46,7 @@ app.use(function(req, res, next){
 
 app.use("/", indexRoutes);
 app.use("/rounds", roundRoutes);
-// app.use("/campgrounds/:id/comments", commentRoutes);
+app.use("/dashboard", dashboardRoutes);
 
 app.get('/coursedropdown', function(req, res){
     var courseSelect = req.query.course;
@@ -79,6 +81,65 @@ app.get('/roundkey', function(req, res){
             } else {
                 res.send({round:round}); 
             }
+        }
+    });
+});
+
+app.get("/userimg", function(req, res){
+    var s3Bucket = new AWS.S3({ params: {Bucket: 'data-caddy-profile-pics'} });
+        var urlParams = {Bucket: 'data-caddy-profile-pics', Key: req.user.username + '.jpg'};
+        s3Bucket.getSignedUrl('getObject', urlParams, function(err, url){
+            if(err){
+                console.log(err);
+            } else {
+                res.send({userImg: url});
+            }
+        });
+});
+
+app.get("/roundsdata", function(req, res){
+    Round.find({"player.id": req.user._id}).populate("course").exec(function(err, rounds){
+        if(err){
+            console.log(err);
+        } else {
+            //Dashboard data to be returned
+            var numFullRounds = 0,
+                totalFullScore = 0,
+                numNineRounds = 0,
+                totalNineScore = 0,
+                totalFullScoreToPar = 0,
+                scoreByDate = [];
+            rounds.forEach(function(round){
+                var roundScore = 0,
+                    roundPar = 0,
+                    roundData = [];
+                if(round.isFull){
+                    numFullRounds++;
+                    roundData.push(round.date);
+                    round.holes.forEach(function(hole){
+                        totalFullScore += hole.score;
+                        roundScore += hole.score;
+                        roundPar += hole.par;
+                    });
+                    roundData.push(roundScore);
+                    scoreByDate.push(roundData);
+                } else {
+                    numNineRounds++;
+                    round.holes.forEach(function(hole){
+                        totalNineScore += hole.score;
+                    });
+                }
+                totalFullScoreToPar += (roundScore - roundPar);
+                
+            });
+            var avgScore =
+                {
+                    avgNineScore: totalNineScore / numNineRounds,
+                    avgFullScore: totalFullScore / numFullRounds,
+                    avgFullScoreToPar: totalFullScoreToPar / numFullRounds,
+                    scoreByDate: scoreByDate
+                };
+            res.send({rounds:rounds, avgScore, user: req.user});
         }
     });
 });

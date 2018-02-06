@@ -1,0 +1,293 @@
+<% include ../partials/header %>
+    
+    <div class="container-fluid">  
+        <div class="row"> 
+            <div id="dash-name" class="col-md-2">
+                <div class="row">
+                        <!--<span class="glyphicon glyphicon-user"></span>-->
+                        <span id="dash-img-span"></span>
+                </div>
+                <div class="row">
+                    <strong><%= user.name %></strong>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                  <li class="nav-item active">
+                    <a class="nav-link active" id="summary-tab" data-toggle="tab" href="#summary" role="tab" aria-controls="summary" aria-selected="true">Summary</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="driving-tab" data-toggle="tab" href="#driving" role="tab" aria-controls="driving" aria-selected="false">Driving</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="approach-tab" data-toggle="tab" href="#approach" role="tab" aria-controls="approach" aria-selected="false">Approach</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="putting-tab" data-toggle="tab" href="#putting" role="tab" aria-controls="putting" aria-selected="false">Putting</a>
+                  </li>
+                </ul>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        <div class="tab-content" id="myTabContent">
+            
+            <div class="row">
+                <div class="col-md-2">
+                    <nav id="dash-left-menu">
+                      <UL>
+                       <li class="var_nav">
+                          <div class="link_bg"></div>
+                          <div class="link_title">
+                            <div class=icon> 
+                            <i class="fas fa-plus"></i>
+                            </div>
+                            <a href="/rounds/new"><span>New Round</span></a>
+                          </div>
+                       </li>
+                       <li class="var_nav">
+                          <div class="link_bg"></div>
+                          <div class="link_title">
+                            <div class=icon> 
+                            <i class="fas fa-eye"></i>
+                            </div>
+                            <a href="/rounds"><span>View Rounds</span></a>
+                          </div>
+                       </li>
+                      </UL>
+                    </nav>
+                </div>
+                <div class="tab-pane fade in show active" id="summary" role="tabpanel" aria-labelledby="summary-tab">
+                    <div class="col-md-2">
+                        <div class="counter">
+                            <h2 class="timer count-title count-number" data-to="<%= avgScore.avgFullScore %>" data-speed="1500"></h2>
+                            <p class="count-text ">Average Score</p>
+                        </div>  
+                    </div>
+                    <div class="col-md-5">
+                        <div id="rbd-line">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="counter">
+                            <h2 class="timer count-title count-number-sign" data-to="<%= avgScore.avgFullScoreToPar %>" data-speed="1500"></h2>
+                            <p class="count-text ">Average Score to Par</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="driving" role="tabpanel" aria-labelledby="driving-tab">sdklsa;dhasl</div>
+                <div class="tab-pane fade" id="approach" role="tabpanel" aria-labelledby="approach-tab">...</div>
+                <div class="tab-pane fade" id="putting" role="tabpanel" aria-labelledby="putting-tab">...</div>
+                
+                <div class="col-md-1"></div>
+            </div>  
+        </div>
+    </div>
+    
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script>
+    //Set Active Menu
+    $('.menu_options li').removeClass('active');
+    $('#dashboard_menu_option').addClass('active');
+    
+    $.get( '/userimg', function(data) {
+        if(data.userImg == null) { 
+                $('#dash-img-span').addClass("glyphicon glyphicon-user");
+        } else {
+                $('#dash-img-span').html("<img id='dash-prof-pic' src="+ data.userImg +" onerror='imgError(this);'>");
+        } 
+    });
+    
+    function imgError(image) {
+        image.onerror = "";
+        $('#dash-img-span').html("");
+        $('#dash-img-span').addClass("glyphicon glyphicon-user");
+        return true;
+    }
+
+    //Get numHoles options
+    $.get( '/roundsdata', function(data) {
+        
+        //Get Data
+        var series = data.avgScore.scoreByDate;
+        //Sort Data
+        function compare(a,b) {
+          if (a < b)
+            return -1;
+          if (a > b)
+            return 1;
+          return 0;
+        }
+        series.sort(compare);
+        //Convert to epoch time
+        data.avgScore.scoreByDate.forEach(function(pair){
+            pair[0] = Math.round((new Date(pair[0])).getTime());
+        });
+        
+        //Create the chart
+        Highcharts.chart('rbd-line', {
+            chart: {
+                height: 300,
+                type: 'line'
+            },
+            title: {
+                text: 'Score by Date'
+            },
+            xAxis: {
+                    type: 'datetime',
+                    dateTimeLabelFormats: 
+                    {
+                        hour: '%l %p'
+                    }
+            },
+            yAxis: {
+                title: {
+                    text: 'Score'
+                }
+            },
+            plotOptions: {
+                series: {
+                    label: {
+                        connectorAllowed: false
+                    }
+                }
+            },
+            series: [{
+                name: 'Score',
+                data: series
+            }],
+            credits: {
+    				enabled: false
+    		},
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        // legend: {
+                        //     layout: 'horizontal',
+                        //     align: 'center',
+                        //     verticalAlign: 'bottom'
+                        // }
+                    }
+                }]
+            }
+        
+        })
+    });
+    
+    (function ($) {
+    	$.fn.countTo = function (options) {
+    		options = options || {};
+    		
+    		return $(this).each(function () {
+    			// set options for current element
+    			var settings = $.extend({}, $.fn.countTo.defaults, {
+    				from:            $(this).data('from'),
+    				to:              $(this).data('to'),
+    				speed:           $(this).data('speed'),
+    				refreshInterval: $(this).data('refresh-interval'),
+    				decimals:        $(this).data('decimals')
+    			}, options);
+    			
+    			// how many times to update the value, and how much to increment the value on each update
+    			var loops = Math.ceil(settings.speed / settings.refreshInterval),
+    				increment = (settings.to - settings.from) / loops;
+    			
+    			// references & variables that will change with each update
+    			var self = this,
+    				$self = $(this),
+    				loopCount = 0,
+    				value = settings.from,
+    				data = $self.data('countTo') || {};
+    			
+    			$self.data('countTo', data);
+    			
+    			// if an existing interval can be found, clear it first
+    			if (data.interval) {
+    				clearInterval(data.interval);
+    			}
+    			data.interval = setInterval(updateTimer, settings.refreshInterval);
+    			
+    			// initialize the element with the starting value
+    			render(value);
+    			
+    			function updateTimer() {
+    				value += increment;
+    				loopCount++;
+    				
+    				render(value);
+    				
+    				if (typeof(settings.onUpdate) == 'function') {
+    					settings.onUpdate.call(self, value);
+    				}
+    				
+    				if (loopCount >= loops) {
+    					// remove the interval
+    					$self.removeData('countTo');
+    					clearInterval(data.interval);
+    					value = settings.to;
+    					
+    					if (typeof(settings.onComplete) == 'function') {
+    						settings.onComplete.call(self, value);
+    					}
+    				}
+    			}
+    			
+    			function render(value) {
+    				var formattedValue = settings.formatter.call(self, value, settings);
+    				$self.html(formattedValue);
+    			}
+    		});
+    	};
+    	
+    	$.fn.countTo.defaults = {
+    		from: 0,               // the number the element should start at
+    		to: 0,                 // the number the element should end at
+    		speed: 1000,           // how long it should take to count between the target numbers
+    		refreshInterval: 100,  // how often the element should be updated
+    		decimals: 0,           // the number of decimal places to show
+    		formatter: formatter,  // handler for formatting the value before rendering
+    		onUpdate: null,        // callback method for every time the element is updated
+    		onComplete: null       // callback method for when the element finishes updating
+    	};
+    	
+    	function formatter(value, settings) {
+    		return value.toFixed(settings.decimals);
+    	}
+    }(jQuery));
+    
+    jQuery(function ($) {
+      // custom formatting example
+      var sign = "";
+      if($('.count-number-sign').data().to > 0){
+          sign = "+";
+      }
+      
+      $('.count-number-sign').data('countToOptions', {
+    	formatter: function (value, options) {
+    	  return sign + value.toFixed(options.decimals).replace(/\B(?=(?:\d{3})+(?!\d))/g, ',');
+    	}
+      });
+      
+      $('.count-number').data('countToOptions', {
+    	formatter: function (value, options) {
+    	  return value.toFixed(options.decimals).replace(/\B(?=(?:\d{3})+(?!\d))/g, ',');
+    	}
+      });
+      
+      // start all the timers
+      $('.timer').each(count);  
+      
+      function count(options) {
+    	var $this = $(this);
+    	options = $.extend({}, options || {}, $this.data('countToOptions') || {});
+    	$this.countTo(options);
+      }
+    });
+        
+</script>   
+    
+<% include ../partials/footer %>

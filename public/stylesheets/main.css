@@ -280,3 +280,172 @@ input, label {
     width: 30px;
     margin: auto;
 }
+
+#rounds_hr {
+    margin-bottom: 20px;
+}
+
+.counter { 
+    background-color: #ffffff; 
+    padding: 20px 0; 
+    border-radius: 5px;
+}
+
+#rbd-line {
+    background-color: #ffffff; 
+    padding: 20px 0; 
+    border-radius: 5px;
+    height: 350px;
+}
+
+.count-title { 
+    font-size: 40px; 
+    font-weight: normal;  
+    margin-top: 10px; 
+    margin-bottom: 0; 
+    text-align: center; 
+}
+
+.count-text { 
+    font-size: 13px; 
+    font-weight: normal;  
+    margin-top: 10px; 
+    margin-bottom: 0; 
+    text-align: center;
+}
+
+.fa-2x { 
+    margin: 0 auto; 
+    float: none; 
+    display: table; 
+    color: #4ad1e5; 
+}
+
+#dash-name {
+    margin-bottom: 4vh;
+    padding-bottom: 1.1vh;
+    font-size: 24px;
+    text-align: center;
+    border-bottom: 1px solid rgb(221,221,221);
+}
+
+.nav-tabs {
+    margin-top: 7.5vh;
+}
+
+/*Dash Left Menu*/
+
+#dash-left-menu ul {
+    margin: 0px;
+    padding: 0px;
+    list-style-type: none;
+    -webkit-backface-visibility: hidden; 
+    backface-visibility: hidden;  
+}
+
+.var_nav {
+    position: relative;
+    background: rgba(160, 159, 156, .7); 
+    width: 100%;
+    height: 45px;
+    margin-bottom: 10px;
+}
+
+.link_bg {
+     width: 70px;
+     height: 45px;
+     position: absolute;
+     background: #07BE33;
+     color: #fff;
+     z-index: 2;
+}
+
+.link_bg i {
+    position: relative;
+}
+
+.link_title {
+    position: absolute;
+    width: 100%;
+    height: 45px;
+    z-index: 3;
+    color: #fff;
+}
+
+.link_title:hover .icon {
+    -webkit-transform:rotate(360deg);
+    -moz-transform:rotate(360deg);
+    -o-transform:rotate(360deg);
+    -ms-transform:rotate(360deg);
+    transform:rotate(360deg);  
+}
+
+.var_nav:hover .link_bg
+{
+    width: 100%;
+    background: #07BE33;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;  
+}
+
+.var_nav:hover a {
+    font-weight: bold;
+    -webkit-transition: all .5s ease-in-out;
+    -moz-transition: all .5s ease-in-out; 
+    -o-transition: all .5s ease-in-out; 
+    -ms-transition: all .5s ease-in-out;
+     transition: all .5s ease-in-out;  
+}
+
+#dash-left-menu .icon { 
+    position: relative;
+    width: 70px;
+    height: 45px;
+    text-align: center;
+    color: #fff;
+    -webkit-transition: all .5s ease-in-out;
+    -moz-transition: all .5s ease-in-out; 
+    -o-transition: all .5s ease-in-out; 
+    -ms-transition: all .5s ease-in-out;   
+    float:left;
+    transition: all .5s ease-in-out;
+}
+
+#dash-left-menu .fa-plus {
+    margin-top: 3.5vh;
+    position: relative;
+}
+
+#dash-left-menu .fa-eye {
+    margin-top: 3.5vh;
+    position: relative;
+}
+
+#dash-left-menu ul a {
+    display: block;
+    position: absolute;
+    float: left;
+    font-family: arial;
+    color: #fff;
+    text-decoration: none;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+#dash-left-menu ul a span {
+    height: 100%;
+    padding-left: 50px;
+    padding-top: 3vh;
+    display: block;
+}
+
+#dash-prof-pic {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    margin-bottom: 2vh;
+}

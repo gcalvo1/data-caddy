@@ -9,6 +9,7 @@
   "author": "George Calvo",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.189.0",
     "body-parser": "^1.18.2",
     "connect-flash": "^0.1.1",
     "ejs": "^2.5.7",
