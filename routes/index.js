@@ -15,6 +15,19 @@ router.get("/register", function(req, res){
 });
 
 router.post("/register", function(req, res){
+    // Upload img file to S3
+    // var imgPath = req.files;
+    // console.log(imgPath);
+    // var s3Bucket = new AWS.S3( { params: {Bucket: 'data-caddy-profile-pics'} } )
+    // var data = {Key: req.body.username + '.jpg' , Body: imgPath};
+    // s3Bucket.putObject(data, function(err, data){
+    //   if (err) 
+    //     { console.log('Error uploading data: ', data); 
+    //     } else {
+    //       console.log('succesfully uploaded the image!');
+    //     }
+    // });
+    
     var newUser = new User(
                             {
                                 username: req.body.username,
@@ -39,7 +52,7 @@ router.post("/register", function(req, res){
 //Handle login logic
 router.post("/", passport.authenticate("local", 
     {
-        successRedirect: "/rounds",
+        successRedirect: "/dashboard",
         failureRedirect: "/"
     }), function(req, res){
 });

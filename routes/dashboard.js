@@ -15,11 +15,25 @@ router.get("/", middleware.isLoggedIn, function(req, res){
                 numNineRounds = 0,
                 totalNineScore = 0,
                 totalFullScoreToPar = 0,
-                scoreByDate = [];
+                scoreByDate = [],
+                totalScoreByHolePar = {
+                    parThree: {
+                        score: 0,
+                        numHoles: 0
+                    },
+                    parFour: {
+                        score: 0,
+                        numHoles: 0
+                    },
+                    parFive: {
+                        score: 0,
+                        numHoles: 0
+                    }
+                };
             rounds.forEach(function(round){
                 var roundScore = 0,
                     roundPar = 0,
-                    roundData = [];
+                    roundData = []
                 if(round.isFull){
                     numFullRounds++;
                     roundData.push(Date.UTC(round.date));
@@ -27,6 +41,16 @@ router.get("/", middleware.isLoggedIn, function(req, res){
                         totalFullScore += hole.score;
                         roundScore += hole.score;
                         roundPar += hole.par;
+                        if(hole.par === 3) {
+                            totalScoreByHolePar.parThree.score += hole.score;
+                            totalScoreByHolePar.parThree.numHoles ++;
+                        } else if(hole.par === 4) {
+                            totalScoreByHolePar.parFour.score += hole.score;
+                            totalScoreByHolePar.parFour.numHoles ++;
+                        } else {
+                            totalScoreByHolePar.parFive.score += hole.score;
+                            totalScoreByHolePar.parFive.numHoles ++;
+                        }
                     });
                     roundData.push(totalFullScore);
                     scoreByDate.push(roundData);
@@ -34,19 +58,34 @@ router.get("/", middleware.isLoggedIn, function(req, res){
                     numNineRounds++;
                     round.holes.forEach(function(hole){
                         totalNineScore += hole.score;
+                        if(hole.par === 3) {
+                            totalScoreByHolePar.parThree.score += hole.score;
+                            totalScoreByHolePar.parThree.numHoles ++;
+                        } else if(hole.par === 4) {
+                            totalScoreByHolePar.parFour.score += hole.score;
+                            totalScoreByHolePar.parFour.numHoles ++;
+                        } else {
+                            totalScoreByHolePar.parFive.score += hole.score;
+                            totalScoreByHolePar.parFive.numHoles ++;
+                        }
                     });
                 }
                 totalFullScoreToPar += (roundScore - roundPar);
                 
             });
-            var avgScore =
+            var ScoreData =
                 {
                     avgNineScore: totalNineScore / numNineRounds,
                     avgFullScore: totalFullScore / numFullRounds,
                     avgFullScoreToPar: totalFullScoreToPar / numFullRounds,
-                    scoreByDate: scoreByDate
+                    scoreByDate: scoreByDate,
+                    avgScoreByHolePar: {
+                        parThree: totalScoreByHolePar.parThree.score / totalScoreByHolePar.parThree.numHoles,
+                        parFour: totalScoreByHolePar.parFour.score / totalScoreByHolePar.parFour.numHoles,
+                        parFive: totalScoreByHolePar.parFive.score / totalScoreByHolePar.parFive.numHoles
+                    }
                 }
-            res.render("dashboard/index",{user:req.user, rounds:rounds, avgScore});
+            res.render("dashboard/index",{user:req.user, rounds:rounds, ScoreData});
         }
     });
 });

@@ -108,6 +108,15 @@ app.get("/roundsdata", function(req, res){
                 numNineRounds = 0,
                 totalNineScore = 0,
                 totalFullScoreToPar = 0,
+                numScoreNames = {
+                    par: 0,
+                    bogey: 0,
+                    birdie: 0,
+                    doubleBogey: 0,
+                    eagle: 0,
+                    bogeyWorse: 0,
+                    eagleBetter: 0
+                },
                 scoreByDate = [];
             rounds.forEach(function(round){
                 var roundScore = 0,
@@ -120,6 +129,22 @@ app.get("/roundsdata", function(req, res){
                         totalFullScore += hole.score;
                         roundScore += hole.score;
                         roundPar += hole.par;
+                        //Set Score Names
+                        if(hole.score - hole.par === 0){
+                            numScoreNames.par++;
+                        } else if(hole.score - hole.par === 1){
+                            numScoreNames.bogey++;
+                        } else if(hole.score - hole.par === -1){
+                            numScoreNames.birdie++;
+                        } else if(hole.score - hole.par === 2){
+                            numScoreNames.doubleBogey++;
+                        } else if(hole.score - hole.par === -2){
+                            numScoreNames.eagle++;
+                        } else if(hole.score - hole.par > 2){
+                            numScoreNames.bogeyWorse++;
+                        } else if(hole.score - hole.par < -2){
+                            numScoreNames.eagleBetter++;
+                        }
                     });
                     roundData.push(roundScore);
                     scoreByDate.push(roundData);
@@ -127,6 +152,22 @@ app.get("/roundsdata", function(req, res){
                     numNineRounds++;
                     round.holes.forEach(function(hole){
                         totalNineScore += hole.score;
+                        //Set Score Names
+                        if(hole.score - hole.par === 0){
+                            numScoreNames.par++;
+                        } else if(hole.score - hole.par === 1){
+                            numScoreNames.bogey++;
+                        } else if(hole.score - hole.par === -1){
+                            numScoreNames.birdie++;
+                        } else if(hole.score - hole.par === 2){
+                            numScoreNames.doubleBogey++;
+                        } else if(hole.score - hole.par === -2){
+                            numScoreNames.eagle++;
+                        } else if(hole.score - hole.par > 2){
+                            numScoreNames.bogeyWorse++;
+                        } else if(hole.score - hole.par < -2){
+                            numScoreNames.eagleBetter++;
+                        }
                     });
                 }
                 totalFullScoreToPar += (roundScore - roundPar);
@@ -139,7 +180,17 @@ app.get("/roundsdata", function(req, res){
                     avgFullScoreToPar: totalFullScoreToPar / numFullRounds,
                     scoreByDate: scoreByDate
                 };
-            res.send({rounds:rounds, avgScore, user: req.user});
+            res.send({rounds:rounds, avgScore, user: req.user, numScoreNames});
+        }
+    });
+});
+
+app.get("/mostrecentround", function(req, res){
+    Round.find({"player.id": req.user._id}).sort({date:-1}).limit(1).populate("course").exec(function(err, mostRecentRound){
+        if(err){
+            console.log(err);
+        } else {
+            res.send({mostRecentRound: mostRecentRound});
         }
     });
 });

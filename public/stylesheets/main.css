@@ -291,7 +291,7 @@ input, label {
     border-radius: 5px;
 }
 
-#rbd-line {
+.dash-highchart {
     background-color: #ffffff; 
     padding: 20px 0; 
     border-radius: 5px;
@@ -322,15 +322,72 @@ input, label {
 }
 
 #dash-name {
-    margin-bottom: 4vh;
-    padding-bottom: 1.1vh;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
     font-size: 24px;
     text-align: center;
     border-bottom: 1px solid rgb(221,221,221);
 }
 
 .nav-tabs {
-    margin-top: 7.5vh;
+    margin-bottom: 10px;
+}
+
+#dash-img-span {
+    font-size: 25px;
+}
+
+#driveTracker {
+    background: url(/img/golf_arial_fairway_small.jpg); 
+    background-size: cover;
+    border-radius: 10px;
+}
+
+#driving h4 {
+    margin-top: 0px;
+    text-align: center;
+}
+
+#driving canvas {
+    float: right;
+    
+}
+
+#canv-counter {
+    padding-top: 10px;
+    height: 560px;
+}
+
+#canv-container {
+    padding-right: 10px;
+}
+
+#drive-tracker-legend {
+    width: 85px;
+    float: left;
+    padding-left: 5px;
+    padding-top: 20px;
+}
+
+#drive-tracker-legend h5 {
+    font-weight: bold;
+    text-decoration: underline;
+    padding-left: 7px;
+}
+
+#legend-values {
+    padding-left: 7px;
+}
+
+#legend-circle {
+    width: 10px;
+    height: 10px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    display: inline-block;
+    background-color: blue;
+    margin-right: 3px
 }
 
 /*Dash Left Menu*/
@@ -415,12 +472,12 @@ input, label {
 }
 
 #dash-left-menu .fa-plus {
-    margin-top: 3.5vh;
+    margin-top: 15px;
     position: relative;
 }
 
 #dash-left-menu .fa-eye {
-    margin-top: 3.5vh;
+    margin-top: 16px;
     position: relative;
 }
 
@@ -439,7 +496,7 @@ input, label {
 #dash-left-menu ul a span {
     height: 100%;
     padding-left: 50px;
-    padding-top: 3vh;
+    padding-top: 13px;
     display: block;
 }
 
@@ -447,5 +504,44 @@ input, label {
     width: 70px;
     height: 70px;
     border-radius: 50%;
-    margin-bottom: 2vh;
+    margin-bottom: 15px;
+}
+
+#dash-left-pane {
+    text-align: center;
+    border-right: 1px solid rgb(221,221,221);
+}
+
+#dashboard-viz .row {
+    margin-bottom: 10px;
+}
+
+/*Register img input*/
+.image-preview-input {
+    position: relative;
+	overflow: hidden;
+	margin: 0px;    
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;    
+}
+
+.image-preview-input input[type=file] {
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 0;
+	padding: 0;
+	font-size: 20px;
+	cursor: pointer;
+	opacity: 0;
+	filter: alpha(opacity=0);
+}
+
+.image-preview-input-title {
+    margin-left:2px;
+}
+
+.input-group-btn {
+    vertical-align: bottom;
 }

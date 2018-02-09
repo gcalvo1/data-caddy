@@ -1,38 +1,16 @@
 <% include ../partials/header %>
     
     <div class="container-fluid">  
-        <div class="row"> 
-            <div id="dash-name" class="col-md-2">
-                <div class="row">
-                        <!--<span class="glyphicon glyphicon-user"></span>-->
-                        <span id="dash-img-span"></span>
-                </div>
-                <div class="row">
-                    <strong><%= user.name %></strong>
-                </div>
-            </div>
-            <div class="col-md-9">
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                  <li class="nav-item active">
-                    <a class="nav-link active" id="summary-tab" data-toggle="tab" href="#summary" role="tab" aria-controls="summary" aria-selected="true">Summary</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="driving-tab" data-toggle="tab" href="#driving" role="tab" aria-controls="driving" aria-selected="false">Driving</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="approach-tab" data-toggle="tab" href="#approach" role="tab" aria-controls="approach" aria-selected="false">Approach</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="putting-tab" data-toggle="tab" href="#putting" role="tab" aria-controls="putting" aria-selected="false">Putting</a>
-                  </li>
-                </ul>
-            </div>
-            <div class="col-md-1"></div>
-        </div>
-        <div class="tab-content" id="myTabContent">
-            
+        <div id="dash-left-pane" class="col-md-2">
             <div class="row">
-                <div class="col-md-2">
+                    <!--<span class="glyphicon glyphicon-user"></span>-->
+                    <span id="dash-img-span"></span>
+            </div>
+            <div id="dash-name" class="row">
+                <strong><%= user.name %></strong>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
                     <nav id="dash-left-menu">
                       <UL>
                        <li class="var_nav">
@@ -56,37 +34,113 @@
                       </UL>
                     </nav>
                 </div>
-                <div class="tab-pane fade in show active" id="summary" role="tabpanel" aria-labelledby="summary-tab">
-                    <div class="col-md-2">
-                        <div class="counter">
-                            <h2 class="timer count-title count-number" data-to="<%= avgScore.avgFullScore %>" data-speed="1500"></h2>
-                            <p class="count-text ">Average Score</p>
-                        </div>  
+            </div>
+        </div>
+        <div id="dashboard-viz" class="col-md-10">
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="dash-tab-menu">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                          <li class="nav-item active">
+                            <a class="nav-link active" id="summary-tab" data-toggle="tab" href="#summary" role="tab" aria-controls="summary" aria-selected="true">Summary</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link non-home-tab" id="driving-tab" data-toggle="tab" href="#driving" role="tab" aria-controls="driving" aria-selected="false">Driving</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link non-home-tab" id="approach-tab" data-toggle="tab" href="#approach" role="tab" aria-controls="approach" aria-selected="false">Approach</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link non-home-tab" id="putting-tab" data-toggle="tab" href="#putting" role="tab" aria-controls="putting" aria-selected="false">Putting</a>
+                          </li>
+                        </ul>
                     </div>
-                    <div class="col-md-5">
-                        <div id="rbd-line">
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade in show active" id="summary" role="tabpanel" aria-labelledby="summary-tab">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="counter">
+                                        <h2 class="timer count-title count-number" data-to="<%= ScoreData.avgFullScore %>" data-speed="1500"></h2>
+                                        <p class="count-text ">Scoring Average</p>
+                                    </div>  
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="counter">
+                                        <h2 class="timer count-title count-number-sign" data-to="<%= ScoreData.avgFullScoreToPar %>" data-speed="1500"></h2>
+                                        <p class="count-text ">Average Score to Par</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="counter">
+                                        <h2 class="timer count-title count-number" data-to="<%= ScoreData.avgScoreByHolePar.parThree %>" data-speed="1500"></h2>
+                                        <p class="count-text ">Par 3 Scoring Avg</p>
+                                    </div>
+                                </div>   
+                                <div class="col-md-2">
+                                    <div class="counter">
+                                        <h2 class="timer count-title count-number" data-to="<%= ScoreData.avgScoreByHolePar.parFour %>" data-speed="1500"></h2>
+                                        <p class="count-text ">Par 4 Scoring Avg</p>
+                                    </div>
+                                </div> 
+                                <div class="col-md-2">
+                                    <div class="counter">
+                                        <h2 class="timer count-title count-number" data-to="<%= ScoreData.avgScoreByHolePar.parFive %>" data-speed="1500"></h2>
+                                        <p class="count-text ">Par 5 Scoring Avg</p>
+                                    </div>
+                                </div> 
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div id="rbd-line" class="dash-highchart">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div id="score-name-pie" class="dash-highchart">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="counter">
-                            <h2 class="timer count-title count-number-sign" data-to="<%= avgScore.avgFullScoreToPar %>" data-speed="1500"></h2>
-                            <p class="count-text ">Average Score to Par</p>
+                        <div class="tab-pane fade" id="driving" role="tabpanel" aria-labelledby="driving-tab">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    dagfd
+                                </div>
+                                <div class="col-md-3">
+                                    dfgdfs
+                                </div>
+                                <div class="col-md-6">
+                                    <div id='canv-counter' class="counter">
+                                        <h4>Previous Round Tee Shots</h4>
+                                        <div id='drive-tracker-legend'>
+                                            <h5>Legend</h5>
+                                            <div id='legend-values'>
+                                                <div>
+                                                    <span id="par-circle"> </span><span class="legend-score-name"> par </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id='canv-container'>
+                                            <canvas id="driveTracker" width="500" height="500"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="driving" role="tabpanel" aria-labelledby="driving-tab">sdklsa;dhasl</div>
-                <div class="tab-pane fade" id="approach" role="tabpanel" aria-labelledby="approach-tab">...</div>
-                <div class="tab-pane fade" id="putting" role="tabpanel" aria-labelledby="putting-tab">...</div>
-                
-                <div class="col-md-1"></div>
-            </div>  
+                <!--<div class="tab-pane fade" id="approach" role="tabpanel" aria-labelledby="approach-tab">...</div>-->
+                <!--<div class="tab-pane fade" id="putting" role="tabpanel" aria-labelledby="putting-tab">...</div>-->
+            </div>
         </div>
     </div>
     
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/series-label.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.createjs.com/easeljs-0.8.1.min.js"></script>  
+<script src="https://code.createjs.com/tweenjs-0.6.1.min.js"></script>
 <script>
+// Dash Home
     //Set Active Menu
     $('.menu_options li').removeClass('active');
     $('#dashboard_menu_option').addClass('active');
@@ -105,10 +159,14 @@
         $('#dash-img-span').addClass("glyphicon glyphicon-user");
         return true;
     }
+    
+    //Tab Menu Code
+    $('.non-home-tab').click(function() {
+        $("#summary").removeClass("show");
+    });
 
-    //Get numHoles options
     $.get( '/roundsdata', function(data) {
-        
+    //Score By Date Line Chart    
         //Get Data
         var series = data.avgScore.scoreByDate;
         //Sort Data
@@ -176,6 +234,67 @@
             }
         
         })
+        
+        //Score Name Pie Chart
+        Highcharts.chart('score-name-pie', {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                height: 300,
+                type: 'pie'
+            },
+            title: {
+                text: null
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
+                    }
+                }
+            },
+            credits: {
+    				enabled: false
+    		},
+            series: [{
+                name: 'Scores',
+                colorByPoint: true,
+                data: [{
+                    name: 'Par',
+                    y: data.numScoreNames.par
+                    //sliced: true,
+                    //selected: true
+                }, {
+                    name: 'Birdie',
+                    y: data.numScoreNames.birdie
+                }, {
+                    name: 'Bogey',
+                    y: data.numScoreNames.bogey
+                }, {
+                    name: 'Eagle',
+                    y: data.numScoreNames.eagle
+                }, {
+                    name: 'Double Bogey',
+                    y: data.numScoreNames.doubleBogey
+                }, {
+                    name: 'Better Than Eagle',
+                    y: data.numScoreNames.eagleBetter
+                }, {
+                    name: 'Worse Than Bogey',
+                    y: data.numScoreNames.bogeyWorse
+                }]
+            }]
+        });
     });
     
     (function ($) {
@@ -248,7 +367,7 @@
     		to: 0,                 // the number the element should end at
     		speed: 1000,           // how long it should take to count between the target numbers
     		refreshInterval: 100,  // how often the element should be updated
-    		decimals: 0,           // the number of decimal places to show
+    		decimals: 1,           // the number of decimal places to show
     		formatter: formatter,  // handler for formatting the value before rendering
     		onUpdate: null,        // callback method for every time the element is updated
     		onComplete: null       // callback method for when the element finishes updating
@@ -286,6 +405,245 @@
     	options = $.extend({}, options || {}, $this.data('countToOptions') || {});
     	$this.countTo(options);
       }
+    });
+    
+    $('#driving-tab').click(function() {
+        
+        $.get( '/mostrecentround', function(data) {
+            var driveStats = [];
+            data.mostRecentRound[0].holes.forEach(function(hole){
+                var holeScore = {}
+                if(hole.score - hole.par === 0){
+                    holeScore = {
+                        scoreName: 'Par',
+                        scoreColor: 'blue',
+                        sortVal: 4
+                    }
+                } else if(hole.score - hole.par === 1){
+                    holeScore = {
+                        scoreName: 'Bogey',
+                        scoreColor: 'red',
+                        sortVal: 5
+                    }
+                } else if(hole.score - hole.par === -1){
+                    holeScore = {
+                        scoreName: 'Birdie',
+                        scoreColor: 'orange',
+                        sortVal: 3
+                    }
+                } else if(hole.score - hole.par === 2){
+                    holeScore = {
+                        scoreName: 'Double Bogey',
+                        scoreColor: 'black',
+                        sortVal: 6
+                    }
+                } else if(hole.score - hole.par === -2){
+                    nholeScore = {
+                        scoreName: 'Eagle',
+                        scoreColor: 'yellow',
+                        sortVal: 2
+                    }
+                } else if(hole.score - hole.par > 2){
+                    holeScore = {
+                        scoreName: 'Worse Than Double Bogey',
+                        scoreColor: 'gray',
+                        sortVal: 7
+                    }
+                } else if(hole.score - hole.par < -2){
+                    holeScore = {
+                        scoreName: 'Better Than Eagle',
+                        scoreColor: 'pink',
+                        sortVal: 1
+                    }
+                }
+                var holeStats = {
+                    teeShotDirection: hole.teeShotDirection,
+                    teeShotResult: hole.teeShotResult,
+                    holeScore: holeScore
+                }
+                if(hole.par != 3){
+                    driveStats.push(holeStats);
+                }
+            });
+            console.log(driveStats);
+        
+            //DriveTracker
+            createjs.MotionGuidePlugin.install();
+        
+            var stage = new createjs.Stage("driveTracker");
+            var canvas = document.getElementById("driveTracker");
+            
+            var timeCount = 1500;
+            var arrowStartPosY = 435;
+            var arrowStartPosX = 410;
+            
+            var scoresFound = []
+            for(var i = 0; i < driveStats.length; i++) (function(i){
+                //Populate Legend
+                if(scoresFound.length === 0){
+                    scoresFound.push(driveStats[i]);
+                } else {
+                    var found = false;
+                    scoresFound.forEach(function(score){
+                        if(score.holeScore.scoreName === driveStats[i].holeScore.scoreName){
+                            found = true;
+                        }
+                    });
+                    if(!found){
+                        scoresFound.push(driveStats[i]);
+                    }
+                }
+                
+                var arrowEndPosYOrig = 0;
+            	var arrowEndPosXOrig = 0;
+            	var middlePosYOrig = 0;
+            	var randx = 0;
+            	var randy = 0;
+            	if(driveStats[i].teeShotDirection === 'Right' && driveStats[i].teeShotResult === 'Rough'){
+            		arrowEndPosYOrig = 150;
+            		arrowEndPosXOrig = 290;
+            		middlePosYOrig = 150;
+            		randx = Math.floor(Math.random() * 40);
+            		randy = Math.floor(Math.random() * 40);
+            	} else if(driveStats[i].teeShotDirection === 'Right' && driveStats[i].teeShotResult === 'Bunker') {
+            		arrowEndPosYOrig = 75;
+            		arrowEndPosXOrig = 310;
+            		middlePosYOrig = 75;
+            		randx = Math.floor(Math.random() * 40);
+            		randy = Math.floor(Math.random() * 65);
+            	} else if(driveStats[i].teeShotDirection === 'Right' && driveStats[i].teeShotResult === 'Woods') {
+            		arrowEndPosYOrig = 50;
+            		arrowEndPosXOrig = 450;
+            		middlePosYOrig = 50;
+            		randx = Math.floor(Math.random() * 25);
+            		randy = Math.floor(Math.random() * 75);
+            	} else if(driveStats[i].teeShotDirection === 'Right' && driveStats[i].teeShotResult === 'Lost Ball') {
+            		arrowEndPosYOrig = 75;
+            		arrowEndPosXOrig = 500;
+            		middlePosYOrig = 75;
+            		randx = Math.floor(Math.random() * 1);
+            		randy = Math.floor(Math.random() * 1);
+            	} else if(driveStats[i].teeShotDirection === 'Left' && driveStats[i].teeShotResult === 'Rough') {
+            		arrowEndPosYOrig = 118;
+            		arrowEndPosXOrig = 135;
+            		middlePosYOrig = 125;
+            		randx = Math.floor(Math.random() * 30);
+            		randy = Math.floor(Math.random() * 40);
+            	} else if(driveStats[i].teeShotDirection === 'Left' && driveStats[i].teeShotResult === 'Bunker') {
+            		arrowEndPosYOrig = 100;
+            		arrowEndPosXOrig = 50;
+            		middlePosYOrig = 100;
+            		randx = Math.floor(Math.random() * 75);
+            		randy = Math.floor(Math.random() * 150);
+            	} else if(driveStats[i].teeShotDirection === 'Left' && driveStats[i].teeShotResult === 'Fescue') {
+            		arrowEndPosYOrig = 142;
+            		arrowEndPosXOrig = 25;
+            		middlePosYOrig = 142;
+            		randx = Math.floor(Math.random() * 50);
+            		randy = Math.floor(Math.random() * 1);
+            	} else if(driveStats[i].teeShotDirection === 'Left' && driveStats[i].teeShotResult === 'Woods') {
+            		arrowEndPosYOrig = 30;
+            		arrowEndPosXOrig = 10;
+            		middlePosYOrig = 30;
+            		randx = Math.floor(Math.random() * 30);
+            		randy = Math.floor(Math.random() * 50);
+            	} else if(driveStats[i].teeShotDirection === 'Left' && driveStats[i].teeShotResult === 'Lost Ball') {
+            		arrowEndPosYOrig = 75;
+            		arrowEndPosXOrig = 0;
+            		middlePosYOrig = 75;
+            		randx = Math.floor(Math.random() * 1);
+            		randy = Math.floor(Math.random() * 1);
+            	} else if(driveStats[i].teeShotDirection === 'Long' && (driveStats[i].teeShotResult === 'Rough' || driveStats[i].teeShotResult === 'Fescue')) {
+            		arrowEndPosYOrig = 25;
+            		arrowEndPosXOrig = 245;
+            		middlePosYOrig = 25;
+            		randx = Math.floor(Math.random() * 40);
+            		randy = Math.floor(Math.random() * 10);
+            	} else if(driveStats[i].teeShotDirection === 'Fairway') {
+            		arrowEndPosYOrig = 100;
+            		arrowEndPosXOrig = 180;
+            		middlePosYOrig = -100;
+            		randx = Math.floor(Math.random() * 75);
+            		randy = Math.floor(Math.random() * 75);
+            	}
+            	
+            	var arrowEndPosY = arrowEndPosYOrig;
+            	var arrowEndPosX = arrowEndPosXOrig;
+            	var middlePosY = middlePosYOrig;			
+            	
+            	arrowEndPosY = arrowEndPosYOrig + randy;
+            	middlePosY = middlePosYOrig + randy;
+            	arrowEndPosX = arrowEndPosXOrig + randx;
+            	
+            		var shape = new createjs.Shape();
+            		shape.cache(0,0,1000,1000);
+            		var bar = { x: arrowStartPosX, y: arrowStartPosY, oldx: arrowStartPosX, oldy: arrowStartPosY };
+            		stage.addChild(shape);
+            
+            		createjs.Ticker.addEventListener("tick", tick);
+            
+            		run();
+            
+            		function getMotionPathFromPoints (points) {
+            			var i, motionPath;
+            			for (i = 0, motionPath = []; i < points.length - 1; ++i) {
+            				if (i === 0) {
+            						motionPath.push(points[i].x, points[i].y);
+            				}
+            		    else if(i === 1){
+            						motionPath.push(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
+            				} else {
+            						i++;
+            						motionPath.push(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
+            				}
+            			}
+            			return motionPath;
+            		}
+            
+            		function run() {
+            		    var points = [
+            		    		//start pos
+            				   	new createjs.Point(arrowStartPosX, arrowStartPosY),
+            		        //Arc Bend
+            				 		new createjs.Point(arrowStartPosX-10, middlePosY),
+            		        //end pos
+            				  	new createjs.Point(arrowEndPosX, arrowEndPosY)
+            				];
+            		    
+            		    createjs.Tween.get(bar).wait(timeCount).to({
+            		        guide: {path: getMotionPathFromPoints(points)}
+            		    }, 1500);
+            		}
+            
+            		function tick() {
+            		    shape.graphics.clear()
+            		        .setStrokeStyle(3, 'round', 'round')
+            		        .beginStroke(driveStats[i].holeScore.scoreColor)
+            		        .curveTo(bar.oldx, bar.oldy, bar.x, bar.y)
+            		        .endStroke();
+            		    
+            		    shape.updateCache("source-over");
+            		    stage.update();
+            		    
+            		    bar.oldx = bar.x;
+            		    bar.oldy = bar.y;
+            		}
+            	timeCount += 1000;
+            })(i);
+            var legendHtml = ''
+            console.log(scoresFound);
+            scoresFound.sort(function (a, b) {
+                return a.holeScore.sortVal - b.holeScore.sortVal;
+            });
+            console.log(scoresFound);
+            scoresFound.forEach(function(score){
+                if(score.holeScore.scoreName === 'Double Bogey'){
+                    score.holeScore.scoreName = 'Double'
+                }
+                legendHtml += "<div><span id=legend-circle style='background-color: " + score.holeScore.scoreColor + ";'> </span><span>" + score.holeScore.scoreName + "</span></div>"
+            });
+            $('#legend-values').html(legendHtml);
+        });
     });
         
 </script>   
