@@ -59,7 +59,7 @@
                           <li class="nav-item active">
                             <a class="nav-link active non-driving-tab" id="summary-tab" data-toggle="tab" href="#summary" role="tab" aria-controls="summary" aria-selected="true">Summary</a>
                           </li>
-                          <li class="nav-item">
+                          <li id="driving-li" class="nav-item">
                             <a class="nav-link non-home-tab" id="driving-tab" data-toggle="tab" href="#driving" role="tab" aria-controls="driving" aria-selected="false">Driving</a>
                           </li>
                           <li class="nav-item">
@@ -232,11 +232,25 @@
     });
     
     $('#driving-tab').click(function() {
-        driveTracker();
+        var numHoles = $("#num-holes-dropdown :selected").text(),
+            isFull = true;
+        if (numHoles === "9 Holes") {
+            isFull = false;
+        }
+        var parameters = {isFull: isFull};
+        driveTracker(parameters, "All");
     });
     
     $('#reset-drive-tracker').click(function() {
-        driveTracker();
+        var numHoles = $("#num-holes-dropdown :selected").text(),
+            club = $("#tee-club-dropdown :selected").text(),
+            isFull = true;
+            console.log('club- ' + club);
+        if (numHoles === "9 Holes") {
+            isFull = false;
+        }
+        var parameters = {isFull: isFull};
+        driveTracker(parameters, club);
     });
     
     //On NumHoles change update: filters & data 
@@ -246,7 +260,10 @@
         if (numHoles === "9 Holes") {
             isFull = false;
         }
-        var parameters = { isFull: isFull};
+        var parameters = { isFull: isFull };
+        if($('#driving-li').hasClass('active')){
+            driveTracker(parameters, "All");
+        }
         $.get( '/dashboard/roundsdata', parameters, function(data) {
             //Set Tee Club Dropdown
             teeClubDropdownHtml = "<option value='all'>All</option>";
@@ -393,165 +410,174 @@
                     }]
                 }]
             });
-            
-            //Driving Filters
-            $('#tee-club-dropdown').change(function(){
-                var club = $("#tee-club-dropdown :selected").text(),
-                    totalFirs = 0,
-                    totalDrives = 0,
-                    totalDrivingDistance = 0,
-                    totalMiss = {
-                        right: 0,
-                        left: 0,
-                        short: 0,
-                        long: 0
-                    }
-                    numDrivesWithDistance = 0
-                    firByDate = [];
-                if(club === "All"){
-                    data.rounds.forEach(function(round){
-                        var roundFirData = [],
-                            roundFirs = 0;
-                        roundFirData.push(round.date);
-                        round.holes.forEach(function(hole){
-                            if(hole.par != 3) {
-                                totalDrives++;
-                                if(hole.teeShot.teeShotResult === "FIR"){
-                                    totalFirs++;
-                                    roundFirs++;
-                                } else if(hole.teeShot.teeShotDirection === "Right") {
-                                    totalMiss.right++;
-                                } else if(hole.teeShot.teeShotDirection === "Left") {
-                                    totalMiss.left++;
-                                } else if(hole.teeShot.teeShotDirection === "Long") {
-                                    totalMiss.long++;
-                                } else if(hole.teeShot.teeShotDirection === "Short") {
-                                    totalMiss.short++;
-                                }
-                                if(hole.teeShot.teeShotLength){
-                                    numDrivesWithDistance++;
-                                    totalDrivingDistance += hole.teeShot.teeShotLength;
-                                }
-                            }
-                        });
-                        roundFirData.push(roundFirs);
-                        firByDate.push(roundFirData);
-                    });
-                } else {
-                    data.rounds.forEach(function(round){
-                        var roundFirData = [],
-                            roundFirs = 0;
-                        roundFirData.push(round.date);
-                        round.holes.forEach(function(hole){
-                            if(hole.par != 3 && hole.teeShot.teeShotClub === club) {
-                                totalDrives++;
-                                if(hole.teeShot.teeShotResult === "FIR"){
-                                    totalFirs++;
-                                    roundFirs++;
-                                } else if(hole.teeShot.teeShotDirection === "Right") {
-                                    totalMiss.right++;
-                                } else if(hole.teeShot.teeShotDirection === "Left") {
-                                    totalMiss.left++;
-                                } else if(hole.teeShot.teeShotDirection === "Long") {
-                                    totalMiss.long++;
-                                } else if(hole.teeShot.teeShotDirection === "Short") {
-                                    totalMiss.short++;
-                                }
-                                if(hole.teeShot.teeShotLength){
-                                    numDrivesWithDistance++;
-                                    totalDrivingDistance += hole.teeShot.teeShotLength;
-                                }
-                            }
-                        });
-                        roundFirData.push(roundFirs);
-                        firByDate.push(roundFirData);
-                    });
+        });
+    });
+    
+    //Driving Filters
+    $('#tee-club-dropdown').change(function(){
+        var numHoles = $("#num-holes-dropdown :selected").text(),
+            club = $("#tee-club-dropdown :selected").text(),
+            isFull = true;
+        if (numHoles === "9 Holes") {
+            isFull = false;
+        }
+        var parameters = { isFull: isFull, club: club };
+        if($('#driving-li').hasClass('active')){
+            driveTracker(parameters, club);
+        }
+        $.get( '/dashboard/roundsdata', parameters, function(data) {
+            var totalFirs = 0,
+                totalDrives = 0,
+                totalDrivingDistance = 0,
+                totalMiss = {
+                    right: 0,
+                    left: 0,
+                    short: 0,
+                    long: 0
                 }
-                //Set data for selected tee club
-                var firPercent = ( totalFirs / totalDrives ) * 100,
-                    avgDrivingDistance = totalDrivingDistance / numDrivesWithDistance,
-                    driveMissPercent = {
-                        right: ( totalMiss.right / totalDrives ) * 100,
-                        left: ( totalMiss.left / totalDrives ) * 100,
-                        long: ( totalMiss.long / totalDrives ) * 100,
-                        short: ( totalMiss.short / totalDrives ) * 100
-                    }
-                $("#fir-percent").html(Math.round(firPercent * 10) / 10 + "%");
-                $("#driving-distance").html(Math.round(avgDrivingDistance * 10) / 10 + " yds");
-                $("#tee-miss-right").html(Math.round(driveMissPercent.right * 10) / 10 + "%");
-                $("#tee-miss-left").html(Math.round(driveMissPercent.left * 10) / 10 + "%");
-                $("#tee-miss-long").html(Math.round(driveMissPercent.long * 10) / 10 + "%");
-                $("#tee-miss-short").html(Math.round(driveMissPercent.short * 10) / 10 + "%");
-                
-                //Line Chart
-                var series = firByDate;
-                //Sort Data
-                function compare(a,b) {
-                  if (a < b)
-                    return -1;
-                  if (a > b)
-                    return 1;
-                  return 0;
-                }
-                series.sort(compare);
-                //Convert to epoch time
-                series.forEach(function(pair){
-                    pair[0] = Math.round((new Date(pair[0])).getTime());
+                numDrivesWithDistance = 0
+                firByDate = [];
+            if(club === "All"){
+                data.rounds.forEach(function(round){
+                    var roundFirData = [],
+                        roundFirs = 0;
+                    roundFirData.push(round.date);
+                    round.holes.forEach(function(hole){
+                        if(hole.par != 3) {
+                            totalDrives++;
+                            if(hole.teeShot.teeShotResult === "FIR"){
+                                totalFirs++;
+                                roundFirs++;
+                            } else if(hole.teeShot.teeShotDirection === "Right") {
+                                totalMiss.right++;
+                            } else if(hole.teeShot.teeShotDirection === "Left") {
+                                totalMiss.left++;
+                            } else if(hole.teeShot.teeShotDirection === "Long") {
+                                totalMiss.long++;
+                            } else if(hole.teeShot.teeShotDirection === "Short") {
+                                totalMiss.short++;
+                            }
+                            if(hole.teeShot.teeShotLength){
+                                numDrivesWithDistance++;
+                                totalDrivingDistance += hole.teeShot.teeShotLength;
+                            }
+                        }
+                    });
+                    roundFirData.push(roundFirs);
+                    firByDate.push(roundFirData);
                 });
-                
-                //Create the chart
-                Highcharts.chart('fir-per-round-line', {
-                    chart: {
-                        height: 407,
-                        type: 'line'
-                    },
-                    title: {
-                        text: 'FIR by Round'
-                    },
-                    xAxis: {
-                            type: 'datetime',
-                            dateTimeLabelFormats: 
-                            {
-                                hour: '%l %p'
+            } else {
+                data.rounds.forEach(function(round){
+                    var roundFirData = [],
+                        roundFirs = 0;
+                    roundFirData.push(round.date);
+                    round.holes.forEach(function(hole){
+                        if(hole.par != 3 && hole.teeShot.teeShotClub === club) {
+                            totalDrives++;
+                            if(hole.teeShot.teeShotResult === "FIR"){
+                                totalFirs++;
+                                roundFirs++;
+                            } else if(hole.teeShot.teeShotDirection === "Right") {
+                                totalMiss.right++;
+                            } else if(hole.teeShot.teeShotDirection === "Left") {
+                                totalMiss.left++;
+                            } else if(hole.teeShot.teeShotDirection === "Long") {
+                                totalMiss.long++;
+                            } else if(hole.teeShot.teeShotDirection === "Short") {
+                                totalMiss.short++;
                             }
-                    },
-                    yAxis: {
-                        title: {
-                            text: 'FIRs'
-                        }
-                    },
-                    plotOptions: {
-                        series: {
-                            label: {
-                                connectorAllowed: false
+                            if(hole.teeShot.teeShotLength){
+                                numDrivesWithDistance++;
+                                totalDrivingDistance += hole.teeShot.teeShotLength;
                             }
                         }
-                    },
-                    series: [{
-                        name: 'Score',
-                        data: series
-                    }],
-                    credits: {
-            				enabled: false
-            		},
-                    responsive: {
-                        rules: [{
-                            condition: {
-                                maxWidth: 500
-                            },
-                            chartOptions: {
-                                // legend: {
-                                //     layout: 'horizontal',
-                                //     align: 'center',
-                                //     verticalAlign: 'bottom'
-                                // }
-                            }
-                        }]
-                    }
-                
-                })
+                    });
+                    roundFirData.push(roundFirs);
+                    firByDate.push(roundFirData);
+                });
+            }
+            //Set data for selected tee club
+            var firPercent = ( totalFirs / totalDrives ) * 100,
+                avgDrivingDistance = totalDrivingDistance / numDrivesWithDistance,
+                driveMissPercent = {
+                    right: ( totalMiss.right / totalDrives ) * 100,
+                    left: ( totalMiss.left / totalDrives ) * 100,
+                    long: ( totalMiss.long / totalDrives ) * 100,
+                    short: ( totalMiss.short / totalDrives ) * 100
+                }
+            $("#fir-percent").html(Math.round(firPercent * 10) / 10 + "%");
+            $("#driving-distance").html(Math.round(avgDrivingDistance * 10) / 10 + " yds");
+            $("#tee-miss-right").html(Math.round(driveMissPercent.right * 10) / 10 + "%");
+            $("#tee-miss-left").html(Math.round(driveMissPercent.left * 10) / 10 + "%");
+            $("#tee-miss-long").html(Math.round(driveMissPercent.long * 10) / 10 + "%");
+            $("#tee-miss-short").html(Math.round(driveMissPercent.short * 10) / 10 + "%");
+            
+            //Line Chart
+            var series = firByDate;
+            //Sort Data
+            function compare(a,b) {
+              if (a < b)
+                return -1;
+              if (a > b)
+                return 1;
+              return 0;
+            }
+            series.sort(compare);
+            //Convert to epoch time
+            series.forEach(function(pair){
+                pair[0] = Math.round((new Date(pair[0])).getTime());
             });
-            $('#tee-club-dropdown').trigger("change");
+            
+            //Create the chart
+            Highcharts.chart('fir-per-round-line', {
+                chart: {
+                    height: 407,
+                    type: 'line'
+                },
+                title: {
+                    text: 'FIR by Round'
+                },
+                xAxis: {
+                        type: 'datetime',
+                        dateTimeLabelFormats: 
+                        {
+                            hour: '%l %p'
+                        }
+                },
+                yAxis: {
+                    title: {
+                        text: 'FIRs'
+                    }
+                },
+                plotOptions: {
+                    series: {
+                        label: {
+                            connectorAllowed: false
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Score',
+                    data: series
+                }],
+                credits: {
+        				enabled: false
+        		},
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            // legend: {
+                            //     layout: 'horizontal',
+                            //     align: 'center',
+                            //     verticalAlign: 'bottom'
+                            // }
+                        }
+                    }]
+                }
+            })
         });
     });
     
@@ -746,61 +772,68 @@
         return ( 1.0 - t ) * v0 + t * v1;
     }
     
-    function driveTracker() {
-        $.get( '/mostrecentround', function(data) {
+    function driveTracker(isFull, club) {
+        $.get( 'dashboard/mostrecentround', isFull, function(data) {
             var driveStats = [];
             data.mostRecentRound[0].holes.forEach(function(hole){
-                var holeScore = {}
-                if(hole.score - hole.par === 0){
-                    holeScore = {
-                        scoreName: 'Par',
-                        scoreColor: 'blue',
-                        sortVal: 4
-                    }
-                } else if(hole.score - hole.par === 1){
-                    holeScore = {
-                        scoreName: 'Bogey',
-                        scoreColor: 'red',
-                        sortVal: 5
-                    }
-                } else if(hole.score - hole.par === -1){
-                    holeScore = {
-                        scoreName: 'Birdie',
-                        scoreColor: 'orange',
-                        sortVal: 3
-                    }
-                } else if(hole.score - hole.par === 2){
-                    holeScore = {
-                        scoreName: 'Double Bogey',
-                        scoreColor: 'black',
-                        sortVal: 6
-                    }
-                } else if(hole.score - hole.par === -2){
-                    nholeScore = {
-                        scoreName: 'Eagle',
-                        scoreColor: 'yellow',
-                        sortVal: 2
-                    }
-                } else if(hole.score - hole.par > 2){
-                    holeScore = {
-                        scoreName: 'Worse Than Double Bogey',
-                        scoreColor: 'gray',
-                        sortVal: 7
-                    }
-                } else if(hole.score - hole.par < -2){
-                    holeScore = {
-                        scoreName: 'Better Than Eagle',
-                        scoreColor: 'pink',
-                        sortVal: 1
-                    }
+                var holeScore = {},
+                    allClub = club;
+                if(club === "All"){
+                    allClub = hole.teeShot.teeShotClub;
                 }
-                var holeStats = {
-                    teeShotDirection: hole.teeShot.teeShotDirection,
-                    teeShotResult: hole.teeShot.teeShotResult,
-                    holeScore: holeScore
-                }
-                if(hole.par != 3){
-                    driveStats.push(holeStats);
+                if(allClub === hole.teeShot.teeShotClub){
+                    if(hole.score - hole.par === 0){
+                        holeScore = {
+                            scoreName: 'Par',
+                            scoreColor: 'blue',
+                            sortVal: 4
+                        }
+                    } else if(hole.score - hole.par === 1){
+                        holeScore = {
+                            scoreName: 'Bogey',
+                            scoreColor: 'red',
+                            sortVal: 5
+                        }
+                    } else if(hole.score - hole.par === -1){
+                        holeScore = {
+                            scoreName: 'Birdie',
+                            scoreColor: 'orange',
+                            sortVal: 3
+                        }
+                    } else if(hole.score - hole.par === 2){
+                        holeScore = {
+                            scoreName: 'Double Bogey',
+                            scoreColor: 'black',
+                            sortVal: 6
+                        }
+                    } else if(hole.score - hole.par === -2){
+                        nholeScore = {
+                            scoreName: 'Eagle',
+                            scoreColor: 'yellow',
+                            sortVal: 2
+                        }
+                    } else if(hole.score - hole.par > 2){
+                        holeScore = {
+                            scoreName: 'Worse Than Double Bogey',
+                            scoreColor: 'gray',
+                            sortVal: 7
+                        }
+                    } else if(hole.score - hole.par < -2){
+                        holeScore = {
+                            scoreName: 'Better Than Eagle',
+                            scoreColor: 'pink',
+                            sortVal: 1
+                        }
+                    }
+                    var holeStats = {
+                        teeShotDirection: hole.teeShot.teeShotDirection,
+                        teeShotResult: hole.teeShot.teeShotResult,
+                        teeShotClub: hole.teeShot.teeShotClub,
+                        holeScore: holeScore
+                    }
+                    if(hole.par != 3){
+                        driveStats.push(holeStats);
+                    }
                 }
             });
             
@@ -915,7 +948,13 @@
 
                 // Clear canvas
                 ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-        		animatePathDrawing(ctx, arrowStartPosX, arrowStartPosY, 450, middlePosY, arrowEndPosX, arrowEndPosY, 5000, driveStats[i].holeScore.scoreColor);
+                
+                if(club === "All"){
+                    animatePathDrawing(ctx, arrowStartPosX, arrowStartPosY, 450, middlePosY, arrowEndPosX, arrowEndPosY, 5000, driveStats[i].holeScore.scoreColor);
+                }
+                else if(club === driveStats[i].teeShotClub) {
+                    animatePathDrawing(ctx, arrowStartPosX, arrowStartPosY, 450, middlePosY, arrowEndPosX, arrowEndPosY, 5000, driveStats[i].holeScore.scoreColor);
+                }
             };
             var legendHtml = ''
             scoresFound.sort(function (a, b) {
@@ -929,254 +968,8 @@
             });
             $('#legend-values').html(legendHtml);
         });
-    };         
+    };
     
-    /*
-    $('#driving-tab').click(function() {
-        
-        $.get( '/mostrecentround', function(data) {
-            var driveStats = [];
-            data.mostRecentRound[0].holes.forEach(function(hole){
-                var holeScore = {}
-                if(hole.score - hole.par === 0){
-                    holeScore = {
-                        scoreName: 'Par',
-                        scoreColor: 'blue',
-                        sortVal: 4
-                    }
-                } else if(hole.score - hole.par === 1){
-                    holeScore = {
-                        scoreName: 'Bogey',
-                        scoreColor: 'red',
-                        sortVal: 5
-                    }
-                } else if(hole.score - hole.par === -1){
-                    holeScore = {
-                        scoreName: 'Birdie',
-                        scoreColor: 'orange',
-                        sortVal: 3
-                    }
-                } else if(hole.score - hole.par === 2){
-                    holeScore = {
-                        scoreName: 'Double Bogey',
-                        scoreColor: 'black',
-                        sortVal: 6
-                    }
-                } else if(hole.score - hole.par === -2){
-                    nholeScore = {
-                        scoreName: 'Eagle',
-                        scoreColor: 'yellow',
-                        sortVal: 2
-                    }
-                } else if(hole.score - hole.par > 2){
-                    holeScore = {
-                        scoreName: 'Worse Than Double Bogey',
-                        scoreColor: 'gray',
-                        sortVal: 7
-                    }
-                } else if(hole.score - hole.par < -2){
-                    holeScore = {
-                        scoreName: 'Better Than Eagle',
-                        scoreColor: 'pink',
-                        sortVal: 1
-                    }
-                }
-                var holeStats = {
-                    teeShotDirection: hole.teeShot.teeShotDirection,
-                    teeShotResult: hole.teeShot.teeShotResult,
-                    holeScore: holeScore
-                }
-                if(hole.par != 3){
-                    driveStats.push(holeStats);
-                }
-            });
-            console.log(driveStats);
-        
-            //DriveTracker
-            createjs.MotionGuidePlugin.install();
-        
-            var stage = new createjs.Stage("driveTracker");
-            var canvas = document.getElementById("driveTracker");
-            
-            var timeCount = 1500;
-            var arrowStartPosY = 435;
-            var arrowStartPosX = 410;
-            
-            var scoresFound = []
-            for(var i = 0; i < driveStats.length; i++) (function(i){
-                //Populate Legend
-                if(scoresFound.length === 0){
-                    scoresFound.push(driveStats[i]);
-                } else {
-                    var found = false;
-                    scoresFound.forEach(function(score){
-                        if(score.holeScore.scoreName === driveStats[i].holeScore.scoreName){
-                            found = true;
-                        }
-                    });
-                    if(!found){
-                        scoresFound.push(driveStats[i]);
-                    }
-                }
-                
-                var arrowEndPosYOrig = 0;
-            	var arrowEndPosXOrig = 0;
-            	var middlePosYOrig = 0;
-            	var randx = 0;
-            	var randy = 0;
-            	if(driveStats[i].teeShotDirection === 'Right' && driveStats[i].teeShotResult === 'Rough'){
-            		arrowEndPosYOrig = 150;
-            		arrowEndPosXOrig = 290;
-            		middlePosYOrig = 150;
-            		randx = Math.floor(Math.random() * 40);
-            		randy = Math.floor(Math.random() * 40);
-            	} else if(driveStats[i].teeShotDirection === 'Right' && driveStats[i].teeShotResult === 'Bunker') {
-            		arrowEndPosYOrig = 75;
-            		arrowEndPosXOrig = 310;
-            		middlePosYOrig = 75;
-            		randx = Math.floor(Math.random() * 40);
-            		randy = Math.floor(Math.random() * 65);
-            	} else if(driveStats[i].teeShotDirection === 'Right' && driveStats[i].teeShotResult === 'Fescue') {
-            		arrowEndPosYOrig = 175;
-            		arrowEndPosXOrig = 400;
-            		middlePosYOrig = 175;
-            		randx = Math.floor(Math.random() * 40);
-            		randy = Math.floor(Math.random() * 30);
-            	} else if(driveStats[i].teeShotDirection === 'Right' && driveStats[i].teeShotResult === 'Woods') {
-            		arrowEndPosYOrig = 50;
-            		arrowEndPosXOrig = 450;
-            		middlePosYOrig = 50;
-            		randx = Math.floor(Math.random() * 25);
-            		randy = Math.floor(Math.random() * 75);
-            	} else if(driveStats[i].teeShotDirection === 'Right' && driveStats[i].teeShotResult === 'Lost Ball') {
-            		arrowEndPosYOrig = 75;
-            		arrowEndPosXOrig = 500;
-            		middlePosYOrig = 75;
-            		randx = Math.floor(Math.random() * 1);
-            		randy = Math.floor(Math.random() * 1);
-            	} else if(driveStats[i].teeShotDirection === 'Left' && driveStats[i].teeShotResult === 'Rough') {
-            		arrowEndPosYOrig = 118;
-            		arrowEndPosXOrig = 135;
-            		middlePosYOrig = 125;
-            		randx = Math.floor(Math.random() * 30);
-            		randy = Math.floor(Math.random() * 40);
-            	} else if(driveStats[i].teeShotDirection === 'Left' && driveStats[i].teeShotResult === 'Bunker') {
-            		arrowEndPosYOrig = 100;
-            		arrowEndPosXOrig = 50;
-            		middlePosYOrig = 100;
-            		randx = Math.floor(Math.random() * 75);
-            		randy = Math.floor(Math.random() * 150);
-            	} else if(driveStats[i].teeShotDirection === 'Left' && driveStats[i].teeShotResult === 'Fescue') {
-            		arrowEndPosYOrig = 142;
-            		arrowEndPosXOrig = 25;
-            		middlePosYOrig = 142;
-            		randx = Math.floor(Math.random() * 50);
-            		randy = Math.floor(Math.random() * 1);
-            	} else if(driveStats[i].teeShotDirection === 'Left' && driveStats[i].teeShotResult === 'Woods') {
-            		arrowEndPosYOrig = 30;
-            		arrowEndPosXOrig = 10;
-            		middlePosYOrig = 30;
-            		randx = Math.floor(Math.random() * 30);
-            		randy = Math.floor(Math.random() * 50);
-            	} else if(driveStats[i].teeShotDirection === 'Left' && driveStats[i].teeShotResult === 'Lost Ball') {
-            		arrowEndPosYOrig = 75;
-            		arrowEndPosXOrig = 0;
-            		middlePosYOrig = 75;
-            		randx = Math.floor(Math.random() * 1);
-            		randy = Math.floor(Math.random() * 1);
-            	} else if(driveStats[i].teeShotDirection === 'Long' && (driveStats[i].teeShotResult === 'Rough' || driveStats[i].teeShotResult === 'Fescue')) {
-            		arrowEndPosYOrig = 25;
-            		arrowEndPosXOrig = 245;
-            		middlePosYOrig = 25;
-            		randx = Math.floor(Math.random() * 40);
-            		randy = Math.floor(Math.random() * 10);
-            	} else if(driveStats[i].teeShotDirection === 'Fairway') {
-            		arrowEndPosYOrig = 100;
-            		arrowEndPosXOrig = 180;
-            		middlePosYOrig = -100;
-            		randx = Math.floor(Math.random() * 75);
-            		randy = Math.floor(Math.random() * 75);
-            	}
-            	
-            	var arrowEndPosY = arrowEndPosYOrig;
-            	var arrowEndPosX = arrowEndPosXOrig;
-            	var middlePosY = middlePosYOrig;			
-            	
-            	arrowEndPosY = arrowEndPosYOrig + randy;
-            	middlePosY = middlePosYOrig + randy;
-            	arrowEndPosX = arrowEndPosXOrig + randx;
-            	
-            		var shape = new createjs.Shape();
-            		shape.cache(0,0,1000,1000);
-            		var bar = { x: arrowStartPosX, y: arrowStartPosY, oldx: arrowStartPosX, oldy: arrowStartPosY };
-            		stage.addChild(shape);
-            
-            		createjs.Ticker.addEventListener("tick", tick);
-            
-            		run();
-            
-            		function getMotionPathFromPoints (points) {
-            			var i, motionPath;
-            			for (i = 0, motionPath = []; i < points.length - 1; ++i) {
-            				if (i === 0) {
-            						motionPath.push(points[i].x, points[i].y);
-            				}
-            		    else if(i === 1){
-            						motionPath.push(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
-            				} else {
-            						i++;
-            						motionPath.push(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
-            				}
-            			}
-            			return motionPath;
-            		}
-            
-            		function run() {
-            		    var points = [
-            		    		//start pos
-            				   	new createjs.Point(arrowStartPosX, arrowStartPosY),
-            		        //Arc Bend
-            				 		new createjs.Point(arrowStartPosX-10, middlePosY),
-            		        //end pos
-            				  	new createjs.Point(arrowEndPosX, arrowEndPosY)
-            				];
-            		    
-            		    createjs.Tween.get(bar).wait(timeCount).to({
-            		        guide: {path: getMotionPathFromPoints(points)}
-            		    }, 1500);
-            		}
-            
-            		function tick() {
-            		    shape.graphics.clear()
-            		        .setStrokeStyle(3, 'round', 'round')
-            		        .beginStroke(driveStats[i].holeScore.scoreColor)
-            		        .curveTo(bar.oldx, bar.oldy, bar.x, bar.y)
-            		        .endStroke();
-            		    
-            		    shape.updateCache("source-over");
-            		    stage.update();
-            		    
-            		    bar.oldx = bar.x;
-            		    bar.oldy = bar.y;
-            		}
-            	timeCount += 1000;
-            })(i);
-            var legendHtml = ''
-            console.log(scoresFound);
-            scoresFound.sort(function (a, b) {
-                return a.holeScore.sortVal - b.holeScore.sortVal;
-            });
-            console.log(scoresFound);
-            scoresFound.forEach(function(score){
-                if(score.holeScore.scoreName === 'Double Bogey'){
-                    score.holeScore.scoreName = 'Double'
-                }
-                legendHtml += "<div><span id=legend-circle style='background-color: " + score.holeScore.scoreColor + ";'> </span><span>" + score.holeScore.scoreName + "</span></div>"
-            });
-            $('#legend-values').html(legendHtml);
-        });
-    });*/
-        
 </script>   
     
 <% include ../partials/footer %>

@@ -42,7 +42,7 @@ router.get("/", middleware.isLoggedIn, function(req, res){
     });
 });
 
-router.get("/roundsdata", function(req, res){
+router.get("/roundsdata", middleware.isLoggedIn, function(req, res){
     Round.find({"player.id": req.user._id, isFull: req.query.isFull}).populate("course").exec(function(err, rounds){
         if(err){
             console.log(err);
@@ -189,5 +189,16 @@ router.get("/roundsdata", function(req, res){
         res.send({rounds:rounds, avgScore, user: req.user, numScoreNames, allTeeClubs:allTeeClubs});
     });
 });
+
+router.get("/mostrecentround", middleware.isLoggedIn, function(req, res){
+    Round.find({"player.id": req.user._id, isFull: req.query.isFull}).sort({date:-1}).limit(1).populate("course").exec(function(err, mostRecentRound){
+        if(err){
+            console.log(err);
+        } else {
+            res.send({mostRecentRound: mostRecentRound});
+        }
+    });
+});
+
 
 module.exports = router;
