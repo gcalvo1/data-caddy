@@ -11,15 +11,19 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <div id="tee-club-dropdown-div" class="form-group fg_input_head hidden">
-                        <label for="tee_club_dropdown">Choose Club</label>
-                        <select class="form-control" id="tee-club-dropdown">
-                            <option value="all">All</option>
-                            <% allTeeClubs.forEach(function(club){
-                                if(club.found){ %>
-                                    <option value="<%= club.clubName %>"><%= club.clubName %></option>
+                    <div id="num-holes-dropdown-div" class="form-group fg_input_head">
+                        <label for="num_holes_dropdown">Number of Holes:</label>
+                        <select class="form-control" id="num-holes-dropdown">
+                            <% roundTypes.forEach(function(type){
+                                if(type.found){ %>
+                                    <option value="<%= type.numHoles %>"><%= type.numHoles %></option>
                              <% }     
                             }); %>
+                        </select>
+                    </div>
+                    <div id="tee-club-dropdown-div" class="form-group fg_input_head hidden">
+                        <label for="tee_club_dropdown">Choose Club:</label>
+                        <select class="form-control" id="tee-club-dropdown">
                         </select>
                     </div>
                     <nav id="dash-left-menu">
@@ -71,31 +75,31 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="counter">
-                                        <h2 class="timer count-title count-number" data-to="<%= ScoreData.avgFullScore %>" data-speed="1500"></h2>
+                                        <h2 id="scoring-avg" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
                                         <p class="count-text ">Scoring Average</p>
                                     </div>  
                                 </div>
                                 <div class="col-md-3">
                                     <div class="counter">
-                                        <h2 class="timer count-title count-number-sign" data-to="<%= ScoreData.avgFullScoreToPar %>" data-speed="1500"></h2>
+                                        <h2 id ="avg-score-to-par" class="timer count-title count-number-sign" data-to="" data-speed="1500"></h2>
                                         <p class="count-text ">Average Score to Par</p>
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="counter">
-                                        <h2 class="timer count-title count-number" data-to="<%= ScoreData.avgScoreByHolePar.parThree %>" data-speed="1500"></h2>
+                                        <h2 id="par-three-scoring-avg" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
                                         <p class="count-text ">Par 3 Scoring Avg</p>
                                     </div>
                                 </div>   
                                 <div class="col-md-2">
                                     <div class="counter">
-                                        <h2 class="timer count-title count-number" data-to="<%= ScoreData.avgScoreByHolePar.parFour %>" data-speed="1500"></h2>
+                                        <h2 id="par-four-scoring-avg" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
                                         <p class="count-text ">Par 4 Scoring Avg</p>
                                     </div>
                                 </div> 
                                 <div class="col-md-2">
                                     <div class="counter">
-                                        <h2 class="timer count-title count-number" data-to="<%= ScoreData.avgScoreByHolePar.parFive %>" data-speed="1500"></h2>
+                                        <h2 id="par-five-scoring-avg" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
                                         <p class="count-text ">Par 5 Scoring Avg</p>
                                     </div>
                                 </div> 
@@ -212,7 +216,7 @@
         return true;
     }
     
-    numCounterUpdate();
+    //numCounterUpdate();
     
     $('#driving-tab').on('click', function(){
         $('#tee-club-dropdown-div').removeClass("hidden");
@@ -235,228 +239,34 @@
         driveTracker();
     });
     
-    $.get( '/roundsdata', function(data) {
-    //Score By Date Line Chart    
-        //Get Data
-        var series = data.avgScore.scoreByDate;
-        //Sort Data
-        function compare(a,b) {
-          if (a < b)
-            return -1;
-          if (a > b)
-            return 1;
-          return 0;
+    //On NumHoles change update: filters & data 
+    $('#num-holes-dropdown').change(function(){
+        var numHoles = $("#num-holes-dropdown :selected").text(),
+            isFull = true;
+        if (numHoles === "9 Holes") {
+            isFull = false;
         }
-        series.sort(compare);
-        //Convert to epoch time
-        data.avgScore.scoreByDate.forEach(function(pair){
-            pair[0] = Math.round((new Date(pair[0])).getTime());
-        });
-        
-        //Create the chart
-        Highcharts.chart('rbd-line', {
-            chart: {
-                height: 300,
-                type: 'line'
-            },
-            title: {
-                text: 'Score by Date'
-            },
-            xAxis: {
-                    type: 'datetime',
-                    dateTimeLabelFormats: 
-                    {
-                        hour: '%l %p'
-                    }
-            },
-            yAxis: {
-                title: {
-                    text: 'Score'
-                }
-            },
-            plotOptions: {
-                series: {
-                    label: {
-                        connectorAllowed: false
-                    }
-                }
-            },
-            series: [{
-                name: 'Score',
-                data: series
-            }],
-            credits: {
-    				enabled: false
-    		},
-            responsive: {
-                rules: [{
-                    condition: {
-                        maxWidth: 500
-                    },
-                    chartOptions: {
-                        // legend: {
-                        //     layout: 'horizontal',
-                        //     align: 'center',
-                        //     verticalAlign: 'bottom'
-                        // }
-                    }
-                }]
-            }
-        
-        })
-        
-        //Score Name Pie Chart
-        Highcharts.chart('score-name-pie', {
-            chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false,
-                height: 300,
-                type: 'pie'
-            },
-            title: {
-                text: null
-            },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: true,
-                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                        style: {
-                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                        }
-                    }
-                }
-            },
-            credits: {
-    				enabled: false
-    		},
-            series: [{
-                name: 'Scores',
-                colorByPoint: true,
-                data: [{
-                    name: 'Par',
-                    y: data.numScoreNames.par
-                    //sliced: true,
-                    //selected: true
-                }, {
-                    name: 'Birdie',
-                    y: data.numScoreNames.birdie
-                }, {
-                    name: 'Bogey',
-                    y: data.numScoreNames.bogey
-                }, {
-                    name: 'Eagle',
-                    y: data.numScoreNames.eagle
-                }, {
-                    name: 'Double Bogey',
-                    y: data.numScoreNames.doubleBogey
-                }, {
-                    name: 'Better Than Eagle',
-                    y: data.numScoreNames.eagleBetter
-                }, {
-                    name: 'Worse Than Bogey',
-                    y: data.numScoreNames.bogeyWorse
-                }]
-            }]
-        });
-        
-        //Driving Filters
-        $('#tee-club-dropdown').change(function(){
-            var club = $("#tee-club-dropdown :selected").text(),
-                totalFirs = 0,
-                totalDrives = 0,
-                totalDrivingDistance = 0,
-                totalMiss = {
-                    right: 0,
-                    left: 0,
-                    short: 0,
-                    long: 0
-                }
-                numDrivesWithDistance = 0
-                firByDate = [];
-            if(club === "All"){
-                data.rounds.forEach(function(round){
-                    var roundFirData = [],
-                        roundFirs = 0;
-                    roundFirData.push(round.date);
-                    round.holes.forEach(function(hole){
-                        if(hole.par != 3) {
-                            totalDrives++;
-                            if(hole.teeShot.teeShotResult === "FIR"){
-                                totalFirs++;
-                                roundFirs++;
-                            } else if(hole.teeShot.teeShotDirection === "Right") {
-                                totalMiss.right++;
-                            } else if(hole.teeShot.teeShotDirection === "Left") {
-                                totalMiss.left++;
-                            } else if(hole.teeShot.teeShotDirection === "Long") {
-                                totalMiss.long++;
-                            } else if(hole.teeShot.teeShotDirection === "Short") {
-                                totalMiss.short++;
-                            }
-                            if(hole.teeShot.teeShotLength){
-                                numDrivesWithDistance++;
-                                totalDrivingDistance += hole.teeShot.teeShotLength;
-                            }
-                        }
-                    });
-                    roundFirData.push(roundFirs);
-                    firByDate.push(roundFirData);
-                });
-            } else {
-                data.rounds.forEach(function(round){
-                    var roundFirData = [],
-                        roundFirs = 0;
-                    roundFirData.push(round.date);
-                    round.holes.forEach(function(hole){
-                        if(hole.par != 3 && hole.teeShot.teeShotClub === club) {
-                            totalDrives++;
-                            if(hole.teeShot.teeShotResult === "FIR"){
-                                totalFirs++;
-                                roundFirs++;
-                            } else if(hole.teeShot.teeShotDirection === "Right") {
-                                totalMiss.right++;
-                            } else if(hole.teeShot.teeShotDirection === "Left") {
-                                totalMiss.left++;
-                            } else if(hole.teeShot.teeShotDirection === "Long") {
-                                totalMiss.long++;
-                            } else if(hole.teeShot.teeShotDirection === "Short") {
-                                totalMiss.short++;
-                            }
-                            if(hole.teeShot.teeShotLength){
-                                numDrivesWithDistance++;
-                                totalDrivingDistance += hole.teeShot.teeShotLength;
-                            }
-                        }
-                    });
-                    roundFirData.push(roundFirs);
-                    firByDate.push(roundFirData);
-                });
-            }
-            //Set data for selected tee club
-            var firPercent = ( totalFirs / totalDrives ) * 100,
-                avgDrivingDistance = totalDrivingDistance / numDrivesWithDistance,
-                driveMissPercent = {
-                    right: ( totalMiss.right / totalDrives ) * 100,
-                    left: ( totalMiss.left / totalDrives ) * 100,
-                    long: ( totalMiss.long / totalDrives ) * 100,
-                    short: ( totalMiss.short / totalDrives ) * 100
-                }
-            $("#fir-percent").html(Math.round(firPercent * 10) / 10 + "%");
-            $("#driving-distance").html(Math.round(avgDrivingDistance * 10) / 10 + " yds");
-            $("#tee-miss-right").html(Math.round(driveMissPercent.right * 10) / 10 + "%");
-            $("#tee-miss-left").html(Math.round(driveMissPercent.left * 10) / 10 + "%");
-            $("#tee-miss-long").html(Math.round(driveMissPercent.long * 10) / 10 + "%");
-            $("#tee-miss-short").html(Math.round(driveMissPercent.short * 10) / 10 + "%");
+        var parameters = { isFull: isFull};
+        $.get( '/dashboard/roundsdata', parameters, function(data) {
+            //Set Tee Club Dropdown
+            teeClubDropdownHtml = "<option value='all'>All</option>";
+            data.allTeeClubs.forEach(function(club){
+                if(club.found) {
+                    teeClubDropdownHtml += "<option value=" + club.clubName + ">" + club.clubName + "</option>";
+                 }     
+            });
+            $('#tee-club-dropdown').html(teeClubDropdownHtml);
             
-            //Line Chart
-            var series = firByDate;
+            //Set Summary Data Cards
+            $('#scoring-avg').html(Math.round(data.avgScore.avgScore * 10) / 10);
+            $('#avg-score-to-par').html(Math.round(data.avgScore.avgScoreToPar * 10) / 10);
+            $('#par-three-scoring-avg').html(Math.round(data.avgScore.avgScoreByHolePar.parThree * 10) / 10);
+            $('#par-four-scoring-avg').html(Math.round(data.avgScore.avgScoreByHolePar.parFour * 10) / 10);
+            $('#par-five-scoring-avg').html(Math.round(data.avgScore.avgScoreByHolePar.parFive * 10) / 10);
+            
+            //Score By Date Line Chart    
+            //Get Data
+            var series = data.avgScore.scoreByDate;
             //Sort Data
             function compare(a,b) {
               if (a < b)
@@ -467,18 +277,18 @@
             }
             series.sort(compare);
             //Convert to epoch time
-            series.forEach(function(pair){
+            data.avgScore.scoreByDate.forEach(function(pair){
                 pair[0] = Math.round((new Date(pair[0])).getTime());
             });
             
             //Create the chart
-            Highcharts.chart('fir-per-round-line', {
+            Highcharts.chart('rbd-line', {
                 chart: {
-                    height: 407,
+                    height: 300,
                     type: 'line'
                 },
                 title: {
-                    text: 'FIR by Round'
+                    text: 'Score by Date'
                 },
                 xAxis: {
                         type: 'datetime',
@@ -522,8 +332,230 @@
                 }
             
             })
+            
+            //Score Name Pie Chart
+            Highcharts.chart('score-name-pie', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    height: 300,
+                    type: 'pie'
+                },
+                title: {
+                    text: null
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            }
+                        }
+                    }
+                },
+                credits: {
+        				enabled: false
+        		},
+                series: [{
+                    name: 'Scores',
+                    colorByPoint: true,
+                    data: [{
+                        name: 'Par',
+                        y: data.numScoreNames.par
+                        //sliced: true,
+                        //selected: true
+                    }, {
+                        name: 'Birdie',
+                        y: data.numScoreNames.birdie
+                    }, {
+                        name: 'Bogey',
+                        y: data.numScoreNames.bogey
+                    }, {
+                        name: 'Eagle',
+                        y: data.numScoreNames.eagle
+                    }, {
+                        name: 'Double Bogey',
+                        y: data.numScoreNames.doubleBogey
+                    }, {
+                        name: 'Better Than Eagle',
+                        y: data.numScoreNames.eagleBetter
+                    }, {
+                        name: 'Worse Than Bogey',
+                        y: data.numScoreNames.bogeyWorse
+                    }]
+                }]
+            });
+            
+            //Driving Filters
+            $('#tee-club-dropdown').change(function(){
+                var club = $("#tee-club-dropdown :selected").text(),
+                    totalFirs = 0,
+                    totalDrives = 0,
+                    totalDrivingDistance = 0,
+                    totalMiss = {
+                        right: 0,
+                        left: 0,
+                        short: 0,
+                        long: 0
+                    }
+                    numDrivesWithDistance = 0
+                    firByDate = [];
+                if(club === "All"){
+                    data.rounds.forEach(function(round){
+                        var roundFirData = [],
+                            roundFirs = 0;
+                        roundFirData.push(round.date);
+                        round.holes.forEach(function(hole){
+                            if(hole.par != 3) {
+                                totalDrives++;
+                                if(hole.teeShot.teeShotResult === "FIR"){
+                                    totalFirs++;
+                                    roundFirs++;
+                                } else if(hole.teeShot.teeShotDirection === "Right") {
+                                    totalMiss.right++;
+                                } else if(hole.teeShot.teeShotDirection === "Left") {
+                                    totalMiss.left++;
+                                } else if(hole.teeShot.teeShotDirection === "Long") {
+                                    totalMiss.long++;
+                                } else if(hole.teeShot.teeShotDirection === "Short") {
+                                    totalMiss.short++;
+                                }
+                                if(hole.teeShot.teeShotLength){
+                                    numDrivesWithDistance++;
+                                    totalDrivingDistance += hole.teeShot.teeShotLength;
+                                }
+                            }
+                        });
+                        roundFirData.push(roundFirs);
+                        firByDate.push(roundFirData);
+                    });
+                } else {
+                    data.rounds.forEach(function(round){
+                        var roundFirData = [],
+                            roundFirs = 0;
+                        roundFirData.push(round.date);
+                        round.holes.forEach(function(hole){
+                            if(hole.par != 3 && hole.teeShot.teeShotClub === club) {
+                                totalDrives++;
+                                if(hole.teeShot.teeShotResult === "FIR"){
+                                    totalFirs++;
+                                    roundFirs++;
+                                } else if(hole.teeShot.teeShotDirection === "Right") {
+                                    totalMiss.right++;
+                                } else if(hole.teeShot.teeShotDirection === "Left") {
+                                    totalMiss.left++;
+                                } else if(hole.teeShot.teeShotDirection === "Long") {
+                                    totalMiss.long++;
+                                } else if(hole.teeShot.teeShotDirection === "Short") {
+                                    totalMiss.short++;
+                                }
+                                if(hole.teeShot.teeShotLength){
+                                    numDrivesWithDistance++;
+                                    totalDrivingDistance += hole.teeShot.teeShotLength;
+                                }
+                            }
+                        });
+                        roundFirData.push(roundFirs);
+                        firByDate.push(roundFirData);
+                    });
+                }
+                //Set data for selected tee club
+                var firPercent = ( totalFirs / totalDrives ) * 100,
+                    avgDrivingDistance = totalDrivingDistance / numDrivesWithDistance,
+                    driveMissPercent = {
+                        right: ( totalMiss.right / totalDrives ) * 100,
+                        left: ( totalMiss.left / totalDrives ) * 100,
+                        long: ( totalMiss.long / totalDrives ) * 100,
+                        short: ( totalMiss.short / totalDrives ) * 100
+                    }
+                $("#fir-percent").html(Math.round(firPercent * 10) / 10 + "%");
+                $("#driving-distance").html(Math.round(avgDrivingDistance * 10) / 10 + " yds");
+                $("#tee-miss-right").html(Math.round(driveMissPercent.right * 10) / 10 + "%");
+                $("#tee-miss-left").html(Math.round(driveMissPercent.left * 10) / 10 + "%");
+                $("#tee-miss-long").html(Math.round(driveMissPercent.long * 10) / 10 + "%");
+                $("#tee-miss-short").html(Math.round(driveMissPercent.short * 10) / 10 + "%");
+                
+                //Line Chart
+                var series = firByDate;
+                //Sort Data
+                function compare(a,b) {
+                  if (a < b)
+                    return -1;
+                  if (a > b)
+                    return 1;
+                  return 0;
+                }
+                series.sort(compare);
+                //Convert to epoch time
+                series.forEach(function(pair){
+                    pair[0] = Math.round((new Date(pair[0])).getTime());
+                });
+                
+                //Create the chart
+                Highcharts.chart('fir-per-round-line', {
+                    chart: {
+                        height: 407,
+                        type: 'line'
+                    },
+                    title: {
+                        text: 'FIR by Round'
+                    },
+                    xAxis: {
+                            type: 'datetime',
+                            dateTimeLabelFormats: 
+                            {
+                                hour: '%l %p'
+                            }
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'FIRs'
+                        }
+                    },
+                    plotOptions: {
+                        series: {
+                            label: {
+                                connectorAllowed: false
+                            }
+                        }
+                    },
+                    series: [{
+                        name: 'Score',
+                        data: series
+                    }],
+                    credits: {
+            				enabled: false
+            		},
+                    responsive: {
+                        rules: [{
+                            condition: {
+                                maxWidth: 500
+                            },
+                            chartOptions: {
+                                // legend: {
+                                //     layout: 'horizontal',
+                                //     align: 'center',
+                                //     verticalAlign: 'bottom'
+                                // }
+                            }
+                        }]
+                    }
+                
+                })
+            });
+            $('#tee-club-dropdown').trigger("change");
         });
     });
+    
+    $('#num-holes-dropdown').trigger("change");
     
     function numCounterUpdate(){
         (function ($) {
@@ -898,7 +930,6 @@
             $('#legend-values').html(legendHtml);
         });
     };         
-    
     
     /*
     $('#driving-tab').click(function() {
