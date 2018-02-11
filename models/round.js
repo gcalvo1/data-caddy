@@ -28,15 +28,19 @@ var roundSchema = new mongoose.Schema({
         {
             holeNumber: Number,
             par: Number,
-            teeShotClub: String,
-            teeShotLength: Number,
-            teeShotDirection: String,
-            teeShotResult: String,
-            approachToGreen: Boolean,
-            approachClub: String,
-            approachLength: Number,
-            approachDirection: String,
-            approachResult: String,
+            teeShot: {
+                teeShotClub: String,
+                teeShotLength: Number,
+                teeShotDirection: String,
+                teeShotResult: String
+            },
+            approach: {
+                approachToGreen: Boolean,
+                approachClub: String,
+                approachLength: Number,
+                approachDirection: String,
+                approachResult: String
+            },
             putts: Number,
             score: Number,
         }

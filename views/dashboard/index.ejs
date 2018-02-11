@@ -11,6 +11,17 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
+                    <div id="tee-club-dropdown-div" class="form-group fg_input_head hidden">
+                        <label for="tee_club_dropdown">Choose Club</label>
+                        <select class="form-control" id="tee-club-dropdown">
+                            <option value="all">All</option>
+                            <% allTeeClubs.forEach(function(club){
+                                if(club.found){ %>
+                                    <option value="<%= club.clubName %>"><%= club.clubName %></option>
+                             <% }     
+                            }); %>
+                        </select>
+                    </div>
                     <nav id="dash-left-menu">
                       <UL>
                        <li class="var_nav">
@@ -42,16 +53,16 @@
                     <div id="dash-tab-menu">
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                           <li class="nav-item active">
-                            <a class="nav-link active" id="summary-tab" data-toggle="tab" href="#summary" role="tab" aria-controls="summary" aria-selected="true">Summary</a>
+                            <a class="nav-link active non-driving-tab" id="summary-tab" data-toggle="tab" href="#summary" role="tab" aria-controls="summary" aria-selected="true">Summary</a>
                           </li>
                           <li class="nav-item">
                             <a class="nav-link non-home-tab" id="driving-tab" data-toggle="tab" href="#driving" role="tab" aria-controls="driving" aria-selected="false">Driving</a>
                           </li>
                           <li class="nav-item">
-                            <a class="nav-link non-home-tab" id="approach-tab" data-toggle="tab" href="#approach" role="tab" aria-controls="approach" aria-selected="false">Approach</a>
+                            <a class="nav-link non-home-tab non-driving-tab" id="approach-tab" data-toggle="tab" href="#approach" role="tab" aria-controls="approach" aria-selected="false">Approach</a>
                           </li>
                           <li class="nav-item">
-                            <a class="nav-link non-home-tab" id="putting-tab" data-toggle="tab" href="#putting" role="tab" aria-controls="putting" aria-selected="false">Putting</a>
+                            <a class="nav-link non-home-tab non-driving-tab" id="putting-tab" data-toggle="tab" href="#putting" role="tab" aria-controls="putting" aria-selected="false">Putting</a>
                           </li>
                         </ul>
                     </div>
@@ -91,8 +102,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div id="rbd-line" class="dash-highchart">
-                                    </div>
+                                    <div id="rbd-line" class="dash-highchart"></div>
                                 </div>
                                 <div class="col-md-6">
                                     <div id="score-name-pie" class="dash-highchart">
@@ -102,16 +112,32 @@
                         </div>
                         <div class="tab-pane fade" id="driving" role="tabpanel" aria-labelledby="driving-tab">
                             <div class="row">
-                                <div class="col-md-3">
-                                    dagfd
-                                </div>
-                                <div class="col-md-3">
-                                    dfgdfs
-                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="counter">
+                                                <h2 id="fir-percent" class="timer count-title count-number-percent" data-to="" data-speed="1500"></h2>
+                                                <p class="count-text ">FIR %</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="counter">
+                                                <h2 id="driving-distance" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                                <p class="count-text ">Average Tee Shot Distance</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div id="fir-per-round-line"></div>
+                                        </div>
+                                    </div>
+                                </div>    
                                 <div class="col-md-6">
                                     <div id='canv-counter' class="counter">
                                         <h4>Previous Round Tee Shots</h4>
                                         <div id='drive-tracker-legend'>
+                                            <button class="btn btn-info" id="reset-drive-tracker">Play Again</button>
                                             <h5>Legend</h5>
                                             <div id='legend-values'>
                                                 <div>
@@ -125,12 +151,38 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="counter">
+                                        <h2 id="tee-miss-left" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                        <p class="count-text ">Miss Left %</p>
+                                    </div>  
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="counter">
+                                        <h2 id="tee-miss-right" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                        <p class="count-text ">Miss Right %</p>
+                                    </div>  
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="counter">
+                                        <h2 id="tee-miss-long" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                        <p class="count-text ">Miss Short %</p>
+                                    </div>  
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="counter">
+                                        <h2 id="tee-miss-short" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                        <p class="count-text ">Miss Long %</p>
+                                    </div>  
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
                 <!--<div class="tab-pane fade" id="approach" role="tabpanel" aria-labelledby="approach-tab">...</div>-->
                 <!--<div class="tab-pane fade" id="putting" role="tabpanel" aria-labelledby="putting-tab">...</div>-->
-            </div>
         </div>
     </div>
     
@@ -160,11 +212,29 @@
         return true;
     }
     
+    numCounterUpdate();
+    
+    $('#driving-tab').on('click', function(){
+        $('#tee-club-dropdown-div').removeClass("hidden");
+        $('#tee-club-dropdown').trigger("change");
+    });
+    $('.non-driving-tab').on('click', function(){
+        $('#tee-club-dropdown-div').addClass("hidden");
+    });
+    
     //Tab Menu Code
     $('.non-home-tab').click(function() {
         $("#summary").removeClass("show");
     });
-
+    
+    $('#driving-tab').click(function() {
+        driveTracker();
+    });
+    
+    $('#reset-drive-tracker').click(function() {
+        driveTracker();
+    });
+    
     $.get( '/roundsdata', function(data) {
     //Score By Date Line Chart    
         //Get Data
@@ -295,118 +365,542 @@
                 }]
             }]
         });
+        
+        //Driving Filters
+        $('#tee-club-dropdown').change(function(){
+            var club = $("#tee-club-dropdown :selected").text(),
+                totalFirs = 0,
+                totalDrives = 0,
+                totalDrivingDistance = 0,
+                totalMiss = {
+                    right: 0,
+                    left: 0,
+                    short: 0,
+                    long: 0
+                }
+                numDrivesWithDistance = 0
+                firByDate = [];
+            if(club === "All"){
+                data.rounds.forEach(function(round){
+                    var roundFirData = [],
+                        roundFirs = 0;
+                    roundFirData.push(round.date);
+                    round.holes.forEach(function(hole){
+                        if(hole.par != 3) {
+                            totalDrives++;
+                            if(hole.teeShot.teeShotResult === "FIR"){
+                                totalFirs++;
+                                roundFirs++;
+                            } else if(hole.teeShot.teeShotDirection === "Right") {
+                                totalMiss.right++;
+                            } else if(hole.teeShot.teeShotDirection === "Left") {
+                                totalMiss.left++;
+                            } else if(hole.teeShot.teeShotDirection === "Long") {
+                                totalMiss.long++;
+                            } else if(hole.teeShot.teeShotDirection === "Short") {
+                                totalMiss.short++;
+                            }
+                            if(hole.teeShot.teeShotLength){
+                                numDrivesWithDistance++;
+                                totalDrivingDistance += hole.teeShot.teeShotLength;
+                            }
+                        }
+                    });
+                    roundFirData.push(roundFirs);
+                    firByDate.push(roundFirData);
+                });
+            } else {
+                data.rounds.forEach(function(round){
+                    var roundFirData = [],
+                        roundFirs = 0;
+                    roundFirData.push(round.date);
+                    round.holes.forEach(function(hole){
+                        if(hole.par != 3 && hole.teeShot.teeShotClub === club) {
+                            totalDrives++;
+                            if(hole.teeShot.teeShotResult === "FIR"){
+                                totalFirs++;
+                                roundFirs++;
+                            } else if(hole.teeShot.teeShotDirection === "Right") {
+                                totalMiss.right++;
+                            } else if(hole.teeShot.teeShotDirection === "Left") {
+                                totalMiss.left++;
+                            } else if(hole.teeShot.teeShotDirection === "Long") {
+                                totalMiss.long++;
+                            } else if(hole.teeShot.teeShotDirection === "Short") {
+                                totalMiss.short++;
+                            }
+                            if(hole.teeShot.teeShotLength){
+                                numDrivesWithDistance++;
+                                totalDrivingDistance += hole.teeShot.teeShotLength;
+                            }
+                        }
+                    });
+                    roundFirData.push(roundFirs);
+                    firByDate.push(roundFirData);
+                });
+            }
+            //Set data for selected tee club
+            var firPercent = ( totalFirs / totalDrives ) * 100,
+                avgDrivingDistance = totalDrivingDistance / numDrivesWithDistance,
+                driveMissPercent = {
+                    right: ( totalMiss.right / totalDrives ) * 100,
+                    left: ( totalMiss.left / totalDrives ) * 100,
+                    long: ( totalMiss.long / totalDrives ) * 100,
+                    short: ( totalMiss.short / totalDrives ) * 100
+                }
+            $("#fir-percent").html(Math.round(firPercent * 10) / 10 + "%");
+            $("#driving-distance").html(Math.round(avgDrivingDistance * 10) / 10 + " yds");
+            $("#tee-miss-right").html(Math.round(driveMissPercent.right * 10) / 10 + "%");
+            $("#tee-miss-left").html(Math.round(driveMissPercent.left * 10) / 10 + "%");
+            $("#tee-miss-long").html(Math.round(driveMissPercent.long * 10) / 10 + "%");
+            $("#tee-miss-short").html(Math.round(driveMissPercent.short * 10) / 10 + "%");
+            
+            //Line Chart
+            var series = firByDate;
+            //Sort Data
+            function compare(a,b) {
+              if (a < b)
+                return -1;
+              if (a > b)
+                return 1;
+              return 0;
+            }
+            series.sort(compare);
+            //Convert to epoch time
+            series.forEach(function(pair){
+                pair[0] = Math.round((new Date(pair[0])).getTime());
+            });
+            
+            //Create the chart
+            Highcharts.chart('fir-per-round-line', {
+                chart: {
+                    height: 407,
+                    type: 'line'
+                },
+                title: {
+                    text: 'FIR by Round'
+                },
+                xAxis: {
+                        type: 'datetime',
+                        dateTimeLabelFormats: 
+                        {
+                            hour: '%l %p'
+                        }
+                },
+                yAxis: {
+                    title: {
+                        text: 'Score'
+                    }
+                },
+                plotOptions: {
+                    series: {
+                        label: {
+                            connectorAllowed: false
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Score',
+                    data: series
+                }],
+                credits: {
+        				enabled: false
+        		},
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            // legend: {
+                            //     layout: 'horizontal',
+                            //     align: 'center',
+                            //     verticalAlign: 'bottom'
+                            // }
+                        }
+                    }]
+                }
+            
+            })
+        });
     });
     
-    (function ($) {
-    	$.fn.countTo = function (options) {
-    		options = options || {};
-    		
-    		return $(this).each(function () {
-    			// set options for current element
-    			var settings = $.extend({}, $.fn.countTo.defaults, {
-    				from:            $(this).data('from'),
-    				to:              $(this).data('to'),
-    				speed:           $(this).data('speed'),
-    				refreshInterval: $(this).data('refresh-interval'),
-    				decimals:        $(this).data('decimals')
-    			}, options);
-    			
-    			// how many times to update the value, and how much to increment the value on each update
-    			var loops = Math.ceil(settings.speed / settings.refreshInterval),
-    				increment = (settings.to - settings.from) / loops;
-    			
-    			// references & variables that will change with each update
-    			var self = this,
-    				$self = $(this),
-    				loopCount = 0,
-    				value = settings.from,
-    				data = $self.data('countTo') || {};
-    			
-    			$self.data('countTo', data);
-    			
-    			// if an existing interval can be found, clear it first
-    			if (data.interval) {
-    				clearInterval(data.interval);
-    			}
-    			data.interval = setInterval(updateTimer, settings.refreshInterval);
-    			
-    			// initialize the element with the starting value
-    			render(value);
-    			
-    			function updateTimer() {
-    				value += increment;
-    				loopCount++;
-    				
-    				render(value);
-    				
-    				if (typeof(settings.onUpdate) == 'function') {
-    					settings.onUpdate.call(self, value);
-    				}
-    				
-    				if (loopCount >= loops) {
-    					// remove the interval
-    					$self.removeData('countTo');
-    					clearInterval(data.interval);
-    					value = settings.to;
-    					
-    					if (typeof(settings.onComplete) == 'function') {
-    						settings.onComplete.call(self, value);
-    					}
-    				}
-    			}
-    			
-    			function render(value) {
-    				var formattedValue = settings.formatter.call(self, value, settings);
-    				$self.html(formattedValue);
-    			}
-    		});
-    	};
-    	
-    	$.fn.countTo.defaults = {
-    		from: 0,               // the number the element should start at
-    		to: 0,                 // the number the element should end at
-    		speed: 1000,           // how long it should take to count between the target numbers
-    		refreshInterval: 100,  // how often the element should be updated
-    		decimals: 1,           // the number of decimal places to show
-    		formatter: formatter,  // handler for formatting the value before rendering
-    		onUpdate: null,        // callback method for every time the element is updated
-    		onComplete: null       // callback method for when the element finishes updating
-    	};
-    	
-    	function formatter(value, settings) {
-    		return value.toFixed(settings.decimals);
-    	}
-    }(jQuery));
+    function numCounterUpdate(){
+        (function ($) {
+        	$.fn.countTo = function (options) {
+        		options = options || {};
+        		
+        		return $(this).each(function () {
+        			// set options for current element
+        			var settings = $.extend({}, $.fn.countTo.defaults, {
+        				from:            $(this).data('from'),
+        				to:              $(this).data('to'),
+        				speed:           $(this).data('speed'),
+        				refreshInterval: $(this).data('refresh-interval'),
+        				decimals:        $(this).data('decimals')
+        			}, options);
+        			
+        			// how many times to update the value, and how much to increment the value on each update
+        			var loops = Math.ceil(settings.speed / settings.refreshInterval),
+        				increment = (settings.to - settings.from) / loops;
+        			
+        			// references & variables that will change with each update
+        			var self = this,
+        				$self = $(this),
+        				loopCount = 0,
+        				value = settings.from,
+        				data = $self.data('countTo') || {};
+        			
+        			$self.data('countTo', data);
+        			
+        			// if an existing interval can be found, clear it first
+        			if (data.interval) {
+        				clearInterval(data.interval);
+        			}
+        			data.interval = setInterval(updateTimer, settings.refreshInterval);
+        			
+        			// initialize the element with the starting value
+        			render(value);
+        			
+        			function updateTimer() {
+        				value += increment;
+        				loopCount++;
+        				
+        				render(value);
+        				
+        				if (typeof(settings.onUpdate) == 'function') {
+        					settings.onUpdate.call(self, value);
+        				}
+        				
+        				if (loopCount >= loops) {
+        					// remove the interval
+        					$self.removeData('countTo');
+        					clearInterval(data.interval);
+        					value = settings.to;
+        					
+        					if (typeof(settings.onComplete) == 'function') {
+        						settings.onComplete.call(self, value);
+        					}
+        				}
+        			}
+        			
+        			function render(value) {
+        				var formattedValue = settings.formatter.call(self, value, settings);
+        				$self.html(formattedValue);
+        			}
+        		});
+        	};
+        	
+        	$.fn.countTo.defaults = {
+        		from: 0,               // the number the element should start at
+        		to: 0,                 // the number the element should end at
+        		speed: 1000,           // how long it should take to count between the target numbers
+        		refreshInterval: 100,  // how often the element should be updated
+        		decimals: 1,           // the number of decimal places to show
+        		formatter: formatter,  // handler for formatting the value before rendering
+        		onUpdate: null,        // callback method for every time the element is updated
+        		onComplete: null       // callback method for when the element finishes updating
+        	};
+        	
+        	function formatter(value, settings) {
+        		return value.toFixed(settings.decimals);
+        	}
+        }(jQuery));
+        
+        jQuery(function ($) {
+          // custom formatting example
+          var sign = "";
+          if($('.count-number-sign').data().to > 0){
+              sign = "+";
+          }
+          
+          $('.count-number-sign').data('countToOptions', {
+        	  formatter: function (value, options) {
+        	  return sign + value.toFixed(options.decimals).replace(/\B(?=(?:\d{3})+(?!\d))/g, ',');
+        	}
+          });
+          
+          $('.count-number-percent').data('countToOptions', {
+              formatter: function (value, options) {
+        	  return value.toFixed(options.decimals).replace(/\B(?=(?:\d{3})+(?!\d))/g, ',') + " %";
+        	}
+          });
+          $('.count-number').data('countToOptions', {
+              formatter: function (value, options) {
+        	  return value.toFixed(options.decimals).replace(/\B(?=(?:\d{3})+(?!\d))/g, ',');
+        	}
+          });
+          
+          // start all the timers
+          $('.timer').each(count);  
+          
+          function count(options) {
+        	var $this = $(this);
+        	options = $.extend({}, options || {}, $this.data('countToOptions') || {});
+        	$this.countTo(options);
+          }
+        });
+    }
     
-    jQuery(function ($) {
-      // custom formatting example
-      var sign = "";
-      if($('.count-number-sign').data().to > 0){
-          sign = "+";
-      }
-      
-      $('.count-number-sign').data('countToOptions', {
-    	formatter: function (value, options) {
-    	  return sign + value.toFixed(options.decimals).replace(/\B(?=(?:\d{3})+(?!\d))/g, ',');
-    	}
-      });
-      
-      $('.count-number').data('countToOptions', {
-    	formatter: function (value, options) {
-    	  return value.toFixed(options.decimals).replace(/\B(?=(?:\d{3})+(?!\d))/g, ',');
-    	}
-      });
-      
-      // start all the timers
-      $('.timer').each(count);  
-      
-      function count(options) {
-    	var $this = $(this);
-    	options = $.extend({}, options || {}, $this.data('countToOptions') || {});
-    	$this.countTo(options);
-      }
-    });
+    function animatePathDrawing(ctx, x0, y0, x1, y1, x2, y2, duration, color) {
+        var start = null;
+        var step = function animatePathDrawingStep(timestamp) {
+            if (start === null)
+                start = timestamp;
+            
+            var delta = timestamp - start,
+                progress = Math.min(delta / duration, 1);       
+            
+            // Draw curve
+            drawBezierSplit(ctx, x0, y0, x1, y1, x2, y2, 0, progress, color);
+            
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
+            }
+        };
+        
+        window.requestAnimationFrame(step);
+    }
+        
+    /**
+     * Draws a splitted bezier-curve
+     * 
+     * @param ctx       The canvas context to draw to
+     * @param x0        The x-coord of the start point
+     * @param y0        The y-coord of the start point
+     * @param x1        The x-coord of the control point
+     * @param y1        The y-coord of the control point
+     * @param x2        The x-coord of the end point
+     * @param y2        The y-coord of the end point
+     * @param t0        The start ratio of the splitted bezier from 0.0 to 1.0
+     * @param t1        The start ratio of the splitted bezier from 0.0 to 1.0
+     */
+    function drawBezierSplit(ctx, x0, y0, x1, y1, x2, y2, t0, t1, color) {
+        ctx.beginPath();    
+        if( 0.0 == t0 && t1 == 1.0 ) {
+            ctx.moveTo( x0, y0 );
+            ctx.quadraticCurveTo( x1, y1, x2, y2 );
+        } else if( t0 != t1 ) {
+            var t00 = t0 * t0,
+                t01 = 1.0 - t0,
+                t02 = t01 * t01,
+                t03 = 2.0 * t0 * t01;
+            
+            var nx0 = t02 * x0 + t03 * x1 + t00 * x2,
+                ny0 = t02 * y0 + t03 * y1 + t00 * y2;
+            
+            t00 = t1 * t1;
+            t01 = 1.0 - t1;
+            t02 = t01 * t01;
+            t03 = 2.0 * t1 * t01;
+            
+            var nx2 = t02 * x0 + t03 * x1 + t00 * x2,
+                ny2 = t02 * y0 + t03 * y1 + t00 * y2;
+            
+            var nx1 = lerp ( lerp ( x0 , x1 , t0 ) , lerp ( x1 , x2 , t0 ) , t1 ),
+                ny1 = lerp ( lerp ( y0 , y1 , t0 ) , lerp ( y1 , y2 , t0 ) , t1 );
+            
+            ctx.moveTo( nx0, ny0 );
+            ctx.quadraticCurveTo( nx1, ny1, nx2, ny2 );
+        }
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.closePath();
+    }
     
+    /**Linearly interpolate between two numbers v0, v1 by t**/
+    function lerp(v0, v1, t) {
+        return ( 1.0 - t ) * v0 + t * v1;
+    }
+    
+    function driveTracker() {
+        $.get( '/mostrecentround', function(data) {
+            var driveStats = [];
+            data.mostRecentRound[0].holes.forEach(function(hole){
+                var holeScore = {}
+                if(hole.score - hole.par === 0){
+                    holeScore = {
+                        scoreName: 'Par',
+                        scoreColor: 'blue',
+                        sortVal: 4
+                    }
+                } else if(hole.score - hole.par === 1){
+                    holeScore = {
+                        scoreName: 'Bogey',
+                        scoreColor: 'red',
+                        sortVal: 5
+                    }
+                } else if(hole.score - hole.par === -1){
+                    holeScore = {
+                        scoreName: 'Birdie',
+                        scoreColor: 'orange',
+                        sortVal: 3
+                    }
+                } else if(hole.score - hole.par === 2){
+                    holeScore = {
+                        scoreName: 'Double Bogey',
+                        scoreColor: 'black',
+                        sortVal: 6
+                    }
+                } else if(hole.score - hole.par === -2){
+                    nholeScore = {
+                        scoreName: 'Eagle',
+                        scoreColor: 'yellow',
+                        sortVal: 2
+                    }
+                } else if(hole.score - hole.par > 2){
+                    holeScore = {
+                        scoreName: 'Worse Than Double Bogey',
+                        scoreColor: 'gray',
+                        sortVal: 7
+                    }
+                } else if(hole.score - hole.par < -2){
+                    holeScore = {
+                        scoreName: 'Better Than Eagle',
+                        scoreColor: 'pink',
+                        sortVal: 1
+                    }
+                }
+                var holeStats = {
+                    teeShotDirection: hole.teeShot.teeShotDirection,
+                    teeShotResult: hole.teeShot.teeShotResult,
+                    holeScore: holeScore
+                }
+                if(hole.par != 3){
+                    driveStats.push(holeStats);
+                }
+            });
+            
+            var docCanvas = document.getElementById('driveTracker');
+            var ctx = docCanvas.getContext('2d');
+            
+            var arrowStartPosY = 435;
+            var arrowStartPosX = 410;
+            
+            var scoresFound = [];
+            for(let i = 0; i < driveStats.length; i++){
+                //Populate Legend
+                if(scoresFound.length === 0){
+                    scoresFound.push(driveStats[i]);
+                } else {
+                    var found = false;
+                    scoresFound.forEach(function(score){
+                        if(score.holeScore.scoreName === driveStats[i].holeScore.scoreName){
+                            found = true;
+                        }
+                    });
+                    if(!found){
+                        scoresFound.push(driveStats[i]);
+                    }
+                }
+                var arrowEndPosYOrig = 0;
+            	var arrowEndPosXOrig = 0;
+            	var middlePosYOrig = 0;
+            	var randx = 0;
+            	var randy = 0;
+            	if(driveStats[i].teeShotDirection === 'Right' && driveStats[i].teeShotResult === 'Rough'){
+            		arrowEndPosYOrig = 150;
+            		arrowEndPosXOrig = 290;
+            		middlePosYOrig = 150;
+            		randx = Math.floor(Math.random() * 40);
+            		randy = Math.floor(Math.random() * 40);
+            	} else if(driveStats[i].teeShotDirection === 'Right' && driveStats[i].teeShotResult === 'Bunker') {
+            		arrowEndPosYOrig = 75;
+            		arrowEndPosXOrig = 310;
+            		middlePosYOrig = 75;
+            		randx = Math.floor(Math.random() * 40);
+            		randy = Math.floor(Math.random() * 65);
+            	} else if(driveStats[i].teeShotDirection === 'Right' && driveStats[i].teeShotResult === 'Fescue') {
+            		arrowEndPosYOrig = 175;
+            		arrowEndPosXOrig = 400;
+            		middlePosYOrig = 175;
+            		randx = Math.floor(Math.random() * 40);
+            		randy = Math.floor(Math.random() * 30);
+            	} else if(driveStats[i].teeShotDirection === 'Right' && driveStats[i].teeShotResult === 'Woods') {
+            		arrowEndPosYOrig = 50;
+            		arrowEndPosXOrig = 450;
+            		middlePosYOrig = 50;
+            		randx = Math.floor(Math.random() * 25);
+            		randy = Math.floor(Math.random() * 75);
+            	} else if(driveStats[i].teeShotDirection === 'Right' && driveStats[i].teeShotResult === 'Lost Ball') {
+            		arrowEndPosYOrig = 75;
+            		arrowEndPosXOrig = 500;
+            		middlePosYOrig = 75;
+            		randx = Math.floor(Math.random() * 1);
+            		randy = Math.floor(Math.random() * 1);
+            	} else if(driveStats[i].teeShotDirection === 'Left' && driveStats[i].teeShotResult === 'Rough') {
+            		arrowEndPosYOrig = 118;
+            		arrowEndPosXOrig = 135;
+            		middlePosYOrig = 125;
+            		randx = Math.floor(Math.random() * 30);
+            		randy = Math.floor(Math.random() * 40);
+            	} else if(driveStats[i].teeShotDirection === 'Left' && driveStats[i].teeShotResult === 'Bunker') {
+            		arrowEndPosYOrig = 100;
+            		arrowEndPosXOrig = 50;
+            		middlePosYOrig = 100;
+            		randx = Math.floor(Math.random() * 75);
+            		randy = Math.floor(Math.random() * 150);
+            	} else if(driveStats[i].teeShotDirection === 'Left' && driveStats[i].teeShotResult === 'Fescue') {
+            		arrowEndPosYOrig = 142;
+            		arrowEndPosXOrig = 25;
+            		middlePosYOrig = 142;
+            		randx = Math.floor(Math.random() * 50);
+            		randy = Math.floor(Math.random() * 1);
+            	} else if(driveStats[i].teeShotDirection === 'Left' && driveStats[i].teeShotResult === 'Woods') {
+            		arrowEndPosYOrig = 30;
+            		arrowEndPosXOrig = 10;
+            		middlePosYOrig = 30;
+            		randx = Math.floor(Math.random() * 30);
+            		randy = Math.floor(Math.random() * 50);
+            	} else if(driveStats[i].teeShotDirection === 'Left' && driveStats[i].teeShotResult === 'Lost Ball') {
+            		arrowEndPosYOrig = 75;
+            		arrowEndPosXOrig = 0;
+            		middlePosYOrig = 75;
+            		randx = Math.floor(Math.random() * 1);
+            		randy = Math.floor(Math.random() * 1);
+            	} else if(driveStats[i].teeShotDirection === 'Long' && (driveStats[i].teeShotResult === 'Rough' || driveStats[i].teeShotResult === 'Fescue')) {
+            		arrowEndPosYOrig = 25;
+            		arrowEndPosXOrig = 245;
+            		middlePosYOrig = 25;
+            		randx = Math.floor(Math.random() * 40);
+            		randy = Math.floor(Math.random() * 10);
+            	} else if(driveStats[i].teeShotDirection === 'Fairway') {
+            		arrowEndPosYOrig = 100;
+            		arrowEndPosXOrig = 180;
+            		middlePosYOrig = -100;
+            		randx = Math.floor(Math.random() * 75);
+            		randy = Math.floor(Math.random() * 75);
+            	}
+            	
+            	var arrowEndPosY = arrowEndPosYOrig;
+            	var arrowEndPosX = arrowEndPosXOrig;
+            	var middlePosY = middlePosYOrig;			
+            	
+            	arrowEndPosY = arrowEndPosYOrig + randy;
+            	middlePosY = middlePosYOrig + randy;
+            	arrowEndPosX = arrowEndPosXOrig + randx;
+
+                // Clear canvas
+                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        		animatePathDrawing(ctx, arrowStartPosX, arrowStartPosY, 450, middlePosY, arrowEndPosX, arrowEndPosY, 5000, driveStats[i].holeScore.scoreColor);
+            };
+            var legendHtml = ''
+            scoresFound.sort(function (a, b) {
+                return a.holeScore.sortVal - b.holeScore.sortVal;
+            });
+            scoresFound.forEach(function(score){
+                if(score.holeScore.scoreName === 'Double Bogey'){
+                    score.holeScore.scoreName = 'Double'
+                }
+                legendHtml += "<div><span id=legend-circle style='background-color: " + score.holeScore.scoreColor + ";'> </span><span>" + score.holeScore.scoreName + "</span></div>"
+            });
+            $('#legend-values').html(legendHtml);
+        });
+    };         
+    
+    
+    /*
     $('#driving-tab').click(function() {
         
         $.get( '/mostrecentround', function(data) {
@@ -457,8 +951,8 @@
                     }
                 }
                 var holeStats = {
-                    teeShotDirection: hole.teeShotDirection,
-                    teeShotResult: hole.teeShotResult,
+                    teeShotDirection: hole.teeShot.teeShotDirection,
+                    teeShotResult: hole.teeShot.teeShotResult,
                     holeScore: holeScore
                 }
                 if(hole.par != 3){
@@ -511,6 +1005,12 @@
             		middlePosYOrig = 75;
             		randx = Math.floor(Math.random() * 40);
             		randy = Math.floor(Math.random() * 65);
+            	} else if(driveStats[i].teeShotDirection === 'Right' && driveStats[i].teeShotResult === 'Fescue') {
+            		arrowEndPosYOrig = 175;
+            		arrowEndPosXOrig = 400;
+            		middlePosYOrig = 175;
+            		randx = Math.floor(Math.random() * 40);
+            		randy = Math.floor(Math.random() * 30);
             	} else if(driveStats[i].teeShotDirection === 'Right' && driveStats[i].teeShotResult === 'Woods') {
             		arrowEndPosYOrig = 50;
             		arrowEndPosXOrig = 450;
@@ -644,7 +1144,7 @@
             });
             $('#legend-values').html(legendHtml);
         });
-    });
+    });*/
         
 </script>   
     

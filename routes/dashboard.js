@@ -15,6 +15,54 @@ router.get("/", middleware.isLoggedIn, function(req, res){
                 numNineRounds = 0,
                 totalNineScore = 0,
                 totalFullScoreToPar = 0,
+                totalFirs = 0,
+                totalDrives = 0,
+                allTeeClubs = [
+                    {
+                        clubName:'Driver',
+                        found:false
+                    },
+                    {
+                        clubName:'3W',
+                        found:false
+                    },
+                    {
+                        clubName:'5W',
+                        found:false
+                    },
+                    {
+                        clubName:'Rescue',
+                        found:false
+                    },
+                    {
+                        clubName:'3I',
+                        found:false
+                    },
+                    {
+                        clubName:'4I',
+                        found:false
+                    },
+                    {
+                        clubName:'5I',
+                        found:false
+                    },
+                    {
+                        clubName:'6I',
+                        found:false
+                    },
+                    {
+                        clubName:'7I',
+                        found:false
+                    },
+                    {
+                        clubName:'8I',
+                        found:false
+                    },
+                    {
+                        clubName:'9I',
+                        found:false
+                    }
+                ],
                 scoreByDate = [],
                 totalScoreByHolePar = {
                     parThree: {
@@ -47,9 +95,29 @@ router.get("/", middleware.isLoggedIn, function(req, res){
                         } else if(hole.par === 4) {
                             totalScoreByHolePar.parFour.score += hole.score;
                             totalScoreByHolePar.parFour.numHoles ++;
+                            totalDrives++;
+                            if(hole.teeShot.teeShotResult === "FIR"){
+                                totalFirs++;
+                            }
+                            //Found tee club
+                            allTeeClubs.forEach(function(club){
+                                if(club.clubName === hole.teeShot.teeShotClub){
+                                    club.found = true;
+                                }
+                            });
                         } else {
                             totalScoreByHolePar.parFive.score += hole.score;
                             totalScoreByHolePar.parFive.numHoles ++;
+                            totalDrives++;
+                            if(hole.teeShot.teeShotResult === "FIR"){
+                                totalFirs++;
+                            }
+                            //Found tee club
+                            allTeeClubs.forEach(function(club){
+                                if(club.clubName === hole.teeShot.teeShotClub){
+                                    club.found = true;
+                                }
+                            });
                         }
                     });
                     roundData.push(totalFullScore);
@@ -64,9 +132,29 @@ router.get("/", middleware.isLoggedIn, function(req, res){
                         } else if(hole.par === 4) {
                             totalScoreByHolePar.parFour.score += hole.score;
                             totalScoreByHolePar.parFour.numHoles ++;
+                            totalDrives++;
+                            if(hole.teeShot.teeShotResult === "FIR"){
+                                totalFirs++;
+                            }
+                            //Found tee club
+                            allTeeClubs.forEach(function(club){
+                                if(club.clubName === hole.teeShot.teeShotClub){
+                                    club.found = true;
+                                }
+                            });
                         } else {
                             totalScoreByHolePar.parFive.score += hole.score;
                             totalScoreByHolePar.parFive.numHoles ++;
+                            totalDrives++;
+                            if(hole.teeShot.teeShotResult === "FIR"){
+                                totalFirs++;
+                            }
+                            //Found tee club
+                            allTeeClubs.forEach(function(club){
+                                if(club.clubName === hole.teeShot.teeShotClub){
+                                    club.found = true;
+                                }
+                            });
                         }
                     });
                 }
@@ -83,9 +171,12 @@ router.get("/", middleware.isLoggedIn, function(req, res){
                         parThree: totalScoreByHolePar.parThree.score / totalScoreByHolePar.parThree.numHoles,
                         parFour: totalScoreByHolePar.parFour.score / totalScoreByHolePar.parFour.numHoles,
                         parFive: totalScoreByHolePar.parFive.score / totalScoreByHolePar.parFive.numHoles
+                    },
+                    drivingStats: {
+                        firPercent: (totalFirs / totalDrives) * 100
                     }
                 }
-            res.render("dashboard/index",{user:req.user, rounds:rounds, ScoreData});
+            res.render("dashboard/index",{user:req.user, rounds:rounds, ScoreData, allTeeClubs:allTeeClubs});
         }
     });
 });

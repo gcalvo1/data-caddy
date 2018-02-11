@@ -48,15 +48,19 @@ router.post("/", middleware.isLoggedIn, function(req, res){
         holes: {
             holeNumber: req.body.round.holeNumber,
             par: req.body.round.par,
-            teeShotClub: req.body.round.teeShotClub,
-            teeShotLength: req.body.round.teeShotLength,
-            teeShotDirection: req.body.round.teeShotDirection,
-            teeShotResult: req.body.round.teeShotResult,
-            approachToGreen: approachToGreen,
-            approachClub: req.body.round.approachClub,
-            approachLength: req.body.round.approachLength,
-            approachDirection: req.body.round.approachDirection,
-            approachResult: req.body.round.approachResult,
+            teeShot : {
+                teeShotClub: req.body.round.teeShotClub,
+                teeShotLength: req.body.round.teeShotLength,
+                teeShotDirection: req.body.round.teeShotDirection,
+                teeShotResult: req.body.round.teeShotResult
+            },
+            approach: {
+                approachToGreen: approachToGreen,
+                approachClub: req.body.round.approachClub,
+                approachLength: req.body.round.approachLength,
+                approachDirection: req.body.round.approachDirection,
+                approachResult: req.body.round.approachResult
+            },
             putts: req.body.round.putts,
             score: req.body.round.score
         },

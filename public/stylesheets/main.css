@@ -337,6 +337,10 @@ input, label {
     font-size: 25px;
 }
 
+.hidden {
+   display: none
+}
+
 #driveTracker {
     background: url(/img/golf_arial_fairway_small.jpg); 
     background-size: cover;
@@ -363,7 +367,7 @@ input, label {
 }
 
 #drive-tracker-legend {
-    width: 85px;
+    width: 80px;
     float: left;
     padding-left: 5px;
     padding-top: 20px;
@@ -372,11 +376,11 @@ input, label {
 #drive-tracker-legend h5 {
     font-weight: bold;
     text-decoration: underline;
-    padding-left: 7px;
+    padding-left: 5px;
 }
 
 #legend-values {
-    padding-left: 7px;
+    padding-left: 5px;
 }
 
 #legend-circle {
