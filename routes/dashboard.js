@@ -15,8 +15,6 @@ router.get("/", middleware.isLoggedIn, function(req, res){
                 numNineRounds = 0,
                 totalNineScore = 0,
                 totalFullScoreToPar = 0,
-                totalFirs = 0,
-                totalDrives = 0,
                 allTeeClubs = [
                     {
                         clubName:'Driver',
@@ -95,10 +93,6 @@ router.get("/", middleware.isLoggedIn, function(req, res){
                         } else if(hole.par === 4) {
                             totalScoreByHolePar.parFour.score += hole.score;
                             totalScoreByHolePar.parFour.numHoles ++;
-                            totalDrives++;
-                            if(hole.teeShot.teeShotResult === "FIR"){
-                                totalFirs++;
-                            }
                             //Found tee club
                             allTeeClubs.forEach(function(club){
                                 if(club.clubName === hole.teeShot.teeShotClub){
@@ -108,10 +102,6 @@ router.get("/", middleware.isLoggedIn, function(req, res){
                         } else {
                             totalScoreByHolePar.parFive.score += hole.score;
                             totalScoreByHolePar.parFive.numHoles ++;
-                            totalDrives++;
-                            if(hole.teeShot.teeShotResult === "FIR"){
-                                totalFirs++;
-                            }
                             //Found tee club
                             allTeeClubs.forEach(function(club){
                                 if(club.clubName === hole.teeShot.teeShotClub){
@@ -132,10 +122,6 @@ router.get("/", middleware.isLoggedIn, function(req, res){
                         } else if(hole.par === 4) {
                             totalScoreByHolePar.parFour.score += hole.score;
                             totalScoreByHolePar.parFour.numHoles ++;
-                            totalDrives++;
-                            if(hole.teeShot.teeShotResult === "FIR"){
-                                totalFirs++;
-                            }
                             //Found tee club
                             allTeeClubs.forEach(function(club){
                                 if(club.clubName === hole.teeShot.teeShotClub){
@@ -145,10 +131,6 @@ router.get("/", middleware.isLoggedIn, function(req, res){
                         } else {
                             totalScoreByHolePar.parFive.score += hole.score;
                             totalScoreByHolePar.parFive.numHoles ++;
-                            totalDrives++;
-                            if(hole.teeShot.teeShotResult === "FIR"){
-                                totalFirs++;
-                            }
                             //Found tee club
                             allTeeClubs.forEach(function(club){
                                 if(club.clubName === hole.teeShot.teeShotClub){
@@ -171,14 +153,34 @@ router.get("/", middleware.isLoggedIn, function(req, res){
                         parThree: totalScoreByHolePar.parThree.score / totalScoreByHolePar.parThree.numHoles,
                         parFour: totalScoreByHolePar.parFour.score / totalScoreByHolePar.parFour.numHoles,
                         parFive: totalScoreByHolePar.parFive.score / totalScoreByHolePar.parFive.numHoles
-                    },
-                    drivingStats: {
-                        firPercent: (totalFirs / totalDrives) * 100
                     }
-                }
+                };
             res.render("dashboard/index",{user:req.user, rounds:rounds, ScoreData, allTeeClubs:allTeeClubs});
         }
     });
 });
+
+// //ajax
+// router.get("/teeclub", middleware.isLoggedIn, function(req, res){
+//     var teeClubSelect = req.query.teeClub;
+//     if(teeClubSelect === "All"){
+//         Round.findOne({name: teeClubSelect}).exec(function(err, course){
+//             if(err){
+//                 console.log(err);
+//             } else {
+//                 res.send({course:course}); 
+//             }
+//         });
+//     } else {
+        
+//     }
+//     Course.findOne({name: courseSelect}).exec(function(err, course){
+//         if(err){
+//             console.log(err);
+//         } else {
+//             res.send({course:course}); 
+//         }
+//     });
+// });
 
 module.exports = router;
