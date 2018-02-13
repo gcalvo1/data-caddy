@@ -287,7 +287,7 @@ input, label {
 
 .counter { 
     background-color: #ffffff; 
-    padding: 20px 0; 
+    padding: 10px 0; 
     border-radius: 5px;
 }
 
@@ -392,6 +392,104 @@ input, label {
     display: inline-block;
     background-color: blue;
     margin-right: 3px
+}
+
+#approach-miss-table-div{
+    padding-bottom: 0px
+}
+
+#miss-spread-title{
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    padding-bottom: 10px;
+}
+
+#approach-miss-table{
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.approach-miss-label{
+    border-radius: 2px;
+    background-color: rgba(0,0,0,.4);
+    color: white;
+    width: 50%;
+    height: 50%;
+    margin: auto;
+    padding-top: 5px;
+    text-align: center;
+}
+
+.approach-miss-num{
+    font-weight: bold;
+    font-size: 26px;
+}
+
+#approach-water-td{
+    background-image: url(../img/water.jpg);
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;  
+    width: 180px; height: 150px;
+    border-radius: 5px;
+}
+
+#approach-rough-td{
+    background-image: url(../img/golf-ball-deep-rough-cropped.jpg);
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;  
+    width: 180px; height: 150px;
+    border-radius: 5px;
+}
+
+#approach-fescue-td{
+    background-image: url(../img/fescue-cropped.jpg);
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover; 
+    width: 180px; height: 150px;
+    border-radius: 5px;
+}
+
+#approach-fringe-td{
+    background-image: url(../img/fringe.jpg);
+    background-repeat: no-repeat;   
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    width: 180px; height: 150px;
+    border-radius: 5px;
+}
+
+#approach-bunker-td{
+    background-image: url(../img/bunker.jpg);
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    width: 180px; height: 150px;
+    border-radius: 5px;
+}
+
+#approach-woods-td{
+    background-image: url(../img/tree-bark.jpg);
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    width: 180px; height: 150px;
+    border-radius: 5px;
 }
 
 /*Dash Left Menu*/

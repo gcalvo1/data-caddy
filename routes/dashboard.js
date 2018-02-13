@@ -61,50 +61,80 @@ router.get("/roundsdata", middleware.isLoggedIn, function(req, res){
                     eagleBetter: 0
                 },
                 scoreByDate = [],
-                allTeeClubs = [
+                allClubs = [
                     {
                         clubName:'Driver',
-                        found:false
+                        teeFound: false,
+                        approachFound: false
                     },
                     {
                         clubName:'3W',
-                        found:false
+                        teeFound: false,
+                        approachFound: false
                     },
                     {
                         clubName:'5W',
-                        found:false
+                        teeFound: false,
+                        approachFound: false
                     },
                     {
                         clubName:'Rescue',
-                        found:false
+                        teeFound:false
                     },
                     {
                         clubName:'3I',
-                        found:false
+                        teeFound: false,
+                        approachFound: false
                     },
                     {
                         clubName:'4I',
-                        found:false
+                        teeFound: false,
+                        approachFound: false
                     },
                     {
                         clubName:'5I',
-                        found:false
+                        teeFound: false,
+                        approachFound: false
                     },
                     {
                         clubName:'6I',
-                        found:false
+                        teeFound: false,
+                        approachFound: false
                     },
                     {
                         clubName:'7I',
-                        found:false
+                        teeFound: false,
+                        approachFound: false
                     },
                     {
                         clubName:'8I',
-                        found:false
+                        teeFound: false,
+                        approachFound: false
                     },
                     {
                         clubName:'9I',
-                        found:false
+                        teeFound: false,
+                        approachFound: false
+                    },
+                    {
+                        clubName:'PW',
+                        teeFound: false,
+                        approachFound: false
+                    },
+                    {
+                        clubName:'GW',
+                        teeFound: false,
+                        approachFound: false
+                    },
+                    {
+                        clubName:'SW',
+                        teeFound: false,
+                        approachFound: false
+                    },
+                    {
+                        clubName:'LW',
+                        teeFound: false,
+                        approachFound: false
                     }
                 ],
                 totalScoreByHolePar = {
@@ -154,18 +184,24 @@ router.get("/roundsdata", middleware.isLoggedIn, function(req, res){
                         totalScoreByHolePar.parFour.score += hole.score;
                         totalScoreByHolePar.parFour.numHoles ++;
                         //Found tee club
-                        allTeeClubs.forEach(function(club){
+                        allClubs.forEach(function(club){
                             if(club.clubName === hole.teeShot.teeShotClub){
-                                club.found = true;
+                                club.teeFound = true;
+                            }
+                            if(club.clubName === hole.approach.approachClub){
+                                club.approachFound = true;
                             }
                         });
                     } else {
                         totalScoreByHolePar.parFive.score += hole.score;
                         totalScoreByHolePar.parFive.numHoles ++;
                         //Found tee club
-                        allTeeClubs.forEach(function(club){
+                        allClubs.forEach(function(club){
                             if(club.clubName === hole.teeShot.teeShotClub){
-                                club.found = true;
+                                club.teeFound = true;
+                            }
+                            if(club.clubName === hole.approach.approachClub){
+                                club.approachFound = true;
                             }
                         });
                     }
@@ -186,7 +222,7 @@ router.get("/roundsdata", middleware.isLoggedIn, function(req, res){
                     parFive: totalScoreByHolePar.parFive.score / totalScoreByHolePar.parFive.numHoles
                 }
             };
-        res.send({rounds:rounds, avgScore, user: req.user, numScoreNames, allTeeClubs:allTeeClubs});
+        res.send({rounds:rounds, avgScore, user: req.user, numScoreNames, allClubs:allClubs});
     });
 });
 
