@@ -70,8 +70,8 @@
                           <li id="approach-tab-li" class="nav-item">
                             <a class="nav-link non-home-tab non-driving-tab" id="approach-tab" data-toggle="tab" href="#approach" role="tab" aria-controls="approach" aria-selected="false">Approach</a>
                           </li>
-                          <li class="nav-item">
-                            <a class="nav-link non-home-tab non-driving-tab non-approach-tab" id="short-game-tab" data-toggle="tab" href="#shortgame" role="tab" aria-controls="shortgame" aria-selected="false">Short Game</a>
+                          <li id="short-game-tab-li" class="nav-item">
+                            <a class="nav-link non-home-tab non-driving-tab non-approach-tab" id="short-game-tab" data-toggle="tab" href="#short-game" role="tab" aria-controls="short-game" aria-selected="false">Short Game</a>
                           </li>
                         </ul>
                     </div>
@@ -125,8 +125,12 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="counter">
-                                                <h2 id="fir-percent" class="timer count-title count-number-percent" data-to="" data-speed="1500"></h2>
-                                                <p class="count-text ">FIR %</p>
+                                                <span id="fir-ratio" class="dashboard-ratio">
+                                                </span>
+                                                <div>
+                                                    <h2 id="fir-percent" class="timer count-title count-number-percent with-ratio" data-to="" data-speed="1500"></h2>
+                                                    <p class="count-text ">FIR %</p>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -163,26 +167,42 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="counter">
-                                        <h2 id="tee-miss-left" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                        <p class="count-text ">Miss Left %</p>
+                                        <span id="tee-miss-left-ratio" class="dashboard-ratio">
+                                        </span>
+                                        <div>
+                                            <h2 id="tee-miss-left" class="timer count-title count-number with-ratio" data-to="" data-speed="1500"></h2>
+                                            <p class="count-text ">Miss Left %</p>
+                                        </div>
                                     </div>  
                                 </div>
                                 <div class="col-md-3">
                                     <div class="counter">
-                                        <h2 id="tee-miss-right" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                        <p class="count-text ">Miss Right %</p>
+                                        <span id="tee-miss-right-ratio" class="dashboard-ratio">
+                                        </span>
+                                        <div>
+                                            <h2 id="tee-miss-right" class="timer count-title count-number with-ratio" data-to="" data-speed="1500"></h2>
+                                            <p class="count-text ">Miss Right %</p>
+                                        </div>
                                     </div>  
                                 </div>
                                 <div class="col-md-3">
                                     <div class="counter">
-                                        <h2 id="tee-miss-long" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                        <p class="count-text ">Miss Short %</p>
+                                        <span id="tee-miss-long-ratio" class="dashboard-ratio">
+                                        </span>
+                                        <div>
+                                            <h2 id="tee-miss-long" class="timer count-title count-number with-ratio" data-to="" data-speed="1500"></h2>
+                                            <p class="count-text ">Miss Short %</p>
+                                        </div>
                                     </div>  
                                 </div>
                                 <div class="col-md-3">
                                     <div class="counter">
-                                        <h2 id="tee-miss-short" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                        <p class="count-text ">Miss Long %</p>
+                                        <span id="tee-miss-short-ratio" class="dashboard-ratio">
+                                        </span>
+                                        <div>
+                                            <h2 id="tee-miss-short" class="timer count-title count-number with-ratio" data-to="" data-speed="1500"></h2>
+                                            <p class="count-text ">Miss Long %</p>
+                                        </div>
                                     </div>  
                                 </div>
                             </div>
@@ -191,19 +211,17 @@
                             <div class="row">
                                 <div class="col-md-8">
                                     <div class="row">
-                                        <div class="col-md-2">
+                                        <div class="col-md-6">
                                             <div class="counter">
-                                                <h2 id="num-approaches" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                                <p class="count-text "># Approaches</p>
+                                                <span id="gir-ratio" class="dashboard-ratio">
+                                                </span>
+                                                <div>
+                                                    <h2 id="gir-percent" class="timer count-title count-number-percent with-ratio" data-to="" data-speed="1500"></h2>
+                                                    <p class="count-text ">GIR %</p>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-5">
-                                            <div class="counter">
-                                                <h2 id="gir-percent" class="timer count-title count-number-percent" data-to="" data-speed="1500"></h2>
-                                                <p class="count-text ">GIR %</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-5">
+                                        <div class="col-md-6">
                                             <div class="counter">
                                                 <h2 id="approach-distance" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
                                                 <p class="count-text ">Average Approach Distance</p>
@@ -293,34 +311,85 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="counter">
-                                        <h2 id="approach-miss-left" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                        <p class="count-text ">Miss Left %</p>
+                                        <span id="approach-miss-left-ratio" class="dashboard-ratio">
+                                        </span>
+                                        <div>
+                                            <h2 id="approach-miss-left" class="timer count-title count-number with-ratio" data-to="" data-speed="1500"></h2>
+                                            <p class="count-text ">Miss Left %</p>
+                                        </div>
                                     </div>  
                                 </div>
                                 <div class="col-md-3">
                                     <div class="counter">
-                                        <h2 id="approach-miss-right" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                        <p class="count-text ">Miss Right %</p>
+                                        <span id="approach-miss-right-ratio" class="dashboard-ratio">
+                                        </span>
+                                        <div>
+                                            <h2 id="approach-miss-right" class="timer count-title count-number with-ratio" data-to="" data-speed="1500"></h2>
+                                            <p class="count-text ">Miss Right %</p>
+                                        </div>
                                     </div>  
                                 </div>
                                 <div class="col-md-3">
                                     <div class="counter">
-                                        <h2 id="approach-miss-long" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                        <p class="count-text ">Miss Short %</p>
+                                        <span id="approach-miss-long-ratio" class="dashboard-ratio">
+                                        </span>
+                                        <div>
+                                            <h2 id="approach-miss-long" class="timer count-title count-number with-ratio" data-to="" data-speed="1500"></h2>
+                                            <p class="count-text ">Miss Short %</p>
+                                        </div>
                                     </div>  
                                 </div>
                                 <div class="col-md-3">
                                     <div class="counter">
-                                        <h2 id="approach-miss-short" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                        <p class="count-text ">Miss Long %</p>
+                                        <span id="approach-miss-short-ratio" class="dashboard-ratio">
+                                        </span>
+                                        <div>
+                                            <h2 id="approach-miss-short" class="timer count-title count-number with-ratio" data-to="" data-speed="1500"></h2>
+                                            <p class="count-text ">Miss Long %</p>
+                                        </div>
                                     </div>  
                                 </div>
                             </div>
                         </div>
+                        <div class="tab-pane fade" id="short-game" role="tabpanel" aria-labelledby="short-game-tab">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="counter">
+                                        <h2 id="num-scramble-attempts" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                        <p class="count-text "># Scramble Attempts</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="counter">
+                                        <span id="scramble-ratio" class="dashboard-ratio">
+                                        </span>
+                                        <div>
+                                            <h2 id="scramble-percent" class="timer count-title count-number-percent with-ratio" data-to="" data-speed="1500"></h2>
+                                            <p class="count-text ">Scramble %</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="counter">
+                                        <span id="scramble-ratio" class="dashboard-ratio">
+                                        </span>
+                                        <div>
+                                            <h2 id="sand-save-percent" class="timer count-title count-number-percent with-ratio" data-to="" data-speed="1500"></h2>
+                                            <p class="count-text ">Sand Save %</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="counter">
+                                        <h2 id="putts-per-round" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                        <p class="count-text ">Putts Per Round</p>
+                                    </div>
+                                </div>
+                            </div>    
+                        </div>
                     </div>
                 </div>
             </div>
-                <!--<div class="tab-pane fade" id="short-game" role="tabpanel" aria-labelledby="short-game-tab">...</div>-->
         </div>
     </div>
     
@@ -374,6 +443,12 @@
     $(function() {
         $('#approach-club-dropdown').change(function(){
             setApproachDashboard();
+        });
+    });
+    //Set approach data based on approach tab click
+    $(function() {
+        $('#short-game-tab').on('click', function(){
+            setShortGameDashboard();
         });
     });
     
@@ -453,6 +528,9 @@
             }
             if($('#approach-tab-li').hasClass('active')){
                 setApproachDashboard();
+            }
+            if($('#short-game-tab-li').hasClass('active')){
+                setShortGameDashboard();
             }
             
             //Set Summary Data Cards
@@ -685,12 +763,36 @@
                     long: ( totalMiss.long / totalDrives ) * 100,
                     short: ( totalMiss.short / totalDrives ) * 100
                 }
-            $("#fir-percent").html(Math.round(firPercent * 10) / 10 + "%");
-            $("#driving-distance").html(Math.round(avgDrivingDistance * 10) / 10 + " yds");
-            $("#tee-miss-right").html(Math.round(driveMissPercent.right * 10) / 10 + "%");
-            $("#tee-miss-left").html(Math.round(driveMissPercent.left * 10) / 10 + "%");
-            $("#tee-miss-long").html(Math.round(driveMissPercent.long * 10) / 10 + "%");
-            $("#tee-miss-short").html(Math.round(driveMissPercent.short * 10) / 10 + "%");
+            if(totalDrives === 0){
+                $("#driving-distance").html("N/A");
+                $("#fir-percent").html("N/A");
+                $("#tee-miss-right").html("N/A");
+                $("#tee-miss-left").html("N/A");
+                $("#tee-miss-long").html("N/A");
+                $("#tee-miss-short").html("N/A");
+                $("#fir-ratio").html("");
+                $("#tee-miss-right-ratio").html("");
+                $("#tee-miss-left-ratio").html("");
+                $("#tee-miss-long-ratio").html("");
+                $("#tee-miss-short-ratio").html("");
+            } else {
+                $("#driving-distance").html(Math.round(avgDrivingDistance * 10) / 10 + " yds");
+                $("#fir-percent").html(Math.round(firPercent * 10) / 10 + "%");
+                $("#tee-miss-right").html(Math.round(driveMissPercent.right * 10) / 10 + "%");
+                $("#tee-miss-left").html(Math.round(driveMissPercent.left * 10) / 10 + "%");
+                $("#tee-miss-long").html(Math.round(driveMissPercent.long * 10) / 10 + "%");
+                $("#tee-miss-short").html(Math.round(driveMissPercent.short * 10) / 10 + "%");
+                $("#fir-ratio").html(totalFirs + "/" + totalDrives);
+                $("#tee-miss-right-ratio").html(totalMiss.right + "/" + totalDrives);
+                $("#tee-miss-left-ratio").html(totalMiss.left + "/" + totalDrives);
+                $("#tee-miss-long-ratio").html(totalMiss.long + "/" + totalDrives);
+                $("#tee-miss-short-ratio").html(totalMiss.short + "/" + totalDrives);
+            }
+            // $("#fir-percent").html(Math.round(firPercent * 10) / 10 + "%");
+            // $("#tee-miss-right").html(Math.round(driveMissPercent.right * 10) / 10 + "%");
+            // $("#tee-miss-left").html(Math.round(driveMissPercent.left * 10) / 10 + "%");
+            // $("#tee-miss-long").html(Math.round(driveMissPercent.long * 10) / 10 + "%");
+            // $("#tee-miss-short").html(Math.round(driveMissPercent.short * 10) / 10 + "%");
             
             //Line Chart
             var series = firByDate;
@@ -776,6 +878,7 @@
             var totalGirs = 0,
                 totalApproaches = 0,
                 totalApproachDistance = 0,
+                totalHoles = 0,
                 totalMiss = {
                     right: 0,
                     left: 0,
@@ -810,6 +913,7 @@
                     roundGirData.push(round.date);
                     approachSpreadData.push(round.date);
                     round.holes.forEach(function(hole){
+                        totalHoles++;
                         if(hole.approach.approachToGreen){
                             totalApproaches++;
                             totalApproachDistance += hole.approach.approachLength;
@@ -856,6 +960,7 @@
                     roundGirData.push(round.date);
                     approachSpreadData.push(round.date);
                     round.holes.forEach(function(hole){
+                        totalHoles++;
                         if(hole.approach.approachToGreen && hole.approach.approachClub === club){
                             totalApproaches++;
                             totalApproachDistance += hole.approach.approachLength;
@@ -889,7 +994,7 @@
             }
             //Set data for selected tee club
             console.log(totalMissHazzard);
-            var girPercent = ( totalGirs / totalApproaches ) * 100,
+            var girPercent = ( totalGirs / totalHoles ) * 100,
                 avgApproachDistance = totalApproachDistance / totalApproaches,
                 approachMissPercent = {
                     right: ( totalMiss.right / totalApproaches ) * 100,
@@ -897,13 +1002,34 @@
                     long: ( totalMiss.long / totalApproaches ) * 100,
                     short: ( totalMiss.short / totalApproaches ) * 100
                 } 
-            $("#num-approaches").html(Math.round(totalApproaches * 10) / 10);
-            $("#gir-percent").html(Math.round(girPercent * 10) / 10 + "%");
+            //Protect against divide by zero
+            if(totalHoles === 0){
+                $("#gir-percent").html("N/A");
+                $("#gir-ratio").html("");
+            } else {
+                $("#gir-percent").html(Math.round(girPercent * 10) / 10 + "%");
+                $("#gir-ratio").html(totalGirs + "/" + totalHoles);
+            }
+            if(totalApproaches === 0){
+                $("#approach-miss-right").html("N/A");
+                $("#approach-miss-left").html("N/A");
+                $("#approach-miss-long").html("N/A");
+                $("#approach-miss-short").html("N/A");
+                $("#approach-miss-right-ratio").html("");
+                $("#approach-miss-left-ratio").html("");
+                $("#approach-miss-long-ratio").html("");
+                $("#approach-miss-short-ratio").html("");
+            } else {
+                $("#approach-miss-right").html(Math.round(approachMissPercent.right * 10) / 10 + "%");
+                $("#approach-miss-left").html(Math.round(approachMissPercent.left * 10) / 10 + "%");
+                $("#approach-miss-long").html(Math.round(approachMissPercent.long * 10) / 10 + "%");
+                $("#approach-miss-short").html(Math.round(approachMissPercent.short * 10) / 10 + "%");
+                $("#approach-miss-right-ratio").html(totalMiss.right + "/" + totalApproaches);
+                $("#approach-miss-left-ratio").html(totalMiss.left + "/" + totalApproaches);
+                $("#approach-miss-long-ratio").html(totalMiss.long + "/" + totalApproaches);
+                $("#approach-miss-short-ratio").html(totalMiss.short + "/" + totalApproaches);
+            }
             $("#approach-distance").html(Math.round(avgApproachDistance * 10) / 10 + " yds");
-            $("#approach-miss-right").html(Math.round(approachMissPercent.right * 10) / 10 + "%");
-            $("#approach-miss-left").html(Math.round(approachMissPercent.left * 10) / 10 + "%");
-            $("#approach-miss-long").html(Math.round(approachMissPercent.long * 10) / 10 + "%");
-            $("#approach-miss-short").html(Math.round(approachMissPercent.short * 10) / 10 + "%");
             $("#approach-miss-rough").html(Math.round(totalMissHazzard.rough * 10) / 10);
             $("#approach-miss-bunker").html(Math.round(totalMissHazzard.bunker * 10) / 10);
             $("#approach-miss-woods").html(Math.round(totalMissHazzard.woods * 10) / 10);
@@ -999,6 +1125,63 @@
         				enabled: false
         		}
             });
+        });
+    };
+    
+    function setShortGameDashboard() {
+        var numHoles = $("#num-holes-dropdown :selected").text(),
+            isFull = true;
+        if (numHoles === "9 Holes") {
+            isFull = false;
+        }
+        var parameters = { isFull: isFull };
+        $.get( '/dashboard/roundsdata', parameters, function(data) {
+            var totalScrambleAttempts = 0,
+                totalScrambles = 0,
+                totalSandSaveAttempts = 0,
+                totalSandSaves = 0,
+                totalPutts = 0,
+                totalRounds = 0
+            data.rounds.forEach(function(round){
+                totalRounds++;
+                round.holes.forEach(function(hole){
+                    totalPutts += hole.putts;
+                    if(!hole.approach.approachResult || hole.approach.approachResult != "GIR"){
+                        totalScrambleAttempts++;
+                        if(hole.score === hole.par){
+                            totalScrambles++;
+                        }
+                    }
+                    if(hole.approach.approachResult === "Bunker"){
+                        totalSandSaveAttempts++;
+                        if(hole.score === hole.par){
+                            totalSandSaves++;
+                        }
+                    }
+                });
+            });
+            var scramblePercent = ( totalScrambles / totalScrambleAttempts ) * 100,
+                sandSavePercent = ( totalSandSaves / totalSandSaveAttempts ) * 100,
+                puttsPerRound = (totalRounds / totalPutts);
+                
+            //Protect against divide by zero
+            if(totalScrambleAttempts === 0){
+                $("#scramble-percent").html("N/A");
+                $("#scramble-ratio").html("");
+            } else {
+                $("#scramble-percent").html(Math.round(scramblePercent * 10) / 10 + "%");
+                $("#scramble-ratio").html(totalScrambles + "/" + totalScrambleAttempts);
+            }
+            if(totalSandSaveAttempts === 0){
+                $("#sand-save-percent").html("N/A");
+                $("#sand-save-ratio").html("");
+            } else {
+                $("#sand-save-percent").html(Math.round(sandSavePercent * 10) / 10 + "%");
+                $("#sand-save-ratio").html(totalSandSaves + "/" + totalSandSaveAttempts);
+            }
+            //Set approach data
+            $("#num-scramble-attempts").html(Math.round(totalScrambleAttempts * 10) / 10);
+            $("#putts-per-round").html(Math.round(scramblePercent * 10) / 10);
         });
     };
     
