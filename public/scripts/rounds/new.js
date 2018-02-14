@@ -49,6 +49,7 @@ $("#course_dropdown").change(function() {
         }
         
         //Set Tees Dropdown
+        console.log(data.course);
         $(function() {
             if($('#tees_dropdown').val() == ''){
                 $('#tees_dropdown').prop("disabled", false);
