@@ -4,7 +4,13 @@
         <div id="dash-left-pane" class="col-md-2">
             <div class="row">
                     <!--<span class="glyphicon glyphicon-user"></span>-->
-                    <span id="dash-img-span"></span>
+                    <span id="dash-img-span"> 
+                        <% if(user.hasImg) { %>
+                                <img id='dash-prof-pic' src="<%= userImg %>" onerror='imgError(this);'>
+                        <% } else { %>
+                                <img id='dash-prof-pic' src="../img/blank_user.jpg" onerror='imgError(this);'>
+                        <% } %>
+                    </span>
             </div>
             <div id="dash-name" class="row">
                 <strong><%= user.name %></strong>
@@ -424,19 +430,7 @@
 <script src="../scripts/dashboard/approach/highChartsApproachSpread.js"></script>
 
 <script>
-// Dash Home
-    //Set Active Menu
-    $('.menu_options li').removeClass('active');
-    $('#dashboard_menu_option').addClass('active');
-    
-    $.get( '/userimg', function(data) {
-        if(data.userImg == null) { 
-                $('#dash-img-span').addClass("glyphicon glyphicon-user");
-        } else {
-                $('#dash-img-span').html("<img id='dash-prof-pic' src="+ data.userImg +" onerror='imgError(this);'>");
-        } 
-    });
-    
+
     function imgError(image) {
         image.onerror = "";
         $('#dash-img-span').html("");

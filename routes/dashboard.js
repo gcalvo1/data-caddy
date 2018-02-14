@@ -3,6 +3,7 @@ var router = express.Router();
 var Round = require("../models/round");
 var Course = require("../models/course");
 var middleware = require("../middleware");
+var AWS = require('aws-sdk');
 
 router.get("/", middleware.isLoggedIn, function(req, res){
     Round.find({"player.id": req.user._id}).populate("course").exec(function(err, rounds){
@@ -35,9 +36,20 @@ router.get("/", middleware.isLoggedIn, function(req, res){
             if(numNineRounds > 0){
                 roundTypes[1].found = true;
             }
-            res.render("dashboard/index",{
-                user:req.user, 
-                roundTypes:roundTypes});
+            
+            var s3Bucket = new AWS.S3({ params: {Bucket: 'data-caddy-profile-pics'} });
+            var urlParams = {Bucket: 'data-caddy-profile-pics', Key: req.user.username + '.jpg'};
+            s3Bucket.getSignedUrl('getObject', urlParams, function(err, url){
+                if(err){
+                    console.log(err);
+                } else {
+                    res.render("dashboard/index",{
+                        user:req.user, 
+                        roundTypes:roundTypes,
+                        userImg: url
+                    });
+                }
+            });
         }
     });
 });

@@ -85,17 +85,17 @@ app.get('/roundkey', function(req, res){
     });
 });
 
-app.get("/userimg", function(req, res){
-    var s3Bucket = new AWS.S3({ params: {Bucket: 'data-caddy-profile-pics'} });
-        var urlParams = {Bucket: 'data-caddy-profile-pics', Key: req.user.username + '.jpg'};
-        s3Bucket.getSignedUrl('getObject', urlParams, function(err, url){
-            if(err){
-                console.log(err);
-            } else {
-                res.send({userImg: url});
-            }
-        });
-});
+// app.get("/userimg", function(req, res){
+//     var s3Bucket = new AWS.S3({ params: {Bucket: 'data-caddy-profile-pics'} });
+//         var urlParams = {Bucket: 'data-caddy-profile-pics', Key: req.user.username + '.jpg'};
+//         s3Bucket.getSignedUrl('getObject', urlParams, function(err, url){
+//             if(err){
+//                 console.log(err);
+//             } else {
+//                 res.send({userImg: url});
+//             }
+//         });
+// });
 
 
 
