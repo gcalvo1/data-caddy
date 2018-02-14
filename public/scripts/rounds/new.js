@@ -282,21 +282,21 @@ $('#datetimepicker1').on('dp.change', function() {
                 $.each(roundObj.holes, function(i, hole) {
                     var holeNumber = hole.holeNumber;
                     var approachToGreen = 'No'
-                    if(hole.approachToGreen){
+                    if(hole.approach.approachToGreen){
                         approachToGreen = 'Yes';
                     }
                     
                     $("input#putts_" + holeNumber).val(hole.putts),
                     $("input#score_" + holeNumber).val(hole.score),
-                    teeShotClub = $("#tsc_" + holeNumber).val(hole.teeShotClub),
-                    teeShotLength = $("#tsl_" + holeNumber).val(hole.teeShotLength),
-                    teeShotDirection = $("#tsd_" + holeNumber).val(hole.teeShotDirection),
-                    teeShotResult = $("#tsr_" + holeNumber).val(hole.teeShotResult),
+                    teeShotClub = $("#tsc_" + holeNumber).val(hole.teeShot.teeShotClub),
+                    teeShotLength = $("#tsl_" + holeNumber).val(hole.teeShot.teeShotLength),
+                    teeShotDirection = $("#tsd_" + holeNumber).val(hole.teeShot.teeShotDirection),
+                    teeShotResult = $("#tsr_" + holeNumber).val(hole.teeShot.teeShotResult),
                     approachToGreen = $("#atg_" + holeNumber).val(approachToGreen),
-                    approachClub = $("#ac_" + holeNumber).val(hole.approachClub),
-                    approachLength = $("#al_" + holeNumber).val(hole.approachLength),
-                    approachDirection = $("#ad_" + holeNumber).val(hole.approachDirection),
-                    approachResult = $("#ar_" + holeNumber).val(hole.approachResult)
+                    approachClub = $("#ac_" + holeNumber).val(hole.approach.approachClub),
+                    approachLength = $("#al_" + holeNumber).val(hole.approach.approachLength),
+                    approachDirection = $("#ad_" + holeNumber).val(hole.approach.approachDirection),
+                    approachResult = $("#ar_" + holeNumber).val(hole.approach.approachResult)
                     
                     $(".atg").trigger("change");
                     

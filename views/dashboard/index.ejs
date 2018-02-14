@@ -371,7 +371,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="counter">
-                                        <span id="scramble-ratio" class="dashboard-ratio">
+                                        <span id="sand-save-ratio" class="dashboard-ratio">
                                         </span>
                                         <div>
                                             <h2 id="sand-save-percent" class="timer count-title count-number-percent with-ratio" data-to="" data-speed="1500"></h2>
@@ -385,7 +385,20 @@
                                         <p class="count-text ">Putts Per Round</p>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="counter">
+                                        <div id="trap-score-pie"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="counter">
+                                        <div id="scrambling-by-trap">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -993,7 +1006,6 @@
                 });
             }
             //Set data for selected tee club
-            console.log(totalMissHazzard);
             var girPercent = ( totalGirs / totalHoles ) * 100,
                 avgApproachDistance = totalApproachDistance / totalApproaches,
                 approachMissPercent = {
@@ -1141,10 +1153,343 @@
                 totalSandSaveAttempts = 0,
                 totalSandSaves = 0,
                 totalPutts = 0,
-                totalRounds = 0
+                totalRounds = 0,
+                traps = [ 
+                    {
+                        name: "bunker",
+                        found: false,
+                        timesInTrap: 0,
+                        score: [
+                            {
+                                name: "eagleBetter",
+                                total: 0
+                            },
+                            {
+                                name: "eagle",
+                                total: 0
+                            },
+                            {
+                                name: "birdie",
+                                total: 0
+                            },
+                            {
+                                name: "par",
+                                total: 0
+                            },
+                            {
+                                name: "bogey",
+                                total: 0
+                            },
+                            {
+                                name: "doubleBogey",
+                                total: 0
+                            },
+                            {
+                                name: "bogeyWorse",
+                                total: 0
+                            }
+                        ]
+                    },
+                    {
+                        name: "fairway",
+                        found: false,
+                        timesInTrap: 0,
+                        score: [
+                            {
+                                name: "eagleBetter",
+                                total: 0
+                            },
+                            {
+                                name: "eagle",
+                                total: 0
+                            },
+                            {
+                                name: "birdie",
+                                total: 0
+                            },
+                            {
+                                name: "par",
+                                total: 0
+                            },
+                            {
+                                name: "bogey",
+                                total: 0
+                            },
+                            {
+                                name: "doubleBogey",
+                                total: 0
+                            },
+                            {
+                                name: "bogeyWorse",
+                                total: 0
+                            }
+                        ]
+                    },
+                    {
+                        name: "fescue",
+                        found: false,
+                        timesInTrap: 0,
+                        score: [
+                            {
+                                name: "eagleBetter",
+                                total: 0
+                            },
+                            {
+                                name: "eagle",
+                                total: 0
+                            },
+                            {
+                                name: "birdie",
+                                total: 0
+                            },
+                            {
+                                name: "par",
+                                total: 0
+                            },
+                            {
+                                name: "bogey",
+                                total: 0
+                            },
+                            {
+                                name: "doubleBogey",
+                                total: 0
+                            },
+                            {
+                                name: "bogeyWorse",
+                                total: 0
+                            }
+                        ]
+                    },
+                    {
+                        name: "fringe",
+                        found: false,
+                        timesInTrap: 0,
+                        score: [
+                            {
+                                name: "eagleBetter",
+                                total: 0
+                            },
+                            {
+                                name: "eagle",
+                                total: 0
+                            },
+                            {
+                                name: "birdie",
+                                total: 0
+                            },
+                            {
+                                name: "par",
+                                total: 0
+                            },
+                            {
+                                name: "bogey",
+                                total: 0
+                            },
+                            {
+                                name: "doubleBogey",
+                                total: 0
+                            },
+                            {
+                                name: "bogeyWorse",
+                                total: 0
+                            }
+                        ]
+                    },
+                    {
+                        name: "gir",
+                        found: false,
+                        timesInTrap: 0,
+                        score: [
+                            {
+                                name: "eagleBetter",
+                                total: 0
+                            },
+                            {
+                                name: "eagle",
+                                total: 0
+                            },
+                            {
+                                name: "birdie",
+                                total: 0
+                            },
+                            {
+                                name: "par",
+                                total: 0
+                            },
+                            {
+                                name: "bogey",
+                                total: 0
+                            },
+                            {
+                                name: "doubleBogey",
+                                total: 0
+                            },
+                            {
+                                name: "bogeyWorse",
+                                total: 0
+                            }
+                        ]
+                    },
+                    {
+                        name: "rough",
+                        found: false,
+                        timesInTrap: 0,
+                        score: [
+                            {
+                                name: "eagleBetter",
+                                total: 0
+                            },
+                            {
+                                name: "eagle",
+                                total: 0
+                            },
+                            {
+                                name: "birdie",
+                                total: 0
+                            },
+                            {
+                                name: "par",
+                                total: 0
+                            },
+                            {
+                                name: "bogey",
+                                total: 0
+                            },
+                            {
+                                name: "doubleBogey",
+                                total: 0
+                            },
+                            {
+                                name: "bogeyWorse",
+                                total: 0
+                            }
+                        ]
+                    },
+                    {
+                        name: "water",
+                        found: false,
+                        timesInTrap: 0,
+                        score: [
+                            {
+                                name: "eagleBetter",
+                                total: 0
+                            },
+                            {
+                                name: "eagle",
+                                total: 0
+                            },
+                            {
+                                name: "birdie",
+                                total: 0
+                            },
+                            {
+                                name: "par",
+                                total: 0
+                            },
+                            {
+                                name: "bogey",
+                                total: 0
+                            },
+                            {
+                                name: "doubleBogey",
+                                total: 0
+                            },
+                            {
+                                name: "bogeyWorse",
+                                total: 0
+                            }
+                        ]
+                    },
+                    {
+                        name: "woods",
+                        found: false,
+                        timesInTrap: 0,
+                        score: [
+                            {
+                                name: "eagleBetter",
+                                total: 0
+                            },
+                            {
+                                name: "eagle",
+                                total: 0
+                            },
+                            {
+                                name: "birdie",
+                                total: 0
+                            },
+                            {
+                                name: "par",
+                                total: 0
+                            },
+                            {
+                                name: "bogey",
+                                total: 0
+                            },
+                            {
+                                name: "doubleBogey",
+                                total: 0
+                            },
+                            {
+                                name: "bogeyWorse",
+                                total: 0
+                            }
+                        ]
+                    }
+                ],
+                foundTraps = [];
             data.rounds.forEach(function(round){
                 totalRounds++;
                 round.holes.forEach(function(hole){
+                    traps.forEach(function(trap){
+                        if(trap.name === hole.approach.approachResult.toLowerCase()){
+                            trap.found = true;
+                            trap.timesInTrap++;
+                            //Set Score Names
+                            if(hole.score - hole.par === 0){
+                                trap.score.forEach(function(score){
+                                    if(score.name === "par"){
+                                        score.total++;
+                                    }
+                                });
+                            } else if(hole.score - hole.par === 1){
+                                trap.score.forEach(function(score){
+                                    if(score.name === "bogey"){
+                                        score.total++;
+                                    }
+                                });
+                            } else if(hole.score - hole.par === -1){
+                                trap.score.forEach(function(score){
+                                    if(score.name === "birdie"){
+                                        score.total++;
+                                    }
+                                });
+                            } else if(hole.score - hole.par === 2){
+                                trap.score.forEach(function(score){
+                                    if(score.name === "doubleBogey"){
+                                        score.total++;
+                                    }
+                                });
+                            } else if(hole.score - hole.par === -2){
+                                trap.score.forEach(function(score){
+                                    if(score.name === "eagle"){
+                                        score.total++;
+                                    }
+                                });
+                            } else if(hole.score - hole.par > 2){
+                                trap.score.forEach(function(score){
+                                    if(score.name === "bogeyWorse"){
+                                        score.total++;
+                                    }
+                                });
+                            } else if(hole.score - hole.par < -2){
+                                trap.score.forEach(function(score){
+                                    if(score.name === "eagleBetter"){
+                                        score.total++;
+                                    }
+                                });
+                            }
+                        };
+                    });
                     totalPutts += hole.putts;
                     if(!hole.approach.approachResult || hole.approach.approachResult != "GIR"){
                         totalScrambleAttempts++;
@@ -1182,6 +1527,192 @@
             //Set approach data
             $("#num-scramble-attempts").html(Math.round(totalScrambleAttempts * 10) / 10);
             $("#putts-per-round").html(Math.round(scramblePercent * 10) / 10);
+            
+            //Pie Chart
+            var colors = Highcharts.getOptions().colors,
+                categories = [], //["fescue", "fringe", "gir", "rough"],
+                data = [],
+                counter = 0;
+                traps.forEach(function(trap){
+                    var dataObjCategories = [],
+                        dataObjData = [];
+                    if(trap.found){
+                        categories.push(trap.name);
+                    }
+                    trap.score.forEach(function(score){
+                        if(score.total > 0){
+                            dataObjCategories.push(score.name);
+                            dataObjData.push(score.total);
+                        }
+                    });
+                    if(trap.found){
+                        var dataObj = {
+                            y: trap.timesInTrap,
+                            color: colors[counter],
+                            drilldown: {
+                                name: trap.name,
+                                categories: dataObjCategories,
+                                data: dataObjData,
+                                color: colors[counter]
+                            }
+                        }
+                        data.push(dataObj);
+                    }
+                    counter++;
+                });
+                var browserData = [],
+                    versionsData = [],
+                    i,
+                    j,
+                    dataLen = data.length,
+                    drillDataLen,
+                    brightness;
+            
+            
+            // Build the data arrays
+            for (i = 0; i < dataLen; i += 1) {
+            
+                // add browser data
+                browserData.push({
+                    name: categories[i],
+                    y: data[i].y,
+                    color: data[i].color
+                });
+                
+            
+                // add version data
+                drillDataLen = data[i].drilldown.data.length;
+                for (j = 0; j < drillDataLen; j += 1) {
+                    brightness = 0.2 - (j / drillDataLen) / 5;
+                    versionsData.push({
+                        name: data[i].drilldown.categories[j],
+                        y: data[i].drilldown.data[j],
+                        color: Highcharts.Color(data[i].color).brighten(brightness).get()
+                    });
+                }
+            }
+
+            // Create the chart
+            Highcharts.chart('trap-score-pie', {
+                chart: {
+                    type: 'pie'
+                },
+                title: {
+                    text: 'Score by Trap'
+                },
+                yAxis: {
+                },
+                plotOptions: {
+                    pie: {
+                        shadow: false,
+                        center: ['50%', '50%']
+                    }
+                },
+                tooltip: {
+                    valueSuffix: null
+                },
+                series: [{
+                    name: 'Times in',
+                    data: browserData,
+                    size: '60%',
+                    dataLabels: {
+                        formatter: function () {
+                            return this.y > 0 ? this.point.name.initCap() : null;
+                        },
+                        color: '#ffffff',
+                        distance: -30
+                    }
+                }, {
+                    name: 'Times Scored',
+                    data: versionsData,
+                    size: '80%',
+                    innerSize: '60%',
+                    dataLabels: {
+                        formatter: function () {
+                            // display only if larger than 1
+                            return this.y > 0 ? '<b>' + this.point.name.initCap() + ':</b> ' +
+                                this.y : null;
+                        }
+                    },
+                    id: 'versions'
+                }],
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 400
+                        },
+                        chartOptions: {
+                            series: [{
+                                id: 'versions',
+                                dataLabels: {
+                                    enabled: false
+                                }
+                            }]
+                        }
+                    }]
+                },
+                credits: {
+        				enabled: false
+        		}
+            });
+            
+            //Scrambling % by trap bar chart
+            var barCategories = [],
+                trapScramblePerc = [];
+            traps.forEach(function(trap){
+                var timesInTrap = trap.timesInTrap;
+                if(trap.found && trap.name != "gir"){
+                    barCategories.push(trap.name.initCap());
+                    trap.score.forEach(function(score){
+                        if(score.name === "par"){
+                            trapScramblePerc.push( Math.round((score.total / timesInTrap) * 100 ));
+                        }
+                    });
+                }
+            });
+            Highcharts.chart('scrambling-by-trap', {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: 'Scrambling by Trap'
+                },
+                xAxis: {
+                    categories: barCategories,
+                    title: {
+                        text: null
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    max: 100,
+                    title: {
+                        text: 'Scramble %',
+                        align: 'high'
+                    },
+                    labels: {
+                        overflow: 'justify',
+                        formatter: function() {
+                           return this.value+"%";
+                        }
+                    }
+                },
+                plotOptions: {
+                    bar: {
+                        dataLabels: {
+                            enabled: false
+                        }
+                    }
+                },
+                credits: {
+                    enabled: false
+                },
+                series: [{
+                    name: 'Scramble %',
+                    data: trapScramblePerc
+                }]
+            });
+            
         });
     };
     
@@ -1190,6 +1721,12 @@
             $('#num-holes-dropdown').trigger("change");
         }
     });
+    
+    String.prototype.initCap = function () {
+        return this.toLowerCase().replace(/(?:^|\s)[a-z]/g, function (m) {
+            return m.toUpperCase();
+        });
+    };
     
     function numCounterUpdate(){
         (function ($) {

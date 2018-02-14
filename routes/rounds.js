@@ -23,7 +23,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
     if(req.body.round.numHoles === '18 Holes'){
         isFull = true;
     }
-    if(req.body.round.approachToGreen === 'Yes')
+    if(req.body.round.approach.approachToGreen === 'Yes')
     {
         approachToGreen = true;
     }
@@ -49,17 +49,17 @@ router.post("/", middleware.isLoggedIn, function(req, res){
             holeNumber: req.body.round.holeNumber,
             par: req.body.round.par,
             teeShot : {
-                teeShotClub: req.body.round.teeShotClub,
-                teeShotLength: req.body.round.teeShotLength,
-                teeShotDirection: req.body.round.teeShotDirection,
-                teeShotResult: req.body.round.teeShotResult
+                teeShotClub: req.body.round.teeShot.teeShotClub,
+                teeShotLength: req.body.round.teeShot.teeShotLength,
+                teeShotDirection: req.body.round.teeShot.teeShotDirection,
+                teeShotResult: req.body.round.teeShot.teeShotResult
             },
             approach: {
                 approachToGreen: approachToGreen,
-                approachClub: req.body.round.approachClub,
-                approachLength: req.body.round.approachLength,
-                approachDirection: req.body.round.approachDirection,
-                approachResult: req.body.round.approachResult
+                approachClub: req.body.round.approach.approachClub,
+                approachLength: req.body.round.approach.approachLength,
+                approachDirection: req.body.round.approach.approachDirection,
+                approachResult: req.body.round.approach.approachResult
             },
             putts: req.body.round.putts,
             score: req.body.round.score
