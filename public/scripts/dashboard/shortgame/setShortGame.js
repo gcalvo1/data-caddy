@@ -373,6 +373,7 @@ function setShortGameDashboard() {
             $("#scramble-ratio").html("");
         } else {
             $("#scramble-percent").html(Math.round(scramblePercent * 10) / 10 + "%");
+            $("#scramble-percent").attr("data-to",Math.round(scramblePercent * 10) / 10 + "%");
             $("#scramble-ratio").html(totalScrambles + "/" + totalScrambleAttempts);
         }
         if(totalSandSaveAttempts === 0){
@@ -380,16 +381,21 @@ function setShortGameDashboard() {
             $("#sand-save-ratio").html("");
         } else {
             $("#sand-save-percent").html(Math.round(sandSavePercent * 10) / 10 + "%");
+            $("#sand-save-percent").attr("data-to",Math.round(sandSavePercent * 10) / 10 + "%");
             $("#sand-save-ratio").html(totalSandSaves + "/" + totalSandSaveAttempts);
         }
         //Set approach data
         $("#num-scramble-attempts").html(Math.round(totalScrambleAttempts * 10) / 10);
+        $("#num-scramble-attempts").attr("data-to",Math.round(totalScrambleAttempts * 10) / 10);
         $("#putts-per-round").html(Math.round(scramblePercent * 10) / 10);
+        $("#putts-per-round").attr("data-to",Math.round(scramblePercent * 10) / 10);
         
         //Pie Chart
         highChartsScoreByTrap(traps);
         
         //Scrambling % by trap bar chart
         highChartsScramblingByTrap(traps);
+        
+        //numCounterUpdate();
     });
 };

@@ -95,30 +95,32 @@ function setApproachDashboard() {
                 roundGirData.push(round.date);
                 approachSpreadData.push(round.date);
                 round.holes.forEach(function(hole){
-                    totalHoles++;
-                    if(hole.approach.approachToGreen && hole.approach.approachClub === club){
-                        totalApproaches++;
-                        totalApproachDistance += hole.approach.approachLength;
-                        if(hole.approach.approachResult === "GIR"){
-                            totalGirs++;
-                            roundGirs++;
-                            totalMiss.gir++;
-                            roundMiss.gir++;
-                        } else if(hole.approach.approachDirection === "Right") {
-                            totalMiss.right++;
-                            roundMiss.right++;
-                        } else if(hole.approach.approachDirection === "Left") {
-                            totalMiss.left++;
-                            roundMiss.left++;
-                        } else if(hole.approach.approachDirection === "Long") {
-                            totalMiss.long++;
-                            roundMiss.long++;
-                        } else if(hole.approach.approachDirection === "Short") {
-                            totalMiss.short++;
-                            roundMiss.short++;
+                    if(hole.approach.approachClub === club){
+                        totalHoles++;
+                        if(hole.approach.approachToGreen){
+                            totalApproaches++;
+                            totalApproachDistance += hole.approach.approachLength;
+                            if(hole.approach.approachResult === "GIR"){
+                                totalGirs++;
+                                roundGirs++;
+                                totalMiss.gir++;
+                                roundMiss.gir++;
+                            } else if(hole.approach.approachDirection === "Right") {
+                                totalMiss.right++;
+                                roundMiss.right++;
+                            } else if(hole.approach.approachDirection === "Left") {
+                                totalMiss.left++;
+                                roundMiss.left++;
+                            } else if(hole.approach.approachDirection === "Long") {
+                                totalMiss.long++;
+                                roundMiss.long++;
+                            } else if(hole.approach.approachDirection === "Short") {
+                                totalMiss.short++;
+                                roundMiss.short++;
+                            }
+                            //Set hazard miss
+                            totalMissHazzard[hole.approach.approachResult.toLowerCase()]++;
                         }
-                        //Set hazard miss
-                        totalMissHazzard[hole.approach.approachResult.toLowerCase()]++;
                     }
                 });
                 roundGirData.push(roundGirs);

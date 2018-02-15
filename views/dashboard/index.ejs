@@ -431,13 +431,6 @@
 
 <script>
 
-    function imgError(image) {
-        image.onerror = "";
-        $('#dash-img-span').html("");
-        $('#dash-img-span').addClass("glyphicon glyphicon-user");
-        return true;
-    }
-    
     //numCounterUpdate();
     
     //Set driving data based on driving tab click
@@ -458,30 +451,28 @@
             setApproachDashboard();
         });
     });
-    //Set approach data based on filter change
-    $(function() {
-        $('#approach-club-dropdown').change(function(){
-            setApproachDashboard();
-        });
-    });
     //Set approach data based on approach tab click
     $(function() {
         $('#short-game-tab').on('click', function(){
             setShortGameDashboard();
         });
     });
+    //Set approach data based on filter change
+    $(function() {
+        $('#approach-club-dropdown').change(function(){
+            setApproachDashboard();
+        });
+    });
     
     //Toggle filters
     $('#driving-tab').on('click', function(){
         $('#tee-club-dropdown-div').removeClass("hidden");
-        //$('#tee-club-dropdown').trigger("change");
     });
     $('.non-driving-tab').on('click', function(){
         $('#tee-club-dropdown-div').addClass("hidden");
     });
     $('#approach-tab').on('click', function(){
         $('#approach-club-dropdown-div').removeClass("hidden");
-        //$('#approach-club-dropdown').trigger("change");
     });
     $('.non-approach-tab').on('click', function(){
         $('#approach-club-dropdown-div').addClass("hidden");
@@ -515,7 +506,7 @@
     
     //On NumHoles change update: filters & data 
     $('#num-holes-dropdown').change(function(){
-        setSummary();
+         setSummary();
     });
     
     $(function() {
@@ -530,7 +521,7 @@
         });
     };
     
-    /*function numCounterUpdate(){
+    function numCounterUpdate(){
         (function ($) {
         	$.fn.countTo = function (options) {
         		options = options || {};
@@ -540,7 +531,7 @@
         			var settings = $.extend({}, $.fn.countTo.defaults, {
         				from:            $(this).data('from'),
         				to:              $(this).data('to'),
-        				speed:           $(this).data('speed'),
+        				speed:           75,
         				refreshInterval: $(this).data('refresh-interval'),
         				decimals:        $(this).data('decimals')
         			}, options);
@@ -630,12 +621,12 @@
         	  return value.toFixed(options.decimals).replace(/\B(?=(?:\d{3})+(?!\d))/g, ',') + " %";
         	}
           });
-          $('.count-number').data('countToOptions', {
+            $('.count-number').data('countToOptions', {
               formatter: function (value, options) {
-        	  return value.toFixed(options.decimals).replace(/\B(?=(?:\d{3})+(?!\d))/g, ',');
-        	}
-          });
-          
+              return value.toFixed(options.decimals).replace(/\B(?=(?:\d{3})+(?!\d))/g, ',');
+            }
+            });
+
           // start all the timers
           $('.timer').each(count);  
           
@@ -645,6 +636,6 @@
         	$this.countTo(options);
           }
         });
-    }*/
+    }
 </script>
 <% include ../partials/footer %>
