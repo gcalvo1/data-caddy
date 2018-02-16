@@ -1,10 +1,10 @@
-function setShortGameDashboard() {
-    var numHoles = $("#num-holes-dropdown :selected").text(),
-        isFull = true;
-    if (numHoles === "9 Holes") {
-        isFull = false;
-    }
-    var parameters = { isFull: isFull };
+function setShortGame(parameters) {
+    // var numHoles = $("#num-holes-dropdown :selected").text(),
+    //     isFull = true;
+    // if (numHoles === "9 Holes") {
+    //     isFull = false;
+    // }
+    // var parameters = { isFull: isFull };
     $.get( '/dashboard/roundsdata', parameters, function(data) {
         var totalScrambleAttempts = 0,
             totalScrambles = 0,

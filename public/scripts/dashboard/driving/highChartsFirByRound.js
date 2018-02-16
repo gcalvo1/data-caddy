@@ -1,5 +1,5 @@
 function highChartsFirByRound(firbyDate){
-    var series = firByDate;
+    var series = firbyDate;
     //Sort Data
     function compare(a,b) {
       if (a < b)
@@ -17,7 +17,7 @@ function highChartsFirByRound(firbyDate){
     //Create the chart
     Highcharts.chart('fir-per-round-line', {
         chart: {
-            height: 407,
+            height: 418,
             type: 'line'
         },
         title: {

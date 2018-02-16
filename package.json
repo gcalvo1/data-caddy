@@ -9,6 +9,7 @@
   "author": "George Calvo",
   "license": "ISC",
   "dependencies": {
+    "@fengyuanchen/datepicker": "^0.6.4",
     "aws-sdk": "^2.189.0",
     "body-parser": "^1.18.2",
     "connect-flash": "^0.1.1",

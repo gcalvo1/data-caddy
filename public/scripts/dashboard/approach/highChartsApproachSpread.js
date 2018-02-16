@@ -30,7 +30,8 @@ function highChartsApproachSpread(approachSpreadByDate){
     
     Highcharts.chart('approach-spray-area', {
         chart: {
-            type: 'area'
+            type: 'area',
+            height: 408
         },
         title: {
             text: 'Approach Spread'

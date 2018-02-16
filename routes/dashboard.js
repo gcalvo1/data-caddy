@@ -37,7 +37,13 @@ router.get("/", middleware.isLoggedIn, function(req, res){
                 roundTypes[1].found = true;
             }
             
-            var s3Bucket = new AWS.S3({ params: {Bucket: 'data-caddy-profile-pics'} });
+            res.render("dashboard/index",{
+                        user:req.user, 
+                        roundTypes:roundTypes,
+                        userImg: null
+                    });
+            
+            /*var s3Bucket = new AWS.S3({ params: {Bucket: 'data-caddy-profile-pics'} });
             var urlParams = {Bucket: 'data-caddy-profile-pics', Key: req.user.username + '.jpg'};
             s3Bucket.getSignedUrl('getObject', urlParams, function(err, url){
                 if(err){
@@ -49,13 +55,13 @@ router.get("/", middleware.isLoggedIn, function(req, res){
                         userImg: url
                     });
                 }
-            });
+            });*/
         }
     });
 });
 
 router.get("/roundsdata", middleware.isLoggedIn, function(req, res){
-    Round.find({"player.id": req.user._id, isFull: req.query.isFull}).populate("course").exec(function(err, rounds){
+    Round.find({"player.id": req.user._id, isFull: req.query.isFull, date: {$gte: req.query.dateFrom,$lte: req.query.dateTo}}).populate("course").exec(function(err, rounds){
         if(err){
             console.log(err);
         } else {

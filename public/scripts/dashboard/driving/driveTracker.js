@@ -1,5 +1,8 @@
 function driveTracker(isFull, club) {
     $.get( 'dashboard/mostrecentround', isFull, function(data) {
+        //Set Drive Tracker round date in dashboard
+        var date = new Date(data.mostRecentRound[0].date);
+        $('#drive-tracker-date').html(" - " + date.toISOString().split('T')[0]);
         var driveStats = [];
         data.mostRecentRound[0].holes.forEach(function(hole){
             var holeScore = {},
@@ -33,7 +36,7 @@ function driveTracker(isFull, club) {
                         sortVal: 6
                     }
                 } else if(hole.score - hole.par === -2){
-                    nholeScore = {
+                    holeScore = {
                         scoreName: 'Eagle',
                         scoreColor: 'yellow',
                         sortVal: 2

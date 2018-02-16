@@ -1,15 +1,6 @@
-function setApproachDashboard() {
-    var numHoles = $("#num-holes-dropdown :selected").text(),
-        club = $("#approach-club-dropdown :selected").text(),
-        isFull = true;
-    if (numHoles === "9 Holes") {
-        isFull = false;
-    }
-    var parameters = { isFull: isFull, club: club };
-    // if($('#approach-li').hasClass('active')){
-    //     approachTracker(parameters, club);
-    // }
+function setApproach(parameters) {
     $.get( '/dashboard/roundsdata', parameters, function(data) {
+        
         var totalGirs = 0,
             totalApproaches = 0,
             totalApproachDistance = 0,
@@ -31,9 +22,9 @@ function setApproachDashboard() {
                 fringe: 0,
                 gir: 0
             },
-            girByDate = [];
+            girByDate = [],
             approachSpreadByDate = []
-        if(club === "All"){
+        if(parameters.club === "All"){
             data.rounds.forEach(function(round){
                 var roundGirData = [],
                     approachSpreadData = [],
@@ -95,7 +86,7 @@ function setApproachDashboard() {
                 roundGirData.push(round.date);
                 approachSpreadData.push(round.date);
                 round.holes.forEach(function(hole){
-                    if(hole.approach.approachClub === club){
+                    if(hole.approach.approachClub === parameters.club){
                         totalHoles++;
                         if(hole.approach.approachToGreen){
                             totalApproaches++;

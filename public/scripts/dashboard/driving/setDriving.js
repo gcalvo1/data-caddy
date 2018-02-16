@@ -1,14 +1,4 @@
-function setDrivingDashboard() {
-    var numHoles = $("#num-holes-dropdown :selected").text(),
-        club = $("#tee-club-dropdown :selected").text(),
-        isFull = true;
-    if (numHoles === "9 Holes") {
-        isFull = false;
-    }
-    var parameters = { isFull: isFull, club: club };
-    if($('#driving-tab-li').hasClass('active')){
-        driveTracker(parameters, club);
-    }
+function setDriving(parameters) {
     $.get( '/dashboard/roundsdata', parameters, function(data) {
         var totalFirs = 0,
             totalDrives = 0,
@@ -18,10 +8,10 @@ function setDrivingDashboard() {
                 left: 0,
                 short: 0,
                 long: 0
-            };
-            numDrivesWithDistance = 0
+            },
+            numDrivesWithDistance = 0,
             firByDate = [];
-        if(club === "All"){
+        if(parameters.club === "All"){
             data.rounds.forEach(function(round){
                 var roundFirData = [],
                     roundFirs = 0;
@@ -56,7 +46,7 @@ function setDrivingDashboard() {
                     roundFirs = 0;
                 roundFirData.push(round.date);
                 round.holes.forEach(function(hole){
-                    if(hole.par != 3 && hole.teeShot.teeShotClub === club) {
+                    if(hole.par != 3 && hole.teeShot.teeShotClub === parameters.club) {
                         totalDrives++;
                         if(hole.teeShot.teeShotResult === "FIR"){
                             totalFirs++;
