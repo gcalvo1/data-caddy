@@ -5,7 +5,7 @@
         <div>
             <h2>Register for DataCaddy  <span> <i class="fas fa-golf-ball"></i></span></h2>
             <hr>
-            <form action="/register" method="POST">
+            <form action="/register" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="username">USERNAME</label>
                     <input type="text" name="username" class="form-control" required>
@@ -30,7 +30,7 @@
                         <div class="btn btn-default image-preview-input">
                             <span class="glyphicon glyphicon-folder-open"></span>
                             <span class="image-preview-input-title">Browse</span>
-                            <input type="file" accept="image/png, image/jpeg, image/gif" name="imgfile"/> <!-- rename it -->
+                            <input type="file" accept="image/png, image/jpeg, image/gif" name="imgFile"/> <!-- rename it -->
                         </div>
                     </span>
                 </div>

@@ -1,5 +1,5 @@
 <% include ../partials/header %>
-    
+
     <div id= dashboard-container class="container-fluid">  
         <div id="dash-left-pane" class="col-md-2">
             <div class="row">
@@ -534,6 +534,12 @@
             return m.toUpperCase();
         });
     };
+    
+    
+    //Handicap Calculator
+    $.get( '/dashboard/handicapdata', function(data) {
+        console.log(data);
+    });
     
     function numCounterUpdate(){
         (function ($) {

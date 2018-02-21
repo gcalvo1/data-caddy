@@ -37,25 +37,87 @@ router.get("/", middleware.isLoggedIn, function(req, res){
                 roundTypes[1].found = true;
             }
             
-            res.render("dashboard/index",{
-                        user:req.user, 
-                        roundTypes:roundTypes,
-                        userImg: null
-                    });
+            // res.render("dashboard/index",{
+            //             user:req.user, 
+            //             roundTypes:roundTypes,
+            //             userImg: null
+            //         });
+                    
+            AWS.config.loadFromPath('./s3_config.json');
             
-            /*var s3Bucket = new AWS.S3({ params: {Bucket: 'data-caddy-profile-pics'} });
+            var s3Bucket = new AWS.S3({ params: {Bucket: 'data-caddy-profile-pics'} });
             var urlParams = {Bucket: 'data-caddy-profile-pics', Key: req.user.username + '.jpg'};
             s3Bucket.getSignedUrl('getObject', urlParams, function(err, url){
                 if(err){
                     console.log(err);
                 } else {
+                    console.log(url);
                     res.render("dashboard/index",{
                         user:req.user, 
                         roundTypes:roundTypes,
                         userImg: url
                     });
                 }
-            });*/
+            });
+        }
+    });
+});
+
+
+router.get("/handicapdata", middleware.isLoggedIn, function(req, res){
+    Round.find({"player.id": req.user._id, isFull:true}).populate("course").exec(function(err, rounds){
+        if(err){
+            console.log(err);
+        } else {
+            function compare(a,b) {
+              if (a < b)
+                return -1;
+              if (a > b)
+                return 1;
+              return 0;
+            }
+            rounds.sort(compare);
+            //get latest 20 rounds
+            //Change to 5
+            if(rounds.length < 1){
+                //res.send({handicapIndex: null})
+            }
+            else {
+                var differentials = [];
+                rounds.forEach(function(round){
+                    var ags = 0;
+                    round.holes.forEach(function(hole){
+                        if(hole.score - hole.par > 2){
+                            hole.score = hole.par + 2
+                        }
+                        ags += hole.score;
+                    });
+                    
+                    var slope = 0,
+                        rating = 0;
+                    round.course[0].tees.forEach(function(tee){
+                        if(round.tees === tee.color){
+                            slope = tee.slope;
+                            rating = tee.rating;
+                        }
+                    });
+                    
+                    var handicapDifferential = (ags - rating) * 113 / slope;
+                    differentials.push(handicapDifferential);
+                });
+                
+                differentials.sort(compare);
+                //determine what differentials to use based on the number of rounds recorded
+                
+                var count = 0,
+                    differentialSum = 0;
+                differentials.forEach(function(differential){
+                    count++;
+                    differentialSum += differential;
+                });
+                var handicapIndex = (differentialSum / count) * .96;
+                res.send({handicapIndex:handicapIndex});
+            }
         }
     });
 });

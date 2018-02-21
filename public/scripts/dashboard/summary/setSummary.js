@@ -8,6 +8,7 @@ function setSummary(parameters){
     //$('#tee-club-dropdown').trigger("change");
     //$('#approach-club-dropdown').trigger("change");
     $.get( '/dashboard/roundsdata', parameters, function(data) {
+        
         //Set Summary Data Cards
         $('#scoring-avg').html(Math.round(data.avgScore.avgScore * 10) / 10);
         $('#scoring-avg').attr("data-to",Math.round(data.avgScore.avgScore * 10) / 10);

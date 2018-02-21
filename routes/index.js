@@ -3,6 +3,12 @@ var router = express.Router();
 var passport = require("passport");
 var User = require("../models/user");
 var AWS = require('aws-sdk');
+var multer  = require('multer');
+var multerS3 = require('multer-s3');
+var path = require("path");
+
+AWS.config.loadFromPath('./s3_config.json');
+var s3 = new AWS.S3();
 
 //Route route
 router.get("/", function(req,res){
@@ -15,37 +21,45 @@ router.get("/register", function(req, res){
 });
 
 router.post("/register", function(req, res){
-    // Upload img file to S3
-    // var imgPath = req.files;
-    // console.log(imgPath);
-    // var s3Bucket = new AWS.S3( { params: {Bucket: 'data-caddy-profile-pics'} } )
-    // var data = {Key: req.body.username + '.jpg' , Body: imgPath};
-    // s3Bucket.putObject(data, function(err, data){
-    //   if (err) 
-    //     { console.log('Error uploading data: ', data); 
-    //     } else {
-    //       console.log('succesfully uploaded the image!');
-    //     }
-    // });
+    var hasImg = false;
+    const upload = multer({
+        storage: multerS3({
+            s3: s3,
+            bucket: 'data-caddy-profile-pics',
+            acl: 'public-read',
+            key: function (request, file, cb) {
+              cb(null, req.body.username + path.extname(file.originalname));
+            }
+        })
+    }).array('imgFile', 1);
     
-    var newUser = new User(
-                            {
-                                username: req.body.username,
-                                email: req.body.email,
-                                name: req.body.name,
-                                role: "user",
-                                signUpDate: Date.now()
-                            });
-    User.register(newUser, req.body.password, function(err, user){
-        if(err){
-            console.log(err);
-            req.flash("error", err.message);
-            return res.render("register");
+    
+    upload(req, res, function (error) {
+        if (error) {
+          console.log(error);
+        } else {
+            hasImg = true;
+            var newUser = new User(
+                                    {
+                                        username: req.body.username,
+                                        email: req.body.email,
+                                        name: req.body.name,
+                                        hasImg: hasImg,
+                                        role: "user",
+                                        signUpDate: Date.now()
+                                    });
+            User.register(newUser, req.body.password, function(err, user){
+                if(err){
+                    console.log(err);
+                    req.flash("error", err.message);
+                    return res.render("register");
+                }
+                passport.authenticate("local")(req, res, function(){
+                    req.flash("success", "Welcome to DataCaddy " + user.username);
+                    res.redirect("/dashboard");   
+                });
+            });
         }
-        passport.authenticate("local")(req, res, function(){
-            req.flash("success", "Welcome to DataCaddy " + user.username);
-            res.redirect("/dashboard");   
-        });
     });
 });
 

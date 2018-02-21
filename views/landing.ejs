@@ -1,93 +1,44 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>DataCaddy</title>
+<% include ./partials/header %>
         
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
-        <link rel="stylesheet" href="/stylesheets/main.css">
-        <link rel="stylesheet" href="/stylesheets/landing.css">
-        
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
-        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
-        <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript" async></script>
-    </head>
-    <script src="../scripts/header.js"></script>
-    <body>
-      <nav class="navbar navbar-inverse">
-          <div class="container-fluid">
-              <div class="navbar-header">
-                  <a class="navbar-brand" href="/">DataCaddy</a>
-              </div>
-              <ul class="nav navbar-nav menu_options">
-                <li id="home_menu_option"><a href="/">Home</a></li>  
-                <li id="rounds_menu_option"><a href="/rounds">Rounds</a></li>
-                <li id="new_menu_option"><a href=/rounds/new>New Round</a></li>
-                <li><a href="/dashboard">Dashboard</a></li>
-              </ul>
-              <div>
-                  <ul class="nav navbar-nav navbar-right">
-                      <% if(!currentUser){ %>
-                          <ul class="nav navbar-nav navbar-right">
-                              <form class="navbar-form" action="/" method="POST">
-                                  <div class="form-group">
-                                      <label for="username">Username</label>
-                                      <input type="text" name="username" class="form-control login-input">
-                                  </div>
-                                  <div class="form-group">
-                                      <label for="password">Password</label>
-                                      <input type="password" name="password" class="form-control login-input">
-                                  </div>
-                                  <button type="submit" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-log-in"></span> Login</button>
-                                  <button type="button" class="btn btn-default btn-xs" onclick="location.href='/register';"><span class="glyphicon glyphicon-user"></span> Sign Up</button>
-                              </form>
-                          </ul>
-                      <% } else { %>
-                          <li class="dropdown">
-                              <a class="dropdown-toggle" data-toggle="dropdown" href=""><span class="glyphicon glyphicon-user"></span>      <%= currentUser.name %>
-                              <span class="caret"></span></a>
-                              <ul class="dropdown-menu">
-                                <li><a class="user_dropdown" href="#">Profile</a></li>
-                                <li><a class="user_dropdown" href="#">Sometihng Else</a></li>
-                                <li><a class="user_dropdown" href="/logout">Logout</a></li>
-                              </ul>
-                          </li>
-                      <% } %>
-                  </ul>
-              </div>
-          </div>
-      </nav>
-
-      <div class="container">
-      
-          <% if(error && error.length > 0){ %>
-              <div class="alert alert-danger" role="alert">
-                  <%= error %>
-              </div>
-          <% } %>
-          <% if(success && success.length > 0){ %>
-              <div class="alert alert-success" role="alert">
-                  <%= success %>
-              </div>
-          <% } %>
+  <div id="home-title">
+          
+    <div id="landing-header">
+      <h1>DATA CADDY</h1>
+      <a href="/register" class="btn btn-lg btn-success">Sign Up</a>
+    </div>
+  </div>
+     
+  <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner">
+      <div class="item active">
+        <img src="./img/green_dusk.jpg" alt="Green Dusk">
       </div>
-      <div class="container">
-        <div id="landing-header">
-          <h1>Welcome to DataCaddy!</h1>
-          <a href="/register" class="btn btn-lg btn-success">Sign Up</a>
-        </div>
-        
-        <ul class="slideshow">
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-        </ul>
+      <div class="item">
+        <img src="./img/fairway_ocean.jpg" alt="Fairway Ocean">
       </div>
-      
-      <script src="../scripts/landing.js"></script>  
+      <div class="item">
+        <img src="./img/green_shadow.jpg" alt="Green Shadow">
+      </div>
+      <div class="item">
+        <img src="./img/fairway_cart.jpg" alt="Green Shadow">
+      </div>
+      <div class="item">
+        <img src="./img/full_view.jpg" alt="Full View">
+      </div>
+    </div>
+  </div>
+  
+  <script src="../scripts/landing.js"></script>  
+  <script src="../scripts/header.js"></script>
+  <script>
+    $(document).ready(function () {
+        $('.carousel').carousel({
+            interval: 5000
+        });
+    
+        $('.carousel').carousel('cycle');
+    });
+  </script>
+  
 <% include partials/footer %>

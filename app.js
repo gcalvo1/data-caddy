@@ -10,7 +10,9 @@ var express = require("express"),
     Round = require("./models/round"),
     User = require("./models/user"),
     AWS = require('aws-sdk'),
+    busboy = require('connect-busboy'),
     seedDB = require("./seeds");
+    
     
 //Requiring routes    
 var roundRoutes = require("./routes/rounds"),
@@ -18,7 +20,7 @@ var roundRoutes = require("./routes/rounds"),
     dashboardRoutes = require("./routes/dashboard");
 
 mongoose.connect("mongodb://localhost/data_caddy");
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: true, uploadDir:'./uploads'}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public")); 
 app.use(methodOverride("_method"));
