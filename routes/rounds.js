@@ -17,13 +17,14 @@ router.get("/", middleware.isLoggedIn, function(req, res){
 
 //CREATE
 router.post("/", middleware.isLoggedIn, function(req, res){
+    console.log(req.body.round);
     var isFull = false;
     var approachToGreen = false;
     
     if(req.body.round.numHoles === '18 Holes'){
         isFull = true;
     }
-    if(req.body.round.approach.approachToGreen === 'Yes')
+    if(req.body.round.approachToGreen === 'Yes')
     {
         approachToGreen = true;
     }
@@ -49,17 +50,17 @@ router.post("/", middleware.isLoggedIn, function(req, res){
             holeNumber: req.body.round.holeNumber,
             par: req.body.round.par,
             teeShot : {
-                teeShotClub: req.body.round.teeShot.teeShotClub,
-                teeShotLength: req.body.round.teeShot.teeShotLength,
-                teeShotDirection: req.body.round.teeShot.teeShotDirection,
-                teeShotResult: req.body.round.teeShot.teeShotResult
+                teeShotClub: req.body.round.teeShotClub,
+                teeShotLength: req.body.round.teeShotLength,
+                teeShotDirection: req.body.round.teeShotDirection,
+                teeShotResult: req.body.round.teeShotResult
             },
             approach: {
                 approachToGreen: approachToGreen,
-                approachClub: req.body.round.approach.approachClub,
-                approachLength: req.body.round.approach.approachLength,
-                approachDirection: req.body.round.approach.approachDirection,
-                approachResult: req.body.round.approach.approachResult
+                approachClub: req.body.round.approachClub,
+                approachLength: req.body.round.approachLength,
+                approachDirection: req.body.round.approachDirection,
+                approachResult: req.body.round.approachResult
             },
             putts: req.body.round.putts,
             score: req.body.round.score
@@ -150,7 +151,7 @@ router.get("/new", middleware.isLoggedIn, function(req, res){
 });
 
 //SHOW
-router.get("/:id", function(req, res) {
+router.get("/:id", middleware.isLoggedIn, function(req, res) {
     //find the round with id and render show page with the round
     Round.findById(req.params.id).populate("course").exec(function(err, foundRound){
       if(err){

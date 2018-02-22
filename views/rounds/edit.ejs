@@ -22,7 +22,7 @@
                 <label for="tees_dropdown">Tees:</label>
                 <select class="form-control" id="tees_dropdown">
                     <% course[0].tees.forEach(function(tee) { %>
-                        <option value=<%=tee%>><%=tee%></option>
+                        <option value=<%=tee.color%>><%=tee.color%></option>
                  <% }); %>
                 </select>
             </div>

@@ -15,12 +15,12 @@ $.get( '/coursedropdown',parameters, function(data) {
     });
 
     var score_list = [];
-    for(let i=0; i<=17; i++){
+    for(let i=1; i<=18; i++){
       score_list.push(parseInt($('#score_' + i).text())); 
     }
     
-    for(let i=0; i<=17; i++){
-        var scoreToPar = score_list[i] - par_list[i];
+    for(let i=1; i<=18; i++){
+        var scoreToPar = score_list[i - 1] - par_list[i - 1];
         if(scoreToPar == 1){
             $('#score_' + i).addClass('bogey');
         } else if(scoreToPar == -1){

@@ -33,7 +33,6 @@ router.post("/register", function(req, res){
         })
     }).array('imgFile', 1);
     
-    
     upload(req, res, function (error) {
         if (error) {
           console.log(error);

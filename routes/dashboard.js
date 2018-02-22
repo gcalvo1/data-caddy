@@ -70,21 +70,31 @@ router.get("/handicapdata", middleware.isLoggedIn, function(req, res){
             console.log(err);
         } else {
             function compare(a,b) {
-              if (a < b)
-                return -1;
-              if (a > b)
+              if (a.date < b.date)
                 return 1;
+              if (a.date > b.date)
+                return -1;
               return 0;
             }
             rounds.sort(compare);
             //get latest 20 rounds
             //Change to 5
-            if(rounds.length < 1){
-                //res.send({handicapIndex: null})
+            if(rounds.length < 5){
+                res.send({handicapIndex: null})
             }
             else {
+                var roundsTwenty = []
+                if(rounds.length > 20){
+                    for(let i=0; i<20; i++){
+                        roundsTwenty.push(rounds[i]);
+                    }
+                } else {
+                    rounds.forEach(function(round){
+                        roundsTwenty.push(round);
+                    });
+                }
                 var differentials = [];
-                rounds.forEach(function(round){
+                roundsTwenty.forEach(function(round){
                     var ags = 0;
                     round.holes.forEach(function(hole){
                         if(hole.score - hole.par > 2){
@@ -106,16 +116,59 @@ router.get("/handicapdata", middleware.isLoggedIn, function(req, res){
                     differentials.push(handicapDifferential);
                 });
                 
-                differentials.sort(compare);
+                differentials.sort();
                 //determine what differentials to use based on the number of rounds recorded
+                var selectedDifferentials = [];
+                if(differentials.length <= 6){
+                    for(let i=0; i<1; i++){
+                        selectedDifferentials.push(differentials[i]);
+                    }
+                } else if(differentials.length >= 7 && differentials.length <= 8){
+                    for(let i=0; i<2; i++){
+                        selectedDifferentials.push(differentials[i]);
+                    }
+                } else if(differentials.length >= 9 && differentials.length <= 10){
+                    for(let i=0; i<3; i++){
+                        selectedDifferentials.push(differentials[i]);
+                    }
+                } else if(differentials.length >= 11 && differentials.length <= 12){
+                    for(let i=0; i<4; i++){
+                        selectedDifferentials.push(differentials[i]);
+                    }
+                } else if(differentials.length >= 13 && differentials.length <= 14){
+                    for(let i=0; i<5; i++){
+                        selectedDifferentials.push(differentials[i]);
+                    }
+                } else if(differentials.length >= 15 && differentials.length <= 16){
+                    for(let i=0; i<6; i++){
+                        selectedDifferentials.push(differentials[i]);
+                    }
+                } else if(differentials.length == 17){
+                    for(let i=0; i<7; i++){
+                        selectedDifferentials.push(differentials[i]);
+                    }
+                } else if(differentials.length == 18){
+                    for(let i=0; i<8; i++){
+                        selectedDifferentials.push(differentials[i]);
+                    }
+                } else if(differentials.length == 19){
+                    for(let i=0; i<9; i++){
+                        selectedDifferentials.push(differentials[i]);
+                    }
+                } else if(differentials.length == 20){
+                    for(let i=0; i<10; i++){
+                        selectedDifferentials.push(differentials[i]);
+                    }
+                }
                 
                 var count = 0,
                     differentialSum = 0;
-                differentials.forEach(function(differential){
+                selectedDifferentials.forEach(function(differential){
                     count++;
                     differentialSum += differential;
                 });
                 var handicapIndex = (differentialSum / count) * .96;
+                handicapIndex = parseInt('' + (handicapIndex * 10)) / 10;
                 res.send({handicapIndex:handicapIndex});
             }
         }

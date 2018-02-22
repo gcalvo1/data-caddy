@@ -49,13 +49,12 @@ $("#course_dropdown").change(function() {
         }
         
         //Set Tees Dropdown
-        console.log(data.course);
         $(function() {
             if($('#tees_dropdown').val() == ''){
                 $('#tees_dropdown').prop("disabled", false);
                 var html = '<option value=""></option>';
                 $.each(data.course.tees, function(i, item) {
-                    html = html + '<option value="'+item+'">'+item+'</option>';
+                    html = html + '<option value="'+item.color+'">'+item.color+'</option>';
                 });
                 $('#tees_dropdown').html(html).prop('selectedIndex', 0);;
             }

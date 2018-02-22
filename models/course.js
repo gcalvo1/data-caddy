@@ -17,7 +17,13 @@ var courseSchema = new mongoose.Schema({
             }
         }
     ],
-    tees: []
+    tees: [
+        {
+            color: String,
+            rating: Number,
+            slope: Number
+        }
+    ]
 });
 
 module.exports = mongoose.model("Course", courseSchema);

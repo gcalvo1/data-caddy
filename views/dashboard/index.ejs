@@ -32,7 +32,6 @@
                                     <span><input id="date-to" class="date-filter form-control" data-toggle="datepicker"></span>
                                 </div>
                             </div>  
-                            <!--<div data-toggle="datepicker"></div>-->
                         </div>
                     </div>
                     <div id="num-holes-dropdown-div" class="form-group fg_input_head">
@@ -102,31 +101,37 @@
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade in show active" id="summary" role="tabpanel" aria-labelledby="summary-tab">
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-2">
+                                    <div class="counter">
+                                        <h2 id="handicap" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                        <p id="handicap-label" class="count-text ">Handicap</p>
+                                    </div>  
+                                </div>
+                                <div class="col-md-2">
                                     <div class="counter">
                                         <h2 id="scoring-avg" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
                                         <p class="count-text ">Scoring Average</p>
                                     </div>  
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="counter">
                                         <h2 id ="avg-score-to-par" class="timer count-title count-number-sign" data-to="" data-speed="1500"></h2>
                                         <p class="count-text ">Average Score to Par</p>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div id="left-avg-col" class="col-md-2">
                                     <div class="counter">
                                         <h2 id="par-three-scoring-avg" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
                                         <p class="count-text ">Par 3 Scoring Avg</p>
                                     </div>
                                 </div>   
-                                <div class="col-md-2">
+                                <div id="middle-avg-col" class="col-md-2">
                                     <div class="counter">
                                         <h2 id="par-four-scoring-avg" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
                                         <p class="count-text ">Par 4 Scoring Avg</p>
                                     </div>
                                 </div> 
-                                <div class="col-md-2">
+                                <div id="right-avg-col" class="col-md-2">
                                     <div class="counter">
                                         <h2 id="par-five-scoring-avg" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
                                         <p class="count-text ">Par 5 Scoring Avg</p>
@@ -539,6 +544,13 @@
     //Handicap Calculator
     $.get( '/dashboard/handicapdata', function(data) {
         console.log(data);
+        if(!data.handicapIndex){
+            $('#handicap').html("N/A");
+            $('#handicap-label').html("5+ Rounds for Handicap");
+        } else {
+            $('#handicap').html(data.handicapIndex);
+            $('#handicap').attr("data-to",data.handicapIndex);
+        }
     });
     
     function numCounterUpdate(){

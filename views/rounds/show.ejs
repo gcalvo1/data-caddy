@@ -111,7 +111,7 @@
                                 found = true;
                                 outScore += round.holes[z - 1].score %>
                                 <td>
-                                    <div id="score_<%=z - 1%>">
+                                    <div id="score_<%=round.holes[z - 1].holeNumber%>">
                                         <%= round.holes[z - 1].score %>
                                     </div>
                                 </td>
@@ -133,7 +133,7 @@
                                 found = true;
                                 inScore += round.holes[z - 1].score %>
                                 <td>
-                                    <div id="score_<%=z - 1%>">
+                                    <div id="score_<%=round.holes[z - 1].holeNumber%>">
                                         <%= round.holes[z - 1].score %>
                                     </div>
                                 </td>
