@@ -6,12 +6,15 @@
             </div>
             <div class="form-group fg_input_head">
                <label for="course_dropdown">Course:</label>
-               <select class="form-control" id="course_dropdown">
-                    <option value=""></option>
-                    <% courses.forEach(function(course){ %>
-                      <option value=<% course.name %>><%= course.name %></option>
-                    <% }); %>
-                </select>
+               <!--<select class="form-control" id="course_dropdown">-->
+               <!--     <option value=""></option>-->
+               <!--     % courses.forEach(function(course){ %>-->
+               <!--       <option value=% course.name %>>%= course.name %></option>-->
+               <!--     % }); %>-->
+               <!-- </select>-->
+                <span class="typeahead__query">
+                    <input id="course_dropdown" type="text" class="form-control typeahead" placeholder="Search Course" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                </span>
             </div>
             <div class="form-group fg_input_head">
                 <label for="holes_dropdown"># of Holes:</label>
@@ -182,4 +185,16 @@
         </div>
     </div>
 <script src="../scripts/rounds/new.js"></script>
+<script>
+    jQuery(document).ready(function() {
+        $('input.typeahead').typeahead({
+            source: function (query, process) {
+                return $.get('/allcourses', function (data) {
+                    $('input.typeahead').focus();
+                    return process(JSON.parse(data).courses.sort());
+                });
+            }
+        });
+    });
+</script>
 <% include ../partials/footer %>

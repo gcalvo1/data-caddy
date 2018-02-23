@@ -62,6 +62,21 @@ app.get('/coursedropdown', function(req, res){
     });
 });
 
+app.get('/allcourses', function(req, res){
+ 
+    Course.find().exec(function(err, courses){
+        if(err){
+            console.log(err);
+        } else {
+            var courseList = [];
+            courses.forEach(function(course){
+                courseList.push(course.name);
+            });
+            res.send({courses:courseList}); 
+        }
+    });
+});
+
 app.get('/roundkey', function(req, res){
     var isFull = false;
     if(req.query.numHoles === '18 Holes'){
@@ -86,20 +101,6 @@ app.get('/roundkey', function(req, res){
         }
     });
 });
-
-// app.get("/userimg", function(req, res){
-//     var s3Bucket = new AWS.S3({ params: {Bucket: 'data-caddy-profile-pics'} });
-//         var urlParams = {Bucket: 'data-caddy-profile-pics', Key: req.user.username + '.jpg'};
-//         s3Bucket.getSignedUrl('getObject', urlParams, function(err, url){
-//             if(err){
-//                 console.log(err);
-//             } else {
-//                 res.send({userImg: url});
-//             }
-//         });
-// });
-
-
 
 app.get("/mostrecentround", function(req, res){
     Round.find({"player.id": req.user._id}).sort({date:-1}).limit(1).populate("course").exec(function(err, mostRecentRound){

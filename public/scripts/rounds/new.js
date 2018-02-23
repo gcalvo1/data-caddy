@@ -5,83 +5,98 @@ $('#new_menu_option').addClass('active');
 //Get selection from course dropdown
 $("#course_dropdown").change(function() {
     $('.hole_desc').html('');
-    var parameters = { course: $("#course_dropdown :selected").text() };
+    var parameters = { course: $("#course_dropdown").val() };
     
     //Set hidden values for form
     $('.hidden_course').val($("#course_dropdown :selected").text());
     
     //Get numHoles options
     $.get( '/coursedropdown',parameters, function(data) {
-        $(function() {
-            //Set Hole Data
-            $.each(data.course.holes, function(i, item) {
-                //Handle Par 3 Inputs
-                if(item.par === 3) {
-                    $('#tsc_' + item.number).prop("disabled", true);
-                    $('#tsl_' + item.number).prop("disabled", true);
-                    $('#tsd_' + item.number).prop("disabled", true);
-                    $('#tsr_' + item.number).prop("disabled", true);
-                    $('#atg_' + item.number).prop("disabled", true).prop('selectedIndex', 1);
-                }
-                else {
-                    $('#tsc_' + item.number).prop("disabled", false);
-                    $('#tsl_' + item.number).prop("disabled", false);
-                    $('#tsd_' + item.number).prop("disabled", false);
-                    $('#tsr_' + item.number).prop("disabled", false);
-                    $('#atg_' + item.number).prop("disabled", false).prop('selectedIndex', 0);
-                }
-            });
-        });
-        
-        //Set nine hole dropdown
-        if(data.course.isNine && $('#hidden_edit_1').val() != 'edit'){
+        if(data.course){
             $(function() {
-                $('#holes_dropdown').prop("disabled", false);
-                $('#holes_dropdown').html('<option value=""></option><option value="eighteen">18 Holes</option><option value="front">Front 9</option><option value="back">Back 9</option>');
-            });    
-        } else if(!data.course.isNine && $('#hidden_edit_1').val() != 'edit'){
-            $('#holes_dropdown').html('<option value="eighteen">18 Holes</option>');
-            $('#holes_dropdown').prop('selectedIndex', 0);
-            $('#holes_dropdown').prop("disabled", true);
+                //Set Hole Data
+                $.each(data.course.holes, function(i, item) {
+                    //Handle Par 3 Inputs
+                    if(item.par === 3) {
+                        $('#tsc_' + item.number).prop("disabled", true);
+                        $('#tsl_' + item.number).prop("disabled", true);
+                        $('#tsd_' + item.number).prop("disabled", true);
+                        $('#tsr_' + item.number).prop("disabled", true);
+                        $('#atg_' + item.number).prop("disabled", true).prop('selectedIndex', 1);
+                    }
+                    else {
+                        $('#tsc_' + item.number).prop("disabled", false);
+                        $('#tsl_' + item.number).prop("disabled", false);
+                        $('#tsd_' + item.number).prop("disabled", false);
+                        $('#tsr_' + item.number).prop("disabled", false);
+                        $('#atg_' + item.number).prop("disabled", false).prop('selectedIndex', 0);
+                    }
+                });
+            });
             
-            fadeInHoles(1, 18);
-            $('.hidden_num_holes').val('18 Holes');
-        }
-        
-        //Set Tees Dropdown
-        $(function() {
-            if($('#tees_dropdown').val() == ''){
+            //Set nine hole dropdown
+            if(data.course.isNine && $('#hidden_edit_1').val() != 'edit'){
+                $(function() {
+                    $('#holes_dropdown').prop("disabled", false);
+                    $('#holes_dropdown').html('<option value=""></option><option value="eighteen">18 Holes</option><option value="front">Front 9</option><option value="back">Back 9</option>');
+                });    
+            } else if(!data.course.isNine && $('#hidden_edit_1').val() != 'edit'){
+                $('#holes_dropdown').html('<option value="eighteen">18 Holes</option>');
+                $('#holes_dropdown').prop('selectedIndex', 0);
+                $('#holes_dropdown').prop("disabled", true);
+                
+                fadeInHoles(1, 18);
+                $('.hidden_num_holes').val('18 Holes');
+            }
+            
+            //Set Tees Dropdown
+            if($('#tees_dropdown').val() == '' || $('#tees_dropdown').val() == 'Select Course'){
                 $('#tees_dropdown').prop("disabled", false);
                 var html = '<option value=""></option>';
                 $.each(data.course.tees, function(i, item) {
                     html = html + '<option value="'+item.color+'">'+item.color+'</option>';
                 });
                 $('#tees_dropdown').html(html).prop('selectedIndex', 0);;
+            } else {
+                
             }
-        });
-        
-        //Set course img
-        $('#input_img_div').html("");
-        $('#input_img_div').html("<img id='input_img' src='"+ data.course.img + "' alt=''>");
-        $('#input_img').addClass("thumb_img");
-        
+            
+            //Set course img
+            $('#input_img_div').html("");
+            $('#input_img_div').html("<img id='input_img' src='"+ data.course.img + "' alt=''>");
+            $('#input_img').addClass("thumb_img");
+            
+            $.each(data.course.holes, function(i, item) {
+                $('#hole_' + item.number).html('<p><strong>' + item.number + '</strong></p><p>Par '+ item.par +'</p>');
+                $('#hidden_par_' + item.number).val(item.par);
+            });
+            
+        } else {
+            $('#holes_dropdown').html("<option value='Select Course'>Select Course</option>");
+            $('#holes_dropdown').prop("disabled", true);
+            $('#tees_dropdown').html("<option value='Select Course'>Select Course</option>");
+            $('#tees_dropdown').prop("disabled", true);
+            $('#input_img_div').html("");
+        }
     });
 });
 
 //Set hole number and par
-$("#course_dropdown").change(function() {
-    var parameters = {course: $("#course_dropdown :selected").text()};
-    $.get( '/coursedropdown',parameters, function(data) {
-        $.each(data.course.holes, function(i, item) {
-            $('#hole_' + item.number).html('<p><strong>' + item.number + '</strong></p><p>Par '+ item.par +'</p>');
-            $('#hidden_par_' + item.number).val(item.par);
-        });
-    });
-});
+// $("#course_dropdown").change(function() {
+//     var parameters = {course: $("#course_dropdown").val()};
+//     $.get( '/coursedropdown',parameters, function(data) {
+//         if(data.course){
+//             $.each(data.course.holes, function(i, item) {
+//                 $('#hole_' + item.number).html('<p><strong>' + item.number + '</strong></p><p>Par '+ item.par +'</p>');
+//                 $('#hidden_par_' + item.number).val(item.par);
+//             });
+//         }
+//     });
+// });
 
 //Set hole yardages 
 $("#tees_dropdown").change(function() {
-    var parameters = {course: $("#course_dropdown :selected").text()};
+    var parameters = {course: $("#course_dropdown").val()};
     var teeSelection = $("#tees_dropdown :selected").text().toLowerCase();
     $.get( '/coursedropdown',parameters, function(data) {
         $('.hole_desc_yardage').remove();
