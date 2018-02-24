@@ -10,8 +10,9 @@ var express = require("express"),
     Round = require("./models/round"),
     User = require("./models/user"),
     AWS = require('aws-sdk'),
-    busboy = require('connect-busboy'),
     seedDB = require("./seeds");
+    
+require('dotenv').config();
     
     
 //Requiring routes    

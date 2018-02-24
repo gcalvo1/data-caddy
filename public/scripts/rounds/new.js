@@ -202,7 +202,64 @@ function holeSave(element) {
         approachClub = $("#ac_" + hole_submitted).val(),
         approachLength = $("#al_" + hole_submitted).val(),
         approachDirection = $("#ad_" + hole_submitted).val(),
-        approachResult = $("#ar_" + hole_submitted).val()
+        approachResult = $("#ar_" + hole_submitted).val();
+        
+    var missingData = [];
+    
+    if(!teeShotClub){
+        missingData.push({
+            name: "Tee Club",
+            id: "tsc_" + hole_submitted
+        });
+    }
+    if(!teeShotDirection){
+        missingData.push({
+            name: "Tee Direction",
+            id: "tsd_" + hole_submitted
+        });
+    }
+    if(!teeShotResult){
+        missingData.push({
+            name: "Tee Result",
+            id: "tsr_" + hole_submitted
+        });
+    }
+    if(!approachToGreen){
+        missingData.push({
+            name: "Appr. to Green",
+            id: "atg_" + hole_submitted
+        });
+    }
+    if((approachToGreen === "Yes" || !approachToGreen) && !approachClub){
+        missingData.push({
+            name: "Appr. Club",
+            id: "ac_" + hole_submitted
+        });
+    }
+    if((approachToGreen === "Yes" || !approachToGreen) && !approachDirection){
+        missingData.push({
+            name: "Appr. Direction",
+            id: "ad_" + hole_submitted
+        });
+    }
+    if((approachToGreen === "Yes" || !approachToGreen) && !approachResult){
+        missingData.push({
+            name: "Appr. Result",
+            id: "ar_" + hole_submitted
+        });
+    }
+    if(!putts){
+        missingData.push({
+            name: "Putts",
+            id: "putts_" + hole_submitted
+        });
+    }
+    if(!score){
+        missingData.push({
+            name: "Score",
+            id: "score_" + hole_submitted
+        });
+    }
   
     var data = {
         putts: putts,
@@ -223,14 +280,24 @@ function holeSave(element) {
         approachDirection: approachDirection,
         approachResult: approachResult
     };
-  
+    
+    if(missingData.length > 0){
+        var missingNames = "";
+        missingData.forEach(function(data){
+            missingNames += " " + data.name + ",";
+        });
+        alert("Missing value for" + missingNames);
+    }
+    
     $.ajax({
         url: '/rounds', 
         type: 'POST', 
-        data: {round: data},
+        data: {round: data}
     });
     
-    toggleInputs(hole_submitted,true);
+    if(missingData.length === 0){
+        toggleInputs(hole_submitted,true);
+    }
     
     return false;
 }
@@ -344,7 +411,6 @@ function toggleInputs(hole_submitted, bool){
     } else {
         $('#submit_' + hole_submitted).html('Save');
     }
-    
 }
 
 function resetInputs(hole_cleared){

@@ -38,7 +38,7 @@
     <hr class='header_hr'>
     <div class="container-fluid">
         <% for(var i = 1; i <= 18; i++) { %>
-            <form id='form_hole_<%=i%>' action="/rounds" method="POST">
+            <form id='form_hole_<%=i%>' class="round-form" action="/rounds" method="POST">
                 <div class="row form-inline input_row">
                     <div class="col-md-12">
                         <fieldset>
@@ -228,7 +228,11 @@
         setApproachResult(this);
     });
     
-    $(".save_btn").click(function() {
+    // $(".save_btn").click(function() {
+    //     holeSave(this);
+    // });
+    $('.round-form').on('submit', function(e) {
+        e.preventDefault();
         holeSave(this);
     });
     

@@ -17,127 +17,129 @@ router.get("/", middleware.isLoggedIn, function(req, res){
 
 //CREATE
 router.post("/", middleware.isLoggedIn, function(req, res){
-    console.log(req.body.round);
-    var isFull = false;
-    var approachToGreen = false;
-    
-    if(req.body.round.numHoles === '18 Holes'){
-        isFull = true;
-    }
-    if(req.body.round.approachToGreen === 'Yes')
-    {
-        approachToGreen = true;
-    }
-    
-    var roundKey = {
-        courseName: req.body.round.course,
-        isFull: isFull,
-        date: req.body.round.datetime,
-        "player.username": req.user.username
-    };
-    
-    var newRound = {
-        date: req.body.round.datetime,
-        isFull: isFull,
-        roundType: req.body.round.numHoles,
-        tees: req.body.round.tees,
-        player: {
-            id: req.user._id,
-            username: req.user.username
-        },
-        courseName: req.body.round.course,
-        holes: {
-            holeNumber: req.body.round.holeNumber,
-            par: req.body.round.par,
-            teeShot : {
-                teeShotClub: req.body.round.teeShotClub,
-                teeShotLength: req.body.round.teeShotLength,
-                teeShotDirection: req.body.round.teeShotDirection,
-                teeShotResult: req.body.round.teeShotResult
-            },
-            approach: {
-                approachToGreen: approachToGreen,
-                approachClub: req.body.round.approachClub,
-                approachLength: req.body.round.approachLength,
-                approachDirection: req.body.round.approachDirection,
-                approachResult: req.body.round.approachResult
-            },
-            putts: req.body.round.putts,
-            score: req.body.round.score
-        },
-        loadDate: Date.now()
+    if(req.body.round.putts && req.body.round.teeShotClub && req.body.round.teeShotDirection && req.body.round.teeShotResult && req.body.round.approachToGreen && (req.body.round.approachToGreen === "No" || req.body.round.approachClub) && (req.body.round.approachToGreen === "No" || req.body.round.approachDirection) && (req.body.round.approachToGreen === "No" || req.body.round.approachResult) && req.body.round.putts && req.body.round.score){
+        console.log(req.body.round);
+        var isFull = false;
+        var approachToGreen = false;
         
-    };
-    
-    console.log(roundKey);
-    
-    Round.findOne(roundKey).exec(function(err, foundRound){
-        if(err){
-            console.log(err);
-        } else {
-            if(foundRound == null) {
-                //not found round
-                //create new round
-                console.log("not found round");
-                
-                Round.create(newRound, function(err, newRound){
-                    if(err){
-                        console.log(err);
-                    } else {
-                        //Insert Course ID
-                        Course.findOne({name: newRound.courseName}, function(err, foundCourse){
+        if(req.body.round.numHoles === '18 Holes'){
+            isFull = true;
+        }
+        if(req.body.round.approachToGreen === 'Yes')
+        {
+            approachToGreen = true;
+        }
+        
+        var roundKey = {
+            courseName: req.body.round.course,
+            isFull: isFull,
+            date: req.body.round.datetime,
+            "player.username": req.user.username
+        };
+        
+        var newRound = {
+            date: req.body.round.datetime,
+            isFull: isFull,
+            roundType: req.body.round.numHoles,
+            tees: req.body.round.tees,
+            player: {
+                id: req.user._id,
+                username: req.user.username
+            },
+            courseName: req.body.round.course,
+            holes: {
+                holeNumber: req.body.round.holeNumber,
+                par: req.body.round.par,
+                teeShot : {
+                    teeShotClub: req.body.round.teeShotClub,
+                    teeShotLength: req.body.round.teeShotLength,
+                    teeShotDirection: req.body.round.teeShotDirection,
+                    teeShotResult: req.body.round.teeShotResult
+                },
+                approach: {
+                    approachToGreen: approachToGreen,
+                    approachClub: req.body.round.approachClub,
+                    approachLength: req.body.round.approachLength,
+                    approachDirection: req.body.round.approachDirection,
+                    approachResult: req.body.round.approachResult
+                },
+                putts: req.body.round.putts,
+                score: req.body.round.score
+            },
+            loadDate: Date.now()
+            
+        };
+        
+        console.log(roundKey);
+        
+        Round.findOne(roundKey).exec(function(err, foundRound){
+            if(err){
+                console.log(err);
+            } else {
+                if(foundRound == null) {
+                    //not found round
+                    //create new round
+                    console.log("not found round");
+                    
+                    Round.create(newRound, function(err, newRound){
+                        if(err){
+                            console.log(err);
+                        } else {
+                            //Insert Course ID
+                            Course.findOne({name: newRound.courseName}, function(err, foundCourse){
+                                if(err){
+                                    console.log(err);
+                                } else {
+                                    newRound.course.push(foundCourse._id);
+                                    newRound.save(function(err, data){  
+                                        if(err){
+                                            console.log(err);
+                                        } else {
+                                            req.flash("success", "Hole Saved");
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    }); 
+                } else {
+                    //found round
+                    var foundHole = false;
+                    var foundPos = 0;
+                    
+                    for (let i=0; i < foundRound.holes.length; i++) {
+                        if(foundRound.holes[i].holeNumber == newRound.holes.holeNumber){
+                            console.log("hole match");
+                            foundHole = true;
+                            foundPos = i;
+                        }
+                    }
+                    console.log(foundHole);
+                    if(foundHole){
+                        //Replace hole
+                        foundRound.holes.splice(foundPos, 1, newRound.holes);
+                        foundRound.save(function(err, data){  
                             if(err){
                                 console.log(err);
                             } else {
-                                newRound.course.push(foundCourse._id);
-                                newRound.save(function(err, data){  
-                                    if(err){
-                                        console.log(err);
-                                    } else {
-                                        req.flash("success", "Hole Saved");
-                                    }
-                                });
+                                req.flash("success", "Hole Saved");
+                            }
+                        });
+                    } else {
+                        //push new hole
+                        foundRound.holes.push(newRound.holes);
+                        foundRound.save(function(err, data){  
+                            if(err){
+                                console.log(err);
+                            } else {
+                                req.flash("success", "Hole Saved");
                             }
                         });
                     }
-                }); 
-            } else {
-                //found round
-                var foundHole = false;
-                var foundPos = 0;
-                
-                for (let i=0; i < foundRound.holes.length; i++) {
-                    if(foundRound.holes[i].holeNumber == newRound.holes.holeNumber){
-                        console.log("hole match");
-                        foundHole = true;
-                        foundPos = i;
-                    }
-                }
-                console.log(foundHole);
-                if(foundHole){
-                    //Replace hole
-                    foundRound.holes.splice(foundPos, 1, newRound.holes);
-                    foundRound.save(function(err, data){  
-                        if(err){
-                            console.log(err);
-                        } else {
-                            req.flash("success", "Hole Saved");
-                        }
-                    });
-                } else {
-                    //push new hole
-                    foundRound.holes.push(newRound.holes);
-                    foundRound.save(function(err, data){  
-                        if(err){
-                            console.log(err);
-                        } else {
-                            req.flash("success", "Hole Saved");
-                        }
-                    });
                 }
             }
-        }
-    });
+        });
+    }
 });
 
 router.get("/new", middleware.isLoggedIn, function(req, res){
