@@ -543,7 +543,6 @@
     
     //Handicap Calculator
     $.get( '/dashboard/handicapdata', function(data) {
-        console.log(data);
         if(!data.handicapIndex){
             $('#handicap').html("N/A");
             $('#handicap-label').html("5+ Rounds for Handicap");

@@ -1,14 +1,10 @@
-//Set Active Menu
-$('.menu_options li').removeClass('active');
-$('#new_menu_option').addClass('active');
-
 //Get selection from course dropdown
-$("#course_dropdown").change(function() {
+function courseDropdownChange() {
     $('.hole_desc').html('');
     var parameters = { course: $("#course_dropdown").val() };
     
     //Set hidden values for form
-    $('.hidden_course').val($("#course_dropdown :selected").text());
+    $('.hidden_course').val($("#course_dropdown").val());
     
     //Get numHoles options
     $.get( '/coursedropdown',parameters, function(data) {
@@ -72,6 +68,7 @@ $("#course_dropdown").change(function() {
             });
             
         } else {
+            $('#invalid-course').html("<i class='fa fa-times-circle-o'></i> Invalid Course");
             $('#holes_dropdown').html("<option value='Select Course'>Select Course</option>");
             $('#holes_dropdown').prop("disabled", true);
             $('#tees_dropdown').html("<option value='Select Course'>Select Course</option>");
@@ -79,23 +76,10 @@ $("#course_dropdown").change(function() {
             $('#input_img_div').html("");
         }
     });
-});
+}
 
-//Set hole number and par
-// $("#course_dropdown").change(function() {
-//     var parameters = {course: $("#course_dropdown").val()};
-//     $.get( '/coursedropdown',parameters, function(data) {
-//         if(data.course){
-//             $.each(data.course.holes, function(i, item) {
-//                 $('#hole_' + item.number).html('<p><strong>' + item.number + '</strong></p><p>Par '+ item.par +'</p>');
-//                 $('#hidden_par_' + item.number).val(item.par);
-//             });
-//         }
-//     });
-// });
-
-//Set hole yardages 
-$("#tees_dropdown").change(function() {
+//Set hole yardages
+function teeDropdownChange() {
     var parameters = {course: $("#course_dropdown").val()};
     var teeSelection = $("#tees_dropdown :selected").text().toLowerCase();
     $.get( '/coursedropdown',parameters, function(data) {
@@ -111,32 +95,32 @@ $("#tees_dropdown").change(function() {
             $('.hole_desc_yardage').css("color", teeColor);
         });
     });
-});
+}
 
 //Calculate score when possible
-$(".putts").change(function() {
-    var hole_changed = this.id.split('_').pop();
-    var putts = parseInt($(this).val());
+function puttsChange(element) {
+    var hole_changed = element.id.split('_').pop();
+    var putts = parseInt($(element).val());
     var gir = $('#ar_' + hole_changed).val();
     var par = parseInt($("#hidden_par_" + hole_changed).val());
     if(gir === 'GIR'){
         $('#score_' + hole_changed).val(putts + (par - 2));
     }
-});
+}
 
 //Set Tee Result when possible
-$(".tsd").change(function() {
-    var hole_changed = this.id.split('_').pop();
-    if($(this).val() === 'Fairway'){
+function setTeeShotResult(element){
+    var hole_changed = element.id.split('_').pop();
+    if($(element).val() === 'Fairway'){
         $('#tsr_' + hole_changed).prop('selectedIndex', 1);
     } else {
         $('#tsr_' + hole_changed).prop('selectedIndex', 0);
     }
-});
+}
 
 //Disable approach inputs when approach is not to the green
-$(".atg").change(function() {
-    var hole_changed = this.id.split('_').pop();
+function SetApproachNotToGreen(element){
+    var hole_changed = element.id.split('_').pop();
     var atg = $('#atg_' + hole_changed + " :selected").text();
     if(atg === 'No'){
         $('#ac_' + hole_changed).prop('selectedIndex', 0);
@@ -153,21 +137,21 @@ $(".atg").change(function() {
         $("#ad_" + hole_changed).prop("disabled", false);
         $("#ar_" + hole_changed).prop("disabled", false);
     }
-});
+}
 
 //Set Appr. Result when possible
-$(".ad").change(function() {
-    var hole_changed = this.id.split('_').pop();
-    if($(this).val() === 'Green'){
+function setApproachResult(element){
+    var hole_changed = element.id.split('_').pop();
+    if($(element).val() === 'Green'){
         $('#ar_' + hole_changed).prop('selectedIndex', 1);
     } else {
         $('#ar_' + hole_changed).prop('selectedIndex', 0);
     }
-});
+}
 
 
 //Modify hole options based on selction in number of holes dropdown
-$('#holes_dropdown').change(function(){
+function holesDropdownChange(){
     var numHoles = $('#holes_dropdown :selected').text();
     
     if (numHoles === '18 Holes') {
@@ -196,94 +180,85 @@ $('#holes_dropdown').change(function(){
             }
         }
     }
-    
     $('.hidden_num_holes').val(numHoles);
-});
+}
 
 //Save
-$(function() {
-    $(".save_btn").click(function() {
-        var hole_submitted = this.id.split('_').pop(),
-            putts = $("input#putts_" + hole_submitted).val(),
-            score = $("input#score_" + hole_submitted).val(),
-            numHoles = $("#hidden_num_holes_" + hole_submitted).val(),
-            course = $("#hidden_course_" + hole_submitted).val(),
-            datetime = new Date($("#hidden_datetime_" + hole_submitted).val()),
-            holeNumber = hole_submitted,
-            par = $("#hidden_par_" + hole_submitted).val(),
-            tees = $("#hidden_tees_" + hole_submitted).val(),
-            teeShotClub = $("#tsc_" + hole_submitted).val(),
-            teeShotLength = $("#tsl_" + hole_submitted).val(),
-            teeShotDirection = $("#tsd_" + hole_submitted).val(),
-            teeShotResult = $("#tsr_" + hole_submitted).val(),
-            approachToGreen = $("#atg_" + hole_submitted).val(),
-            approachClub = $("#ac_" + hole_submitted).val(),
-            approachLength = $("#al_" + hole_submitted).val(),
-            approachDirection = $("#ad_" + hole_submitted).val(),
-            approachResult = $("#ar_" + hole_submitted).val()
-      
-        var data = {
-            putts: putts,
-            score: score,
-            numHoles: numHoles,
-            course: course,
-            datetime: datetime,
-            holeNumber: holeNumber,
-            par: par,
-            tees: tees,
-            teeShotClub: teeShotClub,
-            teeShotLength: teeShotLength,
-            teeShotDirection: teeShotDirection,
-            teeShotResult: teeShotResult,
-            approachToGreen: approachToGreen,
-            approachClub: approachClub,
-            approachLength: approachLength,
-            approachDirection: approachDirection,
-            approachResult: approachResult
-        };
-      
-        $.ajax({
-            url: '/rounds', 
-            type: 'POST', 
-            data: {round: data},
-        });
-        
-        toggleInputs(hole_submitted,true);
-        
-        return false;       
+function holeSave(element) {
+    var hole_submitted = element.id.split('_').pop(),
+        putts = $("input#putts_" + hole_submitted).val(),
+        score = $("input#score_" + hole_submitted).val(),
+        numHoles = $("#hidden_num_holes_" + hole_submitted).val(),
+        course = $("#hidden_course_" + hole_submitted).val(),
+        datetime = new Date($("#hidden_datetime_" + hole_submitted).val()),
+        holeNumber = hole_submitted,
+        par = $("#hidden_par_" + hole_submitted).val(),
+        tees = $("#hidden_tees_" + hole_submitted).val(),
+        teeShotClub = $("#tsc_" + hole_submitted).val(),
+        teeShotLength = $("#tsl_" + hole_submitted).val(),
+        teeShotDirection = $("#tsd_" + hole_submitted).val(),
+        teeShotResult = $("#tsr_" + hole_submitted).val(),
+        approachToGreen = $("#atg_" + hole_submitted).val(),
+        approachClub = $("#ac_" + hole_submitted).val(),
+        approachLength = $("#al_" + hole_submitted).val(),
+        approachDirection = $("#ad_" + hole_submitted).val(),
+        approachResult = $("#ar_" + hole_submitted).val()
+  
+    var data = {
+        putts: putts,
+        score: score,
+        numHoles: numHoles,
+        course: course,
+        datetime: datetime,
+        holeNumber: holeNumber,
+        par: par,
+        tees: tees,
+        teeShotClub: teeShotClub,
+        teeShotLength: teeShotLength,
+        teeShotDirection: teeShotDirection,
+        teeShotResult: teeShotResult,
+        approachToGreen: approachToGreen,
+        approachClub: approachClub,
+        approachLength: approachLength,
+        approachDirection: approachDirection,
+        approachResult: approachResult
+    };
+  
+    $.ajax({
+        url: '/rounds', 
+        type: 'POST', 
+        data: {round: data},
     });
-});
+    
+    toggleInputs(hole_submitted,true);
+    
+    return false;
+}
 
  //Clear
-$(function() {
-    $(".clear_btn").click(function() {
-        var hole_cleared = this.id.split('_').pop();
-        
-        resetInputs(hole_cleared);
-        toggleInputs(hole_cleared,false);
-        
-        return false;
-    });
-});
+function holeClear(element) {
+    var hole_cleared = element.id.split('_').pop();
+    resetInputs(hole_cleared);
+    toggleInputs(hole_cleared,false);
+    return false;
+}
 
 //Edit
-$(function() {
-    $(".edit_btn").click(function() {
-        var hole_edited = this.id.split('_').pop();
-        
-        toggleInputs(hole_edited,false);
-        
-        return false;
-    });
-});
+function holeEdit(element) {
+    var hole_edited = element.id.split('_').pop();
+    
+    toggleInputs(hole_edited,false);
+    
+    return false;
+}
 
-$('#datetimepicker1').on('dp.change', function() {
+function dateInputChange(){
     var dateInput = $("#datetimepicker1").find("input").val();
     dateInput = new Date(dateInput);
     $('.hidden_datetime').val(dateInput);
     
     var parameters = { 
-        course: $("#course_dropdown :selected").text(),
+        course: $("#course_dropdown").val(),
         numHoles: $('#holes_dropdown :selected').text(),
         date: dateInput
     }
@@ -299,6 +274,11 @@ $('#datetimepicker1').on('dp.change', function() {
                     var approachToGreen = 'No'
                     if(hole.approach.approachToGreen){
                         approachToGreen = 'Yes';
+                    } else {
+                        $("#ac_" + holeNumber).prop("disabled", true);
+                        $("#al_" + holeNumber).prop("disabled", true);
+                        $("#ad_" + holeNumber).prop("disabled", true);
+                        $("#ar_" + holeNumber).prop("disabled", true);
                     }
                     
                     $("input#putts_" + holeNumber).val(hole.putts),
@@ -327,13 +307,7 @@ $('#datetimepicker1').on('dp.change', function() {
             }
         });
     });
-});
-
-
-//Datetime picker
-$(function () {
-    $('#datetimepicker1').datetimepicker();
-});
+}
 
 function fadeInHoles(startHole, endHole) {
     for(var i = startHole; i <= endHole; i++){

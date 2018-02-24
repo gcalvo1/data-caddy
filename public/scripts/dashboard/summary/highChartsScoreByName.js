@@ -1,4 +1,4 @@
-function highChartsScoreByName(numScoreNames){    
+function highChartsScoreByName(scoreNames){   
     Highcharts.chart('score-name-pie', {
         chart: {
             plotBackgroundColor: null,
@@ -11,7 +11,7 @@ function highChartsScoreByName(numScoreNames){
             text: null
         },
         tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            pointFormat: '{series.name}: <b>{point.y}</b>'
         },
         plotOptions: {
             pie: {
@@ -32,30 +32,7 @@ function highChartsScoreByName(numScoreNames){
         series: [{
             name: 'Scores',
             colorByPoint: true,
-            data: [{
-                name: 'Par',
-                y: numScoreNames.par
-                //sliced: true,
-                //selected: true
-            }, {
-                name: 'Birdie',
-                y: numScoreNames.birdie
-            }, {
-                name: 'Bogey',
-                y: numScoreNames.bogey
-            }, {
-                name: 'Eagle',
-                y: numScoreNames.eagle
-            }, {
-                name: 'Double Bogey',
-                y: numScoreNames.doubleBogey
-            }, {
-                name: 'Better Than Eagle',
-                y: numScoreNames.eagleBetter
-            }, {
-                name: 'Worse Than Bogey',
-                y: numScoreNames.bogeyWorse
-            }]
+            data: scoreNames
         }]
     });
 }

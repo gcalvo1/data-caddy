@@ -24,7 +24,7 @@ function setSummary(parameters){
         highChartsScoreByDate(data.avgScore.scoreByDate);
         
         //Score Name Pie Chart
-        highChartsScoreByName(data.numScoreNames);
+        highChartsScoreByName(data.scoreNames);
         //numCounterUpdate();
     });
 }

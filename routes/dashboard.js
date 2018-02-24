@@ -51,7 +51,6 @@ router.get("/", middleware.isLoggedIn, function(req, res){
                 if(err){
                     console.log(err);
                 } else {
-                    console.log(url);
                     res.render("dashboard/index",{
                         user:req.user, 
                         roundTypes:roundTypes,
@@ -283,7 +282,8 @@ router.get("/roundsdata", middleware.isLoggedIn, function(req, res){
                         score: 0,
                         numHoles: 0
                     }
-                };
+                },
+                scoreNames = [];
             rounds.forEach(function(round){
                 var roundScore = 0,
                     roundPar = 0,
@@ -343,6 +343,27 @@ router.get("/roundsdata", middleware.isLoggedIn, function(req, res){
                 scoreByDate.push(roundData);
                 totalScoreToPar += (roundScore - roundPar);
             }); 
+            if(numScoreNames.par > 0){
+                scoreNames.push({name:"Par", y:numScoreNames.par});
+            }
+            if(numScoreNames.bogey > 0){
+                scoreNames.push({name:"Bogey", y:numScoreNames.bogey});
+            }
+            if(numScoreNames.birdie > 0){
+                scoreNames.push({name:"Birdie", y:numScoreNames.birdie});
+            }
+            if(numScoreNames.doubleBogey > 0){
+                scoreNames.push({name:"Double Bogey", y:numScoreNames.doubleBogey});
+            }
+            if(numScoreNames.eagle > 0){
+                scoreNames.push({name:"Eagle", y:numScoreNames.eagle});
+            }
+            if(numScoreNames.bogeyWorse > 0){
+                scoreNames.push({name:"Bogey Worse", y:numScoreNames.bogeyWorse});
+            }
+            if(numScoreNames.eagleBetter > 0){
+                scoreNames.push({name:"Eagle Better", y:numScoreNames.eagleBetter});
+            }
         }
         var avgScore =
             {
@@ -355,7 +376,7 @@ router.get("/roundsdata", middleware.isLoggedIn, function(req, res){
                     parFive: totalScoreByHolePar.parFive.score / totalScoreByHolePar.parFive.numHoles
                 }
             };
-        res.send({rounds:rounds, avgScore, user: req.user, numScoreNames, allClubs:allClubs});
+        res.send({rounds:rounds, avgScore, user: req.user, numScoreNames, scoreNames: scoreNames, allClubs:allClubs});
     });
 });
 

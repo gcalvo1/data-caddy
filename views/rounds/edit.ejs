@@ -1,16 +1,14 @@
 <% include ../partials/header %>
     <div class="container-fluid input_container">
         <div class="row form-inline input_row">
+            <h2>Edit Round</h2>
             <div id="input_img_div" class="form-group fg_input_head">
             </div>
             <div class="form-group fg_input_head">
                <label for="course_dropdown">Course:</label>
-               <select class="form-control" id="course_dropdown">
-                    <option value=""></option>
-                    <% courses.forEach(function(course){ %>
-                      <option id=<% course.name %> value=<% course.name %>><%= course.name %></option>
-                    <% }); %>
-                </select>
+               <span class="typeahead__query">
+                    <input id="course_dropdown" type="text" class="form-control typeahead" placeholder="Search Course" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                </span>
             </div>
             <div class="form-group fg_input_head">
                 <label for="holes_dropdown"># of Holes:</label>
@@ -36,8 +34,8 @@
                 </div>
             </div>
             <div class="form-group fg_input_head" id="delete_div">
-                <form class="delete-form" action="/rounds/<%= round._id %>?_method=DELETE" method="POST">
-                    <button class="btn btn-m btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+                <form class="delete-form" action="/rounds/<%= round._id %>?_method=DELETE" method="POST" onsubmit="return confirm('Are you sure you want to delete the round?')">
+                    <button id="delete-round" class="btn btn-m btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
                 </form>
             </div>
         </div> 
@@ -52,7 +50,7 @@
                             <div id="hole_<%=i%>" class="form-group hole_desc">
                         </div>
                         <div class="form-group fg_input">
-                            <label for="tsc" class="Label_input">Tee Club</label>
+                            <label for="tsc" class="Label_input">Tee Club <span class="info-tooltip" tooltip="The club you tee'd off with" flow="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span></label>
                             <select name="round[tsc]" class="form-control f_input" id="tsc_<%=i%>">
                                 <option value=""></option>
                                   <option value="Driver">Driver</option>
@@ -73,11 +71,11 @@
                             </select>
                         </div>
                         <div class="form-group fg_input">
-                            <label for="tsl" class="Label_input">Tee Length</label>
+                            <label for="tsl" class="Label_input">Tee Length <span class="info-tooltip" tooltip="Optional: An estimation, or exact measure, in yards of how far your tee shot went" flow="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span></label>
                             <input type="number" name="round[tsl]" class="form-control f_input tsl" id="tsl_<%=i%>" min="0">
                         </div>
                         <div class="form-group fg_input">
-                            <label for="tsd" class="Label_input">Tee Direction</label>
+                            <label for="tsd" class="Label_input">Tee Direction <span class="info-tooltip" tooltip="The direction in which your tee shot landed" flow="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span></label>
                             <select name="round[tsd]" class="form-control f_input tsd" id="tsd_<%=i%>">
                                 <option value=""></option>
                                   <option value="Fairway">Fairway</option>
@@ -88,7 +86,7 @@
                             </select>
                         </div>
                         <div class="form-group fg_input">
-                            <label for="tsr" class="Label_input">Tee Result</label>
+                            <label for="tsr" class="Label_input">Tee Result <span class="info-tooltip" tooltip="Where your tee shot landed" flow="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span></label>
                             <select name="round[tsr]" class="form-control f_input" id="tsr_<%=i%>">
                                 <option value=""></option>
                                   <option value="FIR">FIR</option>
@@ -101,7 +99,7 @@
                             </select>
                         </div>
                         <div class="form-group fg_input">
-                            <label for="atg" class="Label_input">Appr. to Green</label>
+                            <label for="atg" class="Label_input">Appr. to Green <span class="info-tooltip" tooltip='"Yes" if you were going for the green with your approach shot. "No" otherwise' flow="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span></label>
                             <select name="round[atg]" class="form-control f_input atg" id="atg_<%=i%>">
                                 <option value=""></option>
                                   <option value="Yes">Yes</option>
@@ -109,7 +107,7 @@
                             </select>
                         </div>
                         <div class="form-group fg_input">
-                            <label for="ac" class="Label_input">Appr. Club</label>
+                            <label for="ac" class="Label_input">Appr. Club <span class="info-tooltip" tooltip="The club you hit your approach shot with" flow="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span></label>
                             <select name="round[ac]" class="form-control f_input" id="ac_<%=i%>">
                                 <option value=""></option>
                                   <option value="Driver">Driver</option>
@@ -130,11 +128,11 @@
                             </select>
                         </div>
                         <div class="form-group fg_input">
-                            <label for="al" class="Label_input">Appr. Length</label>
+                            <label for="al" class="Label_input">Appr. Length <span class="info-tooltip" tooltip="Optional: The length of you approach shot" flow="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span></label>
                             <input type="number" name="round[al]" class="form-control f_input al" id="al_<%=i%>" min="0">
                         </div>
                         <div class="form-group fg_input">
-                            <label for="ad" class="Label_input">Appr. Direction</label>
+                            <label for="ad" class="Label_input">Appr. Direction <span class="info-tooltip" tooltip="The direction in which your approach shot landed" flow="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span></label>
                             <select name="round[ad]" class="form-control f_input ad" id="ad_<%=i%>">
                                 <option value=""></option>
                                   <option value="Green">Green</option>
@@ -145,7 +143,7 @@
                             </select>
                         </div>
                         <div class="form-group fg_input">
-                            <label for="ar" class="Label_input">Appr. Result</label>
+                            <label for="ar" class="Label_input">Appr. Result <span class="info-tooltip" tooltip="Where the approach shot landed" flow="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span></label>
                             <select name="round[ar]" class="form-control f_input" id="ar_<%=i%>">
                                 <option value=""></option>
                                   <option value="GIR">GIR</option>
@@ -189,4 +187,12 @@
     </div>
 <script src="../../scripts/rounds/new.js"></script>   
 <script src="../../scripts/rounds/edit.js"></script>
+<script>
+    // $("#delete-round").click(function() {
+    //     var result = confirm("Want to delete?");
+    //     if (!result) {
+    //         //Logic to delete the item
+    //     }
+    // });
+</script>
 <% include ../partials/footer %>

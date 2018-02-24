@@ -5,13 +5,14 @@ var courseName = $('#hidden_course_1').val(),
     date = new Date($('#hidden_datetime_1').val()),
     formattedDate = formatDate(date);
 
-setOption(document.getElementById('course_dropdown'), courseName);
-$("#course_dropdown").trigger("change");
+$('#course_dropdown').val(courseName);
+courseDropdownChange();
 setOption(document.getElementById('holes_dropdown'), numHoles);
-$("#holes_dropdown").trigger("change");
+holesDropdownChange();
 setOption(document.getElementById('tees_dropdown'), tees);
-$("#tees_dropdown").trigger("change");
+teeDropdownChange();
 $('#datetimepicker1').find("input").val(formattedDate);
+dateInputChange();
 
 //Disable Round Key Inputs
 $('#course_dropdown').prop("disabled", true);
