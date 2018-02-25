@@ -231,19 +231,19 @@ function holeSave(element) {
             id: "date-time"
         });
     }
-    if(!teeShotClub){
+    if(par != 3 && !teeShotClub){
         missingData.push({
             name: "Tee Club",
             id: "tsc_" + hole_submitted
         });
     }
-    if(!teeShotDirection){
+    if(par != 3 && !teeShotDirection){
         missingData.push({
             name: "Tee Direction",
             id: "tsd_" + hole_submitted
         });
     }
-    if(!teeShotResult){
+    if(par != 3 && !teeShotResult){
         missingData.push({
             name: "Tee Result",
             id: "tsr_" + hole_submitted
