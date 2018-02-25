@@ -25,9 +25,9 @@ router.get("/", middleware.isLoggedIn, function(req, res){
                     }
                 ];
             rounds.forEach(function(round){
-                if(round.isFull){
+                if(round.isFull && round.isComplete){
                     numFullRounds++;
-                } else {
+                } else if(!round.isFull && round.isComplete){
                     numNineRounds++;
                 }
             });
@@ -37,12 +37,6 @@ router.get("/", middleware.isLoggedIn, function(req, res){
             if(numNineRounds > 0){
                 roundTypes[1].found = true;
             }
-            
-            // res.render("dashboard/index",{
-            //             user:req.user, 
-            //             roundTypes:roundTypes,
-            //             userImg: null
-            //         });
                     
             AWS.config.loadFromPath('./s3_config.json');
             
@@ -65,7 +59,7 @@ router.get("/", middleware.isLoggedIn, function(req, res){
 
 
 router.get("/handicapdata", middleware.isLoggedIn, function(req, res){
-    Round.find({"player.id": req.user._id, isFull:true}).populate("course").exec(function(err, rounds){
+    Round.find({"player.id": req.user._id, isFull:true, isComplete:true}).populate("course").exec(function(err, rounds){
         if(err){
             console.log(err);
         } else {
@@ -176,7 +170,7 @@ router.get("/handicapdata", middleware.isLoggedIn, function(req, res){
 });
 
 router.get("/roundsdata", middleware.isLoggedIn, function(req, res){
-    Round.find({"player.id": req.user._id, isFull: req.query.isFull, date: {$gte: req.query.dateFrom,$lte: req.query.dateTo}}).populate("course").exec(function(err, rounds){
+    Round.find({"player.id": req.user._id, isFull: req.query.isFull, date: {$gte: req.query.dateFrom,$lte: req.query.dateTo}, isComplete:true}).populate("course").exec(function(err, rounds){
         if(err){
             console.log(err);
         } else {
@@ -382,7 +376,7 @@ router.get("/roundsdata", middleware.isLoggedIn, function(req, res){
 });
 
 router.get("/mostrecentround", middleware.isLoggedIn, function(req, res){
-    Round.find({"player.id": req.user._id, isFull: req.query.isFull}).sort({date:-1}).limit(1).populate("course").exec(function(err, mostRecentRound){
+    Round.find({"player.id": req.user._id, isFull: req.query.isFull, isComplete:true}).sort({date:-1}).limit(1).populate("course").exec(function(err, mostRecentRound){
         if(err){
             console.log(err);
         } else {
