@@ -128,6 +128,10 @@ body {
     color: red;
 }
 
+.invalid-input{
+    background-color: lightpink;
+}
+
 .optional-input {
     color: #012f7a;
 }

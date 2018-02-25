@@ -10,6 +10,7 @@ function courseDropdownChange() {
     $.get( '/coursedropdown',parameters, function(data) {
         if(data.course){
             $(function() {
+                $('#invalid-course').html("");
                 //Set Hole Data
                 $.each(data.course.holes, function(i, item) {
                     //Handle Par 3 Inputs
@@ -206,6 +207,30 @@ function holeSave(element) {
         
     var missingData = [];
     
+    if(!course){
+        missingData.push({
+            name: "Course",
+            id: "course_dropdown"
+        });
+    }
+    if(!numHoles){
+        missingData.push({
+            name: "# of Holes",
+            id: "holes_dropdown"
+        });
+    }
+    if(!tees){
+        missingData.push({
+            name: "Tees",
+            id: "tees_dropdown"
+        });
+    }
+    if(!$('#date-time').val()){
+        missingData.push({
+            name: "Round Date & Time",
+            id: "date-time"
+        });
+    }
     if(!teeShotClub){
         missingData.push({
             name: "Tee Club",
@@ -285,6 +310,7 @@ function holeSave(element) {
         var missingNames = "";
         missingData.forEach(function(data){
             missingNames += " " + data.name + ",";
+            $("#"+data.id).addClass("invalid-input");
         });
         alert("Missing value for" + missingNames);
     }

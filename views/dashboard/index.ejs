@@ -1,12 +1,6 @@
 <% include ../partials/header %>
 
     <div id= dashboard-container class="container-fluid">  
-        <% if(process.env.AWS_ACCESS_KEY_ID) { 
-                console.log('It is set!: ' +  process.env.AWS_ACCESS_KEY_ID); 
-            }
-            else { 
-                console.log('No set!'); 
-            } %>
         <div id="dash-left-pane" class="col-md-2">
             <div class="row">
                     <!--<span class="glyphicon glyphicon-user"></span>-->

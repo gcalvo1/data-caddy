@@ -8,25 +8,25 @@
                 <div class="form-group fg_input_head">
                    <label for="course_dropdown">Course: <span id="invalid-course"></span></label>
                     <span class="typeahead__query">
-                        <input id="course_dropdown" type="text" class="form-control typeahead" placeholder="Search Course" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                        <input id="course_dropdown" type="text" class="form-control typeahead f_input" placeholder="Search Course" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
                     </span>
                 </div>
                 <div class="form-group fg_input_head">
                     <label for="holes_dropdown"># of Holes:</label>
-                    <select class="form-control" id="holes_dropdown" disabled>
+                    <select class="form-control f_input" id="holes_dropdown" disabled>
                         <option id="default_num_holes" value="">Select Course</option>
                     </select>
                 </div>
                 <div class="form-group fg_input_head">
                     <label for="tees_dropdown">Tees:</label>
-                    <select class="form-control" id="tees_dropdown" disabled>
+                    <select class="form-control f_input" id="tees_dropdown" disabled>
                         <option id="default_num_holes" value="">Select Course</option>
                     </select>
                 </div>
                 <div class="form-group fg_input_head">
                     <label for="round_date">Round Date & Time:</label>
                     <div class='input-group date' id='datetimepicker1'>
-                        <input type='text' class="form-control" />
+                        <input id="date-time" type='text' class="form-control f_input" />
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
@@ -210,6 +210,9 @@
     
     $('#datetimepicker1').on('dp.change', function() {
         dateInputChange();
+        if($(this).find('#date-time').hasClass("invalid-input")){
+            $(this).find('#date-time').removeClass("invalid-input");
+        }
     });
     
     $(".putts").change(function() {
@@ -226,6 +229,12 @@
     
     $(".ad").change(function() {
         setApproachResult(this);
+    });
+    
+    $(".f_input").change(function() {
+        if($(this).hasClass("invalid-input")){
+            $(this).removeClass("invalid-input");
+        }
     });
     
     // $(".save_btn").click(function() {
