@@ -3,9 +3,21 @@
         <h2>Rounds</h2>
         <hr id='rounds_hr'>
         <div class="row text-center" style="display:flex; flex-wrap: wrap;">
-            <% rounds.forEach(function(round){ %>
+             <% function compare(a,b) {
+                  if (a.date < b.date)
+                    return 1;
+                  if (a.date > b.date)
+                    return -1;
+                  return 0;
+                }
+                rounds.sort(compare); 
+                rounds.forEach(function(round){ %>
                 <div class="col-md-3 col-sm-6">
-                    <div class="thumbnail">
+                    <% if(!round.isComplete){ %> 
+                        <div class="thumbnail incomplete-thumbnail">
+                    <% } else { %>    
+                        <div class="thumbnail">
+                    <% } %>
                        <div class="caption">
                            <img class="thumb_img" src='<%= round.course[0].img %>' alt="Course Image">
                            <h4><%= round.course[0].name %></h4>
@@ -15,6 +27,9 @@
                                score += hole.score;
                             }); %>
                             <p>Score: <strong><%= score %></strong></p>
+                            <% if(!round.isComplete){ %>
+                               <p id="incomplete-round">Incomplete Round  <span class="info-tooltip" tooltip="Round stats will not be included in dashboard until completed" flow="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span></p>
+                            <% } %>
                        </div>
                        <p>
                            <a href="/rounds/<%= round._id %>" class="btn btn-primary">View Scorecard</a>
