@@ -2,43 +2,102 @@
     <div class="container">
         <h2>Rounds</h2>
         <hr id='rounds_hr'>
-        <div class="row text-center" style="display:flex; flex-wrap: wrap;">
-             <% function compare(a,b) {
-                  if (a.date < b.date)
-                    return 1;
-                  if (a.date > b.date)
-                    return -1;
-                  return 0;
-                }
-                rounds.sort(compare); 
-                rounds.forEach(function(round){ %>
+        <%  function compare(a,b) {
+              if (a.date < b.date)
+                return 1;
+              if (a.date > b.date)
+                return -1;
+              return 0;
+            }
+            rounds.sort(compare); 
+            var page = 0;
+            for(let i=1; i<=rounds.length; i++) {
+                if(i === 1 || i % 15 === 0) {
+                    page++; %>
+                    <div id="page<%=page%>" class="row text-center page">
+             <% } %>
                 <div class="col-md-3 col-sm-6">
-                    <% if(!round.isComplete){ %> 
+                    <% if(!rounds[i-1].isComplete){ %> 
                         <div class="thumbnail incomplete-thumbnail">
                     <% } else { %>    
                         <div class="thumbnail">
                     <% } %>
                        <div class="caption">
-                           <img class="thumb_img" src='<%= round.course[0].img %>' alt="Course Image">
-                           <h4><%= round.course[0].name %></h4>
-                           <p><%= round.date.toISOString().split('T')[0] %></p>
+                           <img class="thumb_img" src='<%= rounds[i-1].course[0].img %>' alt="Course Image">
+                           <h4><%= rounds[i-1].course[0].name %></h4>
+                           <p><%= rounds[i-1].date.toISOString().split('T')[0] %></p>
                            <% var score = 0;
-                              round.holes.forEach(function(hole){ 
+                              rounds[i-1].holes.forEach(function(hole){ 
                                score += hole.score;
                             }); %>
                             <p>Score: <strong><%= score %></strong></p>
-                            <% if(!round.isComplete){ %>
+                            <% if(!rounds[i-1].isComplete){ %>
                                <p id="incomplete-round">Incomplete Round  <span class="info-tooltip" tooltip="Round stats will not be included in dashboard until completed" flow="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span></p>
                             <% } %>
                        </div>
                        <p>
-                           <a href="/rounds/<%= round._id %>" class="btn btn-primary">View Scorecard</a>
-                           <a href="/rounds/<%= round._id %>/edit" class="btn btn-s btn-warning"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                           <a href="/rounds/<%= rounds[i-1]._id %>" class="btn btn-primary">View Scorecard</a>
+                           <a href="/rounds/<%= rounds[i-1]._id %>/edit" class="btn btn-s btn-warning"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                        </p>
                     </div>
                 </div>
-            <% }); %>
-        </div>  
+                <% if(i % 15 === 14) { %>
+                    </div>
+                <% } %>
+            <% }; %>
+        </div> 
+        <ul id="pagination-demo" class="pagination-lg pull-right"></ul>
+        <div id="hidden_page" class="hidden"><%=page%></div>
     </div>
-<script src="../scripts/rounds/index.js"></script>   
+<script src="../scripts/rounds/index.js"></script> 
+<script src="https://www.solodev.com/assets/pagination/jquery.twbsPagination.js"></script>
+<script>
+    $('#pagination-demo').twbsPagination({
+          totalPages: $('#hidden_page').text(),
+          // the current page that show on start
+          startPage: 1,
+        
+          // maximum visible pages
+          visiblePages: 5,
+        
+          initiateStartPageClick: true,
+        
+          // template for pagination links
+          href: false,
+        
+          // variable name in href template for page number
+          hrefVariable: '{{number}}',
+        
+          // Text labels
+          first: 'First',
+          prev: 'Previous',
+          next: 'Next',
+          last: 'Last',
+        
+          // carousel-style pagination
+          loop: false,
+        
+          // callback function
+          onPageClick: function (event, page) {
+            $('.page-active').removeClass('page-active');
+            $('#page'+page).addClass('page-active');
+          },
+        
+          // pagination Classes
+          paginationClass: 'pagination',
+          nextClass: 'next',
+          prevClass: 'prev',
+          lastClass: 'last',
+          firstClass: 'first',
+          pageClass: 'page',
+          activeClass: 'active',
+          disabledClass: 'disabled'
+        
+        });
+        
+    if(parseInt($('#hidden_page').text()) === 1) {
+        $('#pagination-demo').addClass("hidden");
+    }
+            
+</script>
 <% include ../partials/footer %>

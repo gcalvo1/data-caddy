@@ -359,6 +359,16 @@ input, label {
     margin-bottom: 0px;
 }
 
+/*Pagination*/
+.page {
+  display: none;
+  
+}
+.page-active {
+  display: block;
+}
+/*End Pagination*/
+
 #scorecard_title {
     margin-bottom: 20px;
 }
@@ -477,6 +487,10 @@ input, label {
     float: none; 
     display: table; 
     color: #4ad1e5; 
+}
+
+.top-dashboard-stats {
+    margin-top: 0px !important;
 }
 
 .highcharts-root {
