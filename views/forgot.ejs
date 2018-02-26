@@ -1,0 +1,21 @@
+<% include ./partials/header %>
+
+<div class="container">
+    <div id="register_div">
+        <div>
+            <h2>Forgot Password<span></h2>
+            <hr>
+            <form action="/forgot" method="POST">
+                <div class="form-group">
+                    <label for="email">E-MAIL ADDRESS</label>
+                    <input type="email" name="email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-default"><strong>Submit</strong></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<% include ./partials/footer %>
