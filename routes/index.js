@@ -11,6 +11,7 @@ var crypto = require('crypto');
 var nodemailer = require('nodemailer');
 var sgMail = require('@sendgrid/mail');
 var config = require('../config');
+var middleware = require("../middleware");
 
 AWS.config.loadFromPath('./s3_config.json');
 var s3 = new AWS.S3();
@@ -27,16 +28,20 @@ router.get("/register", function(req, res){
 
 router.post("/register", function(req, res){
     var hasImg = false;
+    var fileInfo = "";
     const upload = multer({
         storage: multerS3({
             s3: s3,
             bucket: 'data-caddy-profile-pics',
             acl: 'public-read',
             key: function (request, file, cb) {
+              fileInfo = file;
               cb(null, req.body.username + path.extname(file.originalname));
             }
         })
     }).array('imgFile', 1);
+    
+    
     
     upload(req, res, function (error) {
         if (error) {
@@ -48,7 +53,9 @@ router.post("/register", function(req, res){
                     return res.redirect("register");
                 }
                 else {
-                    hasImg = true;
+                    if(fileInfo){
+                      hasImg = true;  
+                    }
                     var newUser = new User(
                                             {
                                                 username: req.body.username,
@@ -198,6 +205,24 @@ router.post('/reset/:token', function(req, res) {
   ], function(err) {
     res.redirect('/');
   });
+});
+
+//User Profile Route
+router.get("/profile", middleware.isLoggedIn, function(req, res){
+    AWS.config.loadFromPath('./s3_config.json');
+            
+    var s3Bucket = new AWS.S3({ params: {Bucket: 'data-caddy-profile-pics'} });
+    var urlParams = {Bucket: 'data-caddy-profile-pics', Key: req.user.username + '.jpg'};
+    s3Bucket.getSignedUrl('getObject', urlParams, function(err, url){
+        if(err){
+            console.log(err);
+        } else {
+            res.render("profile",{
+                user: req.user,
+                userImg: url
+            });
+        }
+    });
 });
 
 module.exports = router;
