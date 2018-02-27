@@ -261,12 +261,13 @@
             source: function (query, process) {
                 return $.get('/allcourses', function (data) {
                     $('input.typeahead').focus();
-                    return process(JSON.parse(data).courses.sort());
+                    //return process(JSON.parse(data).courses.sort());
+                    var data = data.courses.sort();
+                    return process(data);
                 });
             }
         });
     });
-    
     
 </script>
 <% include ../partials/footer %>

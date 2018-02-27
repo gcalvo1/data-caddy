@@ -8,9 +8,20 @@ var roundSchema = new mongoose.Schema({
     courseName: String,
     tees: String,
     weather: {
-        wind: Number,
-        temp: Number,
-        type: String
+        summary: String,
+        precipIntensity: Number,
+        precipProbability: Number,
+        temperature: Number,
+        apparentTemperature: Number,
+        dewPoint: Number,
+        humidity: Number,
+        pressure: Number,
+        windSpeed: Number,
+        windGust: Number,
+        windBearing: Number,
+        cloudCover: Number,
+        uvIndex: Number,
+        visibility: Number
     },
     course: [
         {

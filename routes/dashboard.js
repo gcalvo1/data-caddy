@@ -4,7 +4,6 @@ var Round = require("../models/round");
 var Course = require("../models/course");
 var middleware = require("../middleware");
 var AWS = require('aws-sdk');
-require('dotenv').config();
 
 router.get("/", middleware.isLoggedIn, function(req, res){
     Round.find({"player.id": req.user._id}).populate("course").exec(function(err, rounds){

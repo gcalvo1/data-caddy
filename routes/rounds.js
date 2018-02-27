@@ -3,6 +3,7 @@ var router = express.Router();
 var Round = require("../models/round");
 var Course = require("../models/course");
 var middleware = require("../middleware");
+var request = require('request');
 
 router.get("/", middleware.isLoggedIn, function(req, res){
     Round.find({"player.id": req.user._id}).populate("course").exec(function(err, rounds){
@@ -44,6 +45,22 @@ router.post("/", middleware.isLoggedIn, function(req, res){
             isComplete: false,
             roundType: req.body.round.numHoles,
             tees: req.body.round.tees,
+            weather: {
+                summary: "",
+                precipIntensity: "",
+                precipProbability: "",
+                temperature: "",
+                apparentTemperature: "",
+                dewPoint: "",
+                humidity: "",
+                pressure: "",
+                windSpeed: "",
+                windGust: "",
+                windBearing: "",
+                cloudCover: "",
+                uvIndex: "",
+                visibility: ""
+            },
             player: {
                 id: req.user._id,
                 username: req.user.username
@@ -92,12 +109,37 @@ router.post("/", middleware.isLoggedIn, function(req, res){
                                 if(err){
                                     console.log(err);
                                 } else {
-                                    newRound.course.push(foundCourse._id);
-                                    newRound.save(function(err, data){  
-                                        if(err){
-                                            console.log(err);
+                                    //Get weather
+                                    var date = new Date(newRound.date).getTime() / 1000;
+                                    console.log(date);
+                                    request('https://api.darksky.net/forecast/eabbc6c00a33a5c6b6bb82cdd4955a48/'+foundCourse.location.latitude+','+foundCourse.location.longitude+','+date+'?exclude=minutely,daily,flags', function(error, response, body) {
+                                        if(!error && response.statusCode == 200){
+                                            var parsedData = JSON.parse(body);
+                                            newRound.weather.summary = parsedData["currently"]["summary"];
+                                            newRound.weather.precipIntensity = parsedData["currently"]["precipIntensity"];
+                                            newRound.weather.precipProbability = parsedData["currently"]["precipProbability"];
+                                            newRound.weather.temperature = parsedData["currently"]["temperature"];
+                                            newRound.weather.apparentTemperature = parsedData["currently"]["apparentTemperature"];
+                                            newRound.weather.dewPoint = parsedData["currently"]["dewPoint"];
+                                            newRound.weather.humidity = parsedData["currently"]["humidity"];
+                                            newRound.weather.pressure = parsedData["currently"]["pressure"];
+                                            newRound.weather.windSpeed = parsedData["currently"]["windSpeed"];
+                                            newRound.weather.windGust = parsedData["currently"]["windGust"];
+                                            newRound.weather.windBearing = parsedData["currently"]["windBearing"];
+                                            newRound.weather.cloudCover = parsedData["currently"]["cloudCover"];
+                                            newRound.weather.uvIndex = parsedData["currently"]["uvIndex"];
+                                            newRound.weather.visibility = parsedData["currently"]["visibility"];
+                                            
+                                            newRound.course.push(foundCourse._id);
+                                            newRound.save(function(err, data){  
+                                                if(err){
+                                                    console.log(err);
+                                                } else {
+                                                    req.flash("success", "Hole Saved");
+                                                }
+                                            });
                                         } else {
-                                            req.flash("success", "Hole Saved");
+                                            console.log(error);
                                         }
                                     });
                                 }
