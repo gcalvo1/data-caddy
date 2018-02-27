@@ -90,7 +90,7 @@ body {
 }
 
 #register_div .form-group:nth-of-type(1) {
-    margin-top: 30px;
+    margin-top: 15px;
 }
 
 #register_div .form-group {
@@ -106,6 +106,10 @@ body {
 #register_div .form-group button {
     background-color: #DBFEED;
     color: #3E4A56;
+}
+
+.input-group-btn .btn {
+    padding: 6px 6px;
 }
 
 .input_row h2 {
