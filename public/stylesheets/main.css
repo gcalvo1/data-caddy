@@ -395,6 +395,17 @@ input, label {
     padding-bottom: 20px;
 }
 
+#score_row td div {
+    width: 30px;
+    height: 28px;
+    vertical-align: middle;
+    line-height: 28px;  
+}
+
+.scorecard {
+    background-color: white;
+}
+
 .scorecard th {
     text-align: center;
 }
@@ -421,6 +432,7 @@ input, label {
     border: 4px double black;   
     width: 30px;
     margin: auto;
+    line-height: 22px !important;
 }
 
 .bogey_plus {
@@ -1075,3 +1087,96 @@ to align it properly */
     margin: 5px auto;
 }
 
+/*End Footer*/
+
+/*Profile Page*/
+.profile-img-change {
+    width: 50%;
+    margin-left: 27%;
+}
+
+#prof-pic-cont {
+    width: 50%;
+}
+
+#prof-pic-cont table {
+    background-color: white;
+}
+
+#prof-pic-cont table td {
+    border-right-color: white;
+}
+
+#prof-pic-cont table div {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: #929292;
+}
+
+#prof-pic-cont table td:nth-of-type(odd) {
+    width: 45%;
+}
+
+#prof-pic-cont table td:nth-of-type(even) {
+    width: 55%;
+}
+
+#prof-pic-cont table td:nth-of-type(odd) div {
+    float: right;
+}
+
+#prof-pic-cont table td:nth-of-type(even) div {
+    padding-left: 10%;
+}
+
+#prof-pic-row {
+    height: 280px;
+    text-align: center;
+    padding-top: 40px;
+    padding-right: 0px;
+    padding-left: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    background: #556270;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to top, #FF6B6B, #556270);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to top, #FF6B6B, #556270); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+#prof-prof-pic {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    margin-bottom: 7px;
+}
+
+#profile-pic {
+    text-align: center;
+}
+
+#profile-pic .btn {
+    padding-top: 6px 6px;
+}
+
+#show-img-input {
+    padding-left: 10px;
+    color: white;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;   
+}
+
+#camera-icon {
+    color: white;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;   
+    font-size: 16px;
+}
+
+/*End Profile Page*/
+
+.fake-link {
+    color: #0000FF;
+    text-decoration: underline;
+    cursor: pointer;
+}

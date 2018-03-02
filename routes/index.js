@@ -225,4 +225,47 @@ router.get("/profile", middleware.isLoggedIn, function(req, res){
     });
 });
 
+router.post("/profile", middleware.isLoggedIn, function(req, res){
+    var fileInfo = "";
+    const upload = multer({
+        storage: multerS3({
+            s3: s3,
+            bucket: 'data-caddy-profile-pics',
+            acl: 'public-read',
+            key: function (request, file, cb) {
+              fileInfo = file;
+              cb(null, req.user.username + path.extname(file.originalname));
+            }
+        })
+    }).array('imgFile', 1);
+    
+    upload(req, res, function (error) {
+        if (error) {
+          console.log(error);
+        } else {
+            User.findOne({ email: req.user.email } , function(err, user) {
+                if(err) {
+                  console.log(err);
+                } else {
+                    if(fileInfo){
+                      if(!user.hasImg){
+                        user.hasImg = true;
+                      }
+                      user.save(function(err) {
+                        if(err){
+                          console.log(err);
+                        } else {
+                        }
+                        req.flash('success', 'Profile Picture Updated');
+                        res.redirect("/profile");
+                      });
+                    } else {
+                      res.redirect("/profile");
+                    }
+                }
+            });
+        }
+    });
+});
+
 module.exports = router;

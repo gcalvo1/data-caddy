@@ -1,110 +1,172 @@
 <% include ./partials/header %>
 
-<div class="container">
-    <div class="row">
+<div id="prof-pic-cont" class="container">
+    <div id="prof-pic-row" class="row">
         <div class="col-md-12">
             <div id="dash-img-span"> 
                 <% if(user.hasImg) { %>
-                        <img id='dash-prof-pic' src="<%= userImg %>" onerror='imgError(this);'>
-                        <div> Add Photo 
-                            <span class="input-group-btn">
-                                <!-- image-preview-clear button -->
-                                <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
-                                    <span class="glyphicon glyphicon-remove"></span> Clear
-                                </button>
-                                <!-- image-preview-input -->
-                                <div class="btn btn-default image-preview-input">
-                                    <span class="glyphicon glyphicon-folder-open"></span>
-                                    <span class="image-preview-input-title">Browse</span>
-                                    <input type="file" accept="image/png, image/jpeg, image/gif" name="imgFile"/> <!-- rename it -->
-                                </div>
-                            </span> 
-                        </div>
+                        <img id='prof-prof-pic' src="<%= userImg %>" onerror='imgError(this);'>
                 <% } else { %>
-                        <img id='dash-prof-pic' src="../img/blank_user.jpg" onerror='imgError(this);'>
+                        <img id='prof-prof-pic' src="../img/blank_user.jpg" onerror='imgError(this);'>
                 <% } %>
             </div>
-            <p> <%= user.username %> </p>
-            <p> <%= user.email %> </p>
-            <p> Display Name: <%= user.email %> 
-                <label for="fullname">PROFILE PICTURE</label>
-                <input type="text" class="form-control image-preview-filename" disabled="disabled"> <!-- don't give a name === doesn't send on POST/GET -->
-                <span class="input-group-btn">
-                    <!-- image-preview-clear button -->
-                    <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
-                        <span class="glyphicon glyphicon-remove"></span> Clear
-                    </button>
-                    <!-- image-preview-input -->
-                    <div class="btn btn-default image-preview-input">
-                        <span class="glyphicon glyphicon-folder-open"></span>
-                        <span class="image-preview-input-title">Browse</span>
-                        <input type="file" accept="image/png, image/jpeg, image/gif" name="imgFile"/> <!-- rename it -->
-                    </div>
-                </span> 
-            </p>
+            <div for="fullname"> <span id="camera-icon" class="glyphicon glyphicon-camera" aria-hidden="true"></span><span id="show-img-input" class="fake-link">Update Profile Picture</div>
+            <form id="profile-pic" action="/profile" method="POST" enctype="multipart/form-data">
+                <div class="input-group form-group image-preview profile-img-change">
+                    <input id="profile-input" type="text" class="form-control image-preview-filename hidden" disabled="disabled"> <!-- don't give a name === doesn't send on POST/GET -->
+                    <span id="profile-span" class="input-group-btn hidden">
+                        <!-- image-preview-clear button -->
+                        <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
+                            <span class="glyphicon glyphicon-remove"></span> Clear
+                        </button>
+                        <!-- image-preview-input -->
+                        <div class="btn btn-default image-preview-input">
+                            <span class="glyphicon glyphicon-folder-open"></span>
+                            <span class="image-preview-input-title">Browse</span>
+                            <input id="img-file" type="file" accept="image/png, image/jpeg, image/gif" name="imgFile"/> <!-- rename it -->
+                        </div>
+                        <button id="submit-img" type="submit" class="btn btn-xs btn-success save_btn">Upload</button>
+                    </span>
+                </div>
+            </form>
         </div>
     </div>
-        
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered">
+                <tr>
+                    <td>
+                        <div> Username: </div>
+                    </td>
+                    <td>
+                        <div> <%= user.username %> </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div> Email: </div>
+                    </td>
+                    <td>
+                        <div> <%= user.email %> </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div> Display Name: </div>
+                    </td>
+                    <td>
+                        <div><%= user.name %></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </div>   
+<% include ./partials/footer %>
 <script>
-    $(document).on('click', '#close-preview', function(){ 
-    $('.image-preview').popover('hide');
-    // Hover befor close the preview
-    $('.image-preview').hover(
-        function () {
-           $('.image-preview').popover('show');
-        }, 
-         function () {
-           $('.image-preview').popover('hide');
-        }
-    );    
-});
 
-$(function() {
-    // Create the close button
-    var closebtn = $('<button/>', {
-        type:"button",
-        text: 'x',
-        id: 'close-preview',
-        style: 'font-size: initial;',
+    $(document).on('click', '#show-img-input', function(){
+        $('#profile-input').toggleClass("hidden")
+        $('#profile-span').toggleClass("hidden")
     });
-    closebtn.attr("class","close pull-right");
-    // Set the popover default content
-    $('.image-preview').popover({
-        trigger:'manual',
-        html:true,
-        title: "<strong>Preview</strong>"+$(closebtn)[0].outerHTML,
-        content: "There's no image",
-        placement:'right'
+    
+    // $("#submit-img").click(function (e) {
+    //     e.preventDefault();  
+        
+    //     var form = $('#profile-pic')[0];
+         
+    //     console.log(form); 
+    //     // Create a new FormData object.
+    //     var formData = new FormData(form);
+        
+    //     $("#submit-img").prop("disabled", true);
+        
+    //     formData.append("CustomField", "This is some extra data, testing");
+        
+    //     console.log(formData);
+        
+        
+    //     $.ajax({
+    //         url: '/profile',
+    //         type: 'POST',
+    //         enctype: 'multipart/form-data',
+    //         data: formData,
+    //         timeout: 600000,
+    //         cache: false,
+    //         contentType: false,
+    //         processData: false,
+    //         success: function (data) {
+
+    //             console.log("SUCCESS : ", data);
+    //             $("#submit-img").prop("disabled", false);
+
+    //         },
+    //         error: function (e) {
+
+    //             console.log("ERROR : ", e);
+    //             $("#submit-img").prop("disabled", false);
+
+    //         }
+    //     });
+    // });
+    
+    $(document).on('click', '#close-preview', function(){ 
+        $('.image-preview').popover('hide');
+        // Hover befor close the preview
+        $('.image-preview').hover(
+            function () {
+               $('.image-preview').popover('show');
+            }, 
+             function () {
+               $('.image-preview').popover('hide');
+            }
+        );    
     });
-    // Clear event
-    $('.image-preview-clear').click(function(){
-        $('.image-preview').attr("data-content","").popover('hide');
-        $('.image-preview-filename').val("");
-        $('.image-preview-clear').hide();
-        $('.image-preview-input input:file').val("");
-        $(".image-preview-input-title").text("Browse"); 
-    }); 
-    // Create the preview image
-    $(".image-preview-input input:file").change(function (){     
-        var img = $('<img/>', {
-            id: 'dynamic',
-            width:250,
-            height:200
-        });      
-        var file = this.files[0];
-        var reader = new FileReader();
-        // Set preview image into the popover data-content
-        reader.onload = function (e) {
-            $(".image-preview-input-title").text("Change");
-            $(".image-preview-clear").show();
-            $(".image-preview-filename").val(file.name);            
-            img.attr('src', e.target.result);
-            $(".image-preview").attr("data-content",$(img)[0].outerHTML).popover("show");
-        }        
-        reader.readAsDataURL(file);
-    });  
-});
+
+    $(function() {
+        // Create the close button
+        var closebtn = $('<button/>', {
+            type:"button",
+            text: 'x',
+            id: 'close-preview',
+            style: 'font-size: initial;',
+        });
+        closebtn.attr("class","close pull-right");
+        // Set the popover default content
+        $('.image-preview').popover({
+            trigger:'manual',
+            html:true,
+            title: "<strong>Preview</strong>"+$(closebtn)[0].outerHTML,
+            content: "There's no image",
+            placement:'right'
+        });
+        // Clear event
+        $('.image-preview-clear').click(function(){
+            $('.image-preview').attr("data-content","").popover('hide');
+            $('.image-preview-filename').val("");
+            $('.image-preview-clear').hide();
+            $('.image-preview-input input:file').val("");
+            $(".image-preview-input-title").text("Browse"); 
+        }); 
+        // Create the preview image
+        $(".image-preview-input input:file").change(function (){     
+            var img = $('<img/>', {
+                id: 'dynamic',
+                width:250,
+                height:200
+            });      
+            var file = this.files[0];
+            var reader = new FileReader();
+            // Set preview image into the popover data-content
+            reader.onload = function (e) {
+                $(".image-preview-input-title").text("Change");
+                $(".image-preview-clear").show();
+                $(".image-preview-filename").val(file.name);            
+                img.attr('src', e.target.result);
+                $(".image-preview").attr("data-content",$(img)[0].outerHTML).popover("show");
+            }        
+            reader.readAsDataURL(file);
+        });  
+    });
 
 </script>
-<% include ./partials/footer %>
