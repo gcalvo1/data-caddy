@@ -1,5 +1,5 @@
 var tee_color = 'black';
-if($('#tee_color').text().toLowerCase() === 'white'){
+if($('#tee_color').text().trim().toLowerCase() === 'white'){
     tee_color = 'gray';
 } else {
     tee_color = $('#tee_color').text().toLowerCase();
