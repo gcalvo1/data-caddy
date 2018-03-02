@@ -96,6 +96,9 @@
                           <li id="short-game-tab-li" class="nav-item">
                             <a class="nav-link non-home-tab non-driving-tab non-approach-tab" id="short-game-tab" data-toggle="tab" href="#short-game" role="tab" aria-controls="short-game" aria-selected="false">Short Game</a>
                           </li>
+                          <li id="weather-tab-li" class="nav-item">
+                            <a class="nav-link non-home-tab non-driving-tab non-approach-tab" id="weather-tab" data-toggle="tab" href="#weather" role="tab" aria-controls="weather-game" aria-selected="false">Weather</a>
+                          </li>
                         </ul>
                     </div>
                     <div class="tab-content" id="myTabContent">
@@ -425,6 +428,13 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="tab-pane fade" id="weather" role="tabpanel" aria-labelledby="weather-tab">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    weather
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -496,6 +506,10 @@
     });
     $('#summary-tab').on('click', function(){
         activeTab = 'summary';
+        updateDashboard();
+    });
+    $('#weather-tab').on('click', function(){
+        activeTab = 'weather';
         updateDashboard();
     });
     $('.non-approach-tab').on('click', function(){
@@ -668,5 +682,44 @@
           }
         });
     }
+    
+    function setWeather(parameters) {
+        $.get( '/dashboard/roundsdata', parameters, function(data) {
+            data.rounds.forEach(function(round){
+                console.log(round);
+            });
+            //Protect against divide by zero
+            // if(totalScrambleAttempts === 0){
+            //     $("#scramble-percent").html("N/A");
+            //     $("#scramble-ratio").html("");
+            // } else {
+            //     $("#scramble-percent").html(Math.round(scramblePercent * 10) / 10 + "%");
+            //     $("#scramble-percent").attr("data-to",Math.round(scramblePercent * 10) / 10 + "%");
+            //     $("#scramble-ratio").html(totalScrambles + "/" + totalScrambleAttempts);
+            // }
+            // if(totalSandSaveAttempts === 0){
+            //     $("#sand-save-percent").html("N/A");
+            //     $("#sand-save-ratio").html("");
+            // } else {
+            //     $("#sand-save-percent").html(Math.round(sandSavePercent * 10) / 10 + "%");
+            //     $("#sand-save-percent").attr("data-to",Math.round(sandSavePercent * 10) / 10 + "%");
+            //     $("#sand-save-ratio").html(totalSandSaves + "/" + totalSandSaveAttempts);
+            // }
+            // //Set approach data
+            // $("#num-scramble-attempts").html(Math.round(totalScrambleAttempts * 10) / 10);
+            // $("#num-scramble-attempts").attr("data-to",Math.round(totalScrambleAttempts * 10) / 10);
+            // $("#putts-per-round").html(Math.round(scramblePercent * 10) / 10);
+            // $("#putts-per-round").attr("data-to",Math.round(scramblePercent * 10) / 10);
+            
+            // //Pie Chart
+            // highChartsScoreByTrap(traps);
+            
+            // //Scrambling % by trap bar chart
+            // highChartsScramblingByTrap(traps);
+            
+            // //numCounterUpdate();
+        });
+    };
+    
 </script>
 <% include ../partials/footer %>

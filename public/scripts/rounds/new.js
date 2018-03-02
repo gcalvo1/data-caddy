@@ -1,3 +1,4 @@
+
 //Get selection from course dropdown
 function courseDropdownChange() {
     $('.hole_desc').html('');

@@ -27,7 +27,7 @@
             <div class="form-group fg_input_head">
                 <label for="round_date">Round Date & Time:</label>
                 <div class='input-group date' id='datetimepicker1'>
-                    <input type='text' class="form-control" />
+                    <input id="date-time" type='text' class="form-control" />
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -43,7 +43,7 @@
     <hr class='header_hr'>
     <div class="container-fluid">
         <% for(var i = 1; i <= 18; i++) { %>
-            <form id='form_hole_<%=i%>' action="/rounds" method="POST">
+            <form id='form_hole_<%=i%>' action="/rounds" class="round-form" method="POST">
                 <div class="row form-inline input_row">
                     <fieldset>
                         <div class="form-group input_card">
@@ -188,11 +188,44 @@
 <script src="../../scripts/rounds/new.js"></script>   
 <script src="../../scripts/rounds/edit.js"></script>
 <script>
-    // $("#delete-round").click(function() {
-    //     var result = confirm("Want to delete?");
-    //     if (!result) {
-    //         //Logic to delete the item
-    //     }
+    $(".putts").change(function() {
+        puttsChange(this);
+    });
+    
+    $(".tsd").change(function() {
+        setTeeShotResult(this);
+    });
+    
+    $(".atg").change(function() {
+        SetApproachNotToGreen(this);
+    });
+    
+    $(".ad").change(function() {
+        setApproachResult(this);
+    });
+    
+    $(".f_input").change(function() {
+        if($(this).hasClass("invalid-input")){
+            $(this).removeClass("invalid-input");
+        }
+    });
+    
+    // $(".save_btn").click(function() {
+    //     holeSave(this);
     // });
+    $('.round-form').on('submit', function(e) {
+        e.preventDefault();
+        holeSave(this);
+    });
+    
+    $(".clear_btn").click(function() {
+        holeClear(this);
+        return false;
+    });
+    
+    $(".edit_btn").click(function() {
+        holeEdit(this);
+        return false;
+    });
 </script>
 <% include ../partials/footer %>
