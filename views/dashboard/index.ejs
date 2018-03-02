@@ -430,8 +430,54 @@
                         </div>
                         <div class="tab-pane fade" id="weather" role="tabpanel" aria-labelledby="weather-tab">
                             <div class="row">
-                                <div class="col-md-12">
-                                    weather
+                                <div id="weather-cards" class="col-md-12">
+                                    <div class="card-wrapper">
+                                        <section id="clear-day" class="card anim-flip hidden">
+                                            <header>
+                                                <h1 class="card-header">Sunny</h1>
+                                            </header>
+                                            <div class="sunny"></div>
+                                            <p class="card-temp box-highlight"></p>
+                                        </section>
+                                        <section id="rain" class="card anim-flip hidden">
+                                            <header>
+                                                <h1 class="card-header">Rain</h1>
+                                            </header>
+                                            <div class="rainy"></div>
+                                            <p class="card-temp box-highlight"></p>
+                                            <!--<p class="card-info">Tempo estável com algumas núvens</p>-->
+                                        </section>
+                                        <section id="cloudy" class="card anim-flip hidden">
+                                            <header>
+                                                <h1 class="card-header">Cloudy</h1>
+                                            </header>
+                                            <div class="cloudy"></div>
+                                            <p class="card-temp box-highlight"></p>
+                                        </section>
+                                        <section id="partly-cloudy-day" class="card anim-flip hidden">
+                                            <header>
+                                                <h1 class="card-header">Partly Cloudy</h1>
+                                            </header>
+                                            <div class="forecast__cloudy">
+                                                <img id="partly-cloudy-img" src="./img/partly_cloudy.png">
+                                            </div>
+                                            <p class="card-temp box-highlight"></p>
+                                        </section>
+                                        <section id="wind" class="card anim-flip hidden">
+                                            <header>
+                                                <h1 class="card-header">Wind</h1>
+                                            </header>
+                                            <div class="forecast__cloudy">
+                                                <img id="windy-img" src="./img/windy.png">
+                                            </div>
+                                            <p class="card-temp box-highlight"></p>
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div id="wind-div">
+                                    
                                 </div>
                             </div>
                         </div>
@@ -685,39 +731,39 @@
     
     function setWeather(parameters) {
         $.get( '/dashboard/roundsdata', parameters, function(data) {
-            data.rounds.forEach(function(round){
-                console.log(round);
+            console.log(data.windSpeed);
+            $('.card').addClass('hidden');
+            data.weatherIcons.forEach(function(icon){
+                $('#'+icon.icon).removeClass('hidden');
+                var sign = "+";
+                if(icon.scoreToPar == 0){
+                    sign = "";
+                } else if(icon.scoreToPar < 0) {
+                    sign = "-"
+                }
+                $('#'+icon.icon+ ' .card-temp').html(sign + String(Math.round((icon.scoreToPar / icon.rounds) * 10) / 10));
             });
-            //Protect against divide by zero
-            // if(totalScrambleAttempts === 0){
-            //     $("#scramble-percent").html("N/A");
-            //     $("#scramble-ratio").html("");
-            // } else {
-            //     $("#scramble-percent").html(Math.round(scramblePercent * 10) / 10 + "%");
-            //     $("#scramble-percent").attr("data-to",Math.round(scramblePercent * 10) / 10 + "%");
-            //     $("#scramble-ratio").html(totalScrambles + "/" + totalScrambleAttempts);
-            // }
-            // if(totalSandSaveAttempts === 0){
-            //     $("#sand-save-percent").html("N/A");
-            //     $("#sand-save-ratio").html("");
-            // } else {
-            //     $("#sand-save-percent").html(Math.round(sandSavePercent * 10) / 10 + "%");
-            //     $("#sand-save-percent").attr("data-to",Math.round(sandSavePercent * 10) / 10 + "%");
-            //     $("#sand-save-ratio").html(totalSandSaves + "/" + totalSandSaveAttempts);
-            // }
-            // //Set approach data
-            // $("#num-scramble-attempts").html(Math.round(totalScrambleAttempts * 10) / 10);
-            // $("#num-scramble-attempts").attr("data-to",Math.round(totalScrambleAttempts * 10) / 10);
-            // $("#putts-per-round").html(Math.round(scramblePercent * 10) / 10);
-            // $("#putts-per-round").attr("data-to",Math.round(scramblePercent * 10) / 10);
-            
-            // //Pie Chart
-            // highChartsScoreByTrap(traps);
-            
-            // //Scrambling % by trap bar chart
-            // highChartsScramblingByTrap(traps);
-            
-            // //numCounterUpdate();
+            var windHtml = "";
+            var colLen = Math.floor(12 / data.windSpeed.length);
+            function compare(a,b) {
+              if (a.category < b.category)
+                return -1;
+              if (a.category > b.category)
+                return 1;
+              return 0;
+            }
+            data.windSpeed.sort(compare);
+            data.windSpeed.forEach(function(category){
+                var sign = "+";
+                if(category.scoreToPar == 0){
+                    sign = "";
+                } else if(category.scoreToPar < 0) {
+                    sign = "-"
+                }
+                var scoreToParAvg = sign + String(Math.round((category.scoreToPar / category.rounds) * 10) / 10);
+                windHtml += '<div class="col-md-'+colLen+'"> <div class="counter"><div><h2 class="timer count-title count-number" data-to="" data-speed="1500">'+scoreToParAvg+'</h2><p class="count-text ">'+category.category+'</p></div></div></div>';
+                $('#wind-div').html(windHtml);
+            });
         });
     };
     

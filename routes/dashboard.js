@@ -277,7 +277,9 @@ router.get("/roundsdata", middleware.isLoggedIn, function(req, res){
                         numHoles: 0
                     }
                 },
-                scoreNames = [];
+                scoreNames = [],
+                weatherIcons = [],
+                windSpeed = [];
             rounds.forEach(function(round){
                 var roundScore = 0,
                     roundPar = 0,
@@ -333,6 +335,85 @@ router.get("/roundsdata", middleware.isLoggedIn, function(req, res){
                         });
                     }
                 });
+                //weather
+                if(round.weather.icon){
+                    if(weatherIcons.length === 0){
+                        weatherIcons.push(
+                            {
+                                icon: round.weather.icon,
+                                score: roundScore,
+                                scoreToPar: roundScore - roundPar,
+                                rounds: 1
+                            }
+                        );
+                    } else {
+                        var found = false;
+                        weatherIcons.forEach(function(icon){
+                            if(icon.icon === round.weather.icon){
+                                found = true;
+                                icon.score += roundScore;
+                                icon.scoreToPar += roundScore - roundPar;
+                                icon.rounds++;
+                            }
+                        });
+                        if(!found){
+                            weatherIcons.push(
+                                {
+                                    icon: round.weather.icon,
+                                    score: roundScore,
+                                    scoreToPar: roundScore - roundPar,
+                                    rounds: 1
+                                }        
+                            );
+                        }
+                    }
+                }
+                var windCategory = "";
+                if(round.weather.windSpeed){
+                    console.log(round.weather.windSpeed);
+                    if(round.weather.windSpeed < 10){
+                        windCategory = "0 - 10 mph";
+                    } else if(round.weather.windSpeed >= 10 && round.weather.windSpeed < 20) {
+                        windCategory = "10 - 20 mph";
+                    } else if(round.weather.windSpeed >= 20 && round.weather.windSpeed < 30) {
+                        windCategory = "20 - 30 mph";
+                    } else if(round.weather.windSpeed >= 30 && round.weather.windSpeed < 40) {
+                        windCategory = "30 - 40 mph";
+                    } else {
+                        windCategory = "40+ mph";
+                    }
+                    console.log(windCategory);
+                    if(windSpeed.length === 0){
+                        windSpeed.push(
+                            {
+                                category: windCategory,
+                                score: roundScore,
+                                scoreToPar: roundScore - roundPar,
+                                rounds: 1
+                            }
+                        );
+                    } else {
+                        var windFound = false;
+                        windSpeed.forEach(function(speed){
+                            if(speed.category === windCategory){
+                                windFound = true;
+                                speed.score += roundScore;
+                                speed.scoreToPar += roundScore - roundPar;
+                                speed.rounds++;
+                            }
+                        });
+                        if(!windFound){
+                            windSpeed.push(
+                                {
+                                    category: windCategory,
+                                    score: roundScore,
+                                    scoreToPar: roundScore - roundPar,
+                                    rounds: 1
+                                }        
+                            );
+                        }
+                    }
+                }
                 roundData.push(roundScore);
                 scoreByDate.push(roundData);
                 totalScoreToPar += (roundScore - roundPar);
@@ -370,7 +451,7 @@ router.get("/roundsdata", middleware.isLoggedIn, function(req, res){
                     parFive: totalScoreByHolePar.parFive.score / totalScoreByHolePar.parFive.numHoles
                 }
             };
-        res.send({rounds:rounds, avgScore, user: req.user, numScoreNames, scoreNames: scoreNames, allClubs:allClubs});
+        res.send({rounds:rounds, avgScore, user: req.user, numScoreNames, scoreNames: scoreNames, allClubs:allClubs, weatherIcons:weatherIcons, windSpeed:windSpeed});
     });
 });
 
