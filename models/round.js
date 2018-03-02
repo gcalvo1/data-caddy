@@ -9,6 +9,7 @@ var roundSchema = new mongoose.Schema({
     tees: String,
     weather: {
         summary: String,
+        icon: String,
         precipIntensity: Number,
         precipProbability: Number,
         temperature: Number,

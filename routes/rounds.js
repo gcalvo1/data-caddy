@@ -50,6 +50,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
             tees: req.body.round.tees,
             weather: {
                 summary: "",
+                icon: "",
                 precipIntensity: "",
                 precipProbability: "",
                 temperature: "",
@@ -117,6 +118,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
                                         if(!error && response.statusCode == 200){
                                             var parsedData = JSON.parse(body);
                                             newRound.weather.summary = parsedData["currently"]["summary"];
+                                            newRound.weather.icon = parsedData["currently"]["icon"];
                                             newRound.weather.precipIntensity = parsedData["currently"]["precipIntensity"];
                                             newRound.weather.precipProbability = parsedData["currently"]["precipProbability"];
                                             newRound.weather.temperature = parsedData["currently"]["temperature"];
