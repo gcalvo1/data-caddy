@@ -279,11 +279,16 @@ router.get("/roundsdata", middleware.isLoggedIn, function(req, res){
                 },
                 scoreNames = [],
                 weatherIcons = [],
-                windSpeed = [];
+                windSpeed = [],
+                temperature = [];
             rounds.forEach(function(round){
                 var roundScore = 0,
                     roundPar = 0,
-                    roundData = [];
+                    roundData = [],
+                    roundFirs = 0,
+                    roundTeeShots = 0,
+                    roundGirs = 0,
+                    roundApproaches = 0;
                 numRounds++;
                 roundData.push(round.date);
                 round.holes.forEach(function(hole){
@@ -309,6 +314,10 @@ router.get("/roundsdata", middleware.isLoggedIn, function(req, res){
                     if(hole.par === 3) {
                         totalScoreByHolePar.parThree.score += hole.score;
                         totalScoreByHolePar.parThree.numHoles ++;
+                        roundApproaches++;
+                        if(hole.approach.approachResult === "GIR"){
+                            roundGirs++;
+                        }
                     } else if(hole.par === 4) {
                         totalScoreByHolePar.parFour.score += hole.score;
                         totalScoreByHolePar.parFour.numHoles ++;
@@ -321,6 +330,14 @@ router.get("/roundsdata", middleware.isLoggedIn, function(req, res){
                                 club.approachFound = true;
                             }
                         });
+                        roundTeeShots++;
+                        roundApproaches++;
+                        if(hole.teeShot.teeShotResult === "FIR") {
+                            roundFirs++;
+                        }
+                        if(hole.approach.approachResult === "GIR"){
+                            roundGirs++;
+                        }
                     } else {
                         totalScoreByHolePar.parFive.score += hole.score;
                         totalScoreByHolePar.parFive.numHoles ++;
@@ -333,6 +350,14 @@ router.get("/roundsdata", middleware.isLoggedIn, function(req, res){
                                 club.approachFound = true;
                             }
                         });
+                        roundTeeShots++;
+                        roundApproaches++;
+                        if(hole.teeShot.teeShotResult === "FIR") {
+                            roundFirs++;
+                        }
+                        if(hole.approach.approachResult === "GIR"){
+                            roundGirs++;
+                        }
                     }
                 });
                 //weather
@@ -370,7 +395,6 @@ router.get("/roundsdata", middleware.isLoggedIn, function(req, res){
                 }
                 var windCategory = "";
                 if(round.weather.windSpeed){
-                    console.log(round.weather.windSpeed);
                     if(round.weather.windSpeed < 10){
                         windCategory = "0 - 10 mph";
                     } else if(round.weather.windSpeed >= 10 && round.weather.windSpeed < 20) {
@@ -382,13 +406,16 @@ router.get("/roundsdata", middleware.isLoggedIn, function(req, res){
                     } else {
                         windCategory = "40+ mph";
                     }
-                    console.log(windCategory);
                     if(windSpeed.length === 0){
                         windSpeed.push(
                             {
                                 category: windCategory,
                                 score: roundScore,
                                 scoreToPar: roundScore - roundPar,
+                                roundTeeShots: roundTeeShots,
+                                roundFirs: roundFirs,
+                                roundApproaches: roundApproaches,
+                                roundGirs: roundGirs,
                                 rounds: 1
                             }
                         );
@@ -399,6 +426,10 @@ router.get("/roundsdata", middleware.isLoggedIn, function(req, res){
                                 windFound = true;
                                 speed.score += roundScore;
                                 speed.scoreToPar += roundScore - roundPar;
+                                speed.roundTeeShots += roundTeeShots;
+                                speed,roundFirs += roundFirs;
+                                speed.roundApproaches += roundApproaches;
+                                speed.roundGirs += roundGirs;
                                 speed.rounds++;
                             }
                         });
@@ -408,6 +439,69 @@ router.get("/roundsdata", middleware.isLoggedIn, function(req, res){
                                     category: windCategory,
                                     score: roundScore,
                                     scoreToPar: roundScore - roundPar,
+                                    roundTeeShots: roundTeeShots,
+                                    roundFirs: roundFirs,
+                                    roundApproaches: roundApproaches,
+                                    roundGirs: roundGirs,
+                                    rounds: 1
+                                }        
+                            );
+                        }
+                    }
+                }
+                //Temperature
+                var tempCategory = "";
+                if(round.weather.temperature){
+                    if(round.weather.temperature < 50){
+                        tempCategory = "0 - 50 Degrees";
+                    } else if(round.weather.temperature >= 50 && round.weather.temperature < 60) {
+                        tempCategory = "50 - 60 Degrees";
+                    } else if(round.weather.temperature >= 60 && round.weather.temperature < 70) {
+                        tempCategory = "60 - 70 Degrees";
+                    } else if(round.weather.temperature >= 70 && round.weather.temperature < 80) {
+                        tempCategory = "70 - 80 Degrees";
+                    } else if(round.weather.temperature >= 80 && round.weather.temperature < 90) {
+                        tempCategory = "80 - 90 Degrees";
+                    } else {
+                        tempCategory = "90+ Degrees";
+                    }
+                    if(temperature.length === 0){
+                        temperature.push(
+                            {
+                                category: tempCategory,
+                                score: roundScore,
+                                scoreToPar: roundScore - roundPar,
+                                roundTeeShots: roundTeeShots,
+                                roundFirs: roundFirs,
+                                roundApproaches: roundApproaches,
+                                roundGirs: roundGirs,
+                                rounds: 1
+                            }
+                        );
+                    } else {
+                        var tempFound = false;
+                        temperature.forEach(function(temp){
+                            if(temp.category === tempCategory){
+                                tempFound = true;
+                                temp.score += roundScore;
+                                temp.scoreToPar += roundScore - roundPar;
+                                temp.roundTeeShots += roundTeeShots;
+                                temp,roundFirs += roundFirs;
+                                temp.roundApproaches += roundApproaches;
+                                temp.roundGirs += roundGirs;
+                                temp.rounds++;
+                            }
+                        });
+                        if(!tempFound){
+                            temperature.push(
+                                {
+                                    category: tempCategory,
+                                    score: roundScore,
+                                    scoreToPar: roundScore - roundPar,
+                                    roundTeeShots: roundTeeShots,
+                                    roundFirs: roundFirs,
+                                    roundApproaches: roundApproaches,
+                                    roundGirs: roundGirs,
                                     rounds: 1
                                 }        
                             );
@@ -451,7 +545,19 @@ router.get("/roundsdata", middleware.isLoggedIn, function(req, res){
                     parFive: totalScoreByHolePar.parFive.score / totalScoreByHolePar.parFive.numHoles
                 }
             };
-        res.send({rounds:rounds, avgScore, user: req.user, numScoreNames, scoreNames: scoreNames, allClubs:allClubs, weatherIcons:weatherIcons, windSpeed:windSpeed});
+        var dataToSend = 
+            {
+                rounds:rounds, 
+                avgScore, 
+                user: req.user, 
+                numScoreNames, 
+                scoreNames: scoreNames, 
+                allClubs: allClubs, 
+                weatherIcons: weatherIcons, 
+                windSpeed: windSpeed,
+                temperature: temperature
+            };
+        res.send(dataToSend);
     });
 });
 
