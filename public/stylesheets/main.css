@@ -130,6 +130,11 @@ body {
     height: 75px;
 }
 
+.header_input_row {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
 #invalid-course {
     font-size: 12px;
     margin-left: 5px;

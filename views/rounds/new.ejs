@@ -1,6 +1,6 @@
 <% include ../partials/header %>
-    <div class="container-fluid input_container">
-        <div class="row form-inline input_row">
+    <div class="container-fluid">
+        <div class="row form-inline header_input_row input_row">
             <div class="col-md-12">
                 <h2>New Round</h2>
                 <div id="input_img_div" class="form-group fg_input_head">
@@ -33,10 +33,8 @@
                     </div>
                 </div>
             </div> 
-        </div>
-    </div>  
+        </div> 
     <hr class='header_hr'>
-    <div class="container-fluid">
         <% for(var i = 1; i <= 18; i++) { %>
             <form id='form_hole_<%=i%>' class="round-form" action="/rounds" method="POST">
                 <div class="row form-inline input_row">
