@@ -751,6 +751,10 @@ input, label {
     width: 100px;
 }
 
+#date-to-label {
+    padding-right: 18px;
+}
+
 .from-to-date-div label {
     font-weight: normal;
     float: left;
