@@ -1,44 +1,114 @@
-<% include ./partials/header %>
+<% include ./partials/landing_header %>
         
-  <div id="home-title">
-          
-    <div id="landing-header">
-      <h1>DATA CADDY</h1>
-      <a href="/register" class="btn btn-lg btn-success">Sign Up</a>
-    </div>
+ <!-- Image Header -->
+<!--<div class="w3-display-container w3-animate-opacity">-->
+<!--  <img src="./img/full_view.jpg" alt="golf" style="width:100%;min-height:350px;max-height:600px;">-->
+<!--</div>-->
+
+<!-- Work Row 1-->
+<div class="w3-row-padding w3-theme-l1 landing-top" id="work">
+
+<div class="w3-quarter">
+<h2>Welcome to DataCaddy</h2>
+<p>DataCaddy's state of the art dashboarding tool alows you to explore your golfing data at new levels. Take your game to new heights by drawing insights from the DataCaddy analytitical dashboard. Slice and dice your data by round date, club, and more to pinpoint areas of improvement.</p>
+<div class="landing-btn-div">
+  <button class="btn btn-med btn-default">How It Works</button>
+</div>
+<div class="landing-btn-div">
+  <button class="btn btn-med btn-default" onclick="location.href='/register';">Sign Up</button>
+</div>
+</div>
+
+<div class="w3-quarter">
+<div class="w3-card w3-white">
+  <img src="./img/drive_tracker.png" alt="Drive Tracker" style="width:100%">
+  <div class="w3-container">
+  <h3>DriveTracker Technology</h3>
+  <p>Get visual representations of your tee shots</p>
   </div>
-     
-  <div id="myCarousel" class="carousel slide" data-ride="carousel">
-    <!-- Wrapper for slides -->
-    <div class="carousel-inner">
-      <div class="item active">
-        <img src="./img/green_dusk.jpg" alt="Green Dusk">
-      </div>
-      <div class="item">
-        <img src="./img/fairway_ocean.jpg" alt="Fairway Ocean">
-      </div>
-      <div class="item">
-        <img src="./img/green_shadow.jpg" alt="Green Shadow">
-      </div>
-      <div class="item">
-        <img src="./img/fairway_cart.jpg" alt="Green Shadow">
-      </div>
-      <div class="item">
-        <img src="./img/full_view.jpg" alt="Full View">
-      </div>
-    </div>
   </div>
   
-  <script src="../scripts/landing.js"></script>  
-  <script src="../scripts/header.js"></script>
-  <script>
-    $(document).ready(function () {
-        $('.carousel').carousel({
-            interval: 5000
-        });
-    
-        $('.carousel').carousel('cycle');
-    });
-  </script>
+  <div class="w3-card w3-white">
+  <img src="./img/scoring_summary.png" alt="Scoring Summary" style="width:100%">
+  <div class="w3-container">
+  <h3>Scoring Summary</h3>
+  <p>High level overviews of your stats including handicap and scoring averages</p>
+  </div>
+  </div>
+</div>
+
+<div class="w3-quarter">
+<div class="w3-card w3-white">
+  <img src="./img/weather.png" alt="Weather" style="width:100%">
+  <div class="w3-container">
+  <h3>Average Score by Weather</h3>
+  <p>Break down your performace in various weather conditions</p>
+  </div>
+  </div>
   
+  <div class="w3-card w3-white">
+  <img src="./img/score_by_trap.png" alt="Score By Trap" style="width:100%">
+  <div class="w3-container">
+  <h3>Score By Greenside Trap</h3>
+  <p>See how you match up against each greenside trap along with many more scrambling statistics</p>
+  </div>
+  </div>
+  
+</div>
+
+<div class="w3-quarter">
+<div class="w3-card w3-white">
+  <img src="./img/miss_trap_spread.png" alt="Miss Trap Spread" style="width:100%">
+  <div class="w3-container">
+  <h3>Approach Miss Spread</h3>
+  <p>Get visual representations of your approach shot miss spread</p>
+  </div>
+  </div>
+  
+  <div class="w3-card w3-white">
+  <img src="./img/driving_stats.png" alt="Drivng Stats" style="width:100%">
+  <div class="w3-container">
+  <h3>Driving Stats</h3>
+  <p>Take a deep dive into your driving statistics</p>
+  </div>
+  </div>
+</div>
+
+</div>
+
+<!-- Team Container -->
+<div class="w3-container w3-padding-64 w3-center" id="team">
+<h2>FEATURES</h2>
+
+<div class="w3-row"><br>
+
+<div class="w3-quarter">
+  <img src="./img/dashboard_preview.png" alt="Dashboard" class="landing-feature-img">
+  <h3>Dashboard</h3>
+  <p>Take your golf stats to the next level and improve your game</p>
+</div>
+
+<div class="w3-quarter">
+  <img src="./img/new_round_preview.png" alt="New Round" class="landing-feature-img">
+  <h3>Track Your Round Data</h3>
+  <p>Input your hole-by-hole stats for deep analysis</p>
+</div>
+
+<div class="w3-quarter">
+  <img src="./img/round_preview.png" alt="Rounds" class="landing-feature-img">
+  <h3>View Your Rounds</h3>
+  <p>Store all of your rounds for tracking</p>
+</div>
+
+<div class="w3-quarter">
+  <img src="./img/scorecard_preview.png" alt="Scorecards" class="landing-feature-img">
+  <h3>View Scorecards</h3>
+  <p>Re-live each round hole-by-hole</p>
+</div>
+
+</div>
+</div>
+
+<script src="./scripts/landing.js"></script>
+
 <% include partials/footer %>
