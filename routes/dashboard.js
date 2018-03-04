@@ -315,7 +315,7 @@ router.get("/roundsdata", middleware.isLoggedIn, function(req, res){
                         totalScoreByHolePar.parThree.score += hole.score;
                         totalScoreByHolePar.parThree.numHoles ++;
                         roundApproaches++;
-                        if(hole.approach.approachResult === "GIR"){
+                        if(hole.approach.approachResult === "GIR" || hole.approach.approachResult === "Under GIR"){
                             roundGirs++;
                         }
                     } else if(hole.par === 4) {
@@ -335,7 +335,7 @@ router.get("/roundsdata", middleware.isLoggedIn, function(req, res){
                         if(hole.teeShot.teeShotResult === "FIR") {
                             roundFirs++;
                         }
-                        if(hole.approach.approachResult === "GIR"){
+                        if(hole.approach.approachResult === "GIR" || hole.approach.approachResult === "Under GIR"){
                             roundGirs++;
                         }
                     } else {
@@ -355,7 +355,7 @@ router.get("/roundsdata", middleware.isLoggedIn, function(req, res){
                         if(hole.teeShot.teeShotResult === "FIR") {
                             roundFirs++;
                         }
-                        if(hole.approach.approachResult === "GIR"){
+                        if(hole.approach.approachResult === "GIR"  || hole.approach.approachResult === "Under GIR"){
                             roundGirs++;
                         }
                     }

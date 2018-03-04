@@ -144,8 +144,10 @@
                                 <label for="ar" class="Label_input">Appr. Result <span class="info-tooltip" tooltip="Where the approach shot landed" flow="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span></label>
                                 <select name="round[ar]" class="form-control f_input" id="ar_<%=i%>">
                                     <option value=""></option>
+                                      <option value="Under GIR">Under GIR</option>    
                                       <option value="GIR">GIR</option>
                                       <option value="Fringe">Fringe</option>
+                                      <option value="Fairway">Fairway</option>
                                       <option value="Rough">Rough</option>
                                       <option value="Bunker">Bunker</option>
                                       <option value="Woods">Woods</option></option>
@@ -216,7 +218,6 @@
     });
     
     $(".putts").change(function() {
-        console.log("putt change")
         puttsChange(this);
     });
     
