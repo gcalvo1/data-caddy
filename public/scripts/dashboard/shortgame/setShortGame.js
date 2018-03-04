@@ -11,6 +11,7 @@ function setShortGame(parameters) {
             totalSandSaveAttempts = 0,
             totalSandSaves = 0,
             totalPutts = 0,
+            totalThreePutts = 0,
             totalRounds = 0,
             traps = [ 
                 {
@@ -346,9 +347,12 @@ function setShortGame(parameters) {
                                 }
                             });
                         }
-                    };
+                    }
                 });
                 totalPutts += hole.putts;
+                if(hole.putts >= 3){
+                    totalThreePutts++;
+                }
                 if(!hole.approach.approachResult || hole.approach.approachResult != "GIR"){
                     totalScrambleAttempts++;
                     if(hole.score === hole.par){
@@ -365,7 +369,8 @@ function setShortGame(parameters) {
         });
         var scramblePercent = ( totalScrambles / totalScrambleAttempts ) * 100,
             sandSavePercent = ( totalSandSaves / totalSandSaveAttempts ) * 100,
-            puttsPerRound = (totalRounds / totalPutts);
+            puttsPerRound = (totalPutts / totalRounds),
+            threePuttsPerRound = (totalThreePutts / totalRounds);
             
         //Protect against divide by zero
         if(totalScrambleAttempts === 0){
@@ -384,11 +389,12 @@ function setShortGame(parameters) {
             $("#sand-save-percent").attr("data-to",Math.round(sandSavePercent * 10) / 10 + "%");
             $("#sand-save-ratio").html(totalSandSaves + "/" + totalSandSaveAttempts);
         }
-        //Set approach data
-        $("#num-scramble-attempts").html(Math.round(totalScrambleAttempts * 10) / 10);
-        $("#num-scramble-attempts").attr("data-to",Math.round(totalScrambleAttempts * 10) / 10);
-        $("#putts-per-round").html(Math.round(scramblePercent * 10) / 10);
-        $("#putts-per-round").attr("data-to",Math.round(scramblePercent * 10) / 10);
+        //Set scrambling data
+        $("#three-putt-ratio").html(totalThreePutts + "/" + totalRounds);
+        $("#putts-per-round").html(Math.round(puttsPerRound * 10) / 10);
+        $("#putts-per-round").attr("data-to",Math.round(puttsPerRound * 10) / 10);
+        $("#three-putts-per-round").html(Math.round(threePuttsPerRound * 10) / 10);
+        $("#three-putts-per-round").attr("data-to",Math.round(threePuttsPerRound * 10) / 10);
         
         //Pie Chart
         highChartsScoreByTrap(traps);
