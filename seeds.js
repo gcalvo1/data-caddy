@@ -221,213 +221,220 @@ var courseData = [
     //         },
     //     ]
     // },
-    // {
-    //     name: "Bethpage Black",
-    //     zip: 11735,
-    //     img: "./img/Bethpage-Black-Logo.jpg",
-    //     isNine: false,
-    //     tees: [{
-    //         color: 'Red',
-    //         rating: 77,
-    //         slope: 152,
-    //     },
-    //     {
-    //         color: 'White',
-    //         rating: 73.8,
-    //         slope: 135,
-    //     },
-    //     {
-    //         color: 'Blue',
-    //         rating: 78.1,
-    //         slope: 152,
-    //     }],
-    //     holes: [
-    //         {
-    //             number: 1,
-    //             par: 4,
-    //             handicap: 8,
-    //             yardage: {
-    //                 red: 426,
-    //                 white: 429,
-    //                 blue: 430,
-    //             }
-    //         },
-    //         {
-    //             number: 2,
-    //             par: 4,
-    //             handicap: 16,
-    //             yardage: {
-    //                 red: 346,
-    //                 white: 354,
-    //                 blue: 389,
-    //             }
-    //         },
-    //         {
-    //             number: 3,
-    //             par: 3,
-    //             handicap: 18,
-    //             yardage: {
-    //                 red: 128,
-    //                 white: 158,
-    //                 blue: 230,
-    //             }
-    //         },
-    //         {
-    //             number: 4,
-    //             par: 5,
-    //             handicap: 2,
-    //             yardage: {
-    //                 red: 438,
-    //                 white: 461,
-    //                 blue: 517,
-    //             }
-    //         },
-    //         {
-    //             number: 5,
-    //             par: 4,
-    //             handicap: 4,
-    //             yardage: {
-    //                 red: 401,
-    //                 white: 423,
-    //                 blue: 478,
-    //             }
-    //         },
-    //         {
-    //             number: 6,
-    //             par: 4,
-    //             handicap: 10,
-    //             yardage: {
-    //                 red: 376,
-    //                 white: 386,
-    //                 blue: 408,
-    //             }
-    //         },
-    //         {
-    //             number: 7,
-    //             par: 5,
-    //             handicap: 6,
-    //             yardage: {
-    //                 red: 489,
-    //                 white: 502,
-    //                 blue: 553,
-    //             }
-    //         },
-    //         {
-    //             number: 8,
-    //             par: 3,
-    //             handicap: 14,
-    //             yardage: {
-    //                 red: 152,
-    //                 white: 191,
-    //                 blue: 210,
-    //             }
-    //         },
-    //         {
-    //             number: 9,
-    //             par: 4,
-    //             handicap: 12,
-    //             yardage: {
-    //                 red: 293,
-    //                 white: 385,
-    //                 blue: 460,
-    //             }
-    //         },
-    //         {
-    //             number: 10,
-    //             par: 4,
-    //             handicap: 9,
-    //             yardage: {
-    //                 red: 377,
-    //                 white: 434,
-    //                 blue: 502,
-    //             }
-    //         },
-    //         {
-    //             number: 11,
-    //             par: 4,
-    //             handicap: 11,
-    //             yardage: {
-    //                 red: 412,
-    //                 white: 421,
-    //                 blue: 435,
-    //             }
-    //         },
-    //         {
-    //             number: 12,
-    //             par: 4,
-    //             handicap: 7,
-    //             yardage: {
-    //                 red: 403,
-    //                 white: 432,
-    //                 blue: 501,
-    //             }
-    //         },
-    //         {
-    //             number: 13,
-    //             par: 5,
-    //             handicap: 3,
-    //             yardage: {
-    //                 red: 472,
-    //                 white: 480,
-    //                 blue: 608,
-    //             }
-    //         },
-    //         {
-    //             number: 14,
-    //             par: 3,
-    //             handicap: 17,
-    //             yardage: {
-    //                 red: 139,
-    //                 white: 152,
-    //                 blue: 161,
-    //             }
-    //         },
-    //         {
-    //             number: 15,
-    //             par: 4,
-    //             handicap: 1,
-    //             yardage: {
-    //                 red: 417,
-    //                 white: 430,
-    //                 blue: 478,
-    //             }
-    //         },
-    //         {
-    //             number: 16,
-    //             par: 4,
-    //             handicap: 5,
-    //             yardage: {
-    //                 red: 431,
-    //                 white: 457,
-    //                 blue: 490,
-    //             }
-    //         },
-    //         {
-    //             number: 17,
-    //             par: 3,
-    //             handicap: 13,
-    //             yardage: {
-    //                 red: 178,
-    //                 white: 195,
-    //                 blue: 207,
-    //             }
-    //         },
-    //         {
-    //             number: 18,
-    //             par: 4,
-    //             handicap: 15,
-    //             yardage: {
-    //                 red: 345,
-    //                 white: 394,
-    //                 blue: 411,
-    //             }
-    //         },
-    //     ]
-    // }
-    // {
+    {
+        name: "Bethpage Black",
+        location : { 
+            zip : 11735 ,
+            latitude : 40.732747, 
+            longitude : -73.432789, 
+        },
+        img: "./img/Bethpage-Black-Logo.jpg",
+        isNine: false,
+        tees: [{
+            color: 'Red',
+            rating: 77,
+            slope: 152,
+        },
+        {
+            color: 'White',
+            rating: 73.8,
+            slope: 135,
+        },
+        {
+            color: 'Blue',
+            rating: 78.1,
+            slope: 152,
+        }],
+        holes: [
+            {
+                number: 1,
+                par: 4,
+                handicap: 8,
+                yardage: {
+                    red: 426,
+                    white: 429,
+                    blue: 430,
+                }
+            },
+            {
+                number: 2,
+                par: 4,
+                handicap: 16,
+                yardage: {
+                    red: 346,
+                    white: 354,
+                    blue: 389,
+                }
+            },
+            {
+                number: 3,
+                par: 3,
+                handicap: 18,
+                yardage: {
+                    red: 128,
+                    white: 158,
+                    blue: 230,
+                }
+            },
+            {
+                number: 4,
+                par: 5,
+                handicap: 2,
+                yardage: {
+                    red: 438,
+                    white: 461,
+                    blue: 517,
+                }
+            },
+            {
+                number: 5,
+                par: 4,
+                handicap: 4,
+                yardage: {
+                    red: 401,
+                    white: 423,
+                    blue: 478,
+                }
+            },
+            {
+                number: 6,
+                par: 4,
+                handicap: 10,
+                yardage: {
+                    red: 376,
+                    white: 386,
+                    blue: 408,
+                }
+            },
+            {
+                number: 7,
+                par: 5,
+                handicap: 6,
+                yardage: {
+                    red: 489,
+                    white: 502,
+                    blue: 553,
+                }
+            },
+            {
+                number: 8,
+                par: 3,
+                handicap: 14,
+                yardage: {
+                    red: 152,
+                    white: 191,
+                    blue: 210,
+                }
+            },
+            {
+                number: 9,
+                par: 4,
+                handicap: 12,
+                yardage: {
+                    red: 293,
+                    white: 385,
+                    blue: 460,
+                }
+            },
+            {
+                number: 10,
+                par: 4,
+                handicap: 9,
+                yardage: {
+                    red: 377,
+                    white: 434,
+                    blue: 502,
+                }
+            },
+            {
+                number: 11,
+                par: 4,
+                handicap: 11,
+                yardage: {
+                    red: 412,
+                    white: 421,
+                    blue: 435,
+                }
+            },
+            {
+                number: 12,
+                par: 4,
+                handicap: 7,
+                yardage: {
+                    red: 403,
+                    white: 432,
+                    blue: 501,
+                }
+            },
+            {
+                number: 13,
+                par: 5,
+                handicap: 3,
+                yardage: {
+                    red: 472,
+                    white: 480,
+                    blue: 608,
+                }
+            },
+            {
+                number: 14,
+                par: 3,
+                handicap: 17,
+                yardage: {
+                    red: 139,
+                    white: 152,
+                    blue: 161,
+                }
+            },
+            {
+                number: 15,
+                par: 4,
+                handicap: 1,
+                yardage: {
+                    red: 417,
+                    white: 430,
+                    blue: 478,
+                }
+            },
+            {
+                number: 16,
+                par: 4,
+                handicap: 5,
+                yardage: {
+                    red: 431,
+                    white: 457,
+                    blue: 490,
+                }
+            },
+            {
+                number: 17,
+                par: 3,
+                handicap: 13,
+                yardage: {
+                    red: 178,
+                    white: 195,
+                    blue: 207,
+                }
+            },
+            {
+                number: 18,
+                par: 4,
+                handicap: 15,
+                yardage: {
+                    red: 345,
+                    white: 394,
+                    blue: 411,
+                }
+            },
+        ]
+    },
     {
         name: "Bethpage Red",
-        zip: 11735,
+        location : { 
+            zip : 11735 ,
+            latitude : 40.732747, 
+            longitude : -73.432789, 
+        },
         img: "./img/Bethpage-Red-Logo.gif",
         isNine: false,
         tees: [{
