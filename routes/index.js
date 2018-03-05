@@ -12,7 +12,7 @@ var nodemailer = require('nodemailer');
 var sgMail = require('@sendgrid/mail');
 var middleware = require("../middleware");
 
-AWS.config.loadFromPath('./s3_config.json');
+// AWS.config.loadFromPath('./s3_config.json');
 var s3 = new AWS.S3();
 
 //Route route
@@ -208,7 +208,7 @@ router.post('/reset/:token', function(req, res) {
 
 //User Profile Route
 router.get("/profile", middleware.isLoggedIn, function(req, res){
-    AWS.config.loadFromPath('./s3_config.json');
+    // AWS.config.loadFromPath('./s3_config.json');
             
     var s3Bucket = new AWS.S3({ params: {Bucket: 'data-caddy-profile-pics'} });
     var urlParams = {Bucket: 'data-caddy-profile-pics', Key: req.user.username + '.jpg'};

@@ -37,7 +37,7 @@ router.get("/", middleware.isLoggedIn, function(req, res){
                 roundTypes[1].found = true;
             }
                     
-            AWS.config.loadFromPath('./s3_config.json');
+            // AWS.config.loadFromPath('./s3_config.json');
             
             var s3Bucket = new AWS.S3({ params: {Bucket: 'data-caddy-profile-pics'} });
             var urlParams = {Bucket: 'data-caddy-profile-pics', Key: req.user.username + '.jpg'};
