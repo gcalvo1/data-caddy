@@ -125,7 +125,7 @@ router.post('/forgot', function(req, res, next) {
       });
     },
     function(token, user, done) {
-        sgMail.setApiKey(config.sgMailApikey);
+        sgMail.setApiKey(process.env.SGMAILAPIKEY);
         const msg = {
           to: user.email,
           from: 'noreply@datacaddy.com',
