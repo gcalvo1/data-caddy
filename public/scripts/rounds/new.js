@@ -145,7 +145,7 @@ function SetApproachNotToGreen(element){
 function setApproachResult(element){
     var hole_changed = element.id.split('_').pop();
     if($(element).val() === 'Green'){
-        $('#ar_' + hole_changed).prop('selectedIndex', 1);
+        $('#ar_' + hole_changed).prop('selectedIndex', 2);
     } else {
         $('#ar_' + hole_changed).prop('selectedIndex', 0);
     }
