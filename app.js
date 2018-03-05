@@ -14,7 +14,6 @@ var express = require("express"),
     
 require('dotenv').config();
     
-    
 //Requiring routes    
 var roundRoutes = require("./routes/rounds"),
     indexRoutes = require("./routes/index"),
