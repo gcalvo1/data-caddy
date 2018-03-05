@@ -20,7 +20,7 @@ var roundRoutes = require("./routes/rounds"),
     indexRoutes = require("./routes/index"),
     dashboardRoutes = require("./routes/dashboard");
 
-mongoose.connect("mongodb://localhost/data_caddy");
+mongoose.connect(process.env.DATABASEURL);
 app.use(bodyParser.urlencoded({extended: true, uploadDir:'./uploads'}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public")); 
