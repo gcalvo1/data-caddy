@@ -10,7 +10,6 @@ var async = require('async');
 var crypto = require('crypto');
 var nodemailer = require('nodemailer');
 var sgMail = require('@sendgrid/mail');
-var config = require('../config');
 var middleware = require("../middleware");
 
 AWS.config.loadFromPath('./s3_config.json');
@@ -185,7 +184,7 @@ router.post('/reset/:token', function(req, res) {
       });
     },
     function(user, done) {
-      sgMail.setApiKey(config.sgMailApikey);
+      sgMail.setApiKey(process.env.SGMAILAPIKEY);
         const msg = {
           to: user.email,
           from: 'noreply@datacaddy.com',
