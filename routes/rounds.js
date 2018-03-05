@@ -142,6 +142,14 @@ router.post("/", middleware.isLoggedIn, function(req, res){
                                                 }
                                             });
                                         } else {
+                                            newRound.course.push(foundCourse._id);
+                                            newRound.save(function(err, data){  
+                                                if(err){
+                                                    console.log(err);
+                                                } else {
+                                                    req.flash("success", "Hole Saved");
+                                                }
+                                            });
                                             console.log(error);
                                         }
                                     });
