@@ -228,7 +228,7 @@ var courseData = [
             latitude : 40.732747, 
             longitude : -73.432789, 
         },
-        img: "./img/Bethpage-Black-Logo.jpg",
+        img: "../img/Bethpage-Black-Logo.jpg",
         isNine: false,
         tees: [{
             color: 'Red',
@@ -435,7 +435,7 @@ var courseData = [
             latitude : 40.732747, 
             longitude : -73.432789, 
         },
-        img: "./img/Bethpage-Red-Logo.gif",
+        img: "../img/Bethpage-Red-Logo.gif",
         isNine: false,
         tees: [{
             color: 'Red',
