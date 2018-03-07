@@ -8,7 +8,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.4/datepicker.css">
         <link rel="stylesheet" href="/stylesheets/main.css">
-        <link rel="icon" href="./img/Bethpage-Black-Logo.jpg">
+        <!--<link rel="icon" href="./img/icon.png">-->
         
         
         <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -25,14 +25,21 @@
     </div>
     <script>
         var s = document.createElement("script"),
-            url = $(location).attr('href');
+            url = $(location).attr('href'),
+            icon = "./img/icon.png";
             s.type = "text/javascript";
             if(url.indexOf("edit") !== -1){
                 s.src = "../../scripts/header.js";
+                icon = "../../img/icon.png";
             } else {
                 s.src = "../../scripts/header.js";
             }
+            if(url.indexOf("new") !== -1){
+                icon = "../img/icon.png";
+            }
             document.getElementById("script").appendChild(s);
+        
+            $('head').append('<link rel="icon" href="'+icon+'" />');
     </script>
     <body>
         <nav class="navbar navbar-inverse">
