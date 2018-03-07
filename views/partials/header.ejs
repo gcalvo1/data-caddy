@@ -20,7 +20,20 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript" async></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
     </head>
-    <script src="../scripts/header.js"></script>
+    <!--<script src="../scripts/header.js"></script>-->
+    <div id="script">
+    </div>
+    <script>
+        var s = document.createElement("script"),
+            url = $(location).attr('href');
+            s.type = "text/javascript";
+            if(url.indexOf("edit") !== -1){
+                s.src = "../../scripts/header.js";
+            } else {
+                s.src = "../../scripts/header.js";
+            }
+            document.getElementById("script").appendChild(s);
+    </script>
     <body>
         <nav class="navbar navbar-inverse">
             <div class="container-fluid">

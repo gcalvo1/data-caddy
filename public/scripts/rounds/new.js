@@ -60,8 +60,13 @@ function courseDropdownChange() {
             }
             
             //Set course img
+            var url = $(location).attr('href'),
+                img = data.course.img
+            if(url.indexOf("edit") !== -1){
+                img = "../" + img
+            }
             $('#input_img_div').html("");
-            $('#input_img_div').html("<img id='input_img' src='"+ data.course.img + "' alt=''>");
+            $('#input_img_div').html("<img id='input_img' src='"+ img + "' alt=''>");
             $('#input_img').addClass("thumb_img");
             
             $.each(data.course.holes, function(i, item) {
