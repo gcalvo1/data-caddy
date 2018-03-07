@@ -34,7 +34,7 @@
                 </div>
             </div> 
         </div> 
-    <hr class='header_hr'>
+        <hr class='header_hr'>
         <% for(var i = 1; i <= 18; i++) { %>
             <form id='form_hole_<%=i%>' class="round-form" action="/rounds" method="POST">
                 <div class="row form-inline input_row">
@@ -50,7 +50,7 @@
                                       <option value="Driver">Driver</option>
                                       <option value="3W">3W</option>
                                       <option value="5W">5W</option>
-                                      <option value="Rescue">Rescue</option></option>
+                                      <option value="Rescue">Rescue</option>
                                       <option value="3I">3I</option>
                                       <option value="4I">4I</option>
                                       <option value="5I">5I</option>
@@ -66,7 +66,7 @@
                             </div>
                             <div class="form-group fg_input">
                                 <div class="anim">
-                                <label for="tsl" class="Label_input">Tee Length <span class="info-tooltip" tooltip="Optional: An estimation, or exact measure, in yards of how far your tee shot went" flow="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span></label>
+                                    <label for="tsl" class="Label_input">Tee Length <span class="info-tooltip" tooltip="Optional: An estimation, or exact measure, in yards of how far your tee shot went" flow="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span></label>
                                 </div>
                                 <input type="number" name="round[tsl]" class="form-control f_input tsl" id="tsl_<%=i%>" min="0">
                             </div>
@@ -77,7 +77,7 @@
                                       <option value="Fairway">Fairway</option>
                                       <option value="Left">Left</option>
                                       <option value="Right">Right</option>
-                                      <option value="Short">Short</option></option>
+                                      <option value="Short">Short</option>
                                       <option value="Long">Long</option>
                                 </select>
                             </div>
@@ -88,7 +88,7 @@
                                       <option value="FIR">FIR</option>
                                       <option value="Rough">Rough</option>
                                       <option value="Bunker">Bunker</option>
-                                      <option value="Woods">Woods</option></option>
+                                      <option value="Woods">Woods</option>
                                       <option value="Fescue">Fescue</option>
                                       <option value="Water">Water</option>
                                       <option value="Lost Ball">Lost Ball</option>
@@ -97,7 +97,7 @@
                             <div class="form-group fg_input">
                                 <label for="atg" class="Label_input">Appr. to Green <span class="info-tooltip" tooltip='"Yes" if you were going for the green with your approach shot. "No" otherwise' flow="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span></label>
                                 <select name="round[atg]" class="form-control f_input atg" id="atg_<%=i%>">
-                                    <option value=""></option>
+                                      <option value=""></option>
                                       <option value="Yes">Yes</option>
                                       <option value="No">No</option>
                                 </select>
@@ -105,11 +105,11 @@
                             <div class="form-group fg_input">
                                 <label for="ac" class="Label_input">Appr. Club <span class="info-tooltip" tooltip="The club you hit your approach shot with" flow="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span></label>
                                 <select name="round[ac]" class="form-control f_input" id="ac_<%=i%>">
-                                    <option value=""></option>
+                                      <option value=""></option>
                                       <option value="Driver">Driver</option>
                                       <option value="3W">3W</option>
                                       <option value="5W">5W</option>
-                                      <option value="Rescue">Rescue</option></option>
+                                      <option value="Rescue">Rescue</option>
                                       <option value="3I">3I</option>
                                       <option value="4I">4I</option>
                                       <option value="5I">5I</option>
@@ -134,21 +134,21 @@
                                       <option value="Green">Green</option>
                                       <option value="Left">Left</option>
                                       <option value="Right">Right</option>
-                                      <option value="Short">Short</option></option>
+                                      <option value="Short">Short</option>
                                       <option value="Long">Long</option>
                                 </select>
                             </div>
                             <div class="form-group fg_input">
                                 <label for="ar" class="Label_input">Appr. Result <span class="info-tooltip" tooltip="Where the approach shot landed" flow="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span></label>
                                 <select name="round[ar]" class="form-control f_input" id="ar_<%=i%>">
-                                    <option value=""></option>
+                                      <option value=""></option>
                                       <option value="Under GIR">Under GIR</option>    
                                       <option value="GIR">GIR</option>
                                       <option value="Fringe">Fringe</option>
                                       <option value="Fairway">Fairway</option>
                                       <option value="Rough">Rough</option>
                                       <option value="Bunker">Bunker</option>
-                                      <option value="Woods">Woods</option></option>
+                                      <option value="Woods">Woods</option>
                                       <option value="Fescue">Fescue</option>
                                       <option value="Water">Water</option>
                                       <option value="Lost Ball">Lost Ball</option>
