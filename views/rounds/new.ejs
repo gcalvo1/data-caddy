@@ -181,7 +181,7 @@
             <hr id="hr_<%=i%>">
         <% } %>
         <div id='complete_btn_div'>
-            <a href="/rounds/" class="btn btn-primary btn-complete">Complete Round</a>
+            <a id='complete-btn' href="/rounds/" class="btn btn-primary btn-complete" onclick="return completeValidation();">Complete Round</a>
         </div>
     </div>
 <script src="../scripts/rounds/new.js"></script>
@@ -237,9 +237,6 @@
         }
     });
     
-    // $(".save_btn").click(function() {
-    //     holeSave(this);
-    // });
     $('.round-form').on('submit', function(e) {
         e.preventDefault();
         holeSave(this);

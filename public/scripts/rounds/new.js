@@ -365,6 +365,30 @@ function holeEdit(element) {
     return false;
 }
 
+function completeValidation() {
+    var nonSavedHoles = [],
+        alertMessage = "Holes ";
+    for(let i=1; i<=18; i++){
+        if($('#submit_' + i).text() != "Saved"){
+            nonSavedHoles.push(i);
+        }
+    }
+    if(nonSavedHoles.length > 0) {
+        var count = 0;
+        nonSavedHoles.forEach(function(hole){
+            if(count === 0){
+                alertMessage += hole;
+            } else {
+                alertMessage += ", " + hole;
+            }
+            count++;
+        });
+        alertMessage += " Not Saved. Are you sure you would like to complete the round?";
+        return confirm(alertMessage);
+        //alert(alertMessage);
+    }
+}
+
 function dateInputChange(){
     var dateInput = $("#datetimepicker1").find("input").val();
     dateInput = new Date(dateInput);
