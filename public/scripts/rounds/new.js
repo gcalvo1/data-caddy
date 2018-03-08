@@ -367,8 +367,13 @@ function holeEdit(element) {
 
 function completeValidation() {
     var nonSavedHoles = [],
-        alertMessage = "Holes ";
-    for(let i=1; i<=18; i++){
+        alertMessage = "Holes ",
+        numHoles = $('#holes_dropdown :selected').text(),
+        holes = 18;
+        if(numHoles === "Front 9" || numHoles === "Back 9") {
+            holes = 9;
+        }
+    for(let i=1; i<=holes; i++){
         if($('#submit_' + i).text() != "Saved"){
             nonSavedHoles.push(i);
         }
@@ -386,6 +391,28 @@ function completeValidation() {
         alertMessage += " Not Saved. Are you sure you would like to complete the round?";
         return confirm(alertMessage);
         //alert(alertMessage);
+    } else {
+        //Get round id for link redirect
+        var dateInput = $("#datetimepicker1").find("input").val();
+        dateInput = new Date(dateInput);
+        $('.hidden_datetime').val(dateInput);
+        
+        var parameters = { 
+            course: $("#course_dropdown").val(),
+            numHoles: $('#holes_dropdown :selected').text(),
+            date: dateInput
+        }
+        
+        //Set values for pre-submitted rounds
+        $.get( '/roundkey',parameters, function(data) {
+            if(data.round.length > 0){
+                var roundObj = data.round[0],
+                url = $(location).attr('href');
+                url = url.substring(0, url.length - 3);
+                alert(url);
+                window.location.replace(url + roundObj._id);
+            }
+        });
     }
 }
 
