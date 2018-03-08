@@ -119,9 +119,15 @@ function puttsChange(element) {
 function setTeeShotResult(element){
     var hole_changed = element.id.split('_').pop();
     if($(element).val() === 'Fairway'){
+        if($("#tsr_" + hole_changed + " option[value='FIR']").length <= 0){
+            $("#tsr_" + hole_changed + " option[value='']").remove();
+            $('#tsr_' + hole_changed).prepend('<option value="FIR">FIR</option>');
+            $('#tsr_' + hole_changed).prepend('<option value=""></option>');
+        }
         $('#tsr_' + hole_changed).prop('selectedIndex', 1);
     } else {
         $('#tsr_' + hole_changed).prop('selectedIndex', 0);
+        $("#tsr_" + hole_changed + " option[value='FIR']").remove();
     }
 }
 
@@ -150,12 +156,20 @@ function SetApproachNotToGreen(element){
 function setApproachResult(element){
     var hole_changed = element.id.split('_').pop();
     if($(element).val() === 'Green'){
+        if($("#ar_" + hole_changed + " option[value='GIR']").length <= 0){
+            $("#ar_" + hole_changed + " option[value='']").remove();
+            $('#ar_' + hole_changed).prepend('<option value="GIR">GIR</option>');
+            $('#ar_' + hole_changed).prepend('<option value="Under GIR">Under GIR</option>');
+            $('#ar_' + hole_changed).prepend('<option value=""></option>');
+        }
         $('#ar_' + hole_changed).prop('selectedIndex', 2);
     } else {
+        console.log($("#ar_" + hole_changed + " option[value='Under GIR']"));
         $('#ar_' + hole_changed).prop('selectedIndex', 0);
+        $("#ar_" + hole_changed + " option[value='Under GIR']").remove();
+        $("#ar_" + hole_changed + " option[value='GIR']").remove();
     }
 }
-
 
 //Modify hole options based on selction in number of holes dropdown
 function holesDropdownChange(){
