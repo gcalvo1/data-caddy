@@ -323,6 +323,12 @@ hr {
 
 .input_card {
     margin-left: 20px;
+    height: 72px;
+}
+
+#input_img_div {
+    width: 75px;
+    height: 75px;
 }
 
 .hole_submit {
