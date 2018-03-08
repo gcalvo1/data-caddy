@@ -1,5 +1,5 @@
-function driveTracker(isFull, club) {
-    $.get( 'dashboard/mostrecentround', isFull, function(data) {
+function driveTracker(parameters, club) {
+    $.get( 'dashboard/mostrecentround', parameters, function(data) {
         //Set Drive Tracker round date in dashboard
         var date = new Date(data.mostRecentRound[0].date);
         $('#drive-tracker-date').html(" - " + date.toISOString().split('T')[0]);

@@ -886,7 +886,7 @@ var courseData = [
     //         longitude : -73.432789, 
     //     },
     //     img: "../img/Bethpage-Yellow-Logo.png",
-    //     isNine: false,
+    //     isNine: true,
     //     tees: [{
     //         color: 'Red',
     //         rating: 72.9,

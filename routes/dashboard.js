@@ -562,7 +562,7 @@ router.get("/roundsdata", middleware.isLoggedIn, function(req, res){
 });
 
 router.get("/mostrecentround", middleware.isLoggedIn, function(req, res){
-    Round.find({"player.id": req.user._id, isFull: req.query.isFull, isComplete:true}).sort({date:-1}).limit(1).populate("course").exec(function(err, mostRecentRound){
+    Round.find({"player.id": req.user._id, isFull: req.query.isFull, date: {$gte: req.query.dateFrom,$lte: req.query.dateTo}, isComplete:true}).sort({date:-1}).limit(1).populate("course").exec(function(err, mostRecentRound){
         if(err){
             console.log(err);
         } else {
