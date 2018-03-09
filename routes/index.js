@@ -50,7 +50,8 @@ router.post("/register", function(req, res){
           cb("Error: File upload only supports the following filetypes - " + filetypes);
           req.flash('error', 'Error: File upload only supports the following filetypes - jpg, jpeg, png, gif');
           res.redirect("/register");
-        }
+        },
+        limits: {fileSize: 1024 * 1024 * 1024}
     }).array('imgFile', 1);
 
     upload(req, res, function (error) {
@@ -261,7 +262,8 @@ router.post("/profile", middleware.isLoggedIn, function(req, res){
           cb("Error: File upload only supports the following filetypes - " + filetypes);
           req.flash('error', 'Error: File upload only supports the following filetypes - jpg, jpeg, png, gif');
           res.redirect("/profile");
-        }
+        },
+        limits: {fileSize: 1024 * 1024 * 1024}
     }).array('imgFile', 1);
     
     upload(req, res, function (error) {
