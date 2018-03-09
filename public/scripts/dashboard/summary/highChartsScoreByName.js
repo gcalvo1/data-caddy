@@ -8,7 +8,7 @@ function highChartsScoreByName(scoreNames){
             type: 'pie'
         },
         title: {
-            text: null
+            text: "Scoring Breakdown"
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.y}</b>'
