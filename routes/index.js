@@ -8,7 +8,6 @@ var multerS3 = require('multer-s3');
 var path = require("path");
 var async = require('async');
 var crypto = require('crypto');
-var nodemailer = require('nodemailer');
 var sgMail = require('@sendgrid/mail');
 var middleware = require("../middleware");
 
