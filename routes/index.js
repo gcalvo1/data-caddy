@@ -278,6 +278,14 @@ router.post("/profile", middleware.isLoggedIn, function(req, res){
                       user.imgExt = path.extname(fileInfo.originalname);
                       if(!user.hasImg){
                         user.hasImg = true;
+                      } else {
+                         var params = {
+                            Bucket: "data-caddy-profile-pics", 
+                            Key: req.user.username+req.user.imgExt
+                         };
+                         s3.deleteObject(params, function(err, data) {
+                           if (err) console.log(err, err.stack); // an error occurred
+                         });
                       }
                       user.save(function(err) {
                         if(err){
