@@ -397,7 +397,7 @@ function setShortGame(parameters) {
         $("#three-putts-per-round").attr("data-to",Math.round(threePuttsPerRound * 10) / 10);
         
         //Pie Chart
-        highChartsScoreByTrap(traps);
+        highChartsScoreByAR(traps);
         
         //Scrambling % by trap bar chart
         highChartsScramblingByTrap(traps);

@@ -1,4 +1,4 @@
-function highChartsScoreByTrap(traps){
+function highChartsScoreByAR(traps){
     var colors = Highcharts.getOptions().colors,
         categories = [], //["fescue", "fringe", "gir", "rough"],
         data = [],
@@ -63,12 +63,12 @@ function highChartsScoreByTrap(traps){
     }
 
     // Create the chart
-    Highcharts.chart('trap-score-pie', {
+    Highcharts.chart('ar-score-pie', {
         chart: {
             type: 'pie'
         },
         title: {
-            text: 'Score by Trap'
+            text: 'Score by Approach Result'
         },
         yAxis: {
         },
