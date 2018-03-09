@@ -26,8 +26,9 @@ router.get("/register", function(req, res){
 });
 
 router.post("/register", function(req, res){
-    var hasImg = false;
-    var fileInfo = "";
+    var hasImg = false,
+        fileInfo = "",
+        imgExt = "";
     const upload = multer({
         storage: multerS3({
             s3: s3,
@@ -39,9 +40,7 @@ router.post("/register", function(req, res){
             }
         })
     }).array('imgFile', 1);
-    
-    
-    
+
     upload(req, res, function (error) {
         if (error) {
           console.log(error);
@@ -54,6 +53,7 @@ router.post("/register", function(req, res){
                 else {
                     if(fileInfo){
                       hasImg = true;  
+                      imgExt = path.extname(fileInfo.originalname)
                     }
                     var newUser = new User(
                                             {
@@ -61,6 +61,7 @@ router.post("/register", function(req, res){
                                                 email: req.body.email,
                                                 name: req.body.name,
                                                 hasImg: hasImg,
+                                                imgExt: imgExt,
                                                 role: "user",
                                                 signUpDate: Date.now()
                                             });
@@ -212,7 +213,7 @@ router.get("/profile", middleware.isLoggedIn, function(req, res){
     // AWS.config.loadFromPath('./s3_config.json');
             
     var s3Bucket = new AWS.S3({ params: {Bucket: 'data-caddy-profile-pics'} });
-    var urlParams = {Bucket: 'data-caddy-profile-pics', Key: req.user.username + '.jpg'};
+    var urlParams = {Bucket: 'data-caddy-profile-pics', Key: req.user.username + req.user.imgExt};
     s3Bucket.getSignedUrl('getObject', urlParams, function(err, url){
         if(err){
             console.log(err);
@@ -248,6 +249,7 @@ router.post("/profile", middleware.isLoggedIn, function(req, res){
                   console.log(err);
                 } else {
                     if(fileInfo){
+                      user.imgExt = path.extname(fileInfo.originalname);
                       if(!user.hasImg){
                         user.hasImg = true;
                       }

@@ -9,6 +9,7 @@ var UserSchema = new mongoose.Schema({
     resetPasswordToken: String,
     resetPasswordExpires: Date,
     hasImg: Boolean,
+    imgExt: String,
     role: String,
     signUpDate: Date,
 });

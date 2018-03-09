@@ -40,7 +40,7 @@ router.get("/", middleware.isLoggedIn, function(req, res){
             // AWS.config.loadFromPath('./s3_config.json');
             
             var s3Bucket = new AWS.S3({ params: {Bucket: 'data-caddy-profile-pics'} });
-            var urlParams = {Bucket: 'data-caddy-profile-pics', Key: req.user.username + '.jpg'};
+            var urlParams = {Bucket: 'data-caddy-profile-pics', Key: req.user.username + req.user.imgExt};
             s3Bucket.getSignedUrl('getObject', urlParams, function(err, url){
                 if(err){
                     console.log(err);
