@@ -92,7 +92,9 @@ function teeDropdownChange() {
     $.get( '/coursedropdown',parameters, function(data) {
         $('.hole_desc_yardage').remove();
         $.each(data.course.holes, function(i, item) {
-            $('#hole_' + item.number).html($('#hole_' + item.number).html() + '<p class="hole_desc_yardage">'+item.yardage[teeSelection]+' yds</p>');
+            if(item.yardage[teeSelection]) {
+                $('#hole_' + item.number).html($('#hole_' + item.number).html() + '<p class="hole_desc_yardage">'+item.yardage[teeSelection]+' yds</p>');
+            }
             $('#hidden_par_' + item.number).val(item.par);
             $('#hidden_tees_' + item.number).val($("#tees_dropdown :selected").text());
             var teeColor = $('#hidden_tees_' + item.number).val();
