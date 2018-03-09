@@ -38,7 +38,19 @@ router.post("/register", function(req, res){
               fileInfo = file;
               cb(null, req.body.username + path.extname(file.originalname));
             }
-        })
+        }),
+        fileFilter: function (req, file, cb) {
+          var filetypes = /png|jpg|jpeg|gif/;
+          var mimetype = filetypes.test(file.mimetype);
+          var extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+      
+          if (mimetype && extname) {
+            return cb(null, true);
+          }
+          cb("Error: File upload only supports the following filetypes - " + filetypes);
+          req.flash('error', 'Error: File upload only supports the following filetypes - jpg, jpeg, png, gif');
+          res.redirect("/register");
+        }
     }).array('imgFile', 1);
 
     upload(req, res, function (error) {
@@ -237,7 +249,19 @@ router.post("/profile", middleware.isLoggedIn, function(req, res){
               fileInfo = file;
               cb(null, req.user.username + path.extname(file.originalname));
             }
-        })
+        }),
+        fileFilter: function (req, file, cb) {
+          var filetypes = /png|jpg|jpeg|gif/;
+          var mimetype = filetypes.test(file.mimetype);
+          var extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+      
+          if (mimetype && extname) {
+            return cb(null, true);
+          }
+          cb("Error: File upload only supports the following filetypes - " + filetypes);
+          req.flash('error', 'Error: File upload only supports the following filetypes - jpg, jpeg, png, gif');
+          res.redirect("/profile");
+        }
     }).array('imgFile', 1);
     
     upload(req, res, function (error) {
