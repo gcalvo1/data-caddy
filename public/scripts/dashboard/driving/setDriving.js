@@ -92,7 +92,11 @@ function setDriving(parameters) {
             $("#tee-miss-long-ratio").html("");
             $("#tee-miss-short-ratio").html("");
         } else {
-            $("#driving-distance").html(Math.round(avgDrivingDistance * 10) / 10 + " yds");
+            if (numDrivesWithDistance === 0){
+                $("#driving-distance").html("N/A");
+            } else {
+                $("#driving-distance").html(Math.round(avgDrivingDistance * 10) / 10 + " yds");
+            }
             $("#fir-percent").html(Math.round(firPercent * 10) / 10 + "%");
             $("#tee-miss-right").html(Math.round(driveMissPercent.right * 10) / 10 + "%");
             $("#tee-miss-left").html(Math.round(driveMissPercent.left * 10) / 10 + "%");
