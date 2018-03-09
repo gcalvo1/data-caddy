@@ -1199,14 +1199,6 @@ to align it properly */
 }
 
 /*Start Weather*/
-::selection{
-    background-color: transparent;
-}
-/*.container{*/
-/*    width: 100vw;*/
-/*    height: 100vh;*/
-/*    display:flex;*/
-/*}*/
 .card-wrapper{
     position: relative;
     margin: auto;
