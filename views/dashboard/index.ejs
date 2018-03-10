@@ -97,7 +97,10 @@
                             <a class="nav-link non-home-tab non-driving-tab non-approach-tab" id="short-game-tab" data-toggle="tab" href="#short-game" role="tab" aria-controls="short-game" aria-selected="false">Short Game</a>
                           </li>
                           <li id="weather-tab-li" class="nav-item">
-                            <a class="nav-link non-home-tab non-driving-tab non-approach-tab" id="weather-tab" data-toggle="tab" href="#weather" role="tab" aria-controls="weather-game" aria-selected="false">Weather</a>
+                            <a class="nav-link non-home-tab non-driving-tab non-approach-tab" id="weather-tab" data-toggle="tab" href="#weather" role="tab" aria-controls="weather" aria-selected="false">Weather</a>
+                          </li>
+                          <li id="map-tab-li" class="nav-item">
+                            <a class="nav-link non-home-tab non-driving-tab non-approach-tab" id="map-tab" data-toggle="tab" href="#map" role="tab" aria-controls="map" aria-selected="false">Map</a>
                           </li>
                         </ul>
                     </div>
@@ -489,6 +492,13 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="tab-pane fade" id="map" role="tabpanel" aria-labelledby="map-tab">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="map-api"></div>
+                                </div>
+                            </div>    
+                        </div>
                     </div>
                 </div>
             </div>
@@ -513,6 +523,7 @@
 <script src="../scripts/dashboard/approach/setApproach.js"></script>
 <script src="../scripts/dashboard/approach/highChartsApproachSpread.js"></script>
 <script src="../scripts/dashboard/updateDashboard.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5ZVEcAKEvfoR6FqNq-AyhnRkq1g90yoI" async defer></script>
 
 <script>
 
@@ -564,6 +575,14 @@
     });
     $('#weather-tab').on('click', function(){
         activeTab = 'weather';
+        updateDashboard();
+    });
+    $('#map-tab').on('click', function(){
+        activeTab = 'map';
+        //Update multiple times to hack render bug fix
+        updateDashboard();
+        updateDashboard();
+        google.maps.event.trigger(map, "resize");
         updateDashboard();
     });
     $('.non-approach-tab').on('click', function(){
@@ -787,7 +806,6 @@
                 $('#wind-div h2').addClass('small-weather-numbers');
             }
             //Temperature
-            console.log(data.temperature);
             var tempHtml = "",
                 numTempCategories = data.temperature.length,
                 colLen = Math.floor(12 / numTempCategories);
@@ -820,5 +838,59 @@
         });
     };
     
+    function setMap(parameters) {
+        $.get( '/dashboard/roundsdata', parameters, function(data) {
+            var courseList = [];
+            data.rounds.forEach(function(round){
+                if (courseList.lenth === 0){
+                    courseList.push(round.course[0]);
+                } else {
+                    var found = false;
+                    courseList.forEach(function(course){
+                        if(course[0] === round.course[0].name) {
+                            found = true;
+                        }
+                    });
+                    if(!found) {
+                        courseList.push(
+                            [
+                                round.course[0].name,
+                                round.course[0].location.latitude,
+                                round.course[0].location.longitude
+                            ]
+                        );
+                    }
+                }
+            });
+            
+            var map = new google.maps.Map(document.getElementById('map-api'), {
+              zoom: 7,
+              center: new google.maps.LatLng(39.909736, -98.522109)
+            });
+        
+            var infowindow = new google.maps.InfoWindow();
+        
+            var marker, i;
+            var bound = new google.maps.LatLngBounds();
+        
+            for (i = 0; i < courseList.length; i++) {  
+              marker = new google.maps.Marker({
+                position: new google.maps.LatLng(courseList[i][1], courseList[i][2]),
+                map: map
+              });
+              
+              //Fit map to screen based on points
+              bound.extend( new google.maps.LatLng(courseList[i][1], courseList[i][2]) );
+              
+              google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                return function() {
+                  infowindow.setContent(courseList[i][0]);
+                  infowindow.open(map, marker);
+                }
+              })(marker, i));
+            }
+            map.fitBounds(bound);
+        });
+    }
 </script>
 <% include ../partials/footer %>

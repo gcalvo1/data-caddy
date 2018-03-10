@@ -85,4 +85,8 @@ function updateDashboard(club){
         var parameters = { isFull: isFull, dateFrom: dateFrom, dateTo:dateTo };
         setWeather(parameters);
     }
+    if(activeTab === "map"){
+        var parameters = { isFull: isFull, dateFrom: dateFrom, dateTo:dateTo };
+        setMap(parameters);
+    }
 }
