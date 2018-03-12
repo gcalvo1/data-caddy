@@ -1551,7 +1551,7 @@ to align it properly */
 /*End Weather*/
 
 #map-api {
-  height: 700px;
+  height: 600px;
 }
 
 #map-api img{max-height:none;}

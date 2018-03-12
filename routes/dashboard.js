@@ -187,6 +187,7 @@ router.get("/roundsdata", middleware.isLoggedIn, function(req, res){
                     eagleBetter: 0
                 },
                 scoreByDate = [],
+                scoreByCourse = [],
                 allClubs = [
                     {
                         clubName:'Driver',
@@ -510,6 +511,14 @@ router.get("/roundsdata", middleware.isLoggedIn, function(req, res){
                 }
                 roundData.push(roundScore);
                 scoreByDate.push(roundData);
+                scoreByCourse.push(
+                    {
+                        name: round.courseName,
+                        latitude: round.course[0].location.latitude,
+                        longitude: round.course[0].location.longitude,
+                        score: roundScore,
+                        rounds: 1
+                    });
                 totalScoreToPar += (roundScore - roundPar);
             }); 
             if(numScoreNames.par > 0){
@@ -552,6 +561,7 @@ router.get("/roundsdata", middleware.isLoggedIn, function(req, res){
                 user: req.user, 
                 numScoreNames, 
                 scoreNames: scoreNames, 
+                scoreByCourse: scoreByCourse,
                 allClubs: allClubs, 
                 weatherIcons: weatherIcons, 
                 windSpeed: windSpeed,
