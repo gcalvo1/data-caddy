@@ -59,28 +59,6 @@
                         <select class="form-control" id="approach-club-dropdown">
                         </select>
                     </div>
-                    <!--<nav id="dash-left-menu">-->
-                    <!--  <UL>-->
-                    <!--   <li class="var_nav">-->
-                    <!--      <div class="link_bg"></div>-->
-                    <!--      <div class="link_title">-->
-                    <!--        <div class=icon> -->
-                    <!--        <i class="fas fa-plus"></i>-->
-                    <!--        </div>-->
-                    <!--        <a href="/rounds/new"><span>New Round</span></a>-->
-                    <!--      </div>-->
-                    <!--   </li>-->
-                    <!--   <li class="var_nav">-->
-                    <!--      <div class="link_bg"></div>-->
-                    <!--      <div class="link_title">-->
-                    <!--        <div class=icon> -->
-                    <!--        <i class="fas fa-eye"></i>-->
-                    <!--        </div>-->
-                    <!--        <a href="/rounds"><span>View Rounds</span></a>-->
-                    <!--      </div>-->
-                    <!--   </li>-->
-                    <!--  </UL>-->
-                    <!--</nav>-->
                 </div>
             </div>
         </div>
@@ -187,19 +165,19 @@
                                     </div>
                                 </div>    
                                 <div class="col-md-6">
-                                        <h4 id="drive-tracker-title">DriveTracker <span id="drive-tracker-date"></span></h4>
-                                                <div id='canv-container'>
-                                                    <canvas id="driveTracker" width="500" height="500"></canvas>
-                                                </div>
-                                                <div id='drive-tracker-legend'>
-                                                    <h5>Legend</h5>
-                                                    <div id='legend-values'>
-                                                        <div>
-                                                            <span id="par-circle"> </span><span class="legend-score-name"> par </span>
-                                                        </div>
-                                                    </div>
-                                                    <button id="reset-drive-tracker" class="btn btn-info">Play Again</button>
-                                                </div>
+                                    <h4 id="drive-tracker-title">DriveTracker <span id="drive-tracker-date"></span></h4>
+                                    <div id='canv-container'>
+                                        <canvas id="driveTracker" width="500" height="500"></canvas>
+                                    </div>
+                                    <div id='drive-tracker-legend'>
+                                        <h5>Legend</h5>
+                                        <div id='legend-values'>
+                                            <div>
+                                                <span id="par-circle"> </span><span class="legend-score-name"> par </span>
+                                            </div>
+                                        </div>
+                                        <button id="reset-drive-tracker" class="btn btn-info">Play Again</button>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
@@ -455,7 +433,6 @@
                                             </header>
                                             <div class="rainy"></div>
                                             <p class="card-temp box-highlight"></p>
-                                            <!--<p class="card-info">Tempo estável com algumas núvens</p>-->
                                         </section>
                                         <section id="cloudy" class="card anim-flip hidden">
                                             <header>
@@ -486,14 +463,11 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div id="wind-div" class="weather-div">
-                                    
-                                </div>
+                                <div id="wind-div" class="weather-div"></div>
                             </div>
                             <hr class="weather-hr">
                             <div class="row">
                                 <div id="temp-div" class="weather-div">
-                                    
                                 </div>
                             </div>
                         </div>
@@ -592,7 +566,6 @@
         updateDashboard();
         updateDashboard();
         google.maps.event.trigger(map, "resize");
-        // updateDashboard();
     });
     $('.non-approach-tab').on('click', function(){
         $('#approach-club-dropdown-div').addClass("hidden");
