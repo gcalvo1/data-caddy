@@ -93,12 +93,13 @@ router.post("/register", function(req, res){
                             sgMail.setApiKey(process.env.SGMAILAPIKEY);
                             const msg = {
                               to: user.email,
-                              from: 'noreply@datacaddy.com',
+                              from: 'noreply@mydatacaddy.com',
                               subject: 'DataCaddy Email Confirmation',
-                              text: 'You are receiving this because you (or someone else) has signed up for DataCaddy.\n\n' +
-                              'Please click on the following link, or paste this into your browser to confirm your email to complete the process:\n\n' +
-                              'http://' + req.headers.host + '/confirm/' + verification_token + '\n\n' +
-                              'If you did not request this, please ignore this email.\n'
+                              text: 'Welcome to DataCaddy!\n\n' +
+                                    'You are receiving this because you signed up for DataCaddy.\n\n' +
+                                    'Please click on the following link, or paste this into your browser to confirm your email to complete the process:\n\n' +
+                                    'http://' + req.headers.host + '/confirm/' + user.emailConfirmationToken + '\n\n' +
+                                    'If you did not request this, please ignore this email.\n'
                             };
                             sgMail.send(msg, function(err){
                                 if(err){
@@ -143,12 +144,13 @@ router.get("/resend-verification", function (req, res) {
         sgMail.setApiKey(process.env.SGMAILAPIKEY);
         const msg = {
           to: user.email,
-          from: 'noreply@datacaddy.com',
+          from: 'noreply@mydatacaddy.com',
           subject: 'DataCaddy Email Confirmation',
-          text: 'You are receiving this because you (or someone else) has signed up for DataCaddy.\n\n' +
-          'Please click on the following link, or paste this into your browser to confirm your email to complete the process:\n\n' +
-          'http://' + req.headers.host + '/confirm/' + user.emailConfirmationToken + '\n\n' +
-          'If you did not request this, please ignore this email.\n'
+          text: 'Welcome to DataCaddy!\n\n' +
+                'You are receiving this because you signed up for DataCaddy.\n\n' +
+                'Please click on the following link, or paste this into your browser to confirm your email to complete the process:\n\n' +
+                'http://' + req.headers.host + '/confirm/' + user.emailConfirmationToken + '\n\n' +
+                'If you did not request this, please ignore this email.\n'
         };
         sgMail.send(msg, function(err){
           if(err){
@@ -208,9 +210,9 @@ router.post('/forgot', function(req, res, next) {
         sgMail.setApiKey(process.env.SGMAILAPIKEY);
         const msg = {
           to: user.email,
-          from: 'noreply@datacaddy.com',
-          subject: 'Node.js Password Reset',
-          text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+          from: 'noreply@mydatacaddy.com',
+          subject: 'DataCaddy Password Reset',
+          text: 'You are receiving this because you requested the reset of the password for your account.\n\n' +
           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
           'http://' + req.headers.host + '/reset/' + token + '\n\n' +
           'If you did not request this, please ignore this email and your password will remain unchanged.\n'
@@ -268,7 +270,7 @@ router.post('/reset/:token', function(req, res) {
       sgMail.setApiKey(process.env.SGMAILAPIKEY);
         const msg = {
           to: user.email,
-          from: 'noreply@datacaddy.com',
+          from: 'noreply@mydatacaddy.com',
           subject: 'Your password has been changed',
           text: 'Hello,\n\n' +
           'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
