@@ -5,7 +5,7 @@ var Course = require("../models/course");
 var middleware = require("../middleware");
 var request = require('request');
 
-router.get("/", middleware.isLoggedIn, function(req, res){
+router.get("/", middleware.isLoggedIn, middleware.emailVerified, function(req, res){
     Round.find({"player.id": req.user._id}).populate("course").exec(function(err, rounds){
         if(err){
             console.log(err);
@@ -17,7 +17,7 @@ router.get("/", middleware.isLoggedIn, function(req, res){
 });
 
 //CREATE
-router.post("/", middleware.isLoggedIn, function(req, res){
+router.post("/", middleware.isLoggedIn, middleware.emailVerified, function(req, res){
     console.log(req.body.round);
     if(req.body.round.course && req.body.round.numHoles && req.body.round.tees && req.body.round.datetime && (req.body.round.par == 3 || req.body.round.teeShotClub) && (req.body.round.par == 3 || req.body.round.teeShotDirection) && (req.body.round.par == 3 || req.body.round.teeShotResult) && req.body.round.approachToGreen && (req.body.round.approachToGreen === "No" || req.body.round.approachClub) && (req.body.round.approachToGreen === "No" || req.body.round.approachDirection) && (req.body.round.approachToGreen === "No" || req.body.round.approachResult) && req.body.round.putts && req.body.round.score){
         console.log("here");
@@ -205,7 +205,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
     }
 });
 
-router.get("/new", middleware.isLoggedIn, function(req, res){
+router.get("/new", middleware.isLoggedIn, middleware.emailVerified, function(req, res){
     Course.find().exec(function(err, courses){
         if(err){
             console.log(err);
@@ -216,7 +216,7 @@ router.get("/new", middleware.isLoggedIn, function(req, res){
 });
 
 //SHOW
-router.get("/:id", middleware.isLoggedIn, function(req, res) {
+router.get("/:id", middleware.isLoggedIn, middleware.emailVerified, function(req, res) {
     //find the round with id and render show page with the round
     Round.findById(req.params.id).populate("course").exec(function(err, foundRound){
       if(err){

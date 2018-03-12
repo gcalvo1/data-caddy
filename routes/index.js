@@ -9,6 +9,7 @@ var path = require("path");
 var async = require('async');
 var crypto = require('crypto');
 var sgMail = require('@sendgrid/mail');
+var randomstring = require("randomstring");
 var middleware = require("../middleware");
 
 // AWS.config.loadFromPath('./s3_config.json');
@@ -63,9 +64,12 @@ router.post("/register", function(req, res){
                     return res.redirect("register");
                 }
                 else {
+                    var verification_token = randomstring.generate({
+                            length: 64
+                        });
                     if(fileInfo){
                       hasImg = true;  
-                      imgExt = path.extname(fileInfo.originalname)
+                      imgExt = path.extname(fileInfo.originalname);
                     }
                     var newUser = new User(
                                             {
@@ -74,6 +78,8 @@ router.post("/register", function(req, res){
                                                 name: req.body.name,
                                                 hasImg: hasImg,
                                                 imgExt: imgExt,
+                                                emailConfirmationToken: verification_token,
+                                                emailConfirmed: false,
                                                 role: "user",
                                                 signUpDate: Date.now()
                                             });
@@ -84,10 +90,43 @@ router.post("/register", function(req, res){
                             return res.redirect("register");
                         }
                         passport.authenticate("local")(req, res, function(){
-                            req.flash("success", "Welcome to DataCaddy " + user.username);
+                            sgMail.setApiKey(process.env.SGMAILAPIKEY);
+                            const msg = {
+                              to: user.email,
+                              from: 'noreply@datacaddy.com',
+                              subject: 'DataCaddy Email Confirmation',
+                              text: 'You are receiving this because you (or someone else) has signed up for DataCaddy.\n\n' +
+                              'Please click on the following link, or paste this into your browser to confirm your email to complete the process:\n\n' +
+                              'http://' + req.headers.host + '/confirm/' + verification_token + '\n\n' +
+                              'If you did not request this, please ignore this email.\n'
+                            };
+                            sgMail.send(msg, function(err){
+                                if(err){
+                                    console.log(err);
+                                } 
+                            });
+                            req.flash("success", "Welcome to DataCaddy " + user.username + "! Please remember to verify your email address.");
                             res.redirect("/dashboard");   
                         });
                     });
+                }
+            });
+        }
+    });
+});
+
+router.get('/confirm/:emailConfirmationToken', function (req, res) {
+    User.findOne({ emailConfirmationToken: req.params.emailConfirmationToken }, function(err, user) {
+        if(err) {
+          req.flash("error", "Verification Failed");
+          res.redirect("/");   
+        } else {
+            User.findOneAndUpdate({emailConfirmationToken: req.params.emailConfirmationToken}, {emailConfirmed: true}, function (err, resp) {
+                if(err){
+                    console.log(err);
+                } else {
+                    req.flash("success", "Email Verified");
+                    res.redirect('/');
                 }
             });
         }

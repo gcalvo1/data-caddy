@@ -24,8 +24,7 @@ middlewareObj.checkRoundOwnership = function(req, res, next) {
         req.flash("error","You need to be logged in to do that");
         res.redirect("back");
     }
-}
-
+};
 
 middlewareObj.isLoggedIn = function(req, res, next){
     if(req.isAuthenticated()){
@@ -33,6 +32,19 @@ middlewareObj.isLoggedIn = function(req, res, next){
     }
     req.flash("error", "You need to be logged in to do that");
     res.redirect("/");
-}
+};
+
+middlewareObj.emailVerified = function(req, res, next){
+    if(req.isAuthenticated()){
+        if(req.user.emailConfirmed){
+            return next();
+        } else {
+            req.flash("error", "You must verify your email address to do that");
+            res.redirect("back");
+        }
+    }
+    req.flash("error", "You need to be logged in to do that");
+    res.redirect("back");
+};
 
 module.exports = middlewareObj;

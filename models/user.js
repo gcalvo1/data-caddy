@@ -8,6 +8,8 @@ var UserSchema = new mongoose.Schema({
     password: String,
     resetPasswordToken: String,
     resetPasswordExpires: Date,
+    emailConfirmationToken: String,
+    emailConfirmed: Boolean,
     hasImg: Boolean,
     imgExt: String,
     role: String,
