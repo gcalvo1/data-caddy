@@ -58,6 +58,18 @@
                         <div><%= user.name %></div>
                     </td>
                 </tr>
+                <% if(!user.emailConfirmed){ %>
+                    <tr>
+                        <td>
+                            <div> Email Verification: </div>
+                        </td>
+                        <td>
+                            <div>
+                                <a href="/resend-verification"><button id="resend-email-verification" class="btn btn-primary">Resend</button></a>
+                            </div>
+                        </td>
+                    </tr>
+                <% } %>
             </table>
         </div>
     </div>
@@ -69,46 +81,6 @@
         $('#profile-input').toggleClass("hidden")
         $('#profile-span').toggleClass("hidden")
     });
-    
-    // $("#submit-img").click(function (e) {
-    //     e.preventDefault();  
-        
-    //     var form = $('#profile-pic')[0];
-         
-    //     console.log(form); 
-    //     // Create a new FormData object.
-    //     var formData = new FormData(form);
-        
-    //     $("#submit-img").prop("disabled", true);
-        
-    //     formData.append("CustomField", "This is some extra data, testing");
-        
-    //     console.log(formData);
-        
-        
-    //     $.ajax({
-    //         url: '/profile',
-    //         type: 'POST',
-    //         enctype: 'multipart/form-data',
-    //         data: formData,
-    //         timeout: 600000,
-    //         cache: false,
-    //         contentType: false,
-    //         processData: false,
-    //         success: function (data) {
-
-    //             console.log("SUCCESS : ", data);
-    //             $("#submit-img").prop("disabled", false);
-
-    //         },
-    //         error: function (e) {
-
-    //             console.log("ERROR : ", e);
-    //             $("#submit-img").prop("disabled", false);
-
-    //         }
-    //     });
-    // });
     
     $(document).on('click', '#close-preview', function(){ 
         $('.image-preview').popover('hide');

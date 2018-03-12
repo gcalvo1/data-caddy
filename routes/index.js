@@ -133,6 +133,34 @@ router.get('/confirm/:emailConfirmationToken', function (req, res) {
     });
 });
 
+router.get("/resend-verification", function (req, res) {
+  User.findOne({email: req.user.email }, function(err, user) {
+    if(err){
+      console.log(err);
+      req.flash("error", "Verification email could not be sent.");
+      res.redirect('/profile');
+    } else {
+        sgMail.setApiKey(process.env.SGMAILAPIKEY);
+        const msg = {
+          to: user.email,
+          from: 'noreply@datacaddy.com',
+          subject: 'DataCaddy Email Confirmation',
+          text: 'You are receiving this because you (or someone else) has signed up for DataCaddy.\n\n' +
+          'Please click on the following link, or paste this into your browser to confirm your email to complete the process:\n\n' +
+          'http://' + req.headers.host + '/confirm/' + user.emailConfirmationToken + '\n\n' +
+          'If you did not request this, please ignore this email.\n'
+        };
+        sgMail.send(msg, function(err){
+          if(err){
+              console.log(err);
+          } 
+        });
+        req.flash("success", "Verification Email Sent to: " + user.email);
+        res.redirect('/profile');
+      }
+  });
+});
+
 //Handle login logic
 router.post("/", passport.authenticate("local", 
     {

@@ -1190,6 +1190,11 @@ to align it properly */
     font-size: 16px;
 }
 
+table #email-verification-btn {
+    text-align: center;
+    width: 100%;
+}
+
 /*End Profile Page*/
 
 .fake-link {
