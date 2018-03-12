@@ -2,6 +2,11 @@
 
     <div id= dashboard-container class="container-fluid">  
         <div id="dash-left-pane" class="col-md-2">
+            <% if(!user.emailConfirmed) { %>
+                    <div id="dash-email-status" class="row">
+                        Email Address Not Verified
+                    </div>
+            <% } %>
             <div class="row">
                     <!--<span class="glyphicon glyphicon-user"></span>-->
                     <span id="dash-img-span"> 
