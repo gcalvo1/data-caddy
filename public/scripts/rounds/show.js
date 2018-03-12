@@ -1,3 +1,7 @@
+$(document).ready(function() {
+    document.title = 'Scorecard';
+});
+
 var tee_color = 'black';
 if($('#tee_color').text().trim().toLowerCase() === 'white'){
     tee_color = 'gray';

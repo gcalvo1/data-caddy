@@ -188,6 +188,10 @@
 <script src="../scripts/rounds/new.js"></script>
 <script>
     //Set Active Menu
+    $(document).ready(function() {
+        document.title = 'New Round';
+    });
+    
     $('.menu_options li').removeClass('active');
     $('#new_menu_option').addClass('active');
     

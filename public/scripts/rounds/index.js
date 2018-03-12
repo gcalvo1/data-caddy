@@ -1,4 +1,8 @@
 //Set Active Menu
+$(document).ready(function() {
+    document.title = 'Rounds';
+});
+
 $('.menu_options li').removeClass('active');
 $('#rounds_menu_option').addClass('active');
 

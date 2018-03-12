@@ -190,6 +190,10 @@
 <script src="../../scripts/rounds/new.js"></script>   
 <script src="../../scripts/rounds/edit.js"></script>
 <script>
+    $(document).ready(function() {
+        document.title = 'Edit Round';
+    });
+
     $(".putts").change(function() {
         puttsChange(this);
     });
