@@ -146,7 +146,8 @@ router.get("/resend-verification", function (req, res) {
           to: user.email,
           from: 'noreply@mydatacaddy.com',
           subject: 'DataCaddy Email Confirmation',
-          text: 'Welcome to DataCaddy!\n\n' +
+          text: 'Hello '+user.name+',\n\n' +
+                'Welcome to DataCaddy!\n\n' +
                 'You are receiving this because you signed up for DataCaddy.\n\n' +
                 'Please click on the following link, or paste this into your browser to confirm your email to complete the process:\n\n' +
                 'http://' + req.headers.host + '/confirm/' + user.emailConfirmationToken + '\n\n' +
@@ -212,7 +213,8 @@ router.post('/forgot', function(req, res, next) {
           to: user.email,
           from: 'noreply@mydatacaddy.com',
           subject: 'DataCaddy Password Reset',
-          text: 'You are receiving this because you requested the reset of the password for your account.\n\n' +
+          text: 'Hello '+user.name+',\n\n' +
+          'You are receiving this because you requested the reset of the password for your account.\n\n' +
           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
           'http://' + req.headers.host + '/reset/' + token + '\n\n' +
           'If you did not request this, please ignore this email and your password will remain unchanged.\n'
@@ -272,7 +274,7 @@ router.post('/reset/:token', function(req, res) {
           to: user.email,
           from: 'noreply@mydatacaddy.com',
           subject: 'Your password has been changed',
-          text: 'Hello,\n\n' +
+          text: 'Hello '+user.name+',\n\n' +
           'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
         };
         sgMail.send(msg, function(err){
