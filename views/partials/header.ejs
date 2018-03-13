@@ -25,7 +25,7 @@
             url = $(location).attr('href'),
             icon = "./img/icon.png";
             s.type = "text/javascript";
-            if(url.indexOf("edit") !== -1 || url.indexOf("rounds/") !== -1){
+            if(url.indexOf("edit") !== -1 || url.indexOf("rounds/") !== -1 || url.indexOf("reset/") !== -1){
                 s.src = "../../scripts/header.js";
                 icon = "../../img/icon.png";
             } else {

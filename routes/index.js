@@ -195,7 +195,7 @@ router.post('/forgot', function(req, res, next) {
       User.findOne({ email: req.body.email }, function(err, user) {
         if (!user) {
           req.flash('error', 'No account with that email address exists.');
-          return res.redirect('/forgot');
+          res.redirect('/forgot');
         }
 
         user.resetPasswordToken = token;
@@ -221,8 +221,8 @@ router.post('/forgot', function(req, res, next) {
             if(err){
                 console.log(err);
             } else {
-                req.flash('info', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
-                done(err, 'done');
+                req.flash('success', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
+                res.redirect('/forgot');
             }
         });
     }
@@ -236,7 +236,7 @@ router.get('/reset/:token', function(req, res) {
   User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
     if (!user) {
       req.flash('error', 'Password reset token is invalid or has expired.');
-      return res.redirect('/forgot');
+      res.redirect('/forgot');
     }
     res.render('reset', {
       user: req.user
@@ -250,7 +250,7 @@ router.post('/reset/:token', function(req, res) {
       User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
         if (!user) {
           req.flash('error', 'Password reset token is invalid or has expired.');
-          return res.redirect('back');
+          res.redirect('back');
         }
         
         user.setPassword(req.body.password, function(){
@@ -280,7 +280,7 @@ router.post('/reset/:token', function(req, res) {
                 console.log(err);
             } else {
                 req.flash('success', 'Success! Your password has been changed.');
-                done(err, 'done');
+                res.redirect('/');
             }
         });
     }
