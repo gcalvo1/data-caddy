@@ -389,12 +389,17 @@ function setShortGame(parameters) {
             $("#sand-save-percent").attr("data-to",Math.round(sandSavePercent * 10) / 10 + "%");
             $("#sand-save-ratio").html(totalSandSaves + "/" + totalSandSaveAttempts);
         }
-        //Set scrambling data
-        $("#three-putt-ratio").html(totalThreePutts + "/" + totalRounds);
-        $("#putts-per-round").html(Math.round(puttsPerRound * 10) / 10);
-        $("#putts-per-round").attr("data-to",Math.round(puttsPerRound * 10) / 10);
-        $("#three-putts-per-round").html(Math.round(threePuttsPerRound * 10) / 10);
-        $("#three-putts-per-round").attr("data-to",Math.round(threePuttsPerRound * 10) / 10);
+        if(totalPutts === 0){
+            $("#putts-per-round").html("N/A");
+            $("#three-putts-per-round").html("N/A");
+            $("#three-putt-ratio").html("");
+        } else {
+            $("#three-putt-ratio").html(totalThreePutts + "/" + totalRounds);
+            $("#putts-per-round").html(Math.round(puttsPerRound * 10) / 10);
+            $("#putts-per-round").attr("data-to",Math.round(puttsPerRound * 10) / 10);
+            $("#three-putts-per-round").html(Math.round(threePuttsPerRound * 10) / 10);
+            $("#three-putts-per-round").attr("data-to",Math.round(threePuttsPerRound * 10) / 10);
+        }
         
         //Pie Chart
         highChartsScoreByAR(traps);

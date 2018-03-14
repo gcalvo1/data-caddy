@@ -138,6 +138,7 @@ function setApproach(parameters) {
             $("#gir-ratio").html(totalGirs + "/" + totalHoles);
         }
         if(totalApproaches === 0){
+            $("#approach-distance").html("N/A");
             $("#approach-miss-right").html("N/A");
             $("#approach-miss-left").html("N/A");
             $("#approach-miss-long").html("N/A");
@@ -146,7 +147,14 @@ function setApproach(parameters) {
             $("#approach-miss-left-ratio").html("");
             $("#approach-miss-long-ratio").html("");
             $("#approach-miss-short-ratio").html("");
+            $("#approach-miss-rough").html("N/A");
+            $("#approach-miss-bunker").html("N/A");
+            $("#approach-miss-woods").html("N/A");
+            $("#approach-miss-fescue").html("N/A");
+            $("#approach-miss-water").html("N/A");
+            $("#approach-miss-fringe").html("N/A");
         } else {
+            $("#approach-distance").html(Math.round(avgApproachDistance * 10) / 10 + " yds");
             $("#approach-miss-right").html(Math.round(approachMissPercent.right * 10) / 10 + "%");
             $("#approach-miss-left").html(Math.round(approachMissPercent.left * 10) / 10 + "%");
             $("#approach-miss-long").html(Math.round(approachMissPercent.long * 10) / 10 + "%");
@@ -155,14 +163,13 @@ function setApproach(parameters) {
             $("#approach-miss-left-ratio").html(totalMiss.left + "/" + totalApproaches);
             $("#approach-miss-long-ratio").html(totalMiss.long + "/" + totalApproaches);
             $("#approach-miss-short-ratio").html(totalMiss.short + "/" + totalApproaches);
+            $("#approach-miss-rough").html(Math.round(totalMissHazzard.rough * 10) / 10);
+            $("#approach-miss-bunker").html(Math.round(totalMissHazzard.bunker * 10) / 10);
+            $("#approach-miss-woods").html(Math.round(totalMissHazzard.woods * 10) / 10);
+            $("#approach-miss-fescue").html(Math.round(totalMissHazzard.fescue * 10) / 10);
+            $("#approach-miss-water").html(Math.round(totalMissHazzard.water * 10) / 10);
+            $("#approach-miss-fringe").html(Math.round(totalMissHazzard.fringe * 10) / 10);
         }
-        $("#approach-distance").html(Math.round(avgApproachDistance * 10) / 10 + " yds");
-        $("#approach-miss-rough").html(Math.round(totalMissHazzard.rough * 10) / 10);
-        $("#approach-miss-bunker").html(Math.round(totalMissHazzard.bunker * 10) / 10);
-        $("#approach-miss-woods").html(Math.round(totalMissHazzard.woods * 10) / 10);
-        $("#approach-miss-fescue").html(Math.round(totalMissHazzard.fescue * 10) / 10);
-        $("#approach-miss-water").html(Math.round(totalMissHazzard.water * 10) / 10);
-        $("#approach-miss-fringe").html(Math.round(totalMissHazzard.fringe * 10) / 10);
         
         //Area Chart
         highChartsApproachSpread(approachSpreadByDate);
