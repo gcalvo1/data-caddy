@@ -1,200 +1,207 @@
 function driveTracker(parameters, club) {
     $.get( 'dashboard/mostrecentround', parameters, function(data) {
         //Set Drive Tracker round date in dashboard
-        var date = new Date(data.mostRecentRound[0].date);
-        $('#drive-tracker-date').html(" - " + date.toISOString().split('T')[0]);
-        var driveStats = [];
-        data.mostRecentRound[0].holes.forEach(function(hole){
-            var holeScore = {},
-                allClub = club;
-            if(club === "All"){
-                allClub = hole.teeShot.teeShotClub;
-            }
-            if(allClub === hole.teeShot.teeShotClub){
-                if(hole.score - hole.par === 0){
-                    holeScore = {
-                        scoreName: 'Par',
-                        scoreColor: 'blue',
-                        sortVal: 4
+        if(data.mostRecentRound.length > 0) {
+            var date = new Date(data.mostRecentRound[0].date);
+            $('#drive-tracker-date').html(" - " + date.toISOString().split('T')[0]);
+            var driveStats = [];
+            data.mostRecentRound[0].holes.forEach(function(hole){
+                var holeScore = {},
+                    allClub = club;
+                if(club === "All"){
+                    allClub = hole.teeShot.teeShotClub;
+                }
+                if(allClub === hole.teeShot.teeShotClub){
+                    if(hole.score - hole.par === 0){
+                        holeScore = {
+                            scoreName: 'Par',
+                            scoreColor: 'blue',
+                            sortVal: 4
+                        }
+                    } else if(hole.score - hole.par === 1){
+                        holeScore = {
+                            scoreName: 'Bogey',
+                            scoreColor: 'red',
+                            sortVal: 5
+                        }
+                    } else if(hole.score - hole.par === -1){
+                        holeScore = {
+                            scoreName: 'Birdie',
+                            scoreColor: 'orange',
+                            sortVal: 3
+                        }
+                    } else if(hole.score - hole.par === 2){
+                        holeScore = {
+                            scoreName: 'Double Bogey',
+                            scoreColor: 'black',
+                            sortVal: 6
+                        }
+                    } else if(hole.score - hole.par === -2){
+                        holeScore = {
+                            scoreName: 'Eagle',
+                            scoreColor: 'yellow',
+                            sortVal: 2
+                        }
+                    } else if(hole.score - hole.par > 2){
+                        holeScore = {
+                            scoreName: 'Worse Than Double Bogey',
+                            scoreColor: 'gray',
+                            sortVal: 7
+                        }
+                    } else if(hole.score - hole.par < -2){
+                        holeScore = {
+                            scoreName: 'Better Than Eagle',
+                            scoreColor: 'pink',
+                            sortVal: 1
+                        }
                     }
-                } else if(hole.score - hole.par === 1){
-                    holeScore = {
-                        scoreName: 'Bogey',
-                        scoreColor: 'red',
-                        sortVal: 5
+                    var holeStats = {
+                        teeShotDirection: hole.teeShot.teeShotDirection,
+                        teeShotResult: hole.teeShot.teeShotResult,
+                        teeShotClub: hole.teeShot.teeShotClub,
+                        holeScore: holeScore
                     }
-                } else if(hole.score - hole.par === -1){
-                    holeScore = {
-                        scoreName: 'Birdie',
-                        scoreColor: 'orange',
-                        sortVal: 3
-                    }
-                } else if(hole.score - hole.par === 2){
-                    holeScore = {
-                        scoreName: 'Double Bogey',
-                        scoreColor: 'black',
-                        sortVal: 6
-                    }
-                } else if(hole.score - hole.par === -2){
-                    holeScore = {
-                        scoreName: 'Eagle',
-                        scoreColor: 'yellow',
-                        sortVal: 2
-                    }
-                } else if(hole.score - hole.par > 2){
-                    holeScore = {
-                        scoreName: 'Worse Than Double Bogey',
-                        scoreColor: 'gray',
-                        sortVal: 7
-                    }
-                } else if(hole.score - hole.par < -2){
-                    holeScore = {
-                        scoreName: 'Better Than Eagle',
-                        scoreColor: 'pink',
-                        sortVal: 1
+                    if(hole.par != 3){
+                        driveStats.push(holeStats);
                     }
                 }
-                var holeStats = {
-                    teeShotDirection: hole.teeShot.teeShotDirection,
-                    teeShotResult: hole.teeShot.teeShotResult,
-                    teeShotClub: hole.teeShot.teeShotClub,
-                    holeScore: holeScore
-                }
-                if(hole.par != 3){
-                    driveStats.push(holeStats);
-                }
-            }
-        });
-        
-        var docCanvas = document.getElementById('driveTracker');
-        var ctx = docCanvas.getContext('2d');
-        
-        var arrowStartPosY = 435;
-        var arrowStartPosX = 410;
-        
-        var scoresFound = [],
-            count = 0;
-        for(let i = 0; i < driveStats.length; i++){
-            //Populate Legend
-            if(scoresFound.length === 0){
-                scoresFound.push(driveStats[i]);
-            } else {
-                var found = false;
-                scoresFound.forEach(function(score){
-                    if(score.holeScore.scoreName === driveStats[i].holeScore.scoreName){
-                        found = true;
-                    }
-                });
-                if(!found){
+            });
+            
+            var docCanvas = document.getElementById('driveTracker');
+            var ctx = docCanvas.getContext('2d');
+            
+            var arrowStartPosY = 435;
+            var arrowStartPosX = 410;
+            
+            var scoresFound = [],
+                count = 0;
+            for(let i = 0; i < driveStats.length; i++){
+                //Populate Legend
+                if(scoresFound.length === 0){
                     scoresFound.push(driveStats[i]);
+                } else {
+                    var found = false;
+                    scoresFound.forEach(function(score){
+                        if(score.holeScore.scoreName === driveStats[i].holeScore.scoreName){
+                            found = true;
+                        }
+                    });
+                    if(!found){
+                        scoresFound.push(driveStats[i]);
+                    }
                 }
-            }
-            var arrowEndPosYOrig = 0;
-        	var arrowEndPosXOrig = 0;
-        	var middlePosYOrig = 0;
-        	var randx = 0;
-        	var randy = 0;
-        	if(driveStats[i].teeShotDirection === 'Right' && driveStats[i].teeShotResult === 'Rough'){
-        		arrowEndPosYOrig = 150;
-        		arrowEndPosXOrig = 290;
-        		middlePosYOrig = 150;
-        		randx = Math.floor(Math.random() * 40);
-        		randy = Math.floor(Math.random() * 40);
-        	} else if(driveStats[i].teeShotDirection === 'Right' && driveStats[i].teeShotResult === 'Bunker') {
-        		arrowEndPosYOrig = 75;
-        		arrowEndPosXOrig = 310;
-        		middlePosYOrig = 75;
-        		randx = Math.floor(Math.random() * 40);
-        		randy = Math.floor(Math.random() * 65);
-        	} else if(driveStats[i].teeShotDirection === 'Right' && driveStats[i].teeShotResult === 'Fescue') {
-        		arrowEndPosYOrig = 175;
-        		arrowEndPosXOrig = 400;
-        		middlePosYOrig = 175;
-        		randx = Math.floor(Math.random() * 40);
-        		randy = Math.floor(Math.random() * 30);
-        	} else if(driveStats[i].teeShotDirection === 'Right' && driveStats[i].teeShotResult === 'Woods') {
-        		arrowEndPosYOrig = 50;
-        		arrowEndPosXOrig = 450;
-        		middlePosYOrig = 50;
-        		randx = Math.floor(Math.random() * 25);
-        		randy = Math.floor(Math.random() * 75);
-        	} else if(driveStats[i].teeShotDirection === 'Right' && driveStats[i].teeShotResult === 'Lost Ball') {
-        		arrowEndPosYOrig = 75;
-        		arrowEndPosXOrig = 500;
-        		middlePosYOrig = 75;
-        		randx = Math.floor(Math.random() * 1);
-        		randy = Math.floor(Math.random() * 1);
-        	} else if(driveStats[i].teeShotDirection === 'Left' && driveStats[i].teeShotResult === 'Rough') {
-        		arrowEndPosYOrig = 118;
-        		arrowEndPosXOrig = 135;
-        		middlePosYOrig = 125;
-        		randx = Math.floor(Math.random() * 30);
-        		randy = Math.floor(Math.random() * 40);
-        	} else if(driveStats[i].teeShotDirection === 'Left' && driveStats[i].teeShotResult === 'Bunker') {
-        		arrowEndPosYOrig = 100;
-        		arrowEndPosXOrig = 50;
-        		middlePosYOrig = 100;
-        		randx = Math.floor(Math.random() * 75);
-        		randy = Math.floor(Math.random() * 150);
-        	} else if(driveStats[i].teeShotDirection === 'Left' && driveStats[i].teeShotResult === 'Fescue') {
-        		arrowEndPosYOrig = 142;
-        		arrowEndPosXOrig = 25;
-        		middlePosYOrig = 142;
-        		randx = Math.floor(Math.random() * 50);
-        		randy = Math.floor(Math.random() * 1);
-        	} else if(driveStats[i].teeShotDirection === 'Left' && driveStats[i].teeShotResult === 'Woods') {
-        		arrowEndPosYOrig = 30;
-        		arrowEndPosXOrig = 10;
-        		middlePosYOrig = 30;
-        		randx = Math.floor(Math.random() * 30);
-        		randy = Math.floor(Math.random() * 50);
-        	} else if(driveStats[i].teeShotDirection === 'Left' && driveStats[i].teeShotResult === 'Lost Ball') {
-        		arrowEndPosYOrig = 75;
-        		arrowEndPosXOrig = 0;
-        		middlePosYOrig = 75;
-        		randx = Math.floor(Math.random() * 1);
-        		randy = Math.floor(Math.random() * 1);
-        	} else if(driveStats[i].teeShotDirection === 'Long' && (driveStats[i].teeShotResult === 'Rough' || driveStats[i].teeShotResult === 'Fescue')) {
-        		arrowEndPosYOrig = 25;
-        		arrowEndPosXOrig = 245;
-        		middlePosYOrig = 25;
-        		randx = Math.floor(Math.random() * 40);
-        		randy = Math.floor(Math.random() * 10);
-        	} else if(driveStats[i].teeShotDirection === 'Fairway') {
-        		arrowEndPosYOrig = 100;
-        		arrowEndPosXOrig = 180;
-        		middlePosYOrig = -100;
-        		randx = Math.floor(Math.random() * 75);
-        		randy = Math.floor(Math.random() * 75);
-        	}
-        	
-        	var arrowEndPosY = arrowEndPosYOrig;
-        	var arrowEndPosX = arrowEndPosXOrig;
-        	var middlePosY = middlePosYOrig;			
-        	
-        	arrowEndPosY = arrowEndPosYOrig + randy;
-        	middlePosY = middlePosYOrig + randy;
-        	arrowEndPosX = arrowEndPosXOrig + randx;
-
-            if(club === "All"){
-                animatePathDrawing(ctx, arrowStartPosX, arrowStartPosY, 450, middlePosY, arrowEndPosX, arrowEndPosY, 5000, driveStats[i].holeScore.scoreColor, count);
-            }
-            else if(club === driveStats[i].teeShotClub) {
-                animatePathDrawing(ctx, arrowStartPosX, arrowStartPosY, 450, middlePosY, arrowEndPosX, arrowEndPosY, 5000, driveStats[i].holeScore.scoreColor, count);
-            }
-            count++;
-        };
-        var legendHtml = ''
-        scoresFound.sort(function (a, b) {
-            return a.holeScore.sortVal - b.holeScore.sortVal;
-        });
-        scoresFound.forEach(function(score){
-            if(score.holeScore.scoreName === 'Double Bogey'){
-                score.holeScore.scoreName = 'Double'
-            }
-            legendHtml += "<div><span id=legend-circle style='background-color: " + score.holeScore.scoreColor + ";'> </span><span>" + score.holeScore.scoreName + "</span></div>"
-        });
-        $('#legend-values').html(legendHtml);
+                var arrowEndPosYOrig = 0;
+            	var arrowEndPosXOrig = 0;
+            	var middlePosYOrig = 0;
+            	var randx = 0;
+            	var randy = 0;
+            	if(driveStats[i].teeShotDirection === 'Right' && driveStats[i].teeShotResult === 'Rough'){
+            		arrowEndPosYOrig = 150;
+            		arrowEndPosXOrig = 290;
+            		middlePosYOrig = 150;
+            		randx = Math.floor(Math.random() * 40);
+            		randy = Math.floor(Math.random() * 40);
+            	} else if(driveStats[i].teeShotDirection === 'Right' && driveStats[i].teeShotResult === 'Bunker') {
+            		arrowEndPosYOrig = 75;
+            		arrowEndPosXOrig = 310;
+            		middlePosYOrig = 75;
+            		randx = Math.floor(Math.random() * 40);
+            		randy = Math.floor(Math.random() * 65);
+            	} else if(driveStats[i].teeShotDirection === 'Right' && driveStats[i].teeShotResult === 'Fescue') {
+            		arrowEndPosYOrig = 175;
+            		arrowEndPosXOrig = 400;
+            		middlePosYOrig = 175;
+            		randx = Math.floor(Math.random() * 40);
+            		randy = Math.floor(Math.random() * 30);
+            	} else if(driveStats[i].teeShotDirection === 'Right' && driveStats[i].teeShotResult === 'Woods') {
+            		arrowEndPosYOrig = 50;
+            		arrowEndPosXOrig = 450;
+            		middlePosYOrig = 50;
+            		randx = Math.floor(Math.random() * 25);
+            		randy = Math.floor(Math.random() * 75);
+            	} else if(driveStats[i].teeShotDirection === 'Right' && driveStats[i].teeShotResult === 'Lost Ball') {
+            		arrowEndPosYOrig = 75;
+            		arrowEndPosXOrig = 500;
+            		middlePosYOrig = 75;
+            		randx = Math.floor(Math.random() * 1);
+            		randy = Math.floor(Math.random() * 1);
+            	} else if(driveStats[i].teeShotDirection === 'Left' && driveStats[i].teeShotResult === 'Rough') {
+            		arrowEndPosYOrig = 118;
+            		arrowEndPosXOrig = 135;
+            		middlePosYOrig = 125;
+            		randx = Math.floor(Math.random() * 30);
+            		randy = Math.floor(Math.random() * 40);
+            	} else if(driveStats[i].teeShotDirection === 'Left' && driveStats[i].teeShotResult === 'Bunker') {
+            		arrowEndPosYOrig = 100;
+            		arrowEndPosXOrig = 50;
+            		middlePosYOrig = 100;
+            		randx = Math.floor(Math.random() * 75);
+            		randy = Math.floor(Math.random() * 150);
+            	} else if(driveStats[i].teeShotDirection === 'Left' && driveStats[i].teeShotResult === 'Fescue') {
+            		arrowEndPosYOrig = 142;
+            		arrowEndPosXOrig = 25;
+            		middlePosYOrig = 142;
+            		randx = Math.floor(Math.random() * 50);
+            		randy = Math.floor(Math.random() * 1);
+            	} else if(driveStats[i].teeShotDirection === 'Left' && driveStats[i].teeShotResult === 'Woods') {
+            		arrowEndPosYOrig = 30;
+            		arrowEndPosXOrig = 10;
+            		middlePosYOrig = 30;
+            		randx = Math.floor(Math.random() * 30);
+            		randy = Math.floor(Math.random() * 50);
+            	} else if(driveStats[i].teeShotDirection === 'Left' && driveStats[i].teeShotResult === 'Lost Ball') {
+            		arrowEndPosYOrig = 75;
+            		arrowEndPosXOrig = 0;
+            		middlePosYOrig = 75;
+            		randx = Math.floor(Math.random() * 1);
+            		randy = Math.floor(Math.random() * 1);
+            	} else if(driveStats[i].teeShotDirection === 'Long' && (driveStats[i].teeShotResult === 'Rough' || driveStats[i].teeShotResult === 'Fescue')) {
+            		arrowEndPosYOrig = 25;
+            		arrowEndPosXOrig = 245;
+            		middlePosYOrig = 25;
+            		randx = Math.floor(Math.random() * 40);
+            		randy = Math.floor(Math.random() * 10);
+            	} else if(driveStats[i].teeShotDirection === 'Fairway') {
+            		arrowEndPosYOrig = 100;
+            		arrowEndPosXOrig = 180;
+            		middlePosYOrig = -100;
+            		randx = Math.floor(Math.random() * 75);
+            		randy = Math.floor(Math.random() * 75);
+            	}
+            	
+            	var arrowEndPosY = arrowEndPosYOrig;
+            	var arrowEndPosX = arrowEndPosXOrig;
+            	var middlePosY = middlePosYOrig;			
+            	
+            	arrowEndPosY = arrowEndPosYOrig + randy;
+            	middlePosY = middlePosYOrig + randy;
+            	arrowEndPosX = arrowEndPosXOrig + randx;
+    
+                if(club === "All"){
+                    animatePathDrawing(ctx, arrowStartPosX, arrowStartPosY, 450, middlePosY, arrowEndPosX, arrowEndPosY, 5000, driveStats[i].holeScore.scoreColor, count);
+                }
+                else if(club === driveStats[i].teeShotClub) {
+                    animatePathDrawing(ctx, arrowStartPosX, arrowStartPosY, 450, middlePosY, arrowEndPosX, arrowEndPosY, 5000, driveStats[i].holeScore.scoreColor, count);
+                }
+                count++;
+            };
+            var legendHtml = ''
+            scoresFound.sort(function (a, b) {
+                return a.holeScore.sortVal - b.holeScore.sortVal;
+            });
+            scoresFound.forEach(function(score){
+                if(score.holeScore.scoreName === 'Double Bogey'){
+                    score.holeScore.scoreName = 'Double'
+                }
+                legendHtml += "<div><span id=legend-circle style='background-color: " + score.holeScore.scoreColor + ";'> </span><span>" + score.holeScore.scoreName + "</span></div>"
+            });
+            $('#legend-values').html(legendHtml);
+        } else {
+            var docCanvas = document.getElementById('driveTracker');
+            var ctx = docCanvas.getContext('2d');
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+            $('#legend-values').html("");
+        }
     });
 };
 
