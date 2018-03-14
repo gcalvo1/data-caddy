@@ -10,6 +10,9 @@ function setSummary(parameters){
         }
         
         if(data.rounds.length === 0){
+            $('#no-round-data').removeClass("hidden");
+            $('#no-round-data').addClass("no-round-data");
+            
             $('#scoring-avg').html("N/A");
             $('#avg-score-to-par').html("N/A");
             $('#par-three-scoring-avg').html("N/A");

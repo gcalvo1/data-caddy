@@ -113,6 +113,11 @@ body {
     margin-top: 5px;
 }
 
+.no-round-data {
+    margin-bottom: 10px;
+    color: red;
+}
+
 .input-group-btn .btn {
     padding: 6px 6px;
 }
