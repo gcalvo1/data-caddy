@@ -72,7 +72,8 @@ function driveTracker(parameters, club) {
         var arrowStartPosY = 435;
         var arrowStartPosX = 410;
         
-        var scoresFound = [];
+        var scoresFound = [],
+            count = 0;
         for(let i = 0; i < driveStats.length; i++){
             //Populate Legend
             if(scoresFound.length === 0){
@@ -175,15 +176,13 @@ function driveTracker(parameters, club) {
         	middlePosY = middlePosYOrig + randy;
         	arrowEndPosX = arrowEndPosXOrig + randx;
 
-            // Clear canvas
-            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-            
             if(club === "All"){
-                animatePathDrawing(ctx, arrowStartPosX, arrowStartPosY, 450, middlePosY, arrowEndPosX, arrowEndPosY, 5000, driveStats[i].holeScore.scoreColor);
+                animatePathDrawing(ctx, arrowStartPosX, arrowStartPosY, 450, middlePosY, arrowEndPosX, arrowEndPosY, 5000, driveStats[i].holeScore.scoreColor, count);
             }
             else if(club === driveStats[i].teeShotClub) {
-                animatePathDrawing(ctx, arrowStartPosX, arrowStartPosY, 450, middlePosY, arrowEndPosX, arrowEndPosY, 5000, driveStats[i].holeScore.scoreColor);
+                animatePathDrawing(ctx, arrowStartPosX, arrowStartPosY, 450, middlePosY, arrowEndPosX, arrowEndPosY, 5000, driveStats[i].holeScore.scoreColor, count);
             }
+            count++;
         };
         var legendHtml = ''
         scoresFound.sort(function (a, b) {
@@ -199,7 +198,7 @@ function driveTracker(parameters, club) {
     });
 };
 
-function animatePathDrawing(ctx, x0, y0, x1, y1, x2, y2, duration, color) {
+function animatePathDrawing(ctx, x0, y0, x1, y1, x2, y2, duration, color, count) {
     var start = null;
     var step = function animatePathDrawingStep(timestamp) {
         if (start === null)
@@ -209,7 +208,7 @@ function animatePathDrawing(ctx, x0, y0, x1, y1, x2, y2, duration, color) {
             progress = Math.min(delta / duration, 1);       
         
         // Draw curve
-        drawBezierSplit(ctx, x0, y0, x1, y1, x2, y2, 0, progress, color);
+        drawBezierSplit(ctx, x0, y0, x1, y1, x2, y2, 0, progress, color, count);
         
         if (progress < 1) {
             window.requestAnimationFrame(step);
@@ -232,7 +231,10 @@ function animatePathDrawing(ctx, x0, y0, x1, y1, x2, y2, duration, color) {
  * @param t0        The start ratio of the splitted bezier from 0.0 to 1.0
  * @param t1        The start ratio of the splitted bezier from 0.0 to 1.0
  */
-function drawBezierSplit(ctx, x0, y0, x1, y1, x2, y2, t0, t1, color) {
+function drawBezierSplit(ctx, x0, y0, x1, y1, x2, y2, t0, t1, color, count) {
+    if(count === 0){
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    }
     ctx.beginPath();    
     if( 0.0 == t0 && t1 == 1.0 ) {
         ctx.moveTo( x0, y0 );
