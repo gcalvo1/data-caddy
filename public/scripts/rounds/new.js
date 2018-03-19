@@ -42,6 +42,7 @@ function courseDropdownChange() {
                     $(function() {
                         $('#holes_dropdown').prop("disabled", false);
                         $('#holes_dropdown').html('<option value=""></option><option value="eighteen">18 Holes</option><option value="front">Front 9</option><option value="back">Back 9</option>');
+                        holesDropdownChange();
                     });   
                 }
             } else if(!data.course.isNine && $('#hidden_edit_1').val() != 'edit'){
@@ -51,6 +52,7 @@ function courseDropdownChange() {
                 
                 fadeInHoles(1, 18);
                 $('.hidden_num_holes').val('18 Holes');
+                holesDropdownChange();
             }
             
             //Set Tees Dropdown
