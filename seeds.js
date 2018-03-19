@@ -6,6 +6,7 @@ var Course = require("./models/course");
 //     {
 //         date: "2018-01-19",
 //         isFull: true,
+//         isNineOnly: false,
 //         username: "georgecalvo@georgecalvo.com",
 //         courseName: "Bethpage Red",
 //         holes: [
@@ -59,6 +60,7 @@ var courseData = [
     //     },
     //     img: "../img/Bethpage-Blue-Logo.png",
     //     isNine: true,
+    //     isNineOnly: false,
     //     tees: [{
     //         color: 'Red',
     //         rating: 72,
@@ -266,6 +268,7 @@ var courseData = [
     //     },
     //     img: "../img/Bethpage-Black-Logo.jpg",
     //     isNine: false,
+    //     isNineOnly: false,
     //     tees: [{
     //         color: 'Red',
     //         rating: 77,
@@ -473,6 +476,7 @@ var courseData = [
     //     },
     //     img: "../img/Bethpage-Red-Logo.gif",
     //     isNine: false,
+    //     isNineOnly: false,
     //     tees: [{
     //         color: 'Red',
     //         rating: 75,
@@ -680,6 +684,7 @@ var courseData = [
     //     },
     //     img: "../img/Bethpage-Green-Logo.png",
     //     isNine: false,
+    //     isNineOnly: false,
     //     tees: [{
     //         color: 'Red',
     //         rating: 73,
@@ -887,6 +892,7 @@ var courseData = [
     //     },
     //     img: "../img/Bethpage-Yellow-Logo.png",
     //     isNine: true,
+    //     isNineOnly: false,
     //     tees: [{
     //         color: 'Red',
     //         rating: 72.9,
@@ -1094,6 +1100,7 @@ var courseData = [
     //     },
     //     img: "../img/Montauk-Downs-Logo.jpg",
     //     isNine: false,
+    //     isNineOnly: false,
     //     tees: [{
     //         color: 'Red',
     //         rating: 75.5,
@@ -1291,7 +1298,125 @@ var courseData = [
     //             }
     //         },
     //     ]
-    // }
+    // },
+//         {
+//             name: "9 Hole Only Test",
+//             location : { 
+//                 zip : 11954 ,
+//                 latitude : 41.0486391, 
+//                 longitude : -71.9358848, 
+//             },
+//             img: "../img/Montauk-Downs-Logo.jpg",
+//             isNine: true,
+//             isNineOnly: true,
+//             tees: [{
+//                 color: 'Red',
+//                 rating: 75.5,
+//                 slope: 137,
+//             },
+//             {
+//                 color: 'White',
+//                 rating: 71.2,
+//                 slope: 132,
+//             },
+//             {
+//                 color: 'Blue',
+//                 rating: 73.5,
+//                 slope: 139,
+//             }],
+//             holes: [
+//                 {
+//                     number: 1,
+//                     par: 4,
+//                     handicap: 11,
+//                     yardage: {
+//                         red: 351,
+//                         white: 370,
+//                         blue: 382,
+//                     }
+//                 },
+//                 {
+//                     number: 2,
+//                     par: 3,
+//                     handicap: 17,
+//                     yardage: {
+//                         red: 94,
+//                         white: 111,
+//                         blue: 135,
+//                     }
+//                 },
+//                 {
+//                     number: 3,
+//                     par: 4,
+//                     handicap: 9,
+//                     yardage: {
+//                         red: 341,
+//                         white: 368,
+//                         blue: 421,
+//                     }
+//                 },
+//                 {
+//                     number: 4,
+//                     par: 4,
+//                     handicap: 5,
+//                     yardage: {
+//                         red: 381,
+//                         white: 391,
+//                         blue: 410,
+//                     }
+//                 },
+//                 {
+//                     number: 5,
+//                     par: 5,
+//                     handicap: 3,
+//                     yardage: {
+//                         red: 393,
+//                         white: 472,
+//                         blue: 520,
+//                     }
+//                 },
+//                 {
+//                     number: 6,
+//                     par: 4,
+//                     handicap: 13,
+//                     yardage: {
+//                         red: 301,
+//                         white: 334,
+//                         blue: 340,
+//                     }
+//                 },
+//                 {
+//                     number: 7,
+//                     par: 5,
+//                     handicap: 7,
+//                     yardage: {
+//                         red: 407,
+//                         white: 485,
+//                         blue: 500,
+//                     }
+//                 },
+//                 {
+//                     number: 8,
+//                     par: 3,
+//                     handicap: 15,
+//                     yardage: {
+//                         red: 126,
+//                         white: 145,
+//                         blue: 167,
+//                     }
+//                 },
+//                 {
+//                     number: 9,
+//                     par: 4,
+//                     handicap: 1,
+//                     yardage: {
+//                         red: 368,
+//                         white: 409,
+//                         blue: 445,
+//                     }
+//                 }
+//             ]
+//         }
 ];
 
 // function seedDB(){
@@ -1347,7 +1472,423 @@ var courseData = [
 //             });
 //         });
 //     });
-// }
+// },
+// {
+    //     name: "Bethpage Blue",
+    //     location : { 
+    //         zip : 11735 ,
+    //         latitude : 40.7415284, 
+    //         longitude : -73.4674193, 
+    //     },
+    //     img: "../img/Bethpage-Blue-Logo.png",
+    //     isNine: true,
+    //     isNineOnly: false,
+    //     tees: [{
+    //         color: 'Red',
+    //         rating: 72,
+    //         slope: 118,
+    //     },
+    //     {
+    //         color: 'White',
+    //         rating: 70.9,
+    //         slope: 122,
+    //     },
+    //     {
+    //         color: 'Blue',
+    //         rating: 71.7,
+    //         slope: 124,
+    //     }],
+    //     holes: [
+    //         {
+    //             number: 1,
+    //             par: 4,
+    //             handicap: 7,
+    //             yardage: {
+    //                 red: 379,
+    //                 white: 397,
+    //                 blue: 417,
+    //             }
+    //         },
+    //         {
+    //             number: 2,
+    //             par: 4,
+    //             handicap: 3,
+    //             yardage: {
+    //                 red: 433,
+    //                 white: 441,
+    //                 blue: 451,
+    //             }
+    //         },
+    //         {
+    //             number: 3,
+    //             par: 3,
+    //             handicap: 15,
+    //             yardage: {
+    //                 red: 166,
+    //                 white: 180,
+    //                 blue: 195,
+    //             }
+    //         },
+    //         {
+    //             number: 4,
+    //             par: 5,
+    //             handicap: 13,
+    //             yardage: {
+    //                 red: 467,
+    //                 white: 479,
+    //                 blue: 493,
+    //             }
+    //         },
+    //         {
+    //             number: 5,
+    //             par: 4,
+    //             handicap: 17,
+    //             yardage: {
+    //                 red: 282,
+    //                 white: 298,
+    //                 blue: 306,
+    //             }
+    //         },
+    //         {
+    //             number: 6,
+    //             par: 4,
+    //             handicap: 1,
+    //             yardage: {
+    //                 red: 427,
+    //                 white: 446,
+    //                 blue: 462,
+    //             }
+    //         },
+    //         {
+    //             number: 7,
+    //             par: 3,
+    //             handicap: 9,
+    //             yardage: {
+    //                 red: 165,
+    //                 white: 175,
+    //                 blue: 186,
+    //             }
+    //         },
+    //         {
+    //             number: 8,
+    //             par: 5,
+    //             handicap: 5,
+    //             yardage: {
+    //                 red: 537,
+    //                 white: 545,
+    //                 blue: 555,
+    //             }
+    //         },
+    //         {
+    //             number: 9,
+    //             par: 4,
+    //             handicap: 11,
+    //             yardage: {
+    //                 red: 337,
+    //                 white: 348,
+    //                 blue: 360,
+    //             }
+    //         },
+    //         {
+    //             number: 10,
+    //             par: 4,
+    //             handicap: 16,
+    //             yardage: {
+    //                 red: 345,
+    //                 white: 362,
+    //                 blue: 381,
+    //             }
+    //         },
+    //         {
+    //             number: 11,
+    //             par: 3,
+    //             handicap: 14,
+    //             yardage: {
+    //                 red: 171,
+    //                 white: 178,
+    //                 blue: 187,
+    //             }
+    //         },
+    //         {
+    //             number: 12,
+    //             par: 5,
+    //             handicap: 10,
+    //             yardage: {
+    //                 red: 454,
+    //                 white: 463,
+    //                 blue: 473,
+    //             }
+    //         },
+    //         {
+    //             number: 13,
+    //             par: 4,
+    //             handicap: 18,
+    //             yardage: {
+    //                 red: 321,
+    //                 white: 347,
+    //                 blue: 362,
+    //             }
+    //         },
+    //         {
+    //             number: 14,
+    //             par: 4,
+    //             handicap: 8,
+    //             yardage: {
+    //                 red: 347,
+    //                 white: 372,
+    //                 blue: 383,
+    //             }
+    //         },
+    //         {
+    //             number: 15,
+    //             par: 4,
+    //             handicap: 2,
+    //             yardage: {
+    //                 red: 356,
+    //                 white: 371,
+    //                 blue: 387,
+    //             }
+    //         },
+    //         {
+    //             number: 16,
+    //             par: 5,
+    //             handicap: 4,
+    //             yardage: {
+    //                 red: 481,
+    //                 white: 490,
+    //                 blue: 501,
+    //             }
+    //         },
+    //         {
+    //             number: 17,
+    //             par: 3,
+    //             handicap: 6,
+    //             yardage: {
+    //                 red: 150,
+    //                 white: 163,
+    //                 blue: 175,
+    //             }
+    //         },
+    //         {
+    //             number: 18,
+    //             par: 4,
+    //             handicap: 12,
+    //             yardage: {
+    //                 red: 340,
+    //                 white: 351,
+    //                 blue: 364,
+    //             }
+    //         },
+    //     ]
+    // },
+    // {
+    //     name: "Bethpage Blue",
+    //     location : { 
+    //         zip : 11735 ,
+    //         latitude : 40.7415284, 
+    //         longitude : -73.4674193, 
+    //     },
+    //     img: "../img/Bethpage-Blue-Logo.png",
+    //     isNine: true,
+    //     isNineOnly: false,
+    //     tees: [{
+    //         color: 'Red',
+    //         rating: 72,
+    //         slope: 118,
+    //     },
+    //     {
+    //         color: 'White',
+    //         rating: 70.9,
+    //         slope: 122,
+    //     },
+    //     {
+    //         color: 'Blue',
+    //         rating: 71.7,
+    //         slope: 124,
+    //     }],
+    //     holes: [
+    //         {
+    //             number: 1,
+    //             par: 4,
+    //             handicap: 7,
+    //             yardage: {
+    //                 red: 379,
+    //                 white: 397,
+    //                 blue: 417,
+    //             }
+    //         },
+    //         {
+    //             number: 2,
+    //             par: 4,
+    //             handicap: 3,
+    //             yardage: {
+    //                 red: 433,
+    //                 white: 441,
+    //                 blue: 451,
+    //             }
+    //         },
+    //         {
+    //             number: 3,
+    //             par: 3,
+    //             handicap: 15,
+    //             yardage: {
+    //                 red: 166,
+    //                 white: 180,
+    //                 blue: 195,
+    //             }
+    //         },
+    //         {
+    //             number: 4,
+    //             par: 5,
+    //             handicap: 13,
+    //             yardage: {
+    //                 red: 467,
+    //                 white: 479,
+    //                 blue: 493,
+    //             }
+    //         },
+    //         {
+    //             number: 5,
+    //             par: 4,
+    //             handicap: 17,
+    //             yardage: {
+    //                 red: 282,
+    //                 white: 298,
+    //                 blue: 306,
+    //             }
+    //         },
+    //         {
+    //             number: 6,
+    //             par: 4,
+    //             handicap: 1,
+    //             yardage: {
+    //                 red: 427,
+    //                 white: 446,
+    //                 blue: 462,
+    //             }
+    //         },
+    //         {
+    //             number: 7,
+    //             par: 3,
+    //             handicap: 9,
+    //             yardage: {
+    //                 red: 165,
+    //                 white: 175,
+    //                 blue: 186,
+    //             }
+    //         },
+    //         {
+    //             number: 8,
+    //             par: 5,
+    //             handicap: 5,
+    //             yardage: {
+    //                 red: 537,
+    //                 white: 545,
+    //                 blue: 555,
+    //             }
+    //         },
+    //         {
+    //             number: 9,
+    //             par: 4,
+    //             handicap: 11,
+    //             yardage: {
+    //                 red: 337,
+    //                 white: 348,
+    //                 blue: 360,
+    //             }
+    //         },
+    //         {
+    //             number: 10,
+    //             par: 4,
+    //             handicap: 16,
+    //             yardage: {
+    //                 red: 345,
+    //                 white: 362,
+    //                 blue: 381,
+    //             }
+    //         },
+    //         {
+    //             number: 11,
+    //             par: 3,
+    //             handicap: 14,
+    //             yardage: {
+    //                 red: 171,
+    //                 white: 178,
+    //                 blue: 187,
+    //             }
+    //         },
+    //         {
+    //             number: 12,
+    //             par: 5,
+    //             handicap: 10,
+    //             yardage: {
+    //                 red: 454,
+    //                 white: 463,
+    //                 blue: 473,
+    //             }
+    //         },
+    //         {
+    //             number: 13,
+    //             par: 4,
+    //             handicap: 18,
+    //             yardage: {
+    //                 red: 321,
+    //                 white: 347,
+    //                 blue: 362,
+    //             }
+    //         },
+    //         {
+    //             number: 14,
+    //             par: 4,
+    //             handicap: 8,
+    //             yardage: {
+    //                 red: 347,
+    //                 white: 372,
+    //                 blue: 383,
+    //             }
+    //         },
+    //         {
+    //             number: 15,
+    //             par: 4,
+    //             handicap: 2,
+    //             yardage: {
+    //                 red: 356,
+    //                 white: 371,
+    //                 blue: 387,
+    //             }
+    //         },
+    //         {
+    //             number: 16,
+    //             par: 5,
+    //             handicap: 4,
+    //             yardage: {
+    //                 red: 481,
+    //                 white: 490,
+    //                 blue: 501,
+    //             }
+    //         },
+    //         {
+    //             number: 17,
+    //             par: 3,
+    //             handicap: 6,
+    //             yardage: {
+    //                 red: 150,
+    //                 white: 163,
+    //                 blue: 175,
+    //             }
+    //         },
+    //         {
+    //             number: 18,
+    //             par: 4,
+    //             handicap: 12,
+    //             yardage: {
+    //                 red: 340,
+    //                 white: 351,
+    //                 blue: 364,
+    //             }
+    //         },
+    //     ]
+    // }
 
 function seedDB(){
     courseData.forEach(function(seed){

@@ -3,6 +3,7 @@ var mongoose = require("mongoose");
 var roundSchema = new mongoose.Schema({
     date: Date,
     isFull: Boolean,
+    isNineOnly: Boolean,
     isComplete: Boolean,
     roundType: String,
     courseName: String,
