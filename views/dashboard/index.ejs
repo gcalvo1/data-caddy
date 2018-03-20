@@ -541,7 +541,6 @@
     $('#driving-tab').on('click', function(){
         activeTab = 'driving';
         $('#tee-club-dropdown-div').removeClass("hidden");
-        // updateTeeClubFilter();
         updateDashboard('All');
     });
     $('.non-driving-tab').on('click', function(){
@@ -550,7 +549,6 @@
     $('#approach-tab').on('click', function(){
         activeTab = 'approach';
         $('#approach-club-dropdown-div').removeClass("hidden");
-        updateApproachClubFilter();
         updateDashboard('All');
     });
     $('#short-game-tab').on('click', function(){
@@ -587,10 +585,10 @@
 
     $(function() {
         $('#tee-club-dropdown').change(function(){
-           updateDashboard();
+           updateDashboard(null,"teeClub");
         });
         $('#approach-club-dropdown').change(function(){
-            updateDashboard();
+            updateDashboard(null,"approachClub");
         });
         $('#num-holes-dropdown').change(function(){
              updateDashboard();
