@@ -3,7 +3,6 @@ function driveTracker(parameters, club) {
         //Set Drive Tracker round date in dashboard
         if(data.mostRecentRound.length > 0) {
             var date = new Date(data.mostRecentRound[0].date);
-            $('#drive-tracker-date').html(" - " + date.toISOString().split('T')[0]);
             var driveStats = [];
             data.mostRecentRound[0].holes.forEach(function(hole){
                 var holeScore = {},

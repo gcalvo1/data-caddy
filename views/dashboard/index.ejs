@@ -166,7 +166,7 @@
                                     </div>
                                 </div>    
                                 <div class="col-md-6">
-                                    <h4 id="drive-tracker-title">DriveTracker <span id="drive-tracker-date"></span></h4>
+                                    <h4 id="drive-tracker-title"><div>DriveTracker - <select id="drivetracker-rounds" class="form-control"></select></div></h4>
                                     <div id='canv-container'>
                                         <canvas id="driveTracker" width="500" height="500"></canvas>
                                     </div>
@@ -541,7 +541,7 @@
     $('#driving-tab').on('click', function(){
         activeTab = 'driving';
         $('#tee-club-dropdown-div').removeClass("hidden");
-        updateTeeClubFilter();
+        // updateTeeClubFilter();
         updateDashboard('All');
     });
     $('.non-driving-tab').on('click', function(){
@@ -595,6 +595,25 @@
         $('#num-holes-dropdown').change(function(){
              updateDashboard();
         });
+    });
+    
+    $('#drivetracker-rounds').change(function(){
+        var numHoles = $("#num-holes-dropdown :selected").text(),
+            club = $("#tee-club-dropdown :selected").text(),
+            isFull = true;
+        if (numHoles === "9 Holes") {
+            isFull = false;
+        }
+        if($("#drivetracker-rounds :selected").val()){
+            var driveTrackerDateFrom = new Date($("#drivetracker-rounds :selected").val());
+            var driveTrackerDateTo = new Date($("#drivetracker-rounds :selected").val());
+            driveTrackerDateFrom.setHours(0,0,0,0);
+            driveTrackerDateTo.setHours(23,59,59,0);
+            dateFrom = driveTrackerDateFrom.toISOString();
+            dateTo = driveTrackerDateTo.toISOString();
+        }
+        var parameters = { isFull: isFull, club: club, driveTrackerDateFrom:dateFrom, driveTrackerDateTo:dateTo };
+        driveTracker(parameters, club);
     });
     
     $('#reset-drive-tracker').click(function() {

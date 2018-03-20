@@ -575,9 +575,22 @@ input, label {
     margin: auto;
 }
 
+#drivetracker-rounds {
+    width: 25%;
+    display: inline-block;
+}
+
 #driving h4 {
     margin-top: 0px;
     text-align: center;
+    display: table
+}
+
+#driving h4 div {
+    margin-top: 0px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
 }
 
 #reset-drive-tracker {
@@ -594,7 +607,7 @@ input, label {
 
 #drive-tracker-title {
     width: 500px;
-    height: 30px;
+    height: 40px;
     margin-bottom: 0px;
     margin: auto;
     padding-top: 5px;
@@ -605,6 +618,12 @@ input, label {
     background: #232526;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to bottom, #414345, #232526);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to bottom, #414345, #232526); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+#drive-tracker-title select {
+    height: 21px;
+    padding: 0px 12px;
+    font-size: 13px;
 }
 
 #drive-tracker-legend {

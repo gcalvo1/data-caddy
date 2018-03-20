@@ -572,13 +572,23 @@ router.get("/roundsdata", middleware.isLoggedIn, function(req, res){
 });
 
 router.get("/mostrecentround", middleware.isLoggedIn, function(req, res){
-    Round.find({"player.id": req.user._id, isFull: req.query.isFull, date: {$gte: req.query.dateFrom,$lte: req.query.dateTo}, isComplete:true}).sort({date:-1}).limit(1).populate("course").exec(function(err, mostRecentRound){
-        if(err){
-            console.log(err);
-        } else {
-            res.send({mostRecentRound: mostRecentRound});
-        }
-    });
+    if(!req.query.driveTrackerDateFrom){
+        Round.find({"player.id": req.user._id, isFull: req.query.isFull, date: {$gte: req.query.dateFrom,$lte: req.query.dateTo}, isComplete:true}).sort({date:-1}).limit(1).populate("course").exec(function(err, mostRecentRound){
+            if(err){
+                console.log(err);
+            } else {
+                res.send({mostRecentRound: mostRecentRound});
+            }
+        });
+    } else {
+        Round.find({"player.id": req.user._id, isFull: req.query.isFull, date: {$gte: req.query.driveTrackerDateFrom,$lte: req.query.driveTrackerDateTo}, isComplete:true}).populate("course").exec(function(err, mostRecentRound){
+            if(err){
+                console.log(err);
+            } else {
+                res.send({mostRecentRound: mostRecentRound});
+            }
+        });
+    }
 });
 
 
