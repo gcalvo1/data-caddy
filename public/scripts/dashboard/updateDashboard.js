@@ -20,7 +20,7 @@ function updateTeeClubFilter(){
     });
 }
 
-function updateDriveTrackerFilter(){
+function updateDriveTrackerFilter(club, callback){
     var numHoles = $("#num-holes-dropdown :selected").text(),
         isFull = true,
         dateFrom = $('#date-from').datepicker('getDate'),
@@ -37,11 +37,22 @@ function updateDriveTrackerFilter(){
         $('#drivetracker-rounds').children().remove();
         data.rounds.forEach(function(round){
             var roundDate = new Date(round.date);
+            var clubFound = false;
+            if(club === "All"){
+                clubFound = true;
+            }
             if(roundDates.length === 0){
-                roundDates.push({
-                    date: roundDate.toISOString().split('T')[0],
-                    datetime: round.date
+                round.holes.forEach(function(hole){
+                    if(hole.teeShot.teeShotClub === club){
+                        clubFound = true;
+                    }
                 });
+                if(clubFound){
+                    roundDates.push({
+                        date: roundDate.toISOString().split('T')[0],
+                        datetime: round.date
+                    });
+                }
             } else {
                 var found = false;
                 roundDates.forEach(function(foundRoundDate) {
@@ -50,10 +61,17 @@ function updateDriveTrackerFilter(){
                     }
                 });
                 if(!found){
-                    roundDates.push({
-                        date: roundDate.toISOString().split('T')[0],
-                        datetime: round.date
+                    round.holes.forEach(function(hole){
+                        if(hole.teeShot.teeShotClub === club){
+                            clubFound = true;
+                        }
                     });
+                    if(clubFound){
+                        roundDates.push({
+                            date: roundDate.toISOString().split('T')[0],
+                            datetime: round.date
+                        });
+                    }
                 }
             }
         });
@@ -73,6 +91,7 @@ function updateDriveTrackerFilter(){
                 text: date.date
             }));
         });
+        callback();
     });
 }
 
@@ -122,12 +141,23 @@ function updateDashboard(club, updateSource){
         if(!club){
             var club = $("#tee-club-dropdown :selected").text();
         }
-        var parameters = { isFull: isFull, club: club, dateFrom: dateFrom, dateTo:dateTo};
         if(updateSource != "teeClub"){
             updateTeeClubFilter();
         }
-        updateDriveTrackerFilter();
-        driveTracker(parameters, club);
+        
+        updateDriveTrackerFilter(club, function(){
+            //DriveTracker Dates
+            var driveTrackerDateFrom = new Date($("#drivetracker-rounds :selected").val());
+            var driveTrackerDateTo = new Date($("#drivetracker-rounds :selected").val());
+            driveTrackerDateFrom.setHours(0,0,0,0);
+            driveTrackerDateTo.setHours(23,59,59,0);
+            var dtDateFrom = driveTrackerDateFrom.toISOString();
+            var dtDateTo = driveTrackerDateTo.toISOString();
+            var parameters = { isFull: isFull, club: club, dateFrom: dateFrom, dateTo:dateTo, dtDateFrom: dtDateFrom, dtDateTo:dtDateTo};
+            driveTracker(parameters, club);
+        });
+        
+        var parameters = { isFull: isFull, club: club, dateFrom: dateFrom, dateTo:dateTo};
         setDriving(parameters);
     }
     if(activeTab === "approach"){

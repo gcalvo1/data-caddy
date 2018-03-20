@@ -586,6 +586,7 @@
     $(function() {
         $('#tee-club-dropdown').change(function(){
            updateDashboard(null,"teeClub");
+           //$('#drivetracker-rounds').trigger("change");
         });
         $('#approach-club-dropdown').change(function(){
             updateDashboard(null,"approachClub");
@@ -607,10 +608,10 @@
             var driveTrackerDateTo = new Date($("#drivetracker-rounds :selected").val());
             driveTrackerDateFrom.setHours(0,0,0,0);
             driveTrackerDateTo.setHours(23,59,59,0);
-            dateFrom = driveTrackerDateFrom.toISOString();
-            dateTo = driveTrackerDateTo.toISOString();
+            var dtDateFrom = driveTrackerDateFrom.toISOString();
+            var dtDateTo = driveTrackerDateTo.toISOString();
         }
-        var parameters = { isFull: isFull, club: club, driveTrackerDateFrom:dateFrom, driveTrackerDateTo:dateTo };
+        var parameters = { isFull: isFull, club: club, dtDateFrom:dtDateFrom, dtDateTo:dtDateTo };
         driveTracker(parameters, club);
     });
     
@@ -621,14 +622,15 @@
         if (numHoles === "9 Holes") {
             isFull = false;
         }
-        var dateFrom = $('#date-from').datepicker('getDate'),
-            dateTo = $('#date-to').datepicker('getDate');
-            dateFrom.setHours(0,0,0,0);
-            dateTo.setHours(23,59,59,0);
-            dateFrom = dateFrom.toISOString();
-            dateTo = dateTo.toISOString();
-        var parameters = {isFull: isFull, dateFrom: dateFrom, dateTo: dateTo};
-        
+        if($("#drivetracker-rounds :selected").val()){
+            var driveTrackerDateFrom = new Date($("#drivetracker-rounds :selected").val());
+            var driveTrackerDateTo = new Date($("#drivetracker-rounds :selected").val());
+            driveTrackerDateFrom.setHours(0,0,0,0);
+            driveTrackerDateTo.setHours(23,59,59,0);
+            var dtDateFrom = driveTrackerDateFrom.toISOString();
+            var dtDateTo = driveTrackerDateTo.toISOString();
+        }
+        var parameters = { isFull: isFull, club: club, dtDateFrom:dtDateFrom, dtDateTo:dtDateTo };
         driveTracker(parameters, club);
     });
 
