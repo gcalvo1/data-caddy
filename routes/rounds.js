@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 var Round = require("../models/round");
 var Course = require("../models/course");
+var User = require("../models/user");
 var middleware = require("../middleware");
 var request = require('request');
 
@@ -210,7 +211,7 @@ router.get("/new", middleware.isLoggedIn, middleware.emailVerified, function(req
         if(err){
             console.log(err);
         } else {
-            res.render("rounds/new",{courses:courses}); 
+            res.render("rounds/new",{courses:courses, user: req.user}); 
         }
     });
 });

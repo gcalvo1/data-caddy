@@ -53,21 +53,11 @@
                             <label for="tsc" class="Label_input">Tee Club <span class="info-tooltip" tooltip="The club you tee'd off with" flow="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span></label>
                             <select name="round[tsc]" class="form-control f_input" id="tsc_<%=i%>">
                                 <option value=""></option>
-                                  <option value="Driver">Driver</option>
-                                  <option value="3W">3W</option>
-                                  <option value="5W">5W</option>
-                                  <option value="Rescue">Rescue</option></option>
-                                  <option value="3I">3I</option>
-                                  <option value="4I">4I</option>
-                                  <option value="5I">5I</option>
-                                  <option value="6I">6I</option>
-                                  <option value="7I">7I</option>
-                                  <option value="8I">8I</option>
-                                  <option value="9I">9I</option>
-                                  <option value="PW">PW</option>
-                                  <option value="GW">GW</option>
-                                  <option value="SW">SW</option>
-                                  <option value="LW">LW</option>
+                                  <% user.bag.forEach(function(club){
+                                        if(club.inBag){ %>
+                                            <option value="<%=club.nickName%>"><%=club.nickName%></option>
+                                        <% }
+                                    }); %>
                             </select>
                         </div>
                         <div class="form-group fg_input">
@@ -110,21 +100,11 @@
                             <label for="ac" class="Label_input">Appr. Club <span class="info-tooltip" tooltip="The club you hit your approach shot with" flow="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span></label>
                             <select name="round[ac]" class="form-control f_input" id="ac_<%=i%>">
                                 <option value=""></option>
-                                  <option value="Driver">Driver</option>
-                                  <option value="3W">3W</option>
-                                  <option value="5W">5W</option>
-                                  <option value="Rescue">Rescue</option></option>
-                                  <option value="3I">3I</option>
-                                  <option value="4I">4I</option>
-                                  <option value="5I">5I</option>
-                                  <option value="6I">6I</option>
-                                  <option value="7I">7I</option>
-                                  <option value="8I">8I</option>
-                                  <option value="9I">9I</option>
-                                  <option value="PW">PW</option>
-                                  <option value="GW">GW</option>
-                                  <option value="SW">SW</option>
-                                  <option value="LW">LW</option>
+                                  <% user.bag.forEach(function(club){
+                                        if(club.inBag){ %>
+                                            <option value="<%=club.nickName%>"><%=club.nickName%></option>
+                                        <% }
+                                    }); %>
                             </select>
                         </div>
                         <div class="form-group fg_input">

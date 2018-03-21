@@ -80,6 +80,29 @@
                         </td>
                     </tr>
                 <% } %>
+                <tr>
+                    <td>
+                        <div> Clubs in the Bag: </div>
+                    </td>
+                    <td>
+                        <form id='club-selection-form' action="/clubs" method="POST">
+                            <% user.bag.forEach(function(club){ 
+                                    var checked = "";
+                                    if(club.inBag){
+                                        checked = "checked"
+                                    } %>
+                                    <div class="checkbox">
+                                        <label><input class="club-selection" type="checkbox" value="<%= club.club %>" <%=checked%>><%= club.club %></label>
+                                    </div>
+                            <% }) %>
+                            <div>
+                                <button type="submit" id="submit-clubs" class="btn btn-xs btn-success save_btn">Save</button>
+                                <button type="submit" id="edit-clubs" class="btn btn-xs btn-warning edit_btn hidden">Edit</button>
+                                <button type="submit" id="clear-clubs" class="btn btn-xs btn-danger clear_btn">Clear</button>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
             </table>
         </div>
     </div>
@@ -154,5 +177,57 @@
             reader.readAsDataURL(file);
         });  
     });
+    
+    $('#club-selection-form').on('submit', function(e) {
+        e.preventDefault();
+        clubSave();
+    });
+    
+    function clubSave() {
+        console.log($('.club-selection').value);
+        var clubList = [];
+        $('.club-selection').each(function() {
+            var club = $(this).val();
+            var isChecked = $(this).prop('checked');
+            clubList.push({
+                club: club,
+                inBag: isChecked
+            });
+        })
+        console.log(clubList);
+        
+        $.ajax({
+            url: '/clubs', 
+            type: 'POST', 
+            data: {clubList: clubList}
+        });
+        
+        $('#submit-clubs').html('Saved');
+        $('#submit-clubs').prop("disabled", true);
+        $('#edit-clubs').removeClass("hidden");
+        
+        return false;
+    }
+    
+    $("#clear-clubs").click(function() {
+        clubClear();
+        return false;
+    });
+    
+    function clubClear() {
+        $('.club-selection').prop('checked', false); 
+        return false;
+    }
+    
+    $("#edit-clubs").click(function() {
+        clubEdit();
+        return false;
+    });
+    
+    function clubEdit() {
+        $('#submit-clubs').html('Save');
+        $('#submit-clubs').prop("disabled", false);
+        return false;
+    }
 
 </script>

@@ -81,7 +81,149 @@ router.post("/register", function(req, res){
                                                 emailConfirmationToken: verification_token,
                                                 emailConfirmed: false,
                                                 role: "user",
-                                                signUpDate: Date.now()
+                                                signUpDate: Date.now(),
+                                                bag: [
+                                                        {
+                                                            club: "Driver",
+                                                            nickName: "Driver",
+                                                            category: "Woods",
+                                                            sort: 1,
+                                                            inBag: true
+                                                        },
+                                                        {
+                                                            club: "3 Wood",
+                                                            nickName: "3W",
+                                                            category: "Woods",
+                                                            sort: 2,
+                                                            inBag: true
+                                                        },
+                                                        {
+                                                            club: "5 Wood",
+                                                            nickName: "5W",
+                                                            category: "Woods",
+                                                            sort: 3,
+                                                            inBag: true
+                                                        },
+                                                        {
+                                                            club: "7 Wood",
+                                                            nickName: "7W",
+                                                            category: "Woods",
+                                                            sort: 4,
+                                                            inBag: false
+                                                        },
+                                                        {
+                                                            club: "2 Hybrid",
+                                                            nickName: "2H",
+                                                            category: "Hybrids",
+                                                            sort: 5,
+                                                            inBag: false
+                                                        },
+                                                        {
+                                                            club: "3 Hybrid",
+                                                            nickName: "3H",
+                                                            category: "Hybrids",
+                                                            sort: 6,
+                                                            inBag: false
+                                                        },
+                                                        {
+                                                            club: "4 Hybrid",
+                                                            nickName: "4H",
+                                                            category: "Hybrids",
+                                                            sort: 7,
+                                                            inBag: false
+                                                        },
+                                                        {
+                                                            club: "Rescue",
+                                                            nickName: "Rescue",
+                                                            category: "Hybrids",
+                                                            sort: 8,
+                                                            inBag: false
+                                                        },
+                                                        {
+                                                            club: "2 Iron",
+                                                            nickName: "2I",
+                                                            category: "Irons",
+                                                            sort: 9,
+                                                            inBag: false
+                                                        },
+                                                        {
+                                                            club: "3 Iron",
+                                                            nickName: "3I",
+                                                            category: "Irons",
+                                                            sort: 10,
+                                                            inBag: false
+                                                        },
+                                                        {
+                                                            club: "4 Iron",
+                                                            nickName: "4I",
+                                                            category: "Irons",
+                                                            sort: 11,
+                                                            inBag: true
+                                                        },
+                                                        {
+                                                            club: "5 Iron",
+                                                            nickName: "5I",
+                                                            category: "Irons",
+                                                            sort: 12,
+                                                            inBag: true
+                                                        },
+                                                        {
+                                                            club: "6 Iron",
+                                                            nickName: "6I",
+                                                            category: "Irons",
+                                                            sort: 13,
+                                                            inBag: true
+                                                        },
+                                                        {
+                                                            club: "7 Iron",
+                                                            nickName: "7I",
+                                                            category: "Irons",
+                                                            sort: 14,
+                                                            inBag: true
+                                                        },
+                                                        {
+                                                            club: "8 Iron",
+                                                            nickName: "8I",
+                                                            category: "Irons",
+                                                            sort: 15,
+                                                            inBag: true
+                                                        },
+                                                        {
+                                                            club: "9 Iron",
+                                                            nickName: "9I",
+                                                            category: "Irons",
+                                                            sort: 16,
+                                                            inBag: true
+                                                        },
+                                                        {
+                                                            club: "Pitching Wedge",
+                                                            nickName: "PW",
+                                                            category: "Wedges",
+                                                            sort: 17,
+                                                            inBag: true
+                                                        },
+                                                        {
+                                                            club: "Gap Wedge",
+                                                            nickName: "GW",
+                                                            category: "Wedges",
+                                                            sort: 18,
+                                                            inBag: true
+                                                        },
+                                                        {
+                                                            club: "Sand Wedge",
+                                                            nickName: "SW",
+                                                            category: "Wedges",
+                                                            sort: 19,
+                                                            inBag: true
+                                                        },
+                                                        {
+                                                            club: "Lob Wedge",
+                                                            nickName: "LW",
+                                                            category: "Wedges",
+                                                            sort: 20,
+                                                            inBag: true
+                                                        },
+                                                ]
                                             });
                     User.register(newUser, req.body.password, function(err, user){
                         if(err){
@@ -372,6 +514,20 @@ router.post("/profile", middleware.isLoggedIn, function(req, res){
             });
         }
     });
+});
+
+router.post("/clubs", middleware.isLoggedIn, function(req, res){
+  var clubList = req.body.clubList;
+  clubList.forEach(function(club){
+    var conditions = { 'bag.club': club.club }
+      , update = { $set: { 'bag.$.inBag': club.inBag }}
+      , options = { multi: false };
+    User.update(conditions, update, options, function(err, updated){
+      if(err){
+        console.log(err);
+      }
+    });
+  });
 });
 
 module.exports = router;

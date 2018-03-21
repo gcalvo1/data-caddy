@@ -14,6 +14,15 @@ var UserSchema = new mongoose.Schema({
     imgExt: String,
     role: String,
     signUpDate: Date,
+    bag:[
+            {
+                club: String,
+                nickName: String,
+                category: String,
+                sort: Number,
+                inBag: Boolean,
+            }
+    ]
 });
 
 UserSchema.plugin(passportLocalMongoose);
