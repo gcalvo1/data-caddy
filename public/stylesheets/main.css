@@ -1603,3 +1603,8 @@ to align it properly */
 }
 
 #map-api img{max-height:none;}
+
+.gm-style-iw div div span {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}
