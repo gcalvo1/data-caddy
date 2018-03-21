@@ -7,6 +7,11 @@ function updateTeeClubFilter(){
         dateTo.setHours(23,59,59,0);
         dateFrom = dateFrom.toISOString();
         dateTo = dateTo.toISOString();
+    
+    if (numHoles === "9 Holes") {
+        isFull = false;
+    }    
+    
     var parameters = { isFull: isFull, dateFrom: dateFrom, dateTo:dateTo };
     var teeClubDropdownHtml = "<option value=All>All</option>";
     
@@ -29,6 +34,11 @@ function updateDriveTrackerFilter(club, callback){
         dateTo.setHours(23,59,59,0);
         dateFrom = dateFrom.toISOString();
         dateTo = dateTo.toISOString();
+        
+    if (numHoles === "9 Holes") {
+        isFull = false;
+    }
+        
     var parameters = { isFull: isFull, dateFrom: dateFrom, dateTo:dateTo };
     
     $.get( '/dashboard/roundsdata', parameters, function(data) {
@@ -104,8 +114,14 @@ function updateApproachClubFilter(){
         dateTo.setHours(23,59,59,0);
         dateFrom = dateFrom.toISOString();
         dateTo = dateTo.toISOString();
-        parameters = { isFull: isFull, dateFrom: dateFrom, dateTo:dateTo };
-        approachClubDropdownHtml = "<option value=All>All</option>"
+        
+    if (numHoles === "9 Holes") {
+        isFull = false;
+    }
+    var parameters = { isFull: isFull, dateFrom: dateFrom, dateTo:dateTo };
+    var approachClubDropdownHtml = "<option value=All>All</option>";
+        
+        
     
     $.get( '/dashboard/roundsdata', parameters, function(data) {
         //Set Approach Club Dropdown
