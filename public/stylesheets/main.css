@@ -163,6 +163,10 @@ body {
     font-size: 12px;
 }
 
+.add-clubs {
+    margin-left: 5px;
+}
+
 /* START TOOLTIP STYLES */
 [tooltip] {
   position: relative; /* opinion 1 */

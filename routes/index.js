@@ -519,7 +519,7 @@ router.post("/profile", middleware.isLoggedIn, function(req, res){
 router.post("/clubs", middleware.isLoggedIn, function(req, res){
   var clubList = req.body.clubList;
   clubList.forEach(function(club){
-    var conditions = { 'bag.club': club.club }
+    var conditions = { 'bag.club': club.club, email: req.user.email }
       , update = { $set: { 'bag.$.inBag': club.inBag }}
       , options = { multi: false };
     User.update(conditions, update, options, function(err, updated){

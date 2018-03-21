@@ -243,7 +243,7 @@ router.get("/:id/edit", middleware.checkRoundOwnership, function(req, res) {
                         if(err){
                             console.log(err);
                         } else {
-                            res.render("rounds/edit",{round: foundRound, courses:courses, course:course}); 
+                            res.render("rounds/edit",{round: foundRound, courses:courses, course:course, user:req.user}); 
                         }
                     });
                 }

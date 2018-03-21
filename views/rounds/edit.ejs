@@ -50,7 +50,7 @@
                             <div id="hole_<%=i%>" class="form-group hole_desc">
                         </div>
                         <div class="form-group fg_input">
-                            <label for="tsc" class="Label_input">Tee Club <span class="info-tooltip" tooltip="The club you tee'd off with" flow="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span></label>
+                            <label for="tsc" class="Label_input">Tee Club <span class="info-tooltip" tooltip="The club you tee'd off with" flow="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span><a href="/profile"><span class="info-tooltip add-clubs" tooltip="Click to modify the clubs in your bag" flow="right"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i></span></a></label>
                             <select name="round[tsc]" class="form-control f_input" id="tsc_<%=i%>">
                                 <option value=""></option>
                                   <% user.bag.forEach(function(club){
@@ -97,7 +97,7 @@
                             </select>
                         </div>
                         <div class="form-group fg_input">
-                            <label for="ac" class="Label_input">Appr. Club <span class="info-tooltip" tooltip="The club you hit your approach shot with" flow="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span></label>
+                            <label for="ac" class="Label_input">Appr. Club <span class="info-tooltip" tooltip="The club you hit your approach shot with" flow="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span><a href="/profile"><span class="info-tooltip add-clubs" tooltip="Click to modify the clubs in your bag" flow="right"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i></span></a></label>
                             <select name="round[ac]" class="form-control f_input" id="ac_<%=i%>">
                                 <option value=""></option>
                                   <% user.bag.forEach(function(club){
