@@ -3,11 +3,12 @@ function setSummary(parameters){
         
         //Set Summary Data Cards
         var sign = "+";
-        if(data.avgScore.avgScoreToPar === 0) {
+        if(data.avgScore.avgScoreToPar === 0 || data.avgScore.avgScoreToPar < 0) {
             sign = "";
-        } else if(data.avgScore.avgScoreToPar < 0) {
-            sign = "-";
         }
+        
+        console.log(data);
+        console.log(data.rounds.length);
         
         if(data.rounds.length === 0){
             $('#no-round-data').removeClass("hidden");
@@ -19,6 +20,7 @@ function setSummary(parameters){
             $('#par-four-scoring-avg').html("N/A");
             $('#par-five-scoring-avg').html("N/A");
         } else {
+            $('#no-round-data').addClass("hidden");
             $('#scoring-avg').html(Math.round(data.avgScore.avgScore * 10) / 10);
             $('#scoring-avg').attr("data-to",Math.round(data.avgScore.avgScore * 10) / 10);
             $('#avg-score-to-par').html(sign + String(Math.round(data.avgScore.avgScoreToPar * 10) / 10));
