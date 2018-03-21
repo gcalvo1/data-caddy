@@ -81,20 +81,101 @@
                     </tr>
                 <% } %>
                 <tr>
-                    <td>
+                    <td id="clubs-td">
                         <div> Clubs in the Bag: </div>
                     </td>
                     <td>
                         <form id='club-selection-form' action="/clubs" method="POST">
-                            <% user.bag.forEach(function(club){ 
-                                    var checked = "";
-                                    if(club.inBag){
-                                        checked = "checked"
-                                    } %>
-                                    <div class="checkbox">
-                                        <label><input class="club-selection" type="checkbox" value="<%= club.club %>" <%=checked%>><%= club.club %></label>
-                                    </div>
-                            <% }) %>
+                            <div class="panel-group" id="accordion">
+                              <div class="panel panel-default">
+                                <div class="panel-heading">
+                                  <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Woods</a>
+                                  </h4>
+                                </div>
+                                <div id="collapse1" class="panel-collapse collapse in">
+                                  <div class="panel-body">
+                                      <% user.bag.forEach(function(club){ 
+                                            if(club.category === "Woods"){
+                                                var checked = "";
+                                                if(club.inBag){
+                                                    checked = "checked"
+                                                } %>
+                                                <div class="checkbox">
+                                                    <label><input class="club-selection" type="checkbox" value="<%= club.club %>" <%=checked%>><%= club.club %></label>
+                                                </div>
+                                        <% }
+                                    }) %>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="panel panel-default">
+                                <div class="panel-heading">
+                                  <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Hybrids</a>
+                                  </h4>
+                                </div>
+                                <div id="collapse2" class="panel-collapse collapse">
+                                  <div class="panel-body">
+                                      <% user.bag.forEach(function(club){ 
+                                            if(club.category === "Hybrids"){
+                                                var checked = "";
+                                                if(club.inBag){
+                                                    checked = "checked"
+                                                } %>
+                                                <div class="checkbox">
+                                                    <label><input class="club-selection" type="checkbox" value="<%= club.club %>" <%=checked%>><%= club.club %></label>
+                                                </div>
+                                        <% }
+                                    }) %>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="panel panel-default">
+                                <div class="panel-heading">
+                                  <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Irons</a>
+                                  </h4>
+                                </div>
+                                <div id="collapse3" class="panel-collapse collapse">
+                                  <div class="panel-body">
+                                      <% user.bag.forEach(function(club){ 
+                                            if(club.category === "Irons"){
+                                                var checked = "";
+                                                if(club.inBag){
+                                                    checked = "checked"
+                                                } %>
+                                                <div class="checkbox">
+                                                    <label><input class="club-selection" type="checkbox" value="<%= club.club %>" <%=checked%>><%= club.club %></label>
+                                                </div>
+                                        <% }
+                                    }) %>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="panel panel-default">
+                                <div class="panel-heading">
+                                  <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse4">Wedges</a>
+                                  </h4>
+                                </div>
+                                <div id="collapse4" class="panel-collapse collapse">
+                                  <div class="panel-body">
+                                      <% user.bag.forEach(function(club){ 
+                                            if(club.category === "Wedges"){
+                                                var checked = "";
+                                                if(club.inBag){
+                                                    checked = "checked"
+                                                } %>
+                                                <div class="checkbox">
+                                                    <label><input class="club-selection" type="checkbox" value="<%= club.club %>" <%=checked%>><%= club.club %></label>
+                                                </div>
+                                        <% }
+                                    }) %>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                             <div>
                                 <button type="submit" id="submit-clubs" class="btn btn-xs btn-success save_btn">Save</button>
                                 <button type="submit" id="edit-clubs" class="btn btn-xs btn-warning edit_btn hidden">Edit</button>

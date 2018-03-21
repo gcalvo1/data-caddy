@@ -1213,6 +1213,10 @@ to align it properly */
     padding-top: 6px 6px;
 }
 
+#clubs-td {
+    vertical-align: top;
+}
+
 #show-img-input {
     padding-left: 10px;
     color: white;
