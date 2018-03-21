@@ -174,7 +174,6 @@ function setApproachResult(element){
         }
         $('#ar_' + hole_changed).prop('selectedIndex', 2);
     } else {
-        console.log($("#ar_" + hole_changed + " option[value='Under GIR']"));
         $('#ar_' + hole_changed).prop('selectedIndex', 0);
         $("#ar_" + hole_changed + " option[value='Under GIR']").remove();
         $("#ar_" + hole_changed + " option[value='GIR']").remove();
@@ -419,7 +418,6 @@ function completeValidation() {
                 var roundObj = data.round[0],
                 url = $(location).attr('href');
                 url = url.substring(0, url.length - 3);
-                alert(url);
                 window.location.replace(url + roundObj._id);
             }
         });
