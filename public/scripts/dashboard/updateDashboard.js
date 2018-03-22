@@ -186,7 +186,7 @@ function updateDashboard(club, updateSource){
         }
         setApproach(parameters);
     }
-    if(activeTab === "shortgame"){
+    if(activeTab === "short-game"){
         var parameters = { isFull: isFull, dateFrom: dateFrom, dateTo:dateTo };
         setShortGame(parameters);
     }

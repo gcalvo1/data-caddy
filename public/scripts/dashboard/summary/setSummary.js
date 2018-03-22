@@ -7,9 +7,6 @@ function setSummary(parameters){
             sign = "";
         }
         
-        console.log(data);
-        console.log(data.rounds.length);
-        
         if(data.rounds.length === 0){
             $('#no-round-data').removeClass("hidden");
             $('#no-round-data').addClass("no-round-data");

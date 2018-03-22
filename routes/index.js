@@ -249,7 +249,7 @@ router.post("/register", function(req, res){
                                 } 
                             });
                             req.flash("success", "Welcome to DataCaddy " + user.username + "! Please remember to verify your email address.");
-                            res.redirect("/dashboard");   
+                            res.redirect("/dashboard#summary");   
                         });
                     });
                 }
@@ -309,7 +309,7 @@ router.get("/resend-verification", function (req, res) {
 //Handle login logic
 router.post("/", passport.authenticate("local", 
     {
-        successRedirect: "/dashboard",
+        successRedirect: "/dashboard#summary",
         failureRedirect: "/",
         failureFlash: true
     }), function(req, res){

@@ -68,8 +68,8 @@
                 <div class="col-md-12">
                     <div id="dash-tab-menu">
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
-                          <li id="summary-tab-li" class="nav-item active">
-                            <a class="nav-link active non-driving-tab non-approach-tab" id="summary-tab" data-toggle="tab" href="#summary" role="tab" aria-controls="summary" aria-selected="true">Summary</a>
+                          <li id="summary-tab-li" class="nav-item">
+                            <a class="nav-link non-driving-tab non-approach-tab" id="summary-tab" data-toggle="tab" href="#summary" role="tab" aria-controls="summary" aria-selected="true">Summary</a>
                           </li>
                           <li id="driving-tab-li" class="nav-item">
                             <a class="nav-link non-home-tab non-approach-tab" id="driving-tab" data-toggle="tab" href="#driving" role="tab" aria-controls="driving" aria-selected="false">Driving</a>
@@ -89,7 +89,7 @@
                         </ul>
                     </div>
                     <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade in show active" id="summary" role="tabpanel" aria-labelledby="summary-tab">
+                        <div class="tab-pane fade in" id="summary" role="tabpanel" aria-labelledby="summary-tab">
                             <div class="row">
                                 <div class="col-md-2">
                                     <div class="counter">
@@ -515,7 +515,9 @@
 
     $('.menu_options li').removeClass('active');
     $('#dashboard_menu_option').addClass('active');
-    var activeTab = 'summary';
+    
+    var activeTab = window.location.hash.substr(1);
+    
     //numCounterUpdate();
     $(function() {
         var currentDate = new Date();
@@ -552,7 +554,7 @@
         updateDashboard('All');
     });
     $('#short-game-tab').on('click', function(){
-        activeTab = 'shortgame';
+        activeTab = 'short-game';
         updateDashboard();
     });
     $('#summary-tab').on('click', function(){
@@ -573,11 +575,6 @@
     });
     $('.non-approach-tab').on('click', function(){
         $('#approach-club-dropdown-div').addClass("hidden");
-    });
-    
-    //Tab Menu Code
-    $('.non-home-tab').click(function() {
-        $("#summary").removeClass("show");
     });
     
     $('.date-filter').change(function(){
@@ -650,6 +647,19 @@
             $('#handicap').html(data.handicapIndex);
             $('#handicap').attr("data-to",data.handicapIndex);
         }
+    });
+    
+    //Set hash in url
+    $(function(){
+      var hash = window.location.hash;
+      hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+    
+      $('.nav-tabs a').click(function (e) {
+        $(this).tab('show');
+        var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+        window.location.hash = this.hash;
+        $('html,body').scrollTop(scrollmem);
+      });
     });
     
 </script>
