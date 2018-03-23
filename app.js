@@ -9,7 +9,6 @@ var express = require("express"),
     Course = require("./models/course"),
     Round = require("./models/round"),
     User = require("./models/user"),
-    AWS = require('aws-sdk'),
     seedDB = require("./seeds");
     
 require('dotenv').config();
@@ -25,7 +24,7 @@ app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public")); 
 app.use(methodOverride("_method"));
 app.use(flash());
-seedDB();
+//seedDB();
 
 // PASSPORT CONFIGURATION
 app.use(require("express-session")({

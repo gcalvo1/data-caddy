@@ -44,11 +44,11 @@
                             </form>
                         <% } else { %>
                             <li class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href=""><% if(!currentUser.hasImg || currentUser.hasImg) { %>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href=""><% if(!currentUser.hasImg || !userImg) { %>
                         <span class="glyphicon glyphicon-user"></span>
-                    <% } %> <!--else { %>-->
-                    <!--    <span><img id='dash-prof-pic' src='<= currentUser.imgLink %>'></span>-->
-                    <!--< } %> -->
+                    <% } else { %>
+                            <span><img id='header-prof-pic' src='<%= userImg %>'></span>
+                    <% } %>
                         </span>      <%= currentUser.name %> </span>
                                 <span class="caret"></span></a>
                                 <ul class="dropdown-menu">

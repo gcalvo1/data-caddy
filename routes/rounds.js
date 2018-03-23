@@ -5,14 +5,19 @@ var Course = require("../models/course");
 var User = require("../models/user");
 var middleware = require("../middleware");
 var request = require('request');
+var AWS = require('aws-sdk');
+
+var s3Bucket = new AWS.S3({ params: {Bucket: 'data-caddy-profile-pics'} });
 
 router.get("/", middleware.isLoggedIn, middleware.emailVerified, function(req, res){
     Round.find({"player.id": req.user._id}).populate("course").exec(function(err, rounds){
         if(err){
             console.log(err);
         } else {
-            //console.log({rounds:rounds});
-            res.render("rounds/index",{rounds:rounds});
+            var urlParams = {Bucket: 'data-caddy-profile-pics', Key: req.user.username + req.user.imgExt};
+            s3Bucket.getSignedUrl('getObject', urlParams, function(err, url){
+                res.render("rounds/index",{rounds:rounds,userImg: url});
+            });
         }
     });
 });
@@ -208,7 +213,10 @@ router.get("/new", middleware.isLoggedIn, middleware.emailVerified, function(req
         if(err){
             console.log(err);
         } else {
-            res.render("rounds/new",{courses:courses, user: req.user}); 
+            var urlParams = {Bucket: 'data-caddy-profile-pics', Key: req.user.username + req.user.imgExt};
+            s3Bucket.getSignedUrl('getObject', urlParams, function(err, url){
+                res.render("rounds/new",{courses:courses, user: req.user, userImg: url}); 
+            });
         }
     });
 });
@@ -220,8 +228,10 @@ router.get("/:id", middleware.isLoggedIn, middleware.emailVerified, function(req
       if(err){
           console.log(err);
       } else {
-          console.log(req.user);
-          res.render("rounds/show", {round: foundRound, user: req.user});
+          var urlParams = {Bucket: 'data-caddy-profile-pics', Key: req.user.username + req.user.imgExt};
+          s3Bucket.getSignedUrl('getObject', urlParams, function(err, url){
+            res.render("rounds/show", {round: foundRound, user: req.user, userImg: url});
+          });
       }
     });
 });
@@ -240,7 +250,10 @@ router.get("/:id/edit", middleware.checkRoundOwnership, function(req, res) {
                         if(err){
                             console.log(err);
                         } else {
-                            res.render("rounds/edit",{round: foundRound, courses:courses, course:course, user:req.user}); 
+                            var urlParams = {Bucket: 'data-caddy-profile-pics', Key: req.user.username + req.user.imgExt};
+                            s3Bucket.getSignedUrl('getObject', urlParams, function(err, url){
+                                res.render("rounds/edit",{round: foundRound, courses:courses, course:course, user:req.user, userImg: url}); 
+                            });
                         }
                     });
                 }

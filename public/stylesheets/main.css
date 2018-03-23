@@ -289,6 +289,18 @@ body {
 	margin-bottom: 20px;
 }
 
+#header-user-info {
+    padding-top: 13px;
+    padding-bottom: 13px;
+}
+
+#header-prof-pic {
+    width: 25px;
+    height: 25px;
+    margin-right: 3px;
+    border-radius: 50%;
+}
+
 hr {
 	 border-color: #DDCECE;
 	 background-color: #DDCECE;

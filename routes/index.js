@@ -12,12 +12,18 @@ var sgMail = require('@sendgrid/mail');
 var randomstring = require("randomstring");
 var middleware = require("../middleware");
 
-// AWS.config.loadFromPath('./s3_config.json');
-var s3 = new AWS.S3();
+var s3Bucket = new AWS.S3({ params: {Bucket: 'data-caddy-profile-pics'} });
 
 //Route route
 router.get("/", function(req,res){
-    res.render("landing");
+    if(req.user){
+        var urlParams = {Bucket: 'data-caddy-profile-pics', Key: req.user.username + req.user.imgExt};
+        s3Bucket.getSignedUrl('getObject', urlParams, function(err, url){
+            res.render("landing",{userImg: url});
+        });
+      } else {
+          res.render("landing",{userImg: null});  
+      }
 });
 
 //==================Auth Routes==========================
@@ -435,8 +441,6 @@ router.post('/reset/:token', function(req, res) {
 
 //User Profile Route
 router.get("/profile", middleware.isLoggedIn, function(req, res){
-    // AWS.config.loadFromPath('./s3_config.json');
-            
     var s3Bucket = new AWS.S3({ params: {Bucket: 'data-caddy-profile-pics'} });
     var urlParams = {Bucket: 'data-caddy-profile-pics', Key: req.user.username + req.user.imgExt};
     s3Bucket.getSignedUrl('getObject', urlParams, function(err, url){
