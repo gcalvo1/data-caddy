@@ -48,6 +48,9 @@ app.use(function(req, res, next){
 app.use("/", indexRoutes);
 app.use("/rounds", roundRoutes);
 app.use("/dashboard", dashboardRoutes);
+app.use(function(req,res){
+    res.render('404');
+});
 
 app.get('/coursedropdown', function(req, res){
     var courseSelect = req.query.course;
