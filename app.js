@@ -9,6 +9,7 @@ var express = require("express"),
     Course = require("./models/course"),
     Round = require("./models/round"),
     User = require("./models/user"),
+    AWS = require('aws-sdk'),
     seedDB = require("./seeds");
     
 require('dotenv').config();
@@ -48,9 +49,6 @@ app.use(function(req, res, next){
 app.use("/", indexRoutes);
 app.use("/rounds", roundRoutes);
 app.use("/dashboard", dashboardRoutes);
-app.use(function(req,res){
-    res.render('404');
-});
 
 app.get('/coursedropdown', function(req, res){
     var courseSelect = req.query.course;
@@ -112,6 +110,22 @@ app.get("/mostrecentround", function(req, res){
             res.send({mostRecentRound: mostRecentRound});
         }
     });
+});
+
+app.use(function(req, res, next){
+    if(req.user){
+        var s3Bucket = new AWS.S3({ params: {Bucket: 'data-caddy-profile-pics'} });
+        var urlParams = {Bucket: 'data-caddy-profile-pics', Key: req.user.username + req.user.imgExt};
+        s3Bucket.getSignedUrl('getObject', urlParams, function(err, url){
+            if(err){
+                console.log(err);
+            } else {
+                res.status(404).render('404Template',{userImg: url}); 
+            }
+        });
+    } else {
+        res.status(404).render('404Template');    
+    }
 });
 
 app.listen(process.env.PORT, process.env.IP, function(){

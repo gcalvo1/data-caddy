@@ -1,0 +1,59 @@
+<% include ./partials/header %>
+
+<div class="container">
+    <% var errorMessages = [
+        {
+            title: "You made an 8... on a par 3",
+            gif: "http://cdn.ebaumsworld.com/mediaFiles/picture/604025/84404793.gif",
+        },
+        {
+            title: "That's a 4 putt",
+            gif: "https://media.giphy.com/media/zGaKOKMKcujf2/giphy.gif",
+        },
+        {
+            title: "Snapped your putter",
+            gif: "http://www.gifbin.com/bin/102015/golf-shot-fail.gif"
+        },
+        {
+            title: "Shankapotomus",
+            gif: "http://gifon007.eu/wp-content/uploads/2016/11/Playing-Golf-Sport-Fail-Gif-Video.gif"
+        },
+        {
+            title: "Off the tree - Off your head - Out of bounds",
+            gif: "https://media0.giphy.com/media/BEtIfpBep4pBS/giphy.gif"
+        },
+        {
+            title: "Whiffffffffff",
+            gif: "https://media.tenor.com/images/83ebdf4a22fe11e7b7b9ba444c8ca326/tenor.gif"
+        },
+        {
+            title: "Dustin Johnson at Whistling Straits",
+            gif: "https://media1.tenor.com/images/e26b73727f3441f80215e06d1a168b66/tenor.gif?itemid=9302524"
+        },
+        {
+            title: "Tiger Woods routine traffic stop",
+            gif: "https://www.thesun.ie/wp-content/uploads/sites/3/2017/06/gif-tiger.gif?strip=all&quality=100&w=480&h=320&crop=1"
+        },
+        {
+            title: "Driving without a license",
+            gif: "https://media.giphy.com/media/7sI6nhBhPjMVW/giphy.gif"
+        }
+    ] 
+    
+    var rando = Math.floor(Math.random() * 8)
+    %>
+    
+    <div style="margin-top:30px; margin-bottom:15px">
+        <h1><span style="font-size:40px;"><strong>Error: </strong> </span><%= errorMessages[rando].title %></h1>
+    </div>
+    <div>
+        <img src="<%=errorMessages[rando].gif%>">
+    </div>
+    <div style="margin-bottom:30px;">
+        <h3> The page you are looking for cannot be found</h3>
+        <p> Please make sure your URL is valid </p>
+        <p> For support, email <a href='mailto:georgecalvo@georgecalvo.com'>georgecalvo@georgecalvo.com</a> </p>
+    </div>
+</div>
+
+<% include ./partials/footer %>
