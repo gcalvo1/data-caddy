@@ -539,6 +539,14 @@
         var fromDate = $('#date-from').datepicker('getDate');
     });
     
+    //Add filters on refresh
+    if(activeTab === "driving"){
+        $('#tee-club-dropdown-div').removeClass("hidden");
+    }
+    if(activeTab === "approach"){
+        $('#approach-club-dropdown-div').removeClass("hidden");
+    }
+    
     //Toggle filters
     $('#driving-tab').on('click', function(){
         activeTab = 'driving';
