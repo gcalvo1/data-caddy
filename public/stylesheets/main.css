@@ -594,6 +594,8 @@ input, label {
 #drivetracker-rounds {
     width: 25%;
     display: inline-block;
+    background-color: rgb(61,63,65);
+    color: white;
 }
 
 #driving h4 {
@@ -678,8 +680,8 @@ input, label {
     margin-right: 3px
 }
 
-#approach-miss-table-div{
-    padding-bottom: 8px
+#approach-miss-table-div {
+    height: 530.4px;
 }
 
 #miss-spread-title{

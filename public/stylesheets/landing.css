@@ -289,3 +289,11 @@ background: linear-gradient(to right, #2c3e50, #bdc3c7); /* W3C, IE 10+/ Edge, F
     border-radius: 7px;
     padding: 5px;
 }
+
+#hero { 
+    background: url(../img/full_view.jpg) no-repeat;
+    width: 100%;
+    height: 600px;
+    background-size: 100% 600px;
+    /*position:relative;*/
+}
