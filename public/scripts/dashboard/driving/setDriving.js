@@ -110,6 +110,6 @@ function setDriving(parameters) {
         }
         
         //Line Chart
-        highChartsFirByRound(firByDate);
+        highChartsFirByRound('fir-per-round-line',418,firByDate);
     });
 }

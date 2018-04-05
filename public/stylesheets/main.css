@@ -375,6 +375,11 @@ input, label {
     height: 75px;
 }
 
+.banner_img {
+    width: 100px;
+    height: 100px;
+}
+
 #complete_btn_div {
     text-align: center;
 }
@@ -521,6 +526,14 @@ input, label {
     background: #232526;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to bottom, #414345, #232526);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to bottom, #414345, #232526); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.banner { 
+    padding: 10px 0; 
+    border-radius: 5px;
+    background: #ECE9E6;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom, #FFFFFF, #ECE9E6);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, #FFFFFF, #ECE9E6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 .count-title { 
@@ -1621,4 +1634,61 @@ to align it properly */
 .gm-style-iw div div span {
   margin-left: 0px !important;
   margin-right: 0px !important;
+}
+
+#holes-dropdown-div {
+    width: 45%;
+}
+
+.left-align {
+    text-align: left;
+}
+
+#course_img_div {
+    text-align: center;
+}
+
+#hole-info {
+    text-align: center;
+}
+
+#hole-tees {
+    text-align: center;
+    font-size: 16px;
+}
+
+#hole-number {
+    font-size: 24px;
+}
+
+#hole-par {
+    font-size: 19px;
+}
+
+#hole-info #hole-number-row {
+    margin-bottom: 5px;
+}
+
+#hole-info #hole-par-row {
+    margin-top: 0px;
+}
+
+.tee-row:first-of-type {
+    margin-bottom: 5px !important;
+    margin-top: 13px !important;
+
+}
+
+.tee-row:last-of-type {
+    margin-top: 5px !important;
+    margin-bottom: 0px !important;
+}
+
+.tee-row:not(:first-of-type):not(:last-of-type){
+    margin-bottom: 0px !important;
+    margin-top: 0px !important;
+}
+
+#tee-length {
+    margin-left: 3px;
 }

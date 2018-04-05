@@ -1,6 +1,6 @@
-function highChartsFirByRound(id,height,firbyDate){
+function highChartsGirByRound(id,height,girByDate){
     console.log("high");
-    var series = firbyDate;
+    var series = girByDate;
     console.log(series);
     //Sort Data
     function compare(a,b) {
@@ -25,7 +25,7 @@ function highChartsFirByRound(id,height,firbyDate){
             type: 'line'
         },
         title: {
-            text: 'FIR by Round'
+            text: 'GIR by Round'
         },
         xAxis: {
                 type: 'datetime',
@@ -36,7 +36,7 @@ function highChartsFirByRound(id,height,firbyDate){
         },
         yAxis: {
             title: {
-                text: 'FIRs'
+                text: 'GIRs'
             }
         },
         plotOptions: {
@@ -47,7 +47,7 @@ function highChartsFirByRound(id,height,firbyDate){
             }
         },
         series: [{
-            name: 'FIRs',
+            name: 'GIRs',
             data: series
         }],
         credits: {

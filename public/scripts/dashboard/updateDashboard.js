@@ -134,6 +134,44 @@ function updateApproachClubFilter(){
     });
 }
 
+function updateCourseFilter(){
+    var dateFrom = $('#date-from').datepicker('getDate'),
+        dateTo = $('#date-to').datepicker('getDate');
+        dateFrom.setHours(0,0,0,0);
+        dateTo.setHours(23,59,59,0);
+        dateFrom = dateFrom.toISOString();
+        dateTo = dateTo.toISOString();
+    
+    var parameters = { dateFrom: dateFrom, dateTo:dateTo };
+    var courseDropdownHtml = "<option value=''></option>";
+    
+    $.get( '/dashboard/getcourses', parameters, function(data) {
+        data.courses.forEach(function(course){
+            courseDropdownHtml += "<option value=" + course.name + ">" + course.name + "</option>";
+        });
+        $('#course-dropdown').html(courseDropdownHtml);
+    });
+}
+
+function updateHoleFilter(){
+    console.log("updating hole");
+    var course = $('#course-dropdown :selected').text(),
+        parameters = { course: course };
+    var holeDropdownHtml = "<option value=''></option>";
+    console.log(course);
+    
+    if(course){
+        $.get( '/coursedropdown', parameters, function(data) {
+            data.course.holes.forEach(function(hole){
+                holeDropdownHtml += "<option value=" + hole.number + ">" + hole.number + "</option>";
+            });
+            $('#hole-dropdown').html(holeDropdownHtml);
+        });
+    } else {
+        $('#hole-dropdown').html(holeDropdownHtml);
+    }
+}
+
 function updateDashboard(club, updateSource){
     var numHoles = $("#num-holes-dropdown :selected").text(),
         isFull = true,
@@ -197,5 +235,14 @@ function updateDashboard(club, updateSource){
     if(activeTab === "map"){
         var parameters = { isFull: isFull, dateFrom: dateFrom, dateTo:dateTo };
         setMap(parameters);
+    }
+    if(activeTab === "by-hole"){
+        if(updateSource != "course" && updateSource != "hole"){
+            updateCourseFilter();
+        }
+        var course = $('#course-dropdown :selected').text(),
+            hole = $('#hole-dropdown :selected').text(),
+            parameters = {dateFrom: dateFrom, dateTo:dateTo, course:course, hole:hole};
+        setByHole(parameters);
     }
 }

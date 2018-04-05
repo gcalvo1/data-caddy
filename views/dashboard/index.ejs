@@ -60,6 +60,16 @@
                         <select class="form-control" id="approach-club-dropdown">
                         </select>
                     </div>
+                    <div id="courses-dropdown-div" class="form-group fg_input_head hidden">
+                        <label class="left-align" for="course_dropdown">Course:</label>
+                        <select class="form-control" id="course-dropdown">
+                        </select>
+                    </div>
+                    <div id="holes-dropdown-div" class="form-group fg_input_head hidden">
+                        <label class="left-align" for="hole_dropdown">Hole:</label>
+                        <select class="form-control" id="hole-dropdown">
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
@@ -79,6 +89,9 @@
                           </li>
                           <li id="short-game-tab-li" class="nav-item">
                             <a class="nav-link non-home-tab non-driving-tab non-approach-tab" id="short-game-tab" data-toggle="tab" href="#short-game" role="tab" aria-controls="short-game" aria-selected="false">Short Game</a>
+                          </li>
+                          <li id="by-hole-tab-li" class="nav-item">
+                            <a class="nav-link non-home-tab non-driving-tab non-approach-tab" id="by-hole-tab" data-toggle="tab" href="#by-hole" role="tab" aria-controls="by-hole" aria-selected="false">By Hole</a>
                           </li>
                           <li id="weather-tab-li" class="nav-item">
                             <a class="nav-link non-home-tab non-driving-tab non-approach-tab" id="weather-tab" data-toggle="tab" href="#weather" role="tab" aria-controls="weather" aria-selected="false">Weather</a>
@@ -479,6 +492,272 @@
                                 </div>
                             </div>    
                         </div>
+                        <div class="tab-pane fade" id="by-hole" role="tabpanel" aria-labelledby="by-hole-tab">
+                            <div id="no-course" class="row hidden">
+                                <div class="col-md-12">
+                                    <h1>Please Choose a Course</h1>
+                                </div>
+                            </div>    
+                            <div id="no-hole" class="row hidden">
+                                <div class="col-md-12">
+                                    <h1>Please Choose a Hole</h1>
+                                </div>
+                            </div> 
+                            <div id="hole-data" class="row banner hidden">
+                                <div class="col-md-3">
+                                    <div class="col-md-5">
+                                        <div id="course_img_div"></div>
+                                    </div>
+                                    <div id="hole-info" class="col-md-5">
+                                        <div id="hole-number-row" class="row">
+                                            <span id="hole-number"></span>
+                                        </div>
+                                        <div id="hole-par-row" class="row">
+                                            <span id="hole-par"></span>
+                                        </div>
+                                    </div>
+                                    <div id="hole-tees" class="col-md-2">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="counter">
+                                        <h2 id="hole-times-played" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                        <p class="count-text ">Times Played</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="counter">
+                                        <h2 id="hole-scoring-avg" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                        <p class="count-text ">Scoring Average</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="counter">
+                                        <h2 id="hole-strokes-to-par-avg" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                        <p class="count-text ">Strokes to Par Average</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="by-hole-accordion" class="panel-group hidden">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse-tee-shot">Tee Shot</a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapse-tee-shot" class="panel-collapse collapse in">
+                                        <div id="non-par-three-panel" class="panel-body hidden">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="row top-dashboard-stats">
+                                                        <div class="col-md-6">
+                                                            <div class="counter">
+                                                                <h2 id="by-hole-fir-percent" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                                                <p class="count-text ">FIR %</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="counter">
+                                                                <h2 id="by-hole-avg-tee-shot-distance" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                                                <p class="count-text ">Average Tee Shot Distance</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div id="by-hole-fir-line"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div id="score-by-tee-club"></div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="counter">
+                                                        <h2 id="by-hole-tee-left-percent" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                                        <p class="count-text ">Miss Left %</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="counter">
+                                                        <h2 id="by-hole-tee-right-percent" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                                        <p class="count-text ">Miss Right %</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="counter">
+                                                        <h2 id="by-hole-tee-short-percent" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                                        <p class="count-text ">Miss Short %</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="counter">
+                                                        <h2 id="by-hole-tee-long-percent" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                                        <p class="count-text ">Miss Long %</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="par-three-panel" class="panel-body hidden">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="row top-dashboard-stats">
+                                                        <div class="col-md-6">
+                                                            <div class="counter">
+                                                                <h2 id="by-hole-gir-percent" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                                                <p class="count-text ">GIR %</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="counter">
+                                                                <h2 id="by-hole-avg-approach-shot-distance" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                                                <p class="count-text ">Average Approach Shot Distance</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div id="by-hole-gir-line"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div id="score-by-approach-distance"></div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="counter">
+                                                        <h2 id="by-hole-approach-left-percent" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                                        <p class="count-text ">Miss Left %</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="counter">
+                                                        <h2 id="by-hole-approach-right-percent" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                                        <p class="count-text ">Miss Right %</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="counter">
+                                                        <h2 id="by-hole-approach-short-percent" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                                        <p class="count-text ">Miss Short %</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="counter">
+                                                        <h2 id="by-hole-approach-long-percent" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                                        <p class="count-text ">Miss Long %</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="approach-panel" class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse-approach">Approach</a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapse-approach" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="row top-dashboard-stats">
+                                                        <div class="col-md-6">
+                                                            <div class="counter">
+                                                                <h2 id="by-hole-gir-percent-approach" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                                                <p class="count-text ">GIR %</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="counter">
+                                                                <h2 id="by-hole-avg-approach-shot-distance-approach" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                                                <p class="count-text ">Average Approach Shot Distance</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div id="by-hole-gir-line-approach"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div id="score-by-approach-distance-approach"></div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="counter">
+                                                        <h2 id="by-hole-approach-left-percent-approach" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                                        <p class="count-text ">Miss Left %</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="counter">
+                                                        <h2 id="by-hole-approach-right-percent-approach" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                                        <p class="count-text ">Miss Right %</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="counter">
+                                                        <h2 id="by-hole-approach-short-percent-approach" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                                        <p class="count-text ">Miss Short %</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="counter">
+                                                        <h2 id="by-hole-approach-long-percent-approach" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                                        <p class="count-text ">Miss Long %</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse-short-game">Short Game</a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapse-short-game" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <div class="row top-dashboard-stats">
+                                                <div class="col-md-3">
+                                                    <div class="counter">
+                                                        <h2 id="by-hole-scramble-percent" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                                        <p class="count-text ">Scramble %</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="counter">
+                                                        <h2 id="by-hole-scramble-sand-save-percent" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                                        <p class="count-text ">Sand Save %</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="counter">
+                                                        <h2 id="by-hole-scramble-putts-per-round" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                                        <p class="count-text ">Average Putts</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="counter">
+                                                        <h2 id="by-hole-scramble-three-putts" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                                        <p class="count-text ">Total Three Putts</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -506,6 +785,10 @@
 <script src="../scripts/dashboard/weather/setWeather.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5ZVEcAKEvfoR6FqNq-AyhnRkq1g90yoI" async defer></script>
 <script src="../scripts/dashboard/map/setMap.js"></script>
+<script src="../scripts/dashboard/byhole/setByHole.js"></script>
+<script src="../scripts/dashboard/byhole/highChartsScoreByTeeClub.js"></script>
+<script src="../scripts/dashboard/byhole/highChartsApproachScatter.js"></script>
+<script src="../scripts/dashboard/byhole/highChartsGirByRound.js"></script>
 
 <script>
 
@@ -541,16 +824,30 @@
     
     //Add filters on refresh
     if(activeTab === "driving"){
+        $('#num-holes-dropdown-div').removeClass("hidden");
         $('#tee-club-dropdown-div').removeClass("hidden");
+        $('#courses-dropdown-div').addClass("hidden");
+        $('#holes-dropdown-div').addClass("hidden");
     }
     if(activeTab === "approach"){
+        $('#num-holes-dropdown-div').removeClass("hidden");
         $('#approach-club-dropdown-div').removeClass("hidden");
+        $('#courses-dropdown-div').addClass("hidden");
+        $('#holes-dropdown-div').addClass("hidden");
+    }
+    if(activeTab === "by-hole"){
+        $('#num-holes-dropdown-div').addClass("hidden");
+        $('#courses-dropdown-div').removeClass("hidden");
+        $('#holes-dropdown-div').removeClass("hidden");
     }
     
     //Toggle filters
     $('#driving-tab').on('click', function(){
         activeTab = 'driving';
+        $('#num-holes-dropdown-div').removeClass("hidden");
         $('#tee-club-dropdown-div').removeClass("hidden");
+        $('#courses-dropdown-div').addClass("hidden");
+        $('#holes-dropdown-div').addClass("hidden");
         updateDashboard('All');
     });
     $('.non-driving-tab').on('click', function(){
@@ -558,27 +855,49 @@
     });
     $('#approach-tab').on('click', function(){
         activeTab = 'approach';
+        $('#num-holes-dropdown-div').removeClass("hidden");
         $('#approach-club-dropdown-div').removeClass("hidden");
+        $('#courses-dropdown-div').addClass("hidden");
+        $('#holes-dropdown-div').addClass("hidden");
         updateDashboard('All');
     });
     $('#short-game-tab').on('click', function(){
         activeTab = 'short-game';
+        $('#num-holes-dropdown-div').removeClass("hidden");
+        $('#courses-dropdown-div').addClass("hidden");
+        $('#holes-dropdown-div').addClass("hidden");
         updateDashboard();
     });
     $('#summary-tab').on('click', function(){
         activeTab = 'summary';
+        $('#num-holes-dropdown-div').removeClass("hidden");
+        $('#courses-dropdown-div').addClass("hidden");
+        $('#holes-dropdown-div').addClass("hidden");
         updateDashboard();
     });
     $('#weather-tab').on('click', function(){
         activeTab = 'weather';
+        $('#num-holes-dropdown-div').removeClass("hidden");
+        $('#courses-dropdown-div').addClass("hidden");
+        $('#holes-dropdown-div').addClass("hidden");
         updateDashboard();
     });
     $('#map-tab').on('click', function(){
         activeTab = 'map';
+        $('#num-holes-dropdown-div').removeClass("hidden");
+        $('#courses-dropdown-div').addClass("hidden");
+        $('#holes-dropdown-div').addClass("hidden");
         //Update multiple times to hack render bug fix
         updateDashboard();
         updateDashboard();
         google.maps.event.trigger(map, "resize");
+        updateDashboard();
+    });
+    $('#by-hole-tab').on('click', function(){
+        activeTab = 'by-hole';
+        $('#num-holes-dropdown-div').addClass("hidden");
+        $('#courses-dropdown-div').removeClass("hidden");
+        $('#holes-dropdown-div').removeClass("hidden");
         updateDashboard();
     });
     $('.non-approach-tab').on('click', function(){
@@ -598,7 +917,14 @@
             updateDashboard(null,"approachClub");
         });
         $('#num-holes-dropdown').change(function(){
-             updateDashboard();
+            updateDashboard();
+        });
+        $('#course-dropdown').change(function(){
+            updateDashboard(null,"course");
+            updateHoleFilter();
+        });
+        $('#hole-dropdown').change(function(){
+            updateDashboard(null,"hole");
         });
     });
     
@@ -670,5 +996,91 @@
       });
     });
     
+    function setByHole(parameters) {
+        console.log(parameters);
+        
+        if(!parameters.course){
+            $('#no-course').removeClass("hidden");
+            $('#no-hole').addClass("hidden");
+            $('#hole-data').addClass("hidden");
+            $('#by-hole-accordion').addClass("hidden");
+        } else if(!parameters.hole) {
+            $('#no-course').addClass("hidden");
+            $('#no-hole').removeClass("hidden");
+            $('#hole-data').addClass("hidden");
+            $('#by-hole-accordion').addClass("hidden");
+        } else {
+            $('#no-hole').addClass("hidden");
+            $('#hole-data').removeClass("hidden");
+            $('#by-hole-accordion').removeClass("hidden");
+            $.get( '/dashboard/byhole', parameters, function(data) {
+                console.log(data);
+                var course = data.course[0],
+                    arrayHole = parameters.hole - 1;
+                
+                //Set course img
+                $('#course_img_div').html("");
+                $('#course_img_div').html("<img id='input_img' src='../"+ course.img + "' alt=''>");
+                $('#input_img').addClass("banner_img");
+                //Set hole number
+                $('#hole-number').html("<strong>Hole " + parameters.hole + "</strong>");
+                $('#hole-par').html("Par " + course.holes[arrayHole].par);
+                //Set tees
+                var teesHtml = "";
+                for(var teeColor in course.holes[arrayHole].yardage) {
+                    var length = course.holes[arrayHole].yardage[teeColor];
+                    teesHtml += "<div class='row tee-row'><span id='legend-circle' style='background-color:"+teeColor+";'> </span><span id='tee-length'>"+length+"</span></div>";
+                }
+                $('#hole-tees').html(teesHtml);
+                //Times Played
+                $('#hole-times-played').html(data.timesPlayed);
+                //Scoring Avg
+                $('#hole-scoring-avg').html(data.scoringAvg);
+                //Strokes to Par Avg
+                $('#hole-strokes-to-par-avg').html(data.strokesToParAvg);
+                
+                if(course.holes[arrayHole].par == 3){
+                    $('#approach-panel').addClass("hidden");
+                    $('#non-par-three-panel').addClass("hidden");
+                    $('#par-three-panel').removeClass("hidden");
+                    $('#by-hole-gir-percent').html(data.approach.girPercent);
+                    $('#by-hole-avg-approach-shot-distance').html(data.approach.avgApproachDistance);
+                    $('#by-hole-approach-left-percent').html(data.approach.approachMissPercent.left);
+                    $('#by-hole-approach-right-percent').html(data.approach.approachMissPercent.right);
+                    $('#by-hole-approach-short-percent').html(data.approach.approachMissPercent.short);
+                    $('#by-hole-approach-long-percent').html(data.approach.approachMissPercent.long);
+                    highChartsApproachScatter('score-by-approach-distance',data.approach.scoreByApproachDistance);
+                    highChartsGirByRound('by-hole-gir-line',315,data.approach.girByDate);
+                } else {
+                    $('#approach-panel').removeClass("hidden");
+                    $('#par-three-panel').addClass("hidden");
+                    $('#non-par-three-panel').removeClass("hidden");
+                    //Driving
+                    $('#by-hole-fir-percent').html(data.driving.firPercent);
+                    $('#by-hole-avg-tee-shot-distance').html(data.driving.avgDrivingDistance);
+                    $('#by-hole-tee-left-percent').html(data.driving.driveMissPercent.left);
+                    $('#by-hole-tee-right-percent').html(data.driving.driveMissPercent.right);
+                    $('#by-hole-tee-short-percent').html(data.driving.driveMissPercent.short);
+                    $('#by-hole-tee-long-percent').html(data.driving.driveMissPercent.long);
+                    highChartsScoreByTeeClub(data.driving.teeClubs);
+                    highChartsFirByRound('by-hole-fir-line',315,data.driving.firByDate);
+                    //approach
+                    $('#by-hole-gir-percent-approach').html(data.approach.girPercent);
+                    $('#by-hole-avg-approach-shot-distance-approach').html(data.approach.avgApproachDistance);
+                    $('#by-hole-approach-left-percent-approach').html(data.approach.approachMissPercent.left);
+                    $('#by-hole-approach-right-percent-approach').html(data.approach.approachMissPercent.right);
+                    $('#by-hole-approach-short-percent-approach').html(data.approach.approachMissPercent.short);
+                    $('#by-hole-approach-long-percent-approach').html(data.approach.approachMissPercent.long);
+                    highChartsApproachScatter('score-by-approach-distance-approach',data.approach.scoreByApproachDistance);
+                    highChartsGirByRound('by-hole-gir-line-approach',315,data.approach.girByDate);
+                }
+                //scrambling
+                $('#by-hole-scramble-percent').html(data.shortgame.scramblePercent);
+                $('#by-hole-scramble-sand-save-percent').html(data.shortgame.sandSavePercent);
+                $('#by-hole-scramble-putts-per-round').html(data.shortgame.avgPutts);
+                $('#by-hole-scramble-three-putts').html(data.shortgame.totalThreePutts);
+            });
+        }
+    }
 </script>
 <% include ../partials/footer %>

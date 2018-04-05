@@ -581,5 +581,311 @@ router.get("/mostrecentround", middleware.isLoggedIn, function(req, res){
     });
 });
 
+router.get("/getcourses", middleware.isLoggedIn, function(req, res){
+    Round.find({"player.id": req.user._id, date: {$gte: req.query.dateFrom,$lte: req.query.dateTo}, isComplete:true}).populate("course").exec(function(err, rounds){
+        if(err){
+            console.log(err);
+        } else {
+            var courseList = [];
+            rounds.forEach(function(round){
+                if(courseList.length == 0){
+                    var courseName = round.courseName,
+                        holes = [];
+                    round.course[0].holes.forEach(function(hole){
+                        holes.push(hole.number);
+                    });
+                    holes.sort(function(a, b){return a-b});
+                    courseList.push({
+                        name: courseName,
+                        holes: holes
+                    });
+                } else {
+                    rounds.forEach(function(round){
+                        var found = false;
+                        for(let i=0; i<courseList.length; i++){
+                            if(round.courseName === courseList[i].name){
+                                if(round.course[0].holes.length > courseList[i].holes.length){
+                                    courseList.splice(i, 1);
+                                } else {
+                                    found = true;
+                                }
+                            }
+                        }
+                        if(!found){
+                            var courseName = round.courseName,
+                            holes = [];
+                            round.course[0].holes.forEach(function(hole){
+                                holes.push(hole.number);
+                            });
+                            holes.sort(function(a, b){return a-b});
+                            courseList.push({
+                                name: courseName,
+                                holes: holes
+                            });
+                        }
+                    });
+                }
+            });
+            function compare(a,b) {
+              if (a.name < b.name)
+                return -1;
+              if (a.name > b.name)
+                return 1;
+              return 0;
+            }
+            courseList.sort(compare);
+            res.send({courses: courseList});
+        }
+    });
+});
+
+router.get("/byhole", middleware.isLoggedIn, function(req, res){
+    Round.find({"player.id":req.user._id, date: {$gte: req.query.dateFrom,$lte: req.query.dateTo}, courseName:req.query.course, isComplete:true}).populate("course").exec(function(err, rounds){
+        if(err){
+            console.log(err);
+        } else {
+            var timesPlayed = 0,
+                totalScore = 0,
+                totalStrokesToPar = 0,
+                totalParThreeDistance = 0,
+                totalDrivingDistance = 0,
+                totalDrivesWithDistance = 0,
+                totalFirs = 0,
+                totalDriveMiss = {
+                    right: 0,
+                    left: 0,
+                    short: 0,
+                    long: 0
+                },
+                firByDate = [],
+                teeClubs = [],
+                totalGirs = 0,
+                totalApproaches = 0,
+                totalNonApproches = 0,
+                totalApproachDistance = 0,
+                totalApproachMiss = {
+                    right: 0,
+                    left: 0,
+                    short: 0,
+                    long: 0,
+                    gir: 0,
+                },
+                girByDate = [],
+                scoreByApproachDistance = [],
+                totalScrambleAttempts = 0,
+                totalScrambles = 0,
+                totalSandSaveAttempts = 0,
+                totalSandSaves = 0,
+                totalPutts = 0,
+                totalThreePutts = 0,
+                course;
+            rounds.forEach(function(round){
+                course = round.course;
+                round.holes.forEach(function(hole){
+                    if(hole.holeNumber == req.query.hole){
+                        timesPlayed++;
+                        totalScore += hole.score;
+                        totalStrokesToPar += hole.score - hole.par;
+                        
+                        //Par 3's
+                        if(hole.par == 3){
+                            totalParThreeDistance += hole.approach.approachLength;
+                        } else {
+                        //Par 4's & 5's   
+                            //Driving
+                            var holeFirData = [];
+                            holeFirData.push(round.date);
+                            if(hole.teeShot.teeShotLength){
+                                totalDrivesWithDistance++;
+                                totalDrivingDistance += hole.teeShot.teeShotLength;
+                            }
+                            if(hole.teeShot.teeShotResult === "FIR"){
+                                totalFirs++;
+                                holeFirData.push(1);
+                            } else {
+                                holeFirData.push(0);
+                            }
+                            if(hole.teeShot.teeShotDirection === "Right") {
+                                totalDriveMiss.right++;
+                            } else if(hole.teeShot.teeShotDirection === "Left") {
+                                totalDriveMiss.left++;
+                            } else if(hole.teeShot.teeShotDirection === "Long") {
+                                totalDriveMiss.long++;
+                            } else if(hole.teeShot.teeShotDirection === "Short") {
+                                totalDriveMiss.short++;
+                            }
+                            var scoreName;
+                            //Set Score Names
+                            if(hole.score - hole.par === 0){
+                                scoreName = "Par";
+                            } else if(hole.score - hole.par === 1){
+                                scoreName = "Bogey";
+                            } else if(hole.score - hole.par === -1){
+                                scoreName = "Birdie";
+                            } else if(hole.score - hole.par === 2){
+                                scoreName = "Double Bogey";
+                            } else if(hole.score - hole.par === -2){
+                                scoreName = "Eagle";
+                            } else if(hole.score - hole.par > 2){
+                                scoreName = "Bogey Worse";
+                            } else if(hole.score - hole.par < -2){
+                                scoreName = "Eagle Better";
+                            }
+                            
+                            var teeObj = {
+                                name: hole.teeShot.teeShotClub
+                            };
+                            teeObj[scoreName] = 1;
+                            
+                            //Set Tee Club Array
+                            if(teeClubs.length == 0){
+                                teeClubs.push(teeObj);
+                            } else {
+                                var found = false;
+                                teeClubs.forEach(function(club) {
+                                    if(club.name == hole.teeShot.teeShotClub){
+                                        found = true;
+                                        var scoreFound = false;
+                                        for(var score in club) {
+                                            if(score == scoreName){
+                                                club[score]++;
+                                                scoreFound = true;
+                                            }
+                                        }
+                                        if(!scoreFound){
+                                            club[scoreName] = 1;
+                                        }
+                                    }
+                                });
+                                if(!found){
+                                    teeClubs.push(teeObj);
+                                }
+                            }
+                            firByDate.push(holeFirData);
+                        }
+                        //Approach
+                        var holeGirData = [];
+                            holeGirData.push(round.date);
+                        if(hole.approach.approachToGreen){
+                            totalApproaches++;
+                            totalApproachDistance += hole.approach.approachLength;
+                            scoreByApproachDistance.push([hole.approach.approachLength,hole.score]);
+                        } else {
+                            totalNonApproches++;
+                        }
+                        //Set directional miss
+                        if(hole.approach.approachResult === "GIR"){
+                            totalGirs++;
+                            totalApproachMiss.gir++;
+                            holeGirData.push(1);
+                        } else {
+                            holeGirData.push(0);
+                        }
+                        if(hole.approach.approachDirection === "Right") {
+                            totalApproachMiss.right++;
+                        } else if(hole.approach.approachDirection === "Left") {
+                            totalApproachMiss.left++;
+                        } else if(hole.approach.approachDirection === "Long") {
+                            totalApproachMiss.long++;
+                        } else if(hole.approach.approachDirection === "Short") {
+                            totalApproachMiss.short++;
+                        }
+                        girByDate.push(holeGirData);
+                        //Scrambling
+                        if(!hole.approach.approachResult || hole.approach.approachResult != "GIR"){
+                            totalScrambleAttempts++;
+                            if(hole.score === hole.par){
+                                totalScrambles++;
+                            }
+                        }
+                        if(hole.approach.approachResult === "Bunker"){
+                            totalSandSaveAttempts++;
+                            if(hole.score === hole.par){
+                                totalSandSaves++;
+                            }
+                        }
+                        totalPutts += hole.putts;
+                        if(hole.putts >= 3){
+                            totalThreePutts++;
+                        }
+                    } 
+                });
+            });
+            
+            var scoringAvg = (Math.round((totalScore / timesPlayed) * 10) / 10),
+                strokesToParAvg = (Math.round((totalStrokesToPar / timesPlayed) * 10) / 10),
+                avgParThreeDistance = (Math.round((totalParThreeDistance / timesPlayed) * 10) / 10),
+                avgApproachDistance = (Math.round((totalApproachDistance / totalApproaches) * 10) / 10),
+                avgPutts = (Math.round((totalPutts / timesPlayed) * 10) / 10),
+                firPercent = (Math.round(((totalFirs / timesPlayed) * 100) * 10) / 10 + "%"),
+                girPercent = (Math.round(((totalGirs / timesPlayed) * 100) * 10) / 10 + "%"),
+                driveMissPercent = {
+                    right: (Math.round(((totalDriveMiss.right / timesPlayed ) * 100) * 10) / 10 + "%"),
+                    left: (Math.round(((totalDriveMiss.left / timesPlayed ) * 100) * 10) / 10 + "%"),
+                    long: (Math.round(((totalDriveMiss.long / timesPlayed ) * 100) * 10) / 10 + "%"),
+                    short: (Math.round(((totalDriveMiss.short / timesPlayed ) * 100) * 10) / 10 + "%")
+                },
+                approachMissPercent = {
+                    right: (Math.round(((totalApproachMiss.right / timesPlayed ) * 100) * 10) / 10 + "%"),
+                    left: (Math.round(((totalApproachMiss.left / timesPlayed ) * 100) * 10) / 10 + "%"),
+                    long: (Math.round(((totalApproachMiss.long / timesPlayed ) * 100) * 10) / 10 + "%"),
+                    short: (Math.round(((totalApproachMiss.short / timesPlayed ) * 100) * 10) / 10 + "%")
+                },
+                scramblePercent,
+                sandSavePercent;
+                
+                if(strokesToParAvg > 0){
+                    strokesToParAvg = "+" + strokesToParAvg;
+                }
+                var avgDrivingDistance;
+                if(totalDrivesWithDistance == 0){
+                    avgDrivingDistance = "N/A";
+                } else {
+                    avgDrivingDistance = (Math.round((totalDrivingDistance / totalDrivesWithDistance) * 10) / 10) + " yds";
+                }
+                if(totalScrambleAttempts == 0){
+                    scramblePercent = "N/A";
+                } else {
+                    scramblePercent = (Math.round(((totalScrambles / totalScrambleAttempts ) * 100) * 10) / 10 + "%");
+                }
+                if(totalSandSaveAttempts == 0){
+                    sandSavePercent = "N/A";
+                } else {
+                    sandSavePercent = (Math.round(((totalSandSaves / totalSandSaveAttempts ) * 100) * 10) / 10 + "%");
+                }
+            res.send(
+                {
+                    course: course, 
+                    timesPlayed: timesPlayed, 
+                    scoringAvg: scoringAvg, 
+                    strokesToParAvg: strokesToParAvg,
+                    driving: {
+                        avgDrivingDistance: avgDrivingDistance,
+                        driveMissPercent: driveMissPercent,
+                        firPercent: firPercent,
+                        firByDate: firByDate,
+                        teeClubs: teeClubs
+                    },
+                    approach: {
+                        avgApproachDistance: avgApproachDistance,
+                        girPercent: girPercent,
+                        approachMissPercent: approachMissPercent,
+                        totalNoApproches: totalNonApproches,
+                        scoreByApproachDistance: scoreByApproachDistance,
+                        girByDate: girByDate
+                    },
+                    shortgame: {
+                        avgPutts: avgPutts,
+                        scramblePercent: scramblePercent,
+                        totalThreePutts: totalThreePutts,
+                        sandSavePercent: sandSavePercent
+                    },
+                    avgParThreeDistance: avgParThreeDistance,
+                }
+            );
+        }
+    });
+});
+
 
 module.exports = router;
