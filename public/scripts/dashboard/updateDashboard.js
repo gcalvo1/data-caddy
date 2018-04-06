@@ -238,7 +238,12 @@ function updateDashboard(club, updateSource){
     }
     if(activeTab === "by-hole"){
         if(updateSource != "course" && updateSource != "hole"){
+            $('#course-dropdown').prop('selectedIndex', 0);
             updateCourseFilter();
+        }
+        if(updateSource != "hole"){
+            $('#hole-dropdown').prop('selectedIndex', 0);
+            updateHoleFilter();
         }
         var course = $('#course-dropdown :selected').text(),
             hole = $('#hole-dropdown :selected').text(),

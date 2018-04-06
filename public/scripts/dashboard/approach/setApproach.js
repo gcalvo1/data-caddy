@@ -23,7 +23,8 @@ function setApproach(parameters) {
                 gir: 0
             },
             girByDate = [],
-            approachSpreadByDate = []
+            approachSpreadByDate = [],
+            scoreByApproachDistance = [];
         if(parameters.club === "All"){
             data.rounds.forEach(function(round){
                 var roundGirData = [],
@@ -41,8 +42,10 @@ function setApproach(parameters) {
                 round.holes.forEach(function(hole){
                     totalHoles++;
                     if(hole.approach.approachToGreen){
+                        var scoreToPar = hole.score - hole.par;
                         totalApproaches++;
                         totalApproachDistance += hole.approach.approachLength;
+                        scoreByApproachDistance.push([hole.approach.approachLength,scoreToPar]);
                         //Set directional miss
                         if(hole.approach.approachResult === "GIR"){
                             totalGirs++;
@@ -89,8 +92,10 @@ function setApproach(parameters) {
                     if(hole.approach.approachClub === parameters.club){
                         totalHoles++;
                         if(hole.approach.approachToGreen){
+                            var scoreToPar = hole.score - hole.par;
                             totalApproaches++;
                             totalApproachDistance += hole.approach.approachLength;
+                            scoreByApproachDistance.push([hole.approach.approachLength,scoreToPar]);
                             if(hole.approach.approachResult === "GIR"){
                                 totalGirs++;
                                 roundGirs++;
@@ -173,5 +178,6 @@ function setApproach(parameters) {
         
         //Area Chart
         highChartsApproachSpread(approachSpreadByDate);
+        highChartsApproachScatter('score-to-par-by-approach-distance','Score to Par By Approach Distance','Score to Par',scoreByApproachDistance);
     });
 }

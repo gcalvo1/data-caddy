@@ -1692,3 +1692,22 @@ to align it properly */
 #tee-length {
     margin-left: 3px;
 }
+
+.fav-div {
+    color: white;
+}
+
+.fav-div table {
+    margin-bottom: 0px;
+}
+
+.fav-div table th{
+    width: 33%;
+}
+
+.fav-title {
+    text-align: center;
+    color: lightseagreen;
+    margin-bottom: 5px;
+    font-size: 18px;
+}

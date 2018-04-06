@@ -1,4 +1,4 @@
-function highChartsApproachScatter(id,scoreByApproachDistance){
+function highChartsApproachScatter(id,title,yAxisName,scoreByApproachDistance){
     Highcharts.chart(id, {
         chart: {
             type: 'scatter',
@@ -6,7 +6,7 @@ function highChartsApproachScatter(id,scoreByApproachDistance){
             height: 435
         },
         title: {
-            text: 'Score By Distance'
+            text: title
         },
         xAxis: {
             title: {
@@ -19,7 +19,7 @@ function highChartsApproachScatter(id,scoreByApproachDistance){
         },
         yAxis: {
             title: {
-                text: 'Score'
+                text: yAxisName
             }
         },
         legend: {
@@ -45,7 +45,7 @@ function highChartsApproachScatter(id,scoreByApproachDistance){
                 },
                 tooltip: {
                     headerFormat: '<b>{series.name}</b><br>',
-                    pointFormat: '{point.x} yds, {point.y} score'
+                    pointFormat: '{point.x} yds, {point.y} ' + yAxisName
                 }
             }
         },
