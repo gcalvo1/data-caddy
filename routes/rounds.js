@@ -43,8 +43,6 @@ router.post("/", middleware.isLoggedIn, middleware.emailVerified, function(req, 
             "player.username": req.user.username
         };
         
-        console.log(roundKey);
-        
         var newRound = {
             date: req.body.round.datetime,
             isFull: isFull,
@@ -103,8 +101,6 @@ router.post("/", middleware.isLoggedIn, middleware.emailVerified, function(req, 
                 if(foundRound == null) {
                     //not found round
                     //create new round
-                    console.log("not found round");
-                    
                     Round.create(newRound, function(err, newRound){
                         if(err){
                             console.log(err);
@@ -116,7 +112,6 @@ router.post("/", middleware.isLoggedIn, middleware.emailVerified, function(req, 
                                 } else {
                                     //Get weather
                                     var date = new Date(newRound.date).getTime() / 1000;
-                                    console.log(date);
                                     request('https://api.darksky.net/forecast/eabbc6c00a33a5c6b6bb82cdd4955a48/'+foundCourse.location.latitude+','+foundCourse.location.longitude+','+date+'?exclude=minutely,daily,flags', function(error, response, body) {
                                         if(!error && response.statusCode == 200){
                                             var parsedData = JSON.parse(body);
@@ -141,7 +136,9 @@ router.post("/", middleware.isLoggedIn, middleware.emailVerified, function(req, 
                                                 if(err){
                                                     console.log(err);
                                                 } else {
-                                                    req.flash("success", "Hole Saved");
+                                                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                                                    res.write(JSON.stringify({ status: "OK" }));
+                                                    res.end();
                                                 }
                                             });
                                         } else {
@@ -150,7 +147,9 @@ router.post("/", middleware.isLoggedIn, middleware.emailVerified, function(req, 
                                                 if(err){
                                                     console.log(err);
                                                 } else {
-                                                    req.flash("success", "Hole Saved");
+                                                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                                                    res.write(JSON.stringify({ status: "OK" }));
+                                                    res.end();
                                                 }
                                             });
                                             console.log(error);
@@ -167,12 +166,10 @@ router.post("/", middleware.isLoggedIn, middleware.emailVerified, function(req, 
                     
                     for (let i=0; i < foundRound.holes.length; i++) {
                         if(foundRound.holes[i].holeNumber == newRound.holes.holeNumber){
-                            console.log("hole match");
                             foundHole = true;
                             foundPos = i;
                         }
                     }
-                    console.log(foundHole);
                     if(foundHole){
                         //Replace hole
                         foundRound.holes.splice(foundPos, 1, newRound.holes);
@@ -180,7 +177,9 @@ router.post("/", middleware.isLoggedIn, middleware.emailVerified, function(req, 
                             if(err){
                                 console.log(err);
                             } else {
-                                req.flash("success", "Hole Saved");
+                                res.writeHead(200, { 'Content-Type': 'application/json' });
+                                res.write(JSON.stringify({ status: "OK" }));
+                                res.end();
                             }
                         });
                     } else {
@@ -190,14 +189,21 @@ router.post("/", middleware.isLoggedIn, middleware.emailVerified, function(req, 
                             if(err){
                                 console.log(err);
                             } else {
-                                req.flash("success", "Hole Saved");
                                 if((data.isFull && data.holes.length === 18) || (!data.isFull && data.holes.length === 9)){
                                     foundRound.isComplete = true;
                                     foundRound.save(function(err, data){  
                                         if(err){
                                             console.log(err);
+                                        } else {
+                                            res.writeHead(200, { 'Content-Type': 'application/json' });
+                                            res.write(JSON.stringify({ status: "OK" }));
+                                            res.end();
                                         }  
                                     });
+                                } else {
+                                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                                    res.write(JSON.stringify({ status: "OK" }));
+                                    res.end();
                                 }
                             }
                         });

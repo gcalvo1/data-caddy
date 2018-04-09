@@ -529,6 +529,8 @@ router.post("/clubs", middleware.isLoggedIn, function(req, res){
     User.update(conditions, update, options, function(err, updated){
       if(err){
         console.log(err);
+      } else {
+          res.end();
       }
     });
   });
