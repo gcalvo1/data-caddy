@@ -1711,3 +1711,20 @@ to align it properly */
     margin-bottom: 5px;
     font-size: 18px;
 }
+
+.input_container .edit_input {
+    vertical-align: top;
+}
+
+#edit-round-date {
+    display: inline;
+    margin-top: 3px;
+    float: left;
+}
+
+#change-date {
+    width: 25%;
+    margin-left: 5px;
+    margin-top: 3px;
+    display: inline;
+}

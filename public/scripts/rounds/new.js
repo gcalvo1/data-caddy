@@ -344,21 +344,12 @@ function holeSave(element) {
         alert("Missing value for" + missingNames);
     }
     
-    
-    console.log("posting");
     $.ajax({
         url: '/rounds', 
         type: 'POST', 
         data: {round: data},
-        success: function(data){
-            console.log("your data is saved");
-
-        },
         error: function () {
             console.log("An error has occured!!!");
-        },
-        always: function() {
-          console.log("ajax complete");
         }
     });
     

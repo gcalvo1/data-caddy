@@ -268,6 +268,19 @@ router.get("/:id/edit", middleware.checkRoundOwnership, function(req, res) {
     });
 });
 
+//UPDATE
+router.put("/:id", middleware.checkRoundOwnership, function(req, res){
+    var date = new Date(req.body.date);
+    
+    Round.findByIdAndUpdate(req.body.id, {$set: { date: date }}, function(err, updatedRound){
+        if(err){
+            res.redirect("/");
+        } else {
+            res.end();
+        }
+    });
+});
+
 //DESTROY
 router.delete("/:id", middleware.checkRoundOwnership, function(req, res){
     Round.findByIdAndRemove(req.params.id, function(err){

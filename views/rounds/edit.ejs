@@ -1,22 +1,22 @@
 <% include ../partials/header %>
     <div class="container-fluid input_container">
-        <div class="row form-inline input_row">
+        <div class="row form-inline input_row edit_input">
             <h2>Edit Round</h2>
             <div id="input_img_div" class="form-group fg_input_head">
             </div>
-            <div class="form-group fg_input_head">
+            <div class="form-group fg_input_head edit_input">
                <label for="course_dropdown">Course:</label>
                <span class="typeahead__query">
                     <input id="course_dropdown" type="text" class="form-control typeahead" placeholder="Search Course" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
                 </span>
             </div>
-            <div class="form-group fg_input_head">
+            <div class="form-group fg_input_head edit_input">
                 <label for="holes_dropdown"># of Holes:</label>
                 <select class="form-control" id="holes_dropdown" disabled>
                     <option id="default_num_holes" value=""><%= round.roundType %></option>
                 </select>
             </div>
-            <div class="form-group fg_input_head">
+            <div class="form-group fg_input_head edit_input">
                 <label for="tees_dropdown">Tees:</label>
                 <select class="form-control" id="tees_dropdown">
                     <% course[0].tees.forEach(function(tee) { %>
@@ -24,13 +24,16 @@
                  <% }); %>
                 </select>
             </div>
-            <div class="form-group fg_input_head">
+            <div class="form-group fg_input_head edit_input">
                 <label for="round_date">Round Date & Time:</label>
                 <div class='input-group date' id='datetimepicker1'>
-                    <input id="date-time" type='text' class="form-control" />
+                    <input id="date-time" name="date" data-name="date" type='datetime' class="form-control"/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
+                </div>
+                <div>
+                    <a id="edit-round-date">Edit Date/Time</a><span><button id="change-date" class="btn btn-xs btn-success btn-block hidden">Submit!</button></span>
                 </div>
             </div>
             <div class="form-group fg_input_head" id="delete_div">
@@ -166,6 +169,7 @@
         <div id='complete_btn_div'>
             <a href="/rounds/<%= round._id %>" class="btn btn-primary btn-complete">Complete Round</a>
         </div>
+        <div id="round-id" class="hidden"><%= round._id %></div>
     </div>
 <script src="../../scripts/rounds/new.js"></script>   
 <script src="../../scripts/rounds/edit.js"></script>
@@ -213,5 +217,39 @@
         holeEdit(this);
         return false;
     });
+    
+    $('#edit-round-date').click(function() {
+        $('#datetimepicker1  > .form-control').prop("disabled", false);
+        $('#change-date').removeClass('hidden');
+    });
+    
+    $('#change-date').click(function() {
+        dateEdit();
+    });
+    
+    $(function () {
+        $('#datetimepicker1').datetimepicker();
+    });
+    
+    //Edit
+    function dateEdit() {
+        var dateInput = $("#datetimepicker1").find("input").val();
+        dateInput = new Date(dateInput);
+        roundId = $('#round-id').text();
+        
+        $.ajax({
+            url: '/rounds/'+roundId, 
+            type: 'PUT', 
+            data: {date: dateInput, id: roundId},
+            error: function () {
+                console.log("An error has occured!!!");
+            },
+            success: function () {
+                $('#datetimepicker1  > .form-control').prop("disabled", true);
+                $('#change-date').addClass('hidden');
+            }
+        });
+    }
+    
 </script>
 <% include ../partials/footer %>
