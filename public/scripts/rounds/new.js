@@ -345,7 +345,7 @@ function holeSave(element) {
     }
     
     $.ajax({
-        url: '/rounds', 
+        url: '/rounds/', 
         type: 'POST', 
         data: {round: data},
         error: function () {
