@@ -37,7 +37,7 @@ router.post("/register", function(req, res){
         imgExt = "";
     const upload = multer({
         storage: multerS3({
-            s3: s3,
+            s3: s3Bucket,
             bucket: 'data-caddy-profile-pics',
             acl: 'public-read',
             key: function (request, file, cb) {
