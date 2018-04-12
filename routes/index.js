@@ -441,7 +441,6 @@ router.post('/reset/:token', function(req, res) {
 
 //User Profile Route
 router.get("/profile", middleware.isLoggedIn, function(req, res){
-    var s3Bucket = new AWS.S3({ params: {Bucket: 'data-caddy-profile-pics'} });
     var urlParams = {Bucket: 'data-caddy-profile-pics', Key: req.user.username + req.user.imgExt};
     s3Bucket.getSignedUrl('getObject', urlParams, function(err, url){
         if(err){
@@ -459,7 +458,7 @@ router.post("/profile", middleware.isLoggedIn, function(req, res){
     var fileInfo = "";
     const upload = multer({
         storage: multerS3({
-            s3: s3,
+            s3: s3Bucket,
             bucket: 'data-caddy-profile-pics',
             acl: 'public-read',
             key: function (request, file, cb) {
@@ -499,7 +498,7 @@ router.post("/profile", middleware.isLoggedIn, function(req, res){
                             Bucket: "data-caddy-profile-pics", 
                             Key: req.user.username+req.user.imgExt
                          };
-                         s3.deleteObject(params, function(err, data) {
+                         s3Bucket.deleteObject(params, function(err, data) {
                            if (err) console.log(err, err.stack); // an error occurred
                          });
                       }
