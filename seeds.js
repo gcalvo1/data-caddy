@@ -1648,233 +1648,441 @@ var courseData = [
     //         },
     //     ]
     // },
+    // {
+    //     name: "Tarry Brae",
+    //     location : { 
+    //         zip : 12779,
+    //         latitude : 41.7341691, 
+    //         longitude : -74.642903, 
+    //     },
+    //     img: "../img/Tarry-Brae-Logo.jpg",
+    //     isNine: false,
+    //     isNineOnly: false,
+    //     tees: [{
+    //         color: 'Yellow',
+    //         rating: 72.2,
+    //         slope: 123,
+    //     },
+    //     {
+    //         color: 'Gold',
+    //         rating: 69,
+    //         slope: 120,
+    //     },
+    //     {
+    //         color: 'Green',
+    //         rating: 71.6,
+    //         slope: 126,
+    //     },
+    //     {
+    //         color: 'Black',
+    //         rating: 73.8,
+    //         slope: 133,
+    //     }],
+    //     holes: [
+    //         {
+    //             number: 1,
+    //             par: 4,
+    //             handicap: 9,
+    //             yardage: {
+    //                 yellow: 306,
+    //                 gold: 365,
+    //                 green: 383,
+    //                 black: 392
+    //             }
+    //         },
+    //         {
+    //             number: 2,
+    //             par: 4,
+    //             handicap: 3,
+    //             yardage: {
+    //                 yellow: 330,
+    //                 gold: 340,
+    //                 green: 360,
+    //                 black: 402
+    //             }
+    //         },
+    //         {
+    //             number: 3,
+    //             par: 4,
+    //             handicap: 13,
+    //             yardage: {
+    //                 yellow: 348,
+    //                 gold: 358,
+    //                 green: 385,
+    //                 black: 438
+    //             }
+    //         },
+    //         {
+    //             number: 4,
+    //             par: 3,
+    //             handicap: 5,
+    //             yardage: {
+    //                 yellow: 153,
+    //                 gold: 160,
+    //                 green: 192,
+    //                 black: 209
+    //             }
+    //         },
+    //         {
+    //             number: 5,
+    //             par: 4,
+    //             handicap: 11,
+    //             yardage: {
+    //                 yellow: 291,
+    //                 gold: 346,
+    //                 green: 429,
+    //                 black: 432
+    //             }
+    //         },
+    //         {
+    //             number: 6,
+    //             par: 4,
+    //             handicap: 7,
+    //             yardage: {
+    //                 yellow: 313,
+    //                 gold: 320,
+    //                 green: 360,
+    //                 black: 408
+    //             }
+    //         },
+    //         {
+    //             number: 7,
+    //             par: 3,
+    //             handicap: 15,
+    //             yardage: {
+    //                 yellow: 135,
+    //                 gold: 142,
+    //                 green: 154,
+    //                 black: 169
+    //             }
+    //         },
+    //         {
+    //             number: 8,
+    //             par: 4,
+    //             handicap: 1,
+    //             yardage: {
+    //                 yellow: 343,
+    //                 gold: 353,
+    //                 green: 387,
+    //                 black: 417
+    //             }
+    //         },
+    //         {
+    //             number: 9,
+    //             par: 5,
+    //             handicap: 11,
+    //             yardage: {
+    //                 yellow: 444,
+    //                 gold: 453,
+    //                 green: 473,
+    //                 black: 526
+    //             }
+    //         },
+    //         {
+    //             number: 10,
+    //             par: 5,
+    //             handicap: 18,
+    //             yardage: {
+    //                 yellow: 426,
+    //                 gold: 446,
+    //                 green: 451,
+    //                 black: 543
+    //             }
+    //         },
+    //         {
+    //             number: 11,
+    //             par: 3,
+    //             handicap: 6,
+    //             yardage: {
+    //                 yellow: 141,
+    //                 gold: 147,
+    //                 green: 179,
+    //                 black: 201
+    //             }
+    //         },
+    //         {
+    //             number: 12,
+    //             par: 4,
+    //             handicap: 14,
+    //             yardage: {
+    //                 yellow: 310,
+    //                 gold: 319,
+    //                 green: 355,
+    //                 black: 365
+    //             }
+    //         },
+    //         {
+    //             number: 13,
+    //             par: 4,
+    //             handicap: 2,
+    //             yardage: {
+    //                 yellow: 372,
+    //                 gold: 379,
+    //                 green: 410,
+    //                 black: 433
+    //             }
+    //         },
+    //         {
+    //             number: 14,
+    //             par: 4,
+    //             handicap: 8,
+    //             yardage: {
+    //                 yellow: 289,
+    //                 gold: 298,
+    //                 green: 384,
+    //                 black: 408
+    //             }
+    //         },
+    //         {
+    //             number: 15,
+    //             par: 4,
+    //             handicap: 16,
+    //             yardage: {
+    //                 yellow: 330,
+    //                 gold: 360,
+    //                 green: 367,
+    //                 black: 391
+    //             }
+    //         },
+    //         {
+    //             number: 16,
+    //             par: 4,
+    //             handicap: 4,
+    //             yardage: {
+    //                 yellow: 350,
+    //                 gold: 360,
+    //                 green: 397,
+    //                 black: 425
+    //             }
+    //         },
+    //         {
+    //             number: 17,
+    //             par: 3,
+    //             handicap: 12,
+    //             yardage: {
+    //                 yellow: 131,
+    //                 gold: 141,
+    //                 green: 183,
+    //                 black: 206
+    //             }
+    //         },
+    //         {
+    //             number: 18,
+    //             par: 5,
+    //             handicap: 10,
+    //             yardage: {
+    //                 yellow: 388,
+    //                 gold: 398,
+    //                 green: 511,
+    //                 black: 541
+    //             }
+    //         },
+    //     ]
+    // },
     {
-        name: "Tarry Brae",
+        name: "Town of Oyster Bay",
         location : { 
-            zip : 12779,
-            latitude : 41.7341691, 
-            longitude : -74.642903, 
+            zip : 11797,
+            latitude : 40.817220, 
+            longitude : -73.482367, 
         },
-        img: "../img/Tarry-Brae-Logo.jpg",
+        img: "../img/TOB-Logo.jpg",
         isNine: false,
         isNineOnly: false,
         tees: [{
-            color: 'Yellow',
-            rating: 72.2,
-            slope: 123,
+            color: 'Red',
+            rating: 69.4,
+            slope: 114,
         },
         {
-            color: 'Gold',
-            rating: 69,
-            slope: 120,
+            color: 'White',
+            rating: 67.8,
+            slope: 128,
         },
         {
-            color: 'Green',
-            rating: 71.6,
-            slope: 126,
-        },
-        {
-            color: 'Black',
-            rating: 73.8,
-            slope: 133,
+            color: 'Blue',
+            rating: 70.9,
+            slope: 137,
         }],
         holes: [
             {
                 number: 1,
                 par: 4,
-                handicap: 9,
+                handicap: 13,
                 yardage: {
-                    yellow: 306,
-                    gold: 365,
-                    green: 383,
-                    black: 392
+                    red: 263,
+                    white: 301,
+                    blue: 348
                 }
             },
             {
                 number: 2,
-                par: 4,
-                handicap: 3,
+                par: 5,
+                handicap: 5,
                 yardage: {
-                    yellow: 330,
-                    gold: 340,
-                    green: 360,
-                    black: 402
+                    red: 504,
+                    white: 531,
+                    blue: 571
                 }
             },
             {
                 number: 3,
-                par: 4,
-                handicap: 13,
+                par: 3,
+                handicap: 17,
                 yardage: {
-                    yellow: 348,
-                    gold: 358,
-                    green: 385,
-                    black: 438
+                    red: 108,
+                    white: 133,
+                    blue: 152
                 }
             },
             {
                 number: 4,
-                par: 3,
-                handicap: 5,
+                par: 4,
+                handicap: 1,
                 yardage: {
-                    yellow: 153,
-                    gold: 160,
-                    green: 192,
-                    black: 209
+                    red: 313,
+                    white: 380,
+                    blue: 414
                 }
             },
             {
                 number: 5,
                 par: 4,
-                handicap: 11,
+                handicap: 7,
                 yardage: {
-                    yellow: 291,
-                    gold: 346,
-                    green: 429,
-                    black: 432
+                    red: 334,
+                    white: 347,
+                    blue: 374
                 }
             },
             {
                 number: 6,
-                par: 4,
-                handicap: 7,
+                par: 3,
+                handicap: 15,
                 yardage: {
-                    yellow: 313,
-                    gold: 320,
-                    green: 360,
-                    black: 408
+                    red: 111,
+                    white: 150,
+                    blue: 174
                 }
             },
             {
                 number: 7,
-                par: 3,
-                handicap: 15,
+                par: 4,
+                handicap: 3,
                 yardage: {
-                    yellow: 135,
-                    gold: 142,
-                    green: 154,
-                    black: 169
+                    red: 329,
+                    white: 357,
+                    blue: 387
                 }
             },
             {
                 number: 8,
-                par: 4,
-                handicap: 1,
+                par: 3,
+                handicap: 9,
                 yardage: {
-                    yellow: 343,
-                    gold: 353,
-                    green: 387,
-                    black: 417
+                    red: 160,
+                    white: 212,
+                    blue: 230
                 }
             },
             {
                 number: 9,
-                par: 5,
+                par: 4,
                 handicap: 11,
                 yardage: {
-                    yellow: 444,
-                    gold: 453,
-                    green: 473,
-                    black: 526
+                    red: 261,
+                    white: 284,
+                    blue: 320
                 }
             },
             {
                 number: 10,
-                par: 5,
-                handicap: 18,
+                par: 4,
+                handicap: 14,
                 yardage: {
-                    yellow: 426,
-                    gold: 446,
-                    green: 451,
-                    black: 543
+                    red: 304,
+                    white: 337,
+                    blue: 365
                 }
             },
             {
                 number: 11,
-                par: 3,
-                handicap: 6,
+                par: 4,
+                handicap: 16,
                 yardage: {
-                    yellow: 141,
-                    gold: 147,
-                    green: 179,
-                    black: 201
+                    red: 220,
+                    white: 263,
+                    blue: 295
                 }
             },
             {
                 number: 12,
-                par: 4,
-                handicap: 14,
+                par: 3,
+                handicap: 18,
                 yardage: {
-                    yellow: 310,
-                    gold: 319,
-                    green: 355,
-                    black: 365
+                    red: 100,
+                    white: 117,
+                    blue: 137
                 }
             },
             {
                 number: 13,
                 par: 4,
-                handicap: 2,
+                handicap: 8,
                 yardage: {
-                    yellow: 372,
-                    gold: 379,
-                    green: 410,
-                    black: 433
+                    red: 322,
+                    white: 358,
+                    blue: 394
                 }
             },
             {
                 number: 14,
-                par: 4,
-                handicap: 8,
+                par: 5,
+                handicap: 12,
                 yardage: {
-                    yellow: 289,
-                    gold: 298,
-                    green: 384,
-                    black: 408
+                    red: 421,
+                    white: 476,
+                    blue: 522
                 }
             },
             {
                 number: 15,
                 par: 4,
-                handicap: 16,
+                handicap: 10,
                 yardage: {
-                    yellow: 330,
-                    gold: 360,
-                    green: 367,
-                    black: 391
+                    red: 253,
+                    white: 344,
+                    blue: 366
                 }
             },
             {
                 number: 16,
                 par: 4,
-                handicap: 4,
+                handicap: 6,
                 yardage: {
-                    yellow: 350,
-                    gold: 360,
-                    green: 397,
-                    black: 425
+                    red: 337,
+                    white: 412,
+                    blue: 439
                 }
             },
             {
                 number: 17,
-                par: 3,
-                handicap: 12,
+                par: 4,
+                handicap: 2,
                 yardage: {
-                    yellow: 131,
-                    gold: 141,
-                    green: 183,
-                    black: 206
+                    red: 401,
+                    white: 426,
+                    blue: 445
                 }
             },
             {
                 number: 18,
-                par: 5,
-                handicap: 10,
+                par: 4,
+                handicap: 6,
                 yardage: {
-                    yellow: 388,
-                    gold: 398,
-                    green: 511,
-                    black: 541
+                    red: 360,
+                    white: 391,
+                    blue: 443
                 }
             },
         ]
