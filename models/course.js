@@ -20,7 +20,8 @@ var courseSchema = new mongoose.Schema({
                 black: Number,
                 yellow: Number,
                 gold: Number,
-                green: Number
+                green: Number,
+                silver: Number
             }
         }
     ],
