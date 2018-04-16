@@ -137,7 +137,7 @@ body {
 .input_container {
     margin-top: 20px;
     margin-bottom: 20px;
-    height: 75px;
+    /*height: 75px;*/
 }
 
 .header_input_row {
