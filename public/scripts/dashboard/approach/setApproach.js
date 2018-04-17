@@ -5,6 +5,8 @@ function setApproach(parameters) {
             totalApproaches = 0,
             totalApproachDistance = 0,
             totalHoles = 0,
+            totalNonParThrees = 0,
+            totalPunchOuts = 0,
             totalMiss = {
                 right: 0,
                 left: 0,
@@ -41,6 +43,12 @@ function setApproach(parameters) {
                 approachSpreadData.push(round.date);
                 round.holes.forEach(function(hole){
                     totalHoles++;
+                    if(hole.par != 3){
+                        totalNonParThrees++;
+                        if(!hole.approach.approachToGreen){
+                            totalPunchOuts++;
+                        }
+                    }
                     if(hole.approach.approachToGreen){
                         var scoreToPar = hole.score - hole.par;
                         totalApproaches++;
@@ -91,6 +99,12 @@ function setApproach(parameters) {
                 round.holes.forEach(function(hole){
                     if(hole.approach.approachClub === parameters.club){
                         totalHoles++;
+                        if(hole.par != 3){
+                            totalNonParThrees++;
+                            if(!hole.approach.approachToGreen){
+                                totalPunchOuts++;
+                            }
+                        }
                         if(hole.approach.approachToGreen){
                             var scoreToPar = hole.score - hole.par;
                             totalApproaches++;
@@ -127,20 +141,25 @@ function setApproach(parameters) {
         }
         //Set data for selected tee club
         var girPercent = ( totalGirs / totalHoles ) * 100,
+            punchPercent = ( totalPunchOuts / totalNonParThrees ) * 100,
             avgApproachDistance = totalApproachDistance / totalApproaches,
             approachMissPercent = {
                 right: ( totalMiss.right / totalApproaches ) * 100,
                 left: ( totalMiss.left / totalApproaches ) * 100,
                 long: ( totalMiss.long / totalApproaches ) * 100,
                 short: ( totalMiss.short / totalApproaches ) * 100
-            };
+            }
         //Protect against divide by zero
         if(totalHoles === 0){
             $("#gir-percent").html("N/A");
             $("#gir-ratio").html("");
+            $("#punch-percent").html("N/A");
+            $("#punch-ratio").html("");
         } else {
             $("#gir-percent").html(Math.round(girPercent * 10) / 10 + "%");
             $("#gir-ratio").html(totalGirs + "/" + totalHoles);
+            $("#punch-percent").html(Math.round(punchPercent * 10) / 10 + "%");
+            $("#punch-ratio").html(totalPunchOuts + "/" + totalNonParThrees);
         }
         if(totalApproaches === 0){
             $("#approach-distance").html("N/A");
