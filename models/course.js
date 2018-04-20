@@ -13,6 +13,7 @@ var courseSchema = new mongoose.Schema({
         {
             number: Number,
             par: Number,
+            handicap: Number,
             yardage: {
                 red: Number,
                 white: Number,
