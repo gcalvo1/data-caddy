@@ -44,7 +44,7 @@ function driveTracker(parameters, club) {
                     } else if(hole.score - hole.par > 2){
                         holeScore = {
                             scoreName: 'Worse Than Double Bogey',
-                            scoreColor: 'gray',
+                            scoreColor: 'brown',
                             sortVal: 7
                         }
                     } else if(hole.score - hole.par < -2){
@@ -64,6 +64,8 @@ function driveTracker(parameters, club) {
                         driveStats.push(holeStats);
                     }
                 }
+                console.log(hole.holeNumber);
+                console.log(holeStats);
             });
             
             var docCanvas = document.getElementById('driveTracker');
@@ -159,6 +161,12 @@ function driveTracker(parameters, club) {
             		arrowEndPosXOrig = 245;
             		middlePosYOrig = 25;
             		randx = Math.floor(Math.random() * 40);
+            		randy = Math.floor(Math.random() * 10);
+            	} else if(driveStats[i].teeShotDirection === 'Short' && (driveStats[i].teeShotResult === 'Rough' || driveStats[i].teeShotResult === 'Fescue')) {
+            		arrowEndPosYOrig = 225;
+            		arrowEndPosXOrig = 180;
+            		middlePosYOrig = 25;
+            		randx = Math.floor(Math.random() * 75);
             		randy = Math.floor(Math.random() * 10);
             	} else if(driveStats[i].teeShotDirection === 'Fairway') {
             		arrowEndPosYOrig = 100;
