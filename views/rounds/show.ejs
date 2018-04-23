@@ -1,7 +1,12 @@
 <% include ../partials/header %>
 
 <div class="container">
-    <h3 id="scorecard_title"> <span><img src='<%= round.course[0].img %>'></span> <span id="course_name"><%= round.courseName %></span> - <span id="round_date"> <%= round.date %> </span></span></h3>
+    <h3 id="scorecard_title"> 
+        <span><img src='<%= round.course[0].img %>'></span> 
+        <span id="course_name"><%= round.courseName %></span> - 
+        <span id="round_date"> <%= round.date %> </span>
+        <span id="show-edit"><a href="/rounds/<%= round._id %>/edit" class="btn btn-s btn-warning"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></span>
+    </h3>
     <div>
         <table class="table table-bordered scorecard">
           <thead>
