@@ -2503,256 +2503,464 @@ var courseData = [
     //         },
     //     ]
     // },
-    {
-        name: "Glenwood C.C.",
+    // {
+    //     name: "Glenwood C.C.",
+    //     location : { 
+    //         zip : 08857,
+    //         latitude : 40.411929,
+    //         longitude : -74.308790, 
+    //     },
+    //     img: "../img/Glenwood-Logo.png",
+    //     isNine: false,
+    //     isNineOnly: false,
+    //     tees: [{
+    //         color: 'Red',
+    //         rating: 71.8,
+    //         slope: 128,
+    //     },
+    //     {
+    //         color: 'Gold',
+    //         rating: 71.8,
+    //         slope: 130,
+    //     },
+    //     {
+    //         color: 'White',
+    //         rating: 71.9,
+    //         slope: 133,
+    //     },
+    //     {
+    //         color: 'Blue',
+    //         rating: 72.8,
+    //         slope: 134,
+    //     },
+    //     {
+    //         color: 'Black',
+    //         rating: 74.8,
+    //         slope: 137,
+    //     }],
+    //     holes: [
+    //         {
+    //             number: 1,
+    //             par: 5,
+    //             handicap: 9,
+    //             yardage: {
+    //                 red: 442,
+    //                 gold: 445,
+    //                 white: 520,
+    //                 blue: 536,
+    //                 black: 541
+    //             }
+    //         },
+    //         {
+    //             number: 2,
+    //             par: 4,
+    //             handicap: 1,
+    //             yardage: {
+    //                 red: 351,
+    //                 gold: 364,
+    //                 white: 415,
+    //                 blue: 437,
+    //                 black: 464
+    //             }
+    //         },
+    //         {
+    //             number: 3,
+    //             par: 3,
+    //             handicap: 17,
+    //             yardage: {
+    //                 red: 108,
+    //                 gold: 110,
+    //                 white: 134,
+    //                 blue: 154,
+    //                 black: 174
+    //             }
+    //         },
+    //         {
+    //             number: 4,
+    //             par: 4,
+    //             handicap: 7,
+    //             yardage: {
+    //                 red: 339,
+    //                 gold: 344,
+    //                 white: 376,
+    //                 blue: 400,
+    //                 black: 413
+    //             }
+    //         },
+    //         {
+    //             number: 5,
+    //             par: 4,
+    //             handicap: 11,
+    //             yardage: {
+    //                 red: 272,
+    //                 gold: 294,
+    //                 white: 321,
+    //                 blue: 340,
+    //                 black: 356
+    //             }
+    //         },
+    //         {
+    //             number: 6,
+    //             par: 3,
+    //             handicap: 15,
+    //             yardage: {
+    //                 red: 110,
+    //                 gold: 123,
+    //                 white: 153,
+    //                 blue: 173,
+    //                 black: 181
+    //             }
+    //         },
+    //         {
+    //             number: 7,
+    //             par: 4,
+    //             handicap: 3,
+    //             yardage: {
+    //                 red: 334,
+    //                 gold: 350,
+    //                 white: 361,
+    //                 blue: 377,
+    //                 black: 400
+    //             }
+    //         },
+    //         {
+    //             number: 8,
+    //             par: 4,
+    //             handicap: 13,
+    //             yardage: {
+    //                 red: 270,
+    //                 gold: 276,
+    //                 white: 335,
+    //                 blue: 350,
+    //                 black: 364
+    //             }
+    //         },
+    //         {
+    //             number: 9,
+    //             par: 5,
+    //             handicap: 5,
+    //             yardage: {
+    //                 red: 499,
+    //                 gold: 506,
+    //                 white: 538,
+    //                 blue: 570,
+    //                 black: 600
+    //             }
+    //         },
+    //         {
+    //             number: 10,
+    //             par: 4,
+    //             handicap: 14,
+    //             yardage: {
+    //                 red: 276,
+    //                 gold: 290,
+    //                 white: 337,
+    //                 blue: 355,
+    //                 black: 376
+    //             }
+    //         },
+    //         {
+    //             number: 11,
+    //             par: 3,
+    //             handicap: 18,
+    //             yardage: {
+    //                 red: 106,
+    //                 gold: 115,
+    //                 white: 146,
+    //                 blue: 160,
+    //                 black: 180
+    //             }
+    //         },
+    //         {
+    //             number: 12,
+    //             par: 5,
+    //             handicap: 6,
+    //             yardage: {
+    //                 red: 438,
+    //                 gold: 439,
+    //                 white: 487,
+    //                 blue: 507,
+    //                 black: 529
+    //             }
+    //         },
+    //         {
+    //             number: 13,
+    //             par: 4,
+    //             handicap: 2,
+    //             yardage: {
+    //                 red: 330,
+    //                 gold: 337,
+    //                 white: 378,
+    //                 blue: 400,
+    //                 black: 414
+    //             }
+    //         },
+    //         {
+    //             number: 14,
+    //             par: 5,
+    //             handicap: 12,
+    //             yardage: {
+    //                 red: 376,
+    //                 gold: 383,
+    //                 white: 453,
+    //                 blue: 475,
+    //                 black: 527
+    //             }
+    //         },
+    //         {
+    //             number: 15,
+    //             par: 4,
+    //             handicap: 8,
+    //             yardage: {
+    //                 red: 236,
+    //                 gold: 263,
+    //                 white: 338,
+    //                 blue: 355,
+    //                 black: 384
+    //             }
+    //         },
+    //         {
+    //             number: 16,
+    //             par: 4,
+    //             handicap: 10,
+    //             yardage: {
+    //                 red: 271,
+    //                 gold: 278,
+    //                 white: 360,
+    //                 blue: 379,
+    //                 black: 400
+    //             }
+    //         },
+    //         {
+    //             number: 17,
+    //             par: 3,
+    //             handicap: 16,
+    //             yardage: {
+    //                 red: 120,
+    //                 gold: 126,
+    //                 white: 167,
+    //                 blue: 192,
+    //                 black: 220
+    //             }
+    //         },
+    //         {
+    //             number: 18,
+    //             par: 4,
+    //             handicap: 4,
+    //             yardage: {
+    //                 red: 340,
+    //                 gold: 347,
+    //                 white: 410,
+    //                 blue: 435,
+    //                 black: 463
+    //             }
+    //         },
+    //     ]
+    // },
+     {
+        name: "The Colts Neck Golf Club",
         location : { 
-            zip : 08857,
-            latitude : 40.411929,
-            longitude : -74.308790, 
+            zip : 07722,
+            latitude : 40.2972638,
+            longitude : -74.180836, 
         },
-        img: "../img/Glenwood-Logo.png",
+        img: "../img/Colts-Neck-Logo.png",
         isNine: false,
         isNineOnly: false,
         tees: [{
             color: 'Red',
-            rating: 71.8,
-            slope: 128,
-        },
-        {
-            color: 'Gold',
-            rating: 71.8,
-            slope: 130,
+            rating: 68.1,
+            slope: 120,
         },
         {
             color: 'White',
-            rating: 71.9,
-            slope: 133,
+            rating: 67.8,
+            slope: 124,
         },
         {
             color: 'Blue',
-            rating: 72.8,
-            slope: 134,
-        },
-        {
-            color: 'Black',
-            rating: 74.8,
-            slope: 137,
+            rating: 70.7,
+            slope: 130,
         }],
         holes: [
             {
                 number: 1,
-                par: 5,
-                handicap: 9,
+                par: 4,
+                handicap: 13,
                 yardage: {
-                    red: 442,
-                    gold: 445,
-                    white: 520,
-                    blue: 536,
-                    black: 541
+                    red: 271,
+                    white: 318,
+                    blue: 340
                 }
             },
             {
                 number: 2,
                 par: 4,
-                handicap: 1,
+                handicap: 7,
                 yardage: {
-                    red: 351,
-                    gold: 364,
-                    white: 415,
-                    blue: 437,
-                    black: 464
+                    red: 322,
+                    white: 347,
+                    blue: 385
                 }
             },
             {
                 number: 3,
-                par: 3,
-                handicap: 17,
+                par: 5,
+                handicap: 3,
                 yardage: {
-                    red: 108,
-                    gold: 110,
-                    white: 134,
-                    blue: 154,
-                    black: 174
+                    red: 380,
+                    white: 439,
+                    blue: 486
                 }
             },
             {
                 number: 4,
-                par: 4,
-                handicap: 7,
+                par: 3,
+                handicap: 15,
                 yardage: {
-                    red: 339,
-                    gold: 344,
-                    white: 376,
-                    blue: 400,
-                    black: 413
+                    red: 125,
+                    white: 150,
+                    blue: 170
                 }
             },
             {
                 number: 5,
                 par: 4,
-                handicap: 11,
+                handicap: 9,
                 yardage: {
-                    red: 272,
-                    gold: 294,
-                    white: 321,
-                    blue: 340,
-                    black: 356
+                    red: 230,
+                    white: 283,
+                    blue: 316
                 }
             },
             {
                 number: 6,
-                par: 3,
-                handicap: 15,
+                par: 5,
+                handicap: 1,
                 yardage: {
-                    red: 110,
-                    gold: 123,
-                    white: 153,
-                    blue: 173,
-                    black: 181
+                    red: 485,
+                    white: 546,
+                    blue: 583
                 }
             },
             {
                 number: 7,
-                par: 4,
-                handicap: 3,
+                par: 3,
+                handicap: 17,
                 yardage: {
-                    red: 334,
-                    gold: 350,
-                    white: 361,
-                    blue: 377,
-                    black: 400
+                    red: 80,
+                    white: 105,
+                    blue: 133
                 }
             },
             {
                 number: 8,
-                par: 4,
-                handicap: 13,
+                par: 5,
+                handicap: 5,
                 yardage: {
-                    red: 270,
-                    gold: 276,
-                    white: 335,
-                    blue: 350,
-                    black: 364
+                    red: 445,
+                    white: 505,
+                    blue: 560
                 }
             },
             {
                 number: 9,
-                par: 5,
-                handicap: 5,
+                par: 4,
+                handicap: 11,
                 yardage: {
-                    red: 499,
-                    gold: 506,
-                    white: 538,
-                    blue: 570,
-                    black: 600
+                    red: 303,
+                    white: 330,
+                    blue: 365
                 }
             },
             {
                 number: 10,
-                par: 4,
+                par: 3,
                 handicap: 14,
                 yardage: {
-                    red: 276,
-                    gold: 290,
-                    white: 337,
-                    blue: 355,
-                    black: 376
+                    red: 132,
+                    white: 162,
+                    blue: 183
                 }
             },
             {
                 number: 11,
-                par: 3,
-                handicap: 18,
+                par: 4,
+                handicap: 2,
                 yardage: {
-                    red: 106,
-                    gold: 115,
-                    white: 146,
-                    blue: 160,
-                    black: 180
+                    red: 350,
+                    white: 400,
+                    blue: 431
                 }
             },
             {
                 number: 12,
-                par: 5,
+                par: 3,
                 handicap: 6,
                 yardage: {
-                    red: 438,
-                    gold: 439,
-                    white: 487,
-                    blue: 507,
-                    black: 529
+                    red: 160,
+                    white: 205,
+                    blue: 224
                 }
             },
             {
                 number: 13,
                 par: 4,
-                handicap: 2,
+                handicap: 10,
                 yardage: {
-                    red: 330,
-                    gold: 337,
-                    white: 378,
-                    blue: 400,
-                    black: 414
+                    red: 283,
+                    white: 347,
+                    blue: 378
                 }
             },
             {
                 number: 14,
-                par: 5,
+                par: 4,
                 handicap: 12,
                 yardage: {
-                    red: 376,
-                    gold: 383,
-                    white: 453,
-                    blue: 475,
-                    black: 527
+                    red: 255,
+                    white: 323,
+                    blue: 352
                 }
             },
             {
                 number: 15,
-                par: 4,
-                handicap: 8,
+                par: 5,
+                handicap: 4,
                 yardage: {
-                    red: 236,
-                    gold: 263,
-                    white: 338,
-                    blue: 355,
-                    black: 384
+                    red: 415,
+                    white: 470,
+                    blue: 496
                 }
             },
             {
                 number: 16,
-                par: 4,
-                handicap: 10,
+                par: 3,
+                handicap: 16,
                 yardage: {
-                    red: 271,
-                    gold: 278,
-                    white: 360,
-                    blue: 379,
-                    black: 400
+                    red: 108,
+                    white: 135,
+                    blue: 163
                 }
             },
             {
                 number: 17,
-                par: 3,
-                handicap: 16,
+                par: 5,
+                handicap: 18,
                 yardage: {
-                    red: 120,
-                    gold: 126,
-                    white: 167,
-                    blue: 192,
-                    black: 220
+                    red: 378,
+                    white: 437,
+                    blue: 464
                 }
             },
             {
                 number: 18,
-                par: 4,
-                handicap: 4,
+                par: 3,
+                handicap: 8,
                 yardage: {
-                    red: 340,
-                    gold: 347,
-                    white: 410,
-                    blue: 435,
-                    black: 463
+                    red: 140,
+                    white: 187,
+                    blue: 233
                 }
             },
         ]
