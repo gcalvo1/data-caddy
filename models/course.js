@@ -9,6 +9,7 @@ var courseSchema = new mongoose.Schema({
     },
     img: String,
     isNine: Boolean,
+    isNineOnly: Boolean,
     holes: [
         {
             number: Number,
