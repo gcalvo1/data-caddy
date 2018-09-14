@@ -1,6 +1,5 @@
 function highChartsFirByRound(id,height,firbyDate){
     var series = firbyDate;
-    console.log(series);
     //Sort Data
     function compare(a,b) {
       if (a < b)
@@ -10,12 +9,13 @@ function highChartsFirByRound(id,height,firbyDate){
       return 0;
     }
     series.sort(compare);
-    //Convert to epoch time
+    //Convert to epoch time & get avg
+    var totalFIR = 0;
     series.forEach(function(pair){
         pair[0] = Math.round((new Date(pair[0])).getTime());
+        totalFIR = totalFIR + pair[1];
     });
-    
-    console.log(series);
+    var avgFIR = totalFIR / series.length;
     
     //Create the chart
     Highcharts.chart(id, {
@@ -36,7 +36,20 @@ function highChartsFirByRound(id,height,firbyDate){
         yAxis: {
             title: {
                 text: 'FIRs'
-            }
+            },
+            plotLines: [{
+                color: 'red',
+                value: avgFIR, // Insert your average here
+                width: '1',
+                zIndex: 2, // To not get stuck below the regular plot lines
+                dashStyle: 'dash',
+                label: {
+                    text: 'Average',
+                    style: {
+                        color: 'red'
+                    }
+                }
+            }]
         },
         plotOptions: {
             series: {
