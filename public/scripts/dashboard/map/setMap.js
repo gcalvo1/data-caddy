@@ -9,7 +9,7 @@ function setMap(parameters) {
                 courseList.forEach(function(course){
                     if(course[0] === round.name) {
                         found = true;
-                        course[3] += Math.round(round.score * 10);
+                        course[3] += (Math.round(round.score * 10) / 10);
                         course[4] ++;
                     }
                 });
@@ -19,7 +19,7 @@ function setMap(parameters) {
                             round.name,
                             round.latitude,
                             round.longitude,
-                            Math.round(round.score * 10),
+                            (Math.round(round.score * 10) / 10),
                             round.rounds
                         ]
                     );
