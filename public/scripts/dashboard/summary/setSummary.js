@@ -144,8 +144,8 @@ function setSummary(parameters){
         if(courseLoopLength > 5){
             courseLoopLength = 5;
         }
-        if(clubLoopLength > 5){
-            clubLoopLength = 5;
+        if(clubLoopLength > 6){
+            clubLoopLength = 6;
         }
         
         for(let i=0; i<courseLoopLength; i++){
