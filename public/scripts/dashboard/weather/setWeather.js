@@ -65,9 +65,9 @@ function setWeather(parameters) {
             tempHtml += '<div class="col-md-'+colLen+'"><div class="counter"><div class="row"><div><div class="col-md-4 no-col-pad"><h2 class="timer count-title count-number" data-to="" data-speed="1500">'+scoreToParAvg+'</h2><p class="count-text ">Score to Par</p></div><div class="col-md-4 no-col-pad"><h2 class="timer count-title count-number" data-to="" data-speed="1500">'+firPercent+'</h2><p class="count-text">FIR %</p></div><div class="col-md-4 no-col-pad"><h2 class="timer count-title count-number" data-to="" data-speed="1500">'+girPercent+'</h2><p class="count-text ">GIR %</p></div></div></div><div class="row"><p class="count-text wind-category-label">'+category.category+'</p></div></div></div></div>';
         });
         $('#temp-div').html(tempHtml);
-        if(numWindCategories === 4) {
+        if(numTempCategories === 4) {
             $('#temp-div h2').addClass('med-weather-numbers');
-        } else if(numWindCategories >= 5) {
+        } else if(numTempCategories >= 5) {
             $('#temp-div h2').addClass('small-weather-numbers');
         }
     });
