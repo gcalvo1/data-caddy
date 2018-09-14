@@ -294,6 +294,8 @@ function setShortGame(parameters) {
         data.rounds.forEach(function(round){
             totalRounds++;
             var roundPutts = 0,
+            roundScrambles = 0,
+            roundScrambleAttempts = 0,
             roundScramblingData = [],
             roundPuttsData = [];
             roundScramblingData.push(round.date);
@@ -357,8 +359,10 @@ function setShortGame(parameters) {
                 }
                 if(!hole.approach.approachResult || hole.approach.approachResult != "GIR"){
                     totalScrambleAttempts++;
+                    roundScrambleAttempts++;
                     if(hole.score === hole.par){
                         totalScrambles++;
+                        roundScrambles++
                     }
                 }
                 if(hole.approach.approachResult === "Bunker"){
@@ -368,7 +372,7 @@ function setShortGame(parameters) {
                     }
                 }
             });
-            roundScramblingData.push(Math.round((( totalScrambles / totalScrambleAttempts ) * 100) * 10) / 10);
+            roundScramblingData.push(Math.round((( roundScrambles / roundScrambleAttempts ) * 100) * 10) / 10);
             roundPuttsData.push(roundPutts);
             scramblingByDate.push(roundScramblingData);
             puttsByDate.push(roundPuttsData);
