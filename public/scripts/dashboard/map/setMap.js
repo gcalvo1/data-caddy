@@ -9,7 +9,7 @@ function setMap(parameters) {
                 courseList.forEach(function(course){
                     if(course[0] === round.name) {
                         found = true;
-                        course[3] += round.score;
+                        course[3] += Math.round(round.score * 10);
                         course[4] ++;
                     }
                 });
