@@ -19,7 +19,7 @@ function setMap(parameters) {
                             round.name,
                             round.latitude,
                             round.longitude,
-                            round.score,
+                            Math.round(round.score * 10),
                             round.rounds
                         ]
                     );
