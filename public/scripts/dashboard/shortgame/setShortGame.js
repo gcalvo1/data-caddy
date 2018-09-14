@@ -1,10 +1,4 @@
 function setShortGame(parameters) {
-    // var numHoles = $("#num-holes-dropdown :selected").text(),
-    //     isFull = true;
-    // if (numHoles === "9 Holes") {
-    //     isFull = false;
-    // }
-    // var parameters = { isFull: isFull };
     $.get( '/dashboard/roundsdata', parameters, function(data) {
         var totalScrambleAttempts = 0,
             totalScrambles = 0,
@@ -295,9 +289,15 @@ function setShortGame(parameters) {
                     ]
                 }
             ],
-            foundTraps = [];
+            scramblingByDate = [],
+            puttsByDate = [];
         data.rounds.forEach(function(round){
             totalRounds++;
+            var roundPutts = 0,
+            roundScramblingData = [],
+            roundPuttsData = [];
+            roundScramblingData.push(round.date);
+            roundPuttsData.push(round.date);
             round.holes.forEach(function(hole){
                 traps.forEach(function(trap){
                     if(trap.name === hole.approach.approachResult.toLowerCase()){
@@ -349,7 +349,9 @@ function setShortGame(parameters) {
                         }
                     }
                 });
+                 
                 totalPutts += hole.putts;
+                roundPutts += hole.putts;
                 if(hole.putts >= 3){
                     totalThreePutts++;
                 }
@@ -366,6 +368,10 @@ function setShortGame(parameters) {
                     }
                 }
             });
+            roundScramblingData.push(Math.round((( totalScrambles / totalScrambleAttempts ) * 100) * 10) / 10);
+            roundPuttsData.push(roundPutts);
+            scramblingByDate.push(roundScramblingData);
+            puttsByDate.push(roundPuttsData);
         });
         var scramblePercent = ( totalScrambles / totalScrambleAttempts ) * 100,
             sandSavePercent = ( totalSandSaves / totalSandSaveAttempts ) * 100,
@@ -404,9 +410,14 @@ function setShortGame(parameters) {
         //Pie Chart
         highChartsScoreByAR(traps);
         
+        //Scrambling % by round
+        highChartsByRound('scrambling-by-date',400,scramblingByDate,'Scrambling %','%');
+        
+        //Putts by round
+        highChartsByRound('putts-by-date',400,puttsByDate,'Putts','');
+        
         //Scrambling % by trap bar chart
         highChartsScramblingByTrap(traps);
         
-        //numCounterUpdate();
     });
 };
