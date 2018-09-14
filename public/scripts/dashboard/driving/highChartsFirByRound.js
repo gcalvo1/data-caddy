@@ -1,5 +1,4 @@
 function highChartsFirByRound(id,height,firbyDate){
-    console.log("high");
     var series = firbyDate;
     console.log(series);
     //Sort Data
