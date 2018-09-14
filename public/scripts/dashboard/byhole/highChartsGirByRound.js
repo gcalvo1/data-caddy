@@ -11,10 +11,13 @@ function highChartsGirByRound(id,height,girByDate){
       return 0;
     }
     series.sort(compare);
-    //Convert to epoch time
+    //Convert to epoch time & get avg
+    var totalGIR = 0;
     series.forEach(function(pair){
         pair[0] = Math.round((new Date(pair[0])).getTime());
+        totalGIR = totalGIR + pair[1];
     });
+    var avgGIR = totalGIR / series.length;;
     
     console.log(series);
     
@@ -37,7 +40,20 @@ function highChartsGirByRound(id,height,girByDate){
         yAxis: {
             title: {
                 text: 'GIRs'
-            }
+            },
+            plotLines: [{
+                color: 'red',
+                value: avgGIR, // Insert your average here
+                width: '1',
+                zIndex: 2, // To not get stuck below the regular plot lines
+                dashStyle: 'dash',
+                label: {
+                    text: 'Average',
+                    style: {
+                        color: 'red'
+                    }
+                }
+            }]
         },
         plotOptions: {
             series: {

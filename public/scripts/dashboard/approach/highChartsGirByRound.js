@@ -41,7 +41,7 @@ function highChartsGirByRound(id,height,girByDate){
                 color: 'red',
                 value: avgGIR, // Insert your average here
                 width: '1',
-                zIndex: .5, // To not get stuck below the regular plot lines
+                zIndex: 2, // To not get stuck below the regular plot lines
                 dashStyle: 'dash',
                 label: {
                     text: 'Average',
