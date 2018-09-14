@@ -9,7 +9,7 @@ function setMap(parameters) {
                 courseList.forEach(function(course){
                     if(course[0] === round.name) {
                         found = true;
-                        course[3] += (Math.round(round.score * 10) / 10);
+                        course[3] += round.score;
                         course[4] ++;
                     }
                 });
@@ -19,7 +19,7 @@ function setMap(parameters) {
                             round.name,
                             round.latitude,
                             round.longitude,
-                            (Math.round(round.score * 10) / 10),
+                            round.score,
                             round.rounds
                         ]
                     );
@@ -48,7 +48,7 @@ function setMap(parameters) {
           
           google.maps.event.addListener(marker, 'click', (function(marker, i) {
             return function() {
-              infowindow.setContent("<span style='margin-left:5%;margin-right:5%;'><strong>" + courseList[i][0] + "</strong></span><hr> Average Score: <strong>" + courseList[i][3] / courseList[i][4] +"</strong><br/> # of Rounds: <strong>" + courseList[i][4] + "</strong>");
+              infowindow.setContent("<span style='margin-left:5%;margin-right:5%;'><strong>" + courseList[i][0] + "</strong></span><hr> Average Score: <strong>" + (Math.round((courseList[i][3] / courseList[i][4]) * 10) / 10) +"</strong><br/> # of Rounds: <strong>" + courseList[i][4] + "</strong>");
               infowindow.open(map, marker);
             }
           })(marker, i));
