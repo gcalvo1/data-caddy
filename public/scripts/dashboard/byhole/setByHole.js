@@ -14,7 +14,6 @@ function setByHole(parameters) {
         $('#hole-data').removeClass("hidden");
         $('#by-hole-accordion').removeClass("hidden");
         $.get( '/dashboard/byhole', parameters, function(data) {
-            console.log(data);
             var course = data.course[0],
                 arrayHole = parameters.hole - 1;
             

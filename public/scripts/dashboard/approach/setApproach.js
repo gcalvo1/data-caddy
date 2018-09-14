@@ -196,6 +196,7 @@ function setApproach(parameters) {
         }
         
         //Area Chart
+        highChartsGirByRound('gir-by-date',408,girByDate);
         highChartsApproachSpread(approachSpreadByDate);
         highChartsApproachScatter('score-to-par-by-approach-distance','Score to Par By Approach Distance','Score to Par',scoreByApproachDistance);
     });
