@@ -37,7 +37,13 @@ function setByHole(parameters) {
             //Scoring Avg
             $('#hole-scoring-avg').html(data.scoringAvg);
             //Strokes to Par Avg
-            $('#hole-strokes-to-par-avg').html(data.strokesToParAvg);
+            var strokesToParAvg = "";
+            if(data.strokesToParAvg == 0){
+                strokesToParAvg = "E";
+            } else {
+                strokesToParAvg = data.strokesToParAvg;
+            }
+            $('#hole-strokes-to-par-avg').html(strokesToParAvg);
             
             if(course.holes[arrayHole].par == 3){
                 $('#approach-panel').addClass("hidden");
