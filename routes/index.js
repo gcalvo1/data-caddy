@@ -329,7 +329,17 @@ router.get("/logout", function(req, res){
 });
 
 router.get('/forgot', function(req, res) {
-    res.render('forgot');
+    var urlParams = {Bucket: 'data-caddy-profile-pics', Key: req.user.username + req.user.imgExt};
+    s3Bucket.getSignedUrl('getObject', urlParams, function(err, url){
+        if(err){
+            console.log(err);
+        } else {
+            res.render("forgot",{
+                user: req.user,
+                userImg: url
+            });
+        }
+    });
 });
 
 router.post('/forgot', function(req, res, next) {
@@ -387,10 +397,20 @@ router.get('/reset/:token', function(req, res) {
     if (!user) {
       req.flash('error', 'Password reset token is invalid or has expired.');
       res.redirect('/forgot');
+    } else {
+      console.log(user);
+      var urlParams = {Bucket: 'data-caddy-profile-pics', Key: user.username + user.imgExt};
+      s3Bucket.getSignedUrl('getObject', urlParams, function(err, url){
+          if(err){
+              console.log(err);
+          } else {
+              res.render("reset",{
+                  user: req.user,
+                  userImg: url
+              });
+          }
+      });
     }
-    res.render('reset', {
-      user: req.user
-    });
   });
 });
 
