@@ -1736,3 +1736,7 @@ to align it properly */
 #show-edit {
     float: right;
 }
+
+.course-name-list {
+    height: 40px;
+}

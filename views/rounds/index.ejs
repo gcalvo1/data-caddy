@@ -30,7 +30,7 @@
                     <% } %>
                        <div class="caption">
                            <img class="thumb_img" src='<%= rounds[i-1].course[0].img %>' alt="Course Image">
-                           <h4><%= rounds[i-1].course[0].name %></h4>
+                           <h4 class = "course-name-list"><%= rounds[i-1].course[0].name %></h4>
                            <p><%= rounds[i-1].date.toISOString().split('T')[0] %></p>
                            <% var score = 0;
                               rounds[i-1].holes.forEach(function(hole){ 
