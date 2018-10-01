@@ -46,6 +46,11 @@
                 <ul class="nav navbar-nav menu_options">
                   <li id="rounds_menu_option"><a href="/rounds">Rounds</a></li>
                   <li id="new_menu_option"><a href=/rounds/new>New Round</a></li>
+                  <% if(currentUser) { 
+                        if(currentUser.role == "admin") { %>
+                    <li id="new_course_option"><a href=/courses/new>New Course</a></li>
+                        <% }  
+                    } %>
                   <li id="dashboard_menu_option"><a href="/dashboard#summary">Dashboard</a></li>
                 </ul>
                 <div>

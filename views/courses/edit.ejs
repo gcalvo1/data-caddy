@@ -1,0 +1,255 @@
+<% include ../partials/header %>
+<div class="container-fluid input_container">
+    <div class="row form-inline input_row edit_input">
+        <h2>Edit Round</h2>
+        <div id="input_img_div" class="form-group fg_input_head">
+        </div>
+        <div class="form-group fg_input_head edit_input">
+           <label for="course_dropdown">Course:</label>
+           <span class="typeahead__query">
+                <input id="course_dropdown" type="text" class="form-control typeahead" placeholder="Search Course" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            </span>
+        </div>
+        <div class="form-group fg_input_head edit_input">
+            <label for="holes_dropdown"># of Holes:</label>
+            <select class="form-control" id="holes_dropdown" disabled>
+                <option id="default_num_holes" value=""><%= round.roundType %></option>
+            </select>
+        </div>
+        <div class="form-group fg_input_head edit_input">
+            <label for="tees_dropdown">Tees:</label>
+            <select class="form-control" id="tees_dropdown">
+                <% course[0].tees.forEach(function(tee) { %>
+                    <option value=<%=tee.color%>><%=tee.color%></option>
+             <% }); %>
+            </select>
+        </div>
+        <div class="form-group fg_input_head edit_input">
+            <label for="round_date">Round Date & Time:</label>
+            <div class='input-group date' id='datetimepicker1'>
+                <input id="date-time" name="date" data-name="date" type='datetime' class="form-control"/>
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+            <div>
+                <a id="edit-round-date">Edit Date/Time</a><span><button id="change-date" class="btn btn-xs btn-success btn-block hidden">Submit!</button></span>
+            </div>
+        </div>
+        <div class="form-group fg_input_head" id="delete_div">
+            <form class="delete-form" action="/rounds/<%= round._id %>?_method=DELETE" method="POST" onsubmit="return confirm('Are you sure you want to delete the round?')">
+                <button id="delete-round" class="btn btn-m btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+            </form>
+        </div>
+    </div>
+    <hr class='header_hr'>
+    <% for(var i = 1; i <= 18; i++) { %>
+        <form id='form_hole_<%=i%>' action="/rounds" class="round-form" method="POST">
+            <div class="row form-inline input_row">
+                <div class="col-md-12">
+                    <fieldset>
+                        <div class="form-group input_card">
+                            <div id="hole_<%=i%>" class="form-group hole_desc"></div>
+                        </div>
+                        <div class="form-group fg_input">
+                            <label for="tsc" class="Label_input">Tee Club <span class="info-tooltip" tooltip="The club you tee'd off with" flow="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span><a href="/profile"><span class="info-tooltip add-clubs" tooltip="Click to modify the clubs in your bag" flow="right"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i></span></a></label>
+                            <select name="round[tsc]" class="form-control f_input" id="tsc_<%=i%>">
+                                <option value=""></option>
+                                  <% user.bag.forEach(function(club){
+                                        if(club.inBag){ %>
+                                            <option value="<%=club.nickName%>"><%=club.nickName%></option>
+                                        <% }
+                                    }); %>
+                            </select>
+                        </div>
+                        <div class="form-group fg_input">
+                            <label for="tsl" class="Label_input">Tee Length <span class="info-tooltip" tooltip="Optional: An estimation, or exact measure, in yards of how far your tee shot went" flow="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span></label>
+                            <input type="number" name="round[tsl]" class="form-control f_input tsl" id="tsl_<%=i%>" min="0">
+                        </div>
+                        <div class="form-group fg_input">
+                            <label for="tsd" class="Label_input">Tee Direction <span class="info-tooltip" tooltip="The direction in which your tee shot landed" flow="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span></label>
+                            <select name="round[tsd]" class="form-control f_input tsd" id="tsd_<%=i%>">
+                                <option value=""></option>
+                                  <option value="Fairway">Fairway</option>
+                                  <option value="Left">Left</option>
+                                  <option value="Right">Right</option>
+                                  <option value="Short">Short</option></option>
+                                  <option value="Long">Long</option>
+                            </select>
+                        </div>
+                        <div class="form-group fg_input">
+                            <label for="tsr" class="Label_input">Tee Result <span class="info-tooltip" tooltip="Where your tee shot landed" flow="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span></label>
+                            <select name="round[tsr]" class="form-control f_input" id="tsr_<%=i%>">
+                                <option value=""></option>
+                                  <option value="FIR">FIR</option>
+                                  <option value="Rough">Rough</option>
+                                  <option value="Bunker">Bunker</option>
+                                  <option value="Woods">Woods</option></option>
+                                  <option value="Fescue">Fescue</option>
+                                  <option value="Water">Water</option>
+                                  <option value="Lost Ball">Lost Ball</option>
+                            </select>
+                        </div>
+                        <div class="form-group fg_input">
+                            <label for="atg" class="Label_input">Appr. to Green <span class="info-tooltip" tooltip='"Yes" if you were going for the green with your approach shot. "No" otherwise' flow="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span></label>
+                            <select name="round[atg]" class="form-control f_input atg" id="atg_<%=i%>">
+                                <option value=""></option>
+                                  <option value="Yes">Yes</option>
+                                  <option value="No">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group fg_input">
+                            <label for="ac" class="Label_input">Appr. Club <span class="info-tooltip" tooltip="The club you hit your approach shot with" flow="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span><a href="/profile"><span class="info-tooltip add-clubs" tooltip="Click to modify the clubs in your bag" flow="right"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i></span></a></label>
+                            <select name="round[ac]" class="form-control f_input" id="ac_<%=i%>">
+                                <option value=""></option>
+                                  <% user.bag.forEach(function(club){
+                                        if(club.inBag){ %>
+                                            <option value="<%=club.nickName%>"><%=club.nickName%></option>
+                                        <% }
+                                    }); %>
+                            </select>
+                        </div>
+                        <div class="form-group fg_input">
+                            <label for="al" class="Label_input">Appr. Length <span class="info-tooltip" tooltip="Optional: The length of you approach shot" flow="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span></label>
+                            <input type="number" name="round[al]" class="form-control f_input al" id="al_<%=i%>" min="0">
+                        </div>
+                        <div class="form-group fg_input">
+                            <label for="ad" class="Label_input">Appr. Direction <span class="info-tooltip" tooltip="The direction in which your approach shot landed" flow="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span></label>
+                            <select name="round[ad]" class="form-control f_input ad" id="ad_<%=i%>">
+                                <option value=""></option>
+                                  <option value="Green">Green</option>
+                                  <option value="Left">Left</option>
+                                  <option value="Right">Right</option>
+                                  <option value="Short">Short</option></option>
+                                  <option value="Long">Long</option>
+                            </select>
+                        </div>
+                        <div class="form-group fg_input">
+                            <label for="ar" class="Label_input">Appr. Result <span class="info-tooltip" tooltip="Where the approach shot landed" flow="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span></label>
+                            <select name="round[ar]" class="form-control f_input" id="ar_<%=i%>">
+                                <option value=""></option>
+                                  <option value="Under GIR">Under GIR</option>
+                                  <option value="GIR">GIR</option>
+                                  <option value="Fringe">Fringe</option>
+                                  <option value="Fairway">Fairway</option>
+                                  <option value="Rough">Rough</option>
+                                  <option value="Bunker">Bunker</option>
+                                  <option value="Woods">Woods</option></option>
+                                  <option value="Fescue">Fescue</option>
+                                  <option value="Water">Water</option>
+                                  <option value="Lost Ball">Lost Ball</option>
+                            </select>
+                        </div>
+                        <div class="form-group fg_input xs_input">
+                            <label for="putts" class="Label_input">Putts</label>
+                            <input type="number" name="round[putts]" class="form-control f_input putts xs_input" id="putts_<%=i%>" min="0">
+                        </div>
+                        <div id="hole_<%=i%>_score" class="form-group fg_input xs_input">
+                            <label for="score" class="Label_input">Score</label>
+                            <input type="number" name="round[score]" class="form-control f_input xs_input" id="score_<%=i%>" min="1">
+                        </div>
+                        <div class="form-group hole_submit">
+                            <button type="submit" id="submit_<%=i%>" class="btn btn-xs btn-success save_btn">Save</button>
+                            <button type="submit" id="edit_<%=i%>" class="btn btn-xs btn-warning edit_btn">Edit</button>
+                            <button type="submit" id="clear_<%=i%>" class="btn btn-xs btn-danger clear_btn">Clear</button>
+                        </div>
+                        <input name="round[course]" type="hidden" value="<%= round.courseName %>" id="hidden_course_<%=i%>" class="hidden_course">
+                        <input name="round[numHoles]" type="hidden" value="<%= round.roundType %>" id="hidden_num_holes_<%=i%>" class="hidden_num_holes">
+                        <input name="round[datetime]" type="hidden" value="<%= round.date %>" id="hidden_datetime_<%=i%>" class="hidden_datetime">
+                        <input name="round[par]" type="hidden" value="" id="hidden_par_<%=i%>">
+                        <input name="round[holeNumber]" type="hidden" value="<%=i%>" id="hidden_hole_number_<%=i%>">
+                        <input name="round[tees]" type="hidden" value="<%= round.tees %>" id="hidden_tees_<%=i%>">
+                        <input name="round[edit]" type="hidden" value="edit" id="hidden_edit_<%=i%>">
+                    </fieldset>
+                </div>
+            </div>
+        </form>
+        <hr id="hr_<%=i%>">
+    <% } %>
+    <div id='complete_btn_div'>
+        <a href="/rounds/<%= round._id %>" class="btn btn-primary btn-complete">Complete Round</a>
+    </div>
+    <div id="round-id" class="hidden"><%= round._id %></div>
+</div>
+<script src="../../scripts/rounds/new.js"></script>   
+<script src="../../scripts/rounds/edit.js"></script>
+<script>
+    $(document).ready(function() {
+        document.title = 'Edit Round';
+    });
+
+    $(".putts").change(function() {
+        puttsChange(this);
+    });
+    
+    $(".tsd").change(function() {
+        setTeeShotResult(this);
+    });
+    
+    $(".atg").change(function() {
+        SetApproachNotToGreen(this);
+    });
+    
+    $(".ad").change(function() {
+        setApproachResult(this);
+    });
+    
+    $(".f_input").change(function() {
+        if($(this).hasClass("invalid-input")){
+            $(this).removeClass("invalid-input");
+        }
+    });
+    
+    // $(".save_btn").click(function() {
+    //     holeSave(this);
+    // });
+    $('.round-form').on('submit', function(e) {
+        e.preventDefault();
+        holeSave(this);
+    });
+    
+    $(".clear_btn").click(function() {
+        holeClear(this);
+        return false;
+    });
+    
+    $(".edit_btn").click(function() {
+        holeEdit(this);
+        return false;
+    });
+    
+    $('#edit-round-date').click(function() {
+        $('#datetimepicker1  > .form-control').prop("disabled", false);
+        $('#change-date').removeClass('hidden');
+    });
+    
+    $('#change-date').click(function() {
+        dateEdit();
+    });
+    
+    $(function () {
+        $('#datetimepicker1').datetimepicker();
+    });
+    
+    //Edit
+    function dateEdit() {
+        var dateInput = $("#datetimepicker1").find("input").val();
+        dateInput = new Date(dateInput);
+        roundId = $('#round-id').text();
+        
+        $.ajax({
+            url: '/rounds/'+roundId, 
+            type: 'PUT', 
+            data: {date: dateInput, id: roundId},
+            error: function () {
+                console.log("An error has occured!!!");
+            },
+            success: function () {
+                $('#datetimepicker1  > .form-control').prop("disabled", true);
+                $('#change-date').addClass('hidden');
+            }
+        });
+    }
+    
+</script>
+<% include ../partials/footer %>

@@ -47,4 +47,17 @@ middlewareObj.emailVerified = function(req, res, next){
     res.redirect("back");
 };
 
+middlewareObj.isAdmin = function(req, res, next){
+    if(req.isAuthenticated()){
+        if(req.user.role == "admin"){
+            return next();
+        } else {
+            req.flash("error", "You must be an administrator to do that");
+            res.redirect("back");
+        }
+    }
+    req.flash("error", "You need to be logged in to do that");
+    res.redirect("back");
+};
+
 module.exports = middlewareObj;

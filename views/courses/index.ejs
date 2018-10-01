@@ -1,0 +1,60 @@
+<% include ../partials/header %>
+    <div class="container">
+        <h2>Rounds</h2>
+        <hr id='rounds_hr'>
+        <%  function compare(a,b) {
+              if (a.date < b.date)
+                return 1;
+              if (a.date > b.date)
+                return -1;
+              return 0;
+            }
+            rounds.sort(compare); %>
+            <div id="page1" class="row text-center page">
+            <% var page = 1
+            var last = false;
+            for(let i=1; i<=rounds.length; i++) {
+                if(last) {
+                    page++; %>
+                    <div id="page<%=page%>" class="row text-center page">
+             <% }
+                last = false;
+                if(i % 16 === 0) {
+                    last = true;
+                } %>
+                <div class="col-md-3 col-sm-6">
+                    <% if(!rounds[i-1].isComplete){ %> 
+                        <div class="thumbnail incomplete-thumbnail">
+                    <% } else { %>    
+                        <div class="thumbnail">
+                    <% } %>
+                       <div class="caption">
+                           <img class="thumb_img" src='<%= rounds[i-1].course[0].img %>' alt="Course Image">
+                           <h4 class = "course-name-list"><%= rounds[i-1].course[0].name %></h4>
+                           <p><%= rounds[i-1].date.toISOString().split('T')[0] %></p>
+                           <% var score = 0;
+                              rounds[i-1].holes.forEach(function(hole){ 
+                               score += hole.score;
+                            }); %>
+                            <p>Score: <strong><%= score %></strong></p>
+                            <% if(!rounds[i-1].isComplete){ %>
+                               <p id="incomplete-round">Incomplete Round  <span class="info-tooltip" tooltip="Round stats will not be included in dashboard until completed" flow="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span></p>
+                            <% } %>
+                       </div>
+                       <p>
+                           <a href="/rounds/<%= rounds[i-1]._id %>" class="btn btn-primary">View Scorecard</a>
+                           <a href="/rounds/<%= rounds[i-1]._id %>/edit" class="btn btn-s btn-warning"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                       </p>
+                    </div>
+                </div>
+                <% if(last) { %>
+                    </div>
+                <% } %>
+            <% }; %>
+        </div> 
+        <ul id="pagination-demo" class="pagination-lg pull-right"></ul>
+        <div id="hidden_page" class="hidden"><%=page%></div>
+    </div>
+<script src="https://www.solodev.com/assets/pagination/jquery.twbsPagination.js"></script>
+<script src="../scripts/rounds/index.js"></script> 
+<% include ../partials/footer %>

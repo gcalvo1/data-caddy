@@ -1737,6 +1737,7 @@ to align it properly */
     float: right;
 }
 
-.course-name-list {
-    height: 40px;
+#new-course-form .row {
+    margin-left: 0px;
+    margin-right: 0px;
 }

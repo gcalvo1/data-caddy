@@ -16,6 +16,7 @@ require('dotenv').config();
     
 //Requiring routes    
 var roundRoutes = require("./routes/rounds"),
+    courseRoutes = require("./routes/courses"),
     indexRoutes = require("./routes/index"),
     dashboardRoutes = require("./routes/dashboard");
 
@@ -48,6 +49,7 @@ app.use(function(req, res, next){
 
 app.use("/", indexRoutes);
 app.use("/rounds", roundRoutes);
+app.use("/courses", courseRoutes);
 app.use("/dashboard", dashboardRoutes);
 
 app.get('/coursedropdown', function(req, res){

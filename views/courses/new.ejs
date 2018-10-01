@@ -1,0 +1,148 @@
+<% include ../partials/header %>
+    <div class="container-fluid">
+        <div class="row form-inline header_input_row input_row">
+            <div class="col-md-12">
+                <h2>New Course</h2>
+            </div> 
+        </div> 
+        <hr class='header_hr'>
+        <div id="new-course-form" class="row form-group">
+           <form id="new-course" action="/courses" method="POST">
+               <div class="row">
+                   <div class="col-md-4">
+                       <label for="course_name">Course Name:</label>
+                       <input id="course_name" type="text" name="course[name]" class="form-control course-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                    </div>
+                    <div class="col-md-2">
+                       <label for="course_zip">Course Zip:</label>
+                       <input id="course_zip" type="text" name="course[zip]" class="form-control course-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                    </div>
+                    <div class="col-md-3">
+                       <label for="course_lat">Course Latitude:</label>
+                       <input id="course_lat" type="text" name="course[latitude]" class="form-control course-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                    </div>
+                    <div class="col-md-3">
+                       <label for="course_long">Course Longitude:</label>
+                       <input id="course_long" type="text" name="course[longitude]" class="form-control course-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                    </div>
+               </div>
+               <div class="row">
+                   <div class="col-md-12">
+                       <div class="checkbox">
+                          <label><input type="checkbox" name="course[isNine]" value="Yes">Nine Holes?</label>
+                          <label><input type="checkbox" name="course[isNineOnly]" value="Yes">Nine Holes Only?</label>
+                       </div>
+                   </div>
+               </div>
+               <div class="row">
+                   <div class="col-md-2">
+                        <h3>Tees</h3>
+                        <div id="tee_inputs">
+                           <% for(var i=1;i<8;i++){ %> 
+                               <div id="tee_inputs_<%=i%>" class="hidden">
+                                   <label for="tees">Color:</label>
+                                       <select id="color_<%=i%>" class="form-control course-input tee_color_dropdown" name="course[color_<%=i%>]">
+                                            <option id="tee_default_value" value="">Select Tee Color</option>
+                                            <option value="Red">Red</option>
+                                            <option value="Yellow">Yellow</option>
+                                            <option value="Green">Green</option>
+                                            <option value="White">White</option>
+                                            <option value="Silver">Silver</option>
+                                            <option value="Blue">Blue</option>
+                                            <option value="Gold">Gold</option>
+                                            <option value="Black">Black</option>
+                                        </select>
+                                        <div class="form-group">
+                                            <label for="rating" class="Label_input">Rating</label>
+                                            <input type="number" name="course[rating_<%=i%>]" class="form-control s_input" min="0">
+                                            <label for="slope" class="Label_input">Slope</label>
+                                            <input type="number" name="course[slope_<%=i%>]" class="form-control s_input" min="0">
+                                        </div>
+                                        <hr class='header_hr'>
+                                </div>
+                            <% } %>
+                       </div>
+                       <button type="button" id="add-tee"> Add Tee </button>
+                   </div>
+               </div>
+               <div class="row">
+                   <div class="col-md-8">
+                       <h3>Holes</h3>
+                       <% for (var i = 1; i <= 18; i++) { %>
+                           <div id="hole-accordion" class="panel-group">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#hole-<%=i%>-input">Hole <%=i%></a>
+                                        </h4>
+                                    </div>
+                                    <div id="hole-<%=i%>-input" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <label for="hole-par">Par:</label>
+                                                    <select class="form-control course-input" name="course[par_<%=i%>]">
+                                                        <option id="par_default_value" value="">Select Par</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                    </select>
+                                                    <label for="hole-handicap">Handicap:</label>
+                                                    <select class="form-control course-input" name="course[handicap_<%=i%>]">
+                                                        <option id="par_default_value" value="">Select Handicap</option>
+                                                        <% for (var j = 1; j <= 18; j++) { %>
+                                                            <option value=<%=j%>><%=j%></option>
+                                                        <% } %>
+                                                    </select>
+                                                    <div class="form-group tee-yardage">
+                                                        <label for="yardage" class="Label_input yardage_label_1">Yardage</label>
+                                                        <input type="number" name="course[yardage_1]" class="form-control s_input" min="0" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>
+                   <button type="submit" id="submit-course" class="btn btn-xs btn-success save_btn">Submit</button>
+                   </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<script>
+    //Set Active Menu
+    $(document).ready(function() {
+        document.title = 'New Course';
+    });
+    
+    $('#tee_inputs_1').removeClass('hidden');
+    $('#tee_inputs_1').addClass('show');
+    
+    $('.menu_options li').removeClass('active');
+    $('#new_course_option').addClass('active');
+    
+    $('#add-tee').on('click', function(){
+        //count existing tees
+        tee_num = $('.show').length + 1;
+        $('#tee_inputs_' + tee_num).removeClass("hidden");
+        $('#tee_inputs_' + tee_num).addClass("show");
+        $('.tee-yardage').append(
+            `<label for="yardage" class="Label_input yardage_label_` + tee_num + `">Yardage</label>
+             <input type="number" name="course[yardage_` + tee_num + `]" class="form-control s_input" id="yardage_` + tee_num + `" min="0" />`
+        );
+    });
+    
+    $('.tee_color_dropdown').on('change', function() {
+      var id = this.id,
+          index = id.lastIndexOf("_"),
+          result = id.substr(index+1);
+      $('.yardage_label_'+result).text(this.value + ":")[0];
+      var val = $('.yardage_label_'+result).text();
+      var valClean = val.substring(0, val.indexOf(':')).toLowerCase();
+      $('#tee_inputs').append("<input type='hidden' name='course[tee_label_"+result+"]' value='"+valClean+"'/>");
+    });
+    
+</script>
+<% include ../partials/footer %>
