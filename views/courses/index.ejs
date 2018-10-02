@@ -31,6 +31,7 @@
                                courses[i-1].holes.forEach(function(hole){ 
                                par += hole.par;
                             }); %>
+                            <p><%= courses[i-1].location.city %>, <%= courses[i-1].location.state %></p>
                             <p>Par: <strong><%= par %></strong></p>
                        </div>
                        <!--<p>

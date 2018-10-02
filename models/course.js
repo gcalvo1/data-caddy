@@ -3,6 +3,9 @@ var mongoose = require("mongoose");
 var courseSchema = new mongoose.Schema({
     name: String,
     location: {
+        country: String,
+        state: String,
+        city: String,
         zip: Number,
         latitude: Number,
         longitude: Number
