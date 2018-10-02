@@ -79,6 +79,9 @@ router.post("/", middleware.isLoggedIn, middleware.emailVerified, middleware.isA
     newCourse = {
         name: req.body.course.name,
         location: {
+          country: req.body.course.country,
+          state: req.body.course.state,
+          city: req.body.course.city,  
           zip: req.body.course.zip,
           latitude: req.body.course.latitude,
           longitude: req.body.course.longitude
@@ -99,9 +102,7 @@ router.post("/", middleware.isLoggedIn, middleware.emailVerified, middleware.isA
                 if(err){
                     console.log(err);
                 } else {
-                    res.writeHead(200, { 'Content-Type': 'application/json' });
-                    res.write(JSON.stringify({ status: "OK" }));
-                    res.end();
+                    res.redirect("/courses");
                 }
             });
         } 

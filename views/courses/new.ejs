@@ -8,22 +8,36 @@
         <hr class='header_hr'>
         <div id="new-course-form" class="row form-group">
            <form id="new-course" action="/courses" method="POST">
-               <div class="row">
-                   <div class="col-md-4">
+                <div class="row">
+                   <div class="col-md-3">
                        <label for="course_name">Course Name:</label>
                        <input id="course_name" type="text" name="course[name]" class="form-control course-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
                     </div>
                     <div class="col-md-2">
-                       <label for="course_zip">Course Zip:</label>
-                       <input id="course_zip" type="text" name="course[zip]" class="form-control course-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-                    </div>
-                    <div class="col-md-3">
                        <label for="course_lat">Course Latitude:</label>
                        <input id="course_lat" type="text" name="course[latitude]" class="form-control course-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                        <label for="course_long">Course Longitude:</label>
                        <input id="course_long" type="text" name="course[longitude]" class="form-control course-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                    </div>
+                </div>
+                <div id="course-address-row" class="row">
+                    <div class="col-md-2">
+                       <label for="course_country">Course Country:</label>
+                       <input id="course_country" type="text" name="course[country]" class="form-control course-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                    </div>
+                    <div class="col-md-1">
+                       <label for="course_state">Course State:</label>
+                       <input id="course_state" type="text" name="course[state]" class="form-control course-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                    </div>
+                    <div class="col-md-2">
+                       <label for="course_city">Course City:</label>
+                       <input id="course_city" type="text" name="course[city]" class="form-control course-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                    </div>
+                    <div class="col-md-1">
+                       <label for="course_zip">Course Zip:</label>
+                       <input id="course_zip" type="text" name="course[zip]" class="form-control course-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
                     </div>
                </div>
                <div class="row">

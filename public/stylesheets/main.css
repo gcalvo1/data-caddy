@@ -1749,3 +1749,7 @@ to align it properly */
     margin-left: 0px;
     margin-right: 0px;
 }
+
+#course-address-row {
+    margin-top: 15px;
+}
