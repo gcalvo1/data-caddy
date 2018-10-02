@@ -409,6 +409,10 @@ input, label {
     margin-bottom: 0px;
 }
 
+.course-thumb {
+    height: 190px;
+}
+
 /*Pagination*/
 .page {
   display: none;
@@ -517,6 +521,10 @@ input, label {
 }
 
 #rounds_hr {
+    margin-bottom: 20px;
+}
+
+#courses_hr {
     margin-bottom: 20px;
 }
 
