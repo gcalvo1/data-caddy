@@ -1,11 +1,3 @@
-//Set Active Menu
-$(document).ready(function() {
-    document.title = 'Rounds';
-});
-
-$('.menu_options li').removeClass('active');
-$('#rounds_menu_option').addClass('active');
-
 $('#pagination-demo').twbsPagination({
     totalPages: $('#hidden_page').text(),
     // the current page that show on start

@@ -56,5 +56,15 @@
         <div id="hidden_page" class="hidden"><%=page%></div>
     </div>
 <script src="https://www.solodev.com/assets/pagination/jquery.twbsPagination.js"></script>
-<script src="../scripts/rounds/index.js"></script> 
+<script src="../scripts/pagination.js"></script> 
 <% include ../partials/footer %>
+
+<script>
+    //Set Active Menu
+    $(document).ready(function() {
+        document.title = 'Rounds';
+    });
+    
+    $('.menu_options li').removeClass('active');
+    $('#rounds_menu_option').addClass('active');
+</script>
