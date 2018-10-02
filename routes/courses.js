@@ -6,7 +6,7 @@ var AWS = require('aws-sdk');
 
 var s3Bucket = new AWS.S3({ params: {Bucket: 'data-caddy-profile-pics'} });
 
-router.get("/", middleware.isLoggedIn, middleware.emailVerified, function(req, res){
+router.get("/", middleware.isLoggedIn, function(req, res){
     Course.find({}).exec(function(err, courses){
         if(err){
             console.log(err);
