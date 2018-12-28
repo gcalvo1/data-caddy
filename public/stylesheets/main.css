@@ -353,7 +353,7 @@ hr {
 }
 
 #input_img_div {
-    width: 75px;
+    max-width: 135px;
     height: 75px;
 }
 
@@ -371,7 +371,7 @@ input, label {
 }
 
 .thumb_img {
-    width: 75px;
+    max-width: 135px;
     height: 75px;
 }
 
