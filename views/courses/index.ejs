@@ -33,11 +33,11 @@
                                 }); %>
                                 <p><%= courses[i-1].location.city %>, <%= courses[i-1].location.state %></p>
                                 <p>Par: <strong><%= par %></strong></p>
-                           </div>
-                           <p>
+                                <p>
                                <!-- <a href="/rounds/ rounds[i-1]._id %>" class="btn btn-primary">View Scorecard</a> -->
                                <a href="/courses/<%=courses[i-1]._id%>/edit" class="btn btn-s btn-warning"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a> 
                            </p> 
+                           </div>
                     </div>
                 </div>
                 <% if(last) { %>
