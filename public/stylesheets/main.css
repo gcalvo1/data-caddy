@@ -413,6 +413,10 @@ input, label {
     height: 210px;
 }
 
+.course-name-list {
+    min-height: 38px;
+}
+
 /*Pagination*/
 .page {
   display: none;
