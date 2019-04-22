@@ -44,14 +44,24 @@ function setYoy(parameters) {
             prevYearAvgScoreToPar = prevYearTotalScoreToPar / numRoundsCompare,
             currYearAvgScore = currentYearTotalScore / numRoundsCompare,
             prevYearAvgScore = prevYearTotalScore / numRoundsCompare;
+        
+        var currentSign = "+";
+        if(currYearAvgScoreToPar === 0 || currYearAvgScoreToPar < 0) {
+            currentSign = "";
+        }
+        
+        var prevSign = "+";
+        if(prevYearAvgScoreToPar === 0 || prevYearAvgScoreToPar < 0) {
+            prevSign = "";
+        }
             
         $('#yoy-title').html("Year-Over-Year Data Through " + numRoundsCompare + " Rounds");
         $('#yoy-years').html("Current Year: " + currentYear + " | Previous Year: " + prevYear);
         
-        $('#current-year-strokes-to-par').html(Math.round(currYearAvgScoreToPar * 10) / 10);
-        $('#prev-year-strokes-to-par').html(Math.round(prevYearAvgScoreToPar * 10) / 10);
-        $('#current-year-strokes-to-par-p').html(currentYear + " Strokes to Par");
-        $('#prev-year-strokes-to-par-p').html(prevYear + " Strokes to Par");
+        $('#current-year-strokes-to-par').html(currentSign + Math.round(currYearAvgScoreToPar * 10) / 10);
+        $('#prev-year-strokes-to-par').html(prevSign + Math.round(prevYearAvgScoreToPar * 10) / 10);
+        $('#current-year-strokes-to-par-p').html(currentYear + " Score to Par");
+        $('#prev-year-strokes-to-par-p').html(prevYear + " Score to Par");
         $('#strokes-to-par-change').html(Math.abs(Math.round((((currYearAvgScoreToPar - prevYearAvgScoreToPar) / prevYearAvgScoreToPar) * 100) * 10) / 10) + "%");
         if( currYearAvgScoreToPar - prevYearAvgScoreToPar < 0 ) {
             $('#strokes-to-par-change').addClass('pos-change');
