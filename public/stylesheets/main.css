@@ -1006,6 +1006,40 @@ input, label {
     border-bottom-left-radius: 0px;
 }
 
+.left-yoy-col {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    padding-right: 0px;
+}
+
+.left-yoy-col .counter {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.middle-yoy-col {
+    padding-right: 0px;
+    padding-left: 0px;
+    border-radius: 0px;
+    border-right: 1px solid white;
+    border-left: 1px solid white;
+}
+
+.middle-yoy-col .counter {
+    border-radius: 0px;
+}
+
+.right-yoy-col {
+    padding-right: 0px;
+    padding-left: 0px;
+    border-left: 1px solid white;
+}
+
+.right-yoy-col .counter {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
 /*Register img input*/
 .image-preview-input {
     position: relative;
@@ -1756,4 +1790,12 @@ to align it properly */
 
 #course-address-row {
     margin-top: 15px;
+}
+
+.pos-change {
+    color: #32e631;
+}
+
+.neg-change {
+    color: #ff7070;
 }

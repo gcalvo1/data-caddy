@@ -100,6 +100,9 @@
                           <li id="map-tab-li" class="nav-item">
                             <a class="nav-link non-home-tab non-driving-tab non-approach-tab" id="map-tab" data-toggle="tab" href="#map" role="tab" aria-controls="map" aria-selected="false">Map</a>
                           </li>
+                          <li id="yoy-tab-li" class="nav-item">
+                            <a class="nav-link non-home-tab non-driving-tab non-approach-tab" id="yoy-tab" data-toggle="tab" href="#yoy" role="tab" aria-controls="yoy" aria-selected="false">YoY</a>
+                          </li>
                         </ul>
                     </div>
                     <div class="tab-content" id="myTabContent">
@@ -801,6 +804,36 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="tab-pane fade in" id="yoy" role="tabpanel" aria-labelledby="yoy-tab">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="counter">
+                                        <h2 id="yoy-title" class="timer count-title count-number"></h2>
+                                        <p id="yoy-years" class="count-text "></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 left-yoy-col">
+                                    <div class="counter">
+                                        <h2 id="current-year-strokes-to-par" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                        <p id="current-year-strokes-to-par-p" class="count-text">Strokes to Par</p>
+                                    </div>
+                                </div>   
+                                <div class="col-md-2 middle-yoy-col">
+                                    <div class="counter">
+                                        <h2 id="prev-year-strokes-to-par" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                        <p id="prev-year-strokes-to-par-p" class="count-text">Strokes to Par</p>
+                                    </div>
+                                </div> 
+                                <div class="col-md-2 right-yoy-col">
+                                    <div class="counter">
+                                        <h2 id="strokes-to-par-change" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                        <p class="count-text current-year-p">% Change</p>
+                                    </div>
+                                </div> 
+                            </div>    
+                        </div>
                     </div>
                 </div>
             </div>
@@ -830,6 +863,7 @@
 <script src="../scripts/dashboard/weather/setWeather.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5ZVEcAKEvfoR6FqNq-AyhnRkq1g90yoI" async defer></script>
 <script src="../scripts/dashboard/map/setMap.js"></script>
+<script src="../scripts/dashboard/yoy/setYoy.js"></script>
 <script src="../scripts/dashboard/byhole/setByHole.js"></script>
 <script src="../scripts/dashboard/byhole/highChartsScoreByTeeClub.js"></script>
 <script src="../scripts/dashboard/byhole/highChartsApproachScatter.js"></script>
@@ -944,6 +978,13 @@
         $('#num-holes-dropdown-div').addClass("hidden");
         $('#courses-dropdown-div').removeClass("hidden");
         $('#holes-dropdown-div').removeClass("hidden");
+        updateDashboard();
+    });
+    $('#yoy-tab').on('click', function(){
+        activeTab = 'yoy';
+        $('#num-holes-dropdown-div').removeClass("hidden");
+        $('#courses-dropdown-div').addClass("hidden");
+        $('#holes-dropdown-div').addClass("hidden");
         updateDashboard();
     });
     $('.non-approach-tab').on('click', function(){

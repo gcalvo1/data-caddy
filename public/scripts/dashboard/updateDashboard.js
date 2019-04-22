@@ -179,8 +179,11 @@ function updateDashboard(club, updateSource){
         dateTo = $('#date-to').datepicker('getDate');
         dateFrom.setHours(0,0,0,0);
         dateTo.setHours(23,59,59,0);
+        dateFromPrevYear = $('#date-from').datepicker('getDate');
+        dateFromPrevYear.setMonth(dateFromPrevYear.getMonth() - 12);
         dateFrom = dateFrom.toISOString();
         dateTo = dateTo.toISOString();
+        dateFromPrevYear = dateFromPrevYear.toISOString();
     
     if (numHoles === "9 Holes") {
         isFull = false;
@@ -235,6 +238,10 @@ function updateDashboard(club, updateSource){
     if(activeTab === "map"){
         var parameters = { isFull: isFull, dateFrom: dateFrom, dateTo:dateTo };
         setMap(parameters);
+    }
+    if(activeTab === "yoy"){
+        var parameters = { isFull: isFull, dateFrom: dateFromPrevYear, dateTo:dateTo };
+        setYoy(parameters);
     }
     if(activeTab === "by-hole"){
         if(updateSource != "course" && updateSource != "hole"){
