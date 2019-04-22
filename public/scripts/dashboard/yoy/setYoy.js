@@ -28,22 +28,54 @@ function setYoy(parameters) {
         var currentYearTotalScoreToPar = 0,
             prevYearTotalScoreToPar = 0,
             currentYearTotalScore = 0,
-            prevYearTotalScore = 0;
+            prevYearTotalScore = 0,
+            currentYearTotalFirs = 0,
+            prevYearTotalFirs = 0,
+            currentYearTotalDrives = 0,
+            prevYearTotalDrives = 0,
+            currentYearTotalHoles = 0,
+            prevYearTotalHoles = 0,
+            currentYearTotalGirs = 0,
+            prevYearTotalGirs = 0;            ;
         for(var i=0;i<numRoundsCompare;i++){
             currentYearRounds[i].holes.forEach(function(hole){
                 currentYearTotalScore = currentYearTotalScore + hole.score;
                 currentYearTotalScoreToPar = currentYearTotalScoreToPar + (hole.score - hole.par);
+                currentYearTotalHoles++;
+                if(hole.par != 3) {
+                    currentYearTotalDrives++;
+                    if(hole.teeShot.teeShotResult === "FIR"){
+                        currentYearTotalFirs++;
+                    }
+                }
+                if(hole.approach.approachResult === "GIR"){
+                    currentYearTotalGirs++;
+                }
             });
             prevYearRounds[i].holes.forEach(function(hole){
                 prevYearTotalScore = prevYearTotalScore + hole.score;
                 prevYearTotalScoreToPar = prevYearTotalScoreToPar + (hole.score - hole.par);
+                prevYearTotalHoles++;
+                if(hole.par != 3) {
+                    prevYearTotalDrives++;
+                    if(hole.teeShot.teeShotResult === "FIR"){
+                        prevYearTotalFirs++;
+                    }
+                }
+                if(hole.approach.approachResult === "GIR"){
+                    prevYearTotalGirs++;
+                }
             });
         }
         
         var currYearAvgScoreToPar = currentYearTotalScoreToPar / numRoundsCompare,
             prevYearAvgScoreToPar = prevYearTotalScoreToPar / numRoundsCompare,
             currYearAvgScore = currentYearTotalScore / numRoundsCompare,
-            prevYearAvgScore = prevYearTotalScore / numRoundsCompare;
+            prevYearAvgScore = prevYearTotalScore / numRoundsCompare,
+            currYearfirPercent = ( currentYearTotalFirs / currentYearTotalDrives ) * 100,
+            prevYearfirPercent = ( prevYearTotalFirs / prevYearTotalDrives ) * 100,
+            currYearGirPercent = ( currentYearTotalGirs / currentYearTotalHoles ) * 100,
+            prevYearGirPercent = ( prevYearTotalGirs / prevYearTotalHoles ) * 100;
         
         var currentSign = "+";
         if(currYearAvgScoreToPar === 0 || currYearAvgScoreToPar < 0) {
@@ -78,6 +110,32 @@ function setYoy(parameters) {
             $('#score-change').addClass('pos-change');
         } else if ( currYearAvgScore - prevYearAvgScore > 0 ) {
             $('#score-change').addClass('neg-change');
+        }
+        
+        $("#current-year-fir-ratio").html(currentYearTotalFirs + "/" + currentYearTotalDrives);
+        $("#prev-year-fir-ratio").html(prevYearTotalFirs + "/" + prevYearTotalDrives);
+        $("#current-year-fir").html(Math.round(currYearfirPercent * 10) / 10 + "%");
+        $("#prev-year-fir").html(Math.round(prevYearfirPercent * 10) / 10 + "%");
+        $('#current-year-fir-p').html(currentYear + " FIR%");
+        $('#prev-year-fir-p').html(prevYear + " FIR%");
+        $('#fir-change').html(Math.abs(Math.round((((currYearfirPercent - prevYearfirPercent) / prevYearfirPercent) * 100) * 10) / 10) + "%");
+        if( currYearfirPercent - prevYearfirPercent > 0 ) {
+            $('#fir-change').addClass('pos-change');
+        } else if ( currYearfirPercent - prevYearfirPercent < 0 ) {
+            $('#fir-change').addClass('neg-change');
+        }
+        
+        $("#current-year-gir-ratio").html(currentYearTotalGirs + "/" + currentYearTotalHoles);
+        $("#prev-year-gir-ratio").html(prevYearTotalGirs + "/" + prevYearTotalHoles);
+        $("#current-year-gir").html(Math.round(currYearGirPercent * 10) / 10 + "%");
+        $("#prev-year-gir").html(Math.round(prevYearGirPercent * 10) / 10 + "%");
+        $('#current-year-gir-p').html(currentYear + " GIR%");
+        $('#prev-year-gir-p').html(prevYear + " GIR%");
+        $('#gir-change').html(Math.abs(Math.round((((currYearGirPercent - prevYearGirPercent) / prevYearGirPercent) * 100) * 10) / 10) + "%");
+        if( currYearGirPercent - prevYearGirPercent > 0 ) {
+            $('#gir-change').addClass('pos-change');
+        } else if ( currYearGirPercent - prevYearGirPercent < 0 ) {
+            $('#gir-change').addClass('neg-change');
         }
     });
 }
