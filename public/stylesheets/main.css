@@ -1799,3 +1799,7 @@ to align it properly */
 .neg-change {
     color: #ff7070;
 }
+
+.shrink-right-yoy {
+    width: 15.5%;
+}
