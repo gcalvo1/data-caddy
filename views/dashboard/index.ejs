@@ -826,7 +826,7 @@
                                         <p id="prev-year-strokes-to-par-p" class="count-text">Strokes to Par</p>
                                     </div>
                                 </div> 
-                                <div class="col-md-2 right-yoy-col">
+                                <div class="col-md-2 right-yoy-col shrink-right-yoy" style="margin-right:18px;">
                                     <div class="counter">
                                         <h2 id="strokes-to-par-change" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
                                         <p class="count-text current-year-p">% Change</p>
@@ -852,6 +852,11 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-md-12">
+                                    <div id="yoy-score-by-round" class="dash-highchart"></div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-2 left-yoy-col">
                                     <div class="counter">
                                         <span id="current-year-fir-ratio" class="dashboard-ratio"></span>
@@ -866,7 +871,7 @@
                                         <p id="prev-year-fir-p" class="count-text">FIR %</p>
                                     </div>
                                 </div> 
-                                <div class="col-md-2 right-yoy-col">
+                                <div class="col-md-2 right-yoy-col shrink-right-yoy" style="margin-right:18px;">
                                     <div class="counter">
                                         <h2 id="fir-change" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
                                         <p class="count-text">% Change</p>
@@ -892,6 +897,14 @@
                                         <p class="count-text">% Change</p>
                                     </div>
                                 </div> 
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div id="yoy-fir-by-round" class="dash-highchart"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div id="yoy-gir-by-round" class="dash-highchart"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -924,6 +937,7 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5ZVEcAKEvfoR6FqNq-AyhnRkq1g90yoI" async defer></script>
 <script src="../scripts/dashboard/map/setMap.js"></script>
 <script src="../scripts/dashboard/yoy/setYoy.js"></script>
+<script src="../scripts/dashboard/yoy/highChartsYoyByRound.js"></script>
 <script src="../scripts/dashboard/byhole/setByHole.js"></script>
 <script src="../scripts/dashboard/byhole/highChartsScoreByTeeClub.js"></script>
 <script src="../scripts/dashboard/byhole/highChartsApproachScatter.js"></script>

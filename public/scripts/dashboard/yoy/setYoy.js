@@ -2,9 +2,6 @@ function setYoy(parameters) {
     $.get( '/dashboard/roundsdata', parameters, function(data) {
         var currentYear = parameters.dateTo.substring(0, 4);
         var prevYear = parameters.dateFrom.substring(0, 4);
-        console.log(currentYear);
-        console.log(prevYear);
-        console.log(data);
         
         //Break out current year and previous year rounds
         var currentYearRounds = [],
@@ -36,7 +33,13 @@ function setYoy(parameters) {
             currentYearTotalHoles = 0,
             prevYearTotalHoles = 0,
             currentYearTotalGirs = 0,
-            prevYearTotalGirs = 0;            ;
+            prevYearTotalGirs = 0,
+            currentYearScoreByRound = [],
+            prevYearScoreByRound = [],
+            currentYearFirByRound = [],
+            prevYearFirByRound = [],
+            currentYearGirByRound = [],
+            prevYearGirByRound = [];            
         for(var i=0;i<numRoundsCompare;i++){
             currentYearRounds[i].holes.forEach(function(hole){
                 currentYearTotalScore = currentYearTotalScore + hole.score;
@@ -66,7 +69,16 @@ function setYoy(parameters) {
                     prevYearTotalGirs++;
                 }
             });
+            currentYearScoreByRound.push([i+1,currentYearTotalScore]);
+            prevYearScoreByRound.push([i+1,prevYearTotalScore]);
+            currentYearFirByRound.push([i+1,currentYearTotalFirs]);
+            prevYearFirByRound.push([i+1,prevYearTotalFirs]);
+            currentYearGirByRound.push([i+1,currentYearTotalGirs]);
+            prevYearGirByRound.push([i+1,prevYearTotalGirs]);
         }
+        
+        console.log(currentYearFirByRound);
+        console.log(currentYearGirByRound);
         
         var currYearAvgScoreToPar = currentYearTotalScoreToPar / numRoundsCompare,
             prevYearAvgScoreToPar = prevYearTotalScoreToPar / numRoundsCompare,
@@ -137,5 +149,10 @@ function setYoy(parameters) {
         } else if ( currYearGirPercent - prevYearGirPercent < 0 ) {
             $('#gir-change').addClass('neg-change');
         }
+        
+        //Score By Round Line Chart 
+        highChartsYoyByRound(prevYearScoreByRound,currentYearScoreByRound,prevYear,currentYear,'yoy-score-by-round','Running Total Score by Round YoY','Total Score');
+        highChartsYoyByRound(prevYearFirByRound,currentYearFirByRound,prevYear,currentYear,'yoy-fir-by-round','Running Total FIRs by Round YoY','Total FIRs');
+        highChartsYoyByRound(prevYearGirByRound,currentYearGirByRound,prevYear,currentYear,'yoy-gir-by-round','Running Total GIRs by Round YoY','Total GIRs');
     });
 }

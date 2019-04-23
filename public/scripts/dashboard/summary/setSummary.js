@@ -130,6 +130,7 @@ function setSummary(parameters){
             $('#par-five-scoring-avg').html(Math.round(data.avgScore.avgScoreByHolePar.parFive * 10) / 10);
             $('#par-five-scoring-avg').attr("data-to",Math.round(data.avgScore.avgScoreByHolePar.parFive * 10) / 10);
         }
+        
         //Score By Date Line Chart 
         highChartsScoreByDate(data.avgScore.scoreByDate);
         //Score Name Pie Chart
