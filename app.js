@@ -133,5 +133,3 @@ app.use(function(req, res, next){
 app.listen(process.env.PORT, process.env.IP, function(){
     console.log("The DataCaddy Server Has Started!");
 });
-
-//app.listen(3000, () => console.log("Server listening on port 3000!"));
