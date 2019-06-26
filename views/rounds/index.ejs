@@ -47,10 +47,11 @@
                        </p>
                     </div>
                 </div>
-                <% if(last) { %>
+                <% if(last) { console.log("here")%>
                     </div>
-                <% } %>
+                <% } else {console.log("not here")} %>
             <% }; %>
+            </div>
             <ul id="pagination-demo" class="pagination-lg pull-right"></ul>
             <div id="hidden_page" class="hidden"><%=page%></div>
         </div> 
