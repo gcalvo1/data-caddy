@@ -329,17 +329,7 @@ router.get("/logout", function(req, res){
 });
 
 router.get('/forgot', function(req, res) {
-    var urlParams = {Bucket: 'data-caddy-profile-pics', Key: req.user.username + req.user.imgExt};
-    s3Bucket.getSignedUrl('getObject', urlParams, function(err, url){
-        if(err){
-            console.log(err);
-        } else {
-            res.render("forgot",{
-                user: req.user,
-                userImg: url
-            });
-        }
-    });
+    res.render("forgot");
 });
 
 router.post('/forgot', function(req, res, next) {
