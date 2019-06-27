@@ -126,7 +126,7 @@
                             <td></td>
                      <% }
                     } %>
-                    <td><strong><%= outScore %></strong></td>
+                    <td <% if(outScore < outPar){ %> style="color:red" <% } %>><strong><%= outScore %></strong></td>
              <% } %>
                 
                 <% if(round.isFull || round.roundType === "Back 9") {
@@ -148,14 +148,14 @@
                             <td></td>
                      <% }
                     } %>
-                    <td><strong><%= inScore %></strong></td>
+                    <td <% if(inScore < inPar){ %> style="color:red" <% } %>><strong><%= inScore %></strong></td>
              <% }  
                 if(round.isFull) { %>
-                <td><strong><%= outScore + inScore %></strong></td>
+                <td <% if(outScore + inScore < outPar + inPar){ %> style="color:red" <% } %>><strong><%= outScore + inScore %></strong></td>
             <% } else if(round.roundType === "Front 9") { %>
-                    <td><strong><%= outScore %></strong></td>
+                    <td <% if(outScore < outPar){ %> style="color:red" <% } %>><strong><%= outScore %></strong></td>
             <% } else if(round.roundType === "Back 9") { %>
-                    <td><strong><%= inScore %></strong></td>
+                    <td <% if(inScore < inPar){ %> style="color:red" <% } %>><strong><%= inScore %></strong></td>
             <% } %>
             </tr>
           </tbody>
