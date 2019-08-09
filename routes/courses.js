@@ -5,18 +5,38 @@ var middleware = require("../middleware");
 var AWS = require('aws-sdk');
 
 var s3Bucket = new AWS.S3({ params: {Bucket: 'data-caddy-profile-pics'} });
+var courseS3Bucket = new AWS.S3({ params: {Bucket: 'data-caddy-course-pics'} });
 
 router.get("/", middleware.isLoggedIn, function(req, res){
-    Course.find({}).exec(function(err, courses){
-        if(err){
+    courseS3Bucket.listObjects(function (err, courseImgs) {
+        if (err) {
             console.log(err);
         } else {
-            var urlParams = {Bucket: 'data-caddy-profile-pics', Key: req.user.username + req.user.imgExt};
-            s3Bucket.getSignedUrl('getObject', urlParams, function(err, url){
-                res.render("courses/index",{courses:courses,userImg: url});
+            Course.find({}).lean().exec(function(err, courses){
+                if(err){
+                    console.log(err);
+                } else {
+                    courses.forEach(function(course) {                        
+                        courseImgs.Contents.forEach(function(courseImg) {
+                            if(course.img.replace('../img/','') == courseImg.Key){
+                                var courseUrlParams = {Bucket: 'data-caddy-course-pics', Key: courseImg.Key};
+                                courseS3Bucket.getSignedUrl('getObject', courseUrlParams, function(err, url){
+                                    console.log("match");
+                                    course['s3ImgUrl'] = url;
+                                    console.log(course);
+                                });
+                            }                            
+                        });
+                    });            
+                    var urlParams = {Bucket: 'data-caddy-profile-pics', Key: req.user.username + req.user.imgExt};
+                    s3Bucket.getSignedUrl('getObject', urlParams, function(err, url){                        
+                        console.log('profile');
+                        res.render("courses/index",{courses:courses,userImg: url});
+                    });
+                }
             });
         }
-    });
+    });    
 });
 
 //CREATE
