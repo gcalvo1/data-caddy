@@ -69,7 +69,7 @@ function courseDropdownChange() {
             
             //Set course img
             var url = $(location).attr('href'),
-                img = data.course.img
+                img = data.course.s3Img
             if(url.indexOf("edit") !== -1){
                 img = "../" + img
             }

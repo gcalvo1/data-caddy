@@ -19,7 +19,7 @@ function setByHole(parameters) {
             
             //Set course img
             $('#course_img_div').html("");
-            $('#course_img_div').html("<img id='input_img' src='../"+ course.img + "' alt=''>");
+            $('#course_img_div').html("<img id='input_img' src='"+ course.s3Img + "' alt=''>");
             $('#input_img').addClass("banner_img");
             //Set hole number
             $('#hole-number').html("<strong>Hole " + parameters.hole + "</strong>");

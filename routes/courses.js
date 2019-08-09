@@ -5,38 +5,18 @@ var middleware = require("../middleware");
 var AWS = require('aws-sdk');
 
 var s3Bucket = new AWS.S3({ params: {Bucket: 'data-caddy-profile-pics'} });
-var courseS3Bucket = new AWS.S3({ params: {Bucket: 'data-caddy-course-pics'} });
 
 router.get("/", middleware.isLoggedIn, function(req, res){
-    courseS3Bucket.listObjects(function (err, courseImgs) {
-        if (err) {
+    Course.find({}).exec(function(err, courses){
+        if(err){
             console.log(err);
         } else {
-            Course.find({}).lean().exec(function(err, courses){
-                if(err){
-                    console.log(err);
-                } else {
-                    courses.forEach(function(course) {                        
-                        courseImgs.Contents.forEach(function(courseImg) {
-                            if(course.img.replace('../img/','') == courseImg.Key){
-                                var courseUrlParams = {Bucket: 'data-caddy-course-pics', Key: courseImg.Key};
-                                courseS3Bucket.getSignedUrl('getObject', courseUrlParams, function(err, url){
-                                    console.log("match");
-                                    course['s3ImgUrl'] = url;
-                                    console.log(course);
-                                });
-                            }                            
-                        });
-                    });            
-                    var urlParams = {Bucket: 'data-caddy-profile-pics', Key: req.user.username + req.user.imgExt};
-                    s3Bucket.getSignedUrl('getObject', urlParams, function(err, url){                        
-                        console.log('profile');
-                        res.render("courses/index",{courses:courses,userImg: url});
-                    });
-                }
+            var urlParams = {Bucket: 'data-caddy-profile-pics', Key: req.user.username + req.user.imgExt};
+            s3Bucket.getSignedUrl('getObject', urlParams, function(err, url){
+                res.render("courses/index",{courses:courses,userImg: url});
             });
         }
-    });    
+    });
 });
 
 //CREATE
@@ -96,6 +76,7 @@ router.post("/", middleware.isLoggedIn, middleware.emailVerified, middleware.isA
     }
     
     var img = "../img/" + req.body.course.name.split(' ').join('_') + "-Logo.png",
+    s3Img = "https://data-caddy-course-pics.s3.amazonaws.com/" + req.body.course.name.split(' ').join('_') + "-Logo.png",
     newCourse = {
         name: req.body.course.name,
         location: {
@@ -107,6 +88,7 @@ router.post("/", middleware.isLoggedIn, middleware.emailVerified, middleware.isA
           longitude: req.body.course.longitude
         },
         img: img,
+        s3Img: s3Img,
         isNine: isNine,
         isNineOnly: isNineOnly,
         tees: tees,

@@ -11,6 +11,7 @@ var courseSchema = new mongoose.Schema({
         longitude: Number
     },
     img: String,
+    s3Img: String,
     isNine: Boolean,
     isNineOnly: Boolean,
     holes: [
