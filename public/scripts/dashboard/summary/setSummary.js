@@ -103,22 +103,22 @@ function setSummary(parameters){
         }
         
         if(data.rounds.length === 0){
-            $('#no-round-data').removeClass("hidden");
-            $('#no-round-data').addClass("no-round-data");
-            $('#num-rounds').addClass("hidden");
+            // $('#no-round-data').removeClass("hidden");
+            // $('#no-round-data').addClass("no-round-data");
+            // $('#num-rounds').addClass("hidden");
             $('#scoring-avg').html("N/A");
             $('#avg-score-to-par').html("N/A");
             $('#par-three-scoring-avg').html("N/A");
             $('#par-four-scoring-avg').html("N/A");
             $('#par-five-scoring-avg').html("N/A");
         } else {
-            $('#no-round-data').addClass("hidden");
-            $('#num-rounds').removeClass("hidden");
-            var roundText = "Rounds";
-            if(data.rounds.length === 1){
-                roundText = "Round";
-            }
-            $('#num-rounds').html("Showing Data for " + data.rounds.length + " " + roundText);
+            // $('#no-round-data').addClass("hidden");
+            // $('#num-rounds').removeClass("hidden");
+            // var roundText = "Rounds";
+            // if(data.rounds.length === 1){
+            //     roundText = "Round";
+            // }
+            // $('#num-rounds').html("Showing Data for " + data.rounds.length + " " + roundText);
             $('#scoring-avg').html(Math.round(data.avgScore.avgScore * 10) / 10);
             $('#scoring-avg').attr("data-to",Math.round(data.avgScore.avgScore * 10) / 10);
             $('#avg-score-to-par').html(sign + String(Math.round(data.avgScore.avgScoreToPar * 10) / 10));

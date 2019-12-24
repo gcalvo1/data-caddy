@@ -154,11 +154,9 @@ function updateCourseFilter(){
 }
 
 function updateHoleFilter(){
-    console.log("updating hole");
     var course = $('#course-dropdown :selected').text(),
         parameters = { course: course };
     var holeDropdownHtml = "<option value=''></option>";
-    console.log(course);
     
     if(course){
         $.get( '/coursedropdown', parameters, function(data) {
@@ -184,6 +182,23 @@ function updateDashboard(club, updateSource){
         dateFrom = dateFrom.toISOString();
         dateTo = dateTo.toISOString();
         dateFromPrevYear = dateFromPrevYear.toISOString();
+
+    //Update number of rounds playes
+    $.get( '/dashboard/roundsdata', { isFull: isFull, dateFrom: dateFrom, dateTo:dateTo }, function(data) {
+        if(data.rounds.length === 0){
+            $('#no-round-data').removeClass("hidden");
+            $('#no-round-data').addClass("no-round-data");
+            $('#num-rounds').addClass("hidden");
+        } else {
+            $('#no-round-data').addClass("hidden");
+            $('#num-rounds').removeClass("hidden");
+            var roundText = "Rounds";
+            if(data.rounds.length === 1){
+                roundText = "Round";
+            }
+            $('#num-rounds').html("Showing Data for " + data.rounds.length + " " + roundText);
+        }
+    });
     
     if (numHoles === "9 Holes") {
         isFull = false;
@@ -256,5 +271,5 @@ function updateDashboard(club, updateSource){
             hole = $('#hole-dropdown :selected').text(),
             parameters = {dateFrom: dateFrom, dateTo:dateTo, course:course, hole:hole};
         setByHole(parameters);
-    }
+    }    
 }
