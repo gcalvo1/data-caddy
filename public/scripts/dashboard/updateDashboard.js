@@ -183,7 +183,11 @@ function updateDashboard(club, updateSource){
         dateTo = dateTo.toISOString();
         dateFromPrevYear = dateFromPrevYear.toISOString();
 
-    //Update number of rounds playes
+    if (numHoles === "9 Holes") {
+        isFull = false;
+    }
+
+    //Update number of rounds played
     $.get( '/dashboard/roundsdata', { isFull: isFull, dateFrom: dateFrom, dateTo:dateTo }, function(data) {
         if(data.rounds.length === 0){
             $('#no-round-data').removeClass("hidden");
@@ -199,10 +203,7 @@ function updateDashboard(club, updateSource){
             $('#num-rounds').html("Showing Data for " + data.rounds.length + " " + roundText);
         }
     });
-    
-    if (numHoles === "9 Holes") {
-        isFull = false;
-    }
+
     //set parameters for each dashboard tab    
     if(activeTab === "summary"){
         var parameters = { isFull: isFull, dateFrom: dateFrom, dateTo:dateTo };
