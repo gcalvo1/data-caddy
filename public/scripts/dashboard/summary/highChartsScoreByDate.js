@@ -15,6 +15,13 @@ function highChartsScoreByDate(scoreByDate){
         pair[0] = Math.round((new Date(pair[0])).getTime());
     });
     
+    var totalScore = 0;
+    series.forEach(function(pair){
+        pair[0] = Math.round((new Date(pair[0])).getTime());
+        totalScore = totalScore + pair[1];
+    });
+    var avgScore = totalScore / series.length;
+
     //Create the chart
     Highcharts.chart('rbd-line', {
         chart: {
@@ -34,7 +41,20 @@ function highChartsScoreByDate(scoreByDate){
         yAxis: {
             title: {
                 text: 'Score'
-            }
+            },
+            plotLines: [{
+                color: 'red',
+                value: avgScore,
+                width: '1',
+                zIndex: 2, // To not get stuck below the regular plot lines
+                dashStyle: 'dash',
+                label: {
+                    text: 'Average',
+                    style: {
+                        color: 'red'
+                    }
+                }
+            }]
         },
         plotOptions: {
             series: {
