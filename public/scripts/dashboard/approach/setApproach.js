@@ -3,6 +3,7 @@ function setApproach(parameters) {
         
         var totalGirs = 0,
             totalApproaches = 0,
+            totalNonPar3Approaches = 0,
             totalApproachDistance = 0,
             totalHoles = 0,
             totalNonParThrees = 0,
@@ -52,7 +53,10 @@ function setApproach(parameters) {
                     if(hole.approach.approachToGreen){
                         var scoreToPar = hole.score - hole.par;
                         totalApproaches++;
-                        totalApproachDistance += hole.approach.approachLength;
+                        if(hole.par != 3){
+                            totalNonPar3Approaches++;
+                            totalApproachDistance += hole.approach.approachLength;
+                        }                        
                         scoreByApproachDistance.push([hole.approach.approachLength,scoreToPar]);
                         //Set directional miss
                         if(hole.approach.approachResult === "GIR"){
@@ -108,7 +112,10 @@ function setApproach(parameters) {
                         if(hole.approach.approachToGreen){
                             var scoreToPar = hole.score - hole.par;
                             totalApproaches++;
-                            totalApproachDistance += hole.approach.approachLength;
+                            if(hole.par != 3){
+                                totalNonPar3Approaches++;
+                                totalApproachDistance += hole.approach.approachLength;
+                            }  
                             scoreByApproachDistance.push([hole.approach.approachLength,scoreToPar]);
                             if(hole.approach.approachResult === "GIR"){
                                 totalGirs++;
@@ -142,7 +149,7 @@ function setApproach(parameters) {
         //Set data for selected tee club
         var girPercent = ( totalGirs / totalHoles ) * 100,
             punchPercent = ( totalPunchOuts / totalNonParThrees ) * 100,
-            avgApproachDistance = totalApproachDistance / totalApproaches,
+            avgApproachDistance = totalApproachDistance / totalNonPar3Approaches,
             approachMissPercent = {
                 right: ( totalMiss.right / totalApproaches ) * 100,
                 left: ( totalMiss.left / totalApproaches ) * 100,
