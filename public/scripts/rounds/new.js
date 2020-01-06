@@ -78,7 +78,6 @@ function courseDropdownChange() {
             $('#input_img').addClass("thumb_img");
             
             $.each(data.course.holes, function(i, item) {
-                console.log(item.handicap);
                 $('#hole_' + item.number).html('<p><strong>' + item.number + '</strong></p><p>Par '+ item.par +'</p>');
                 $('#hidden_par_' + item.number).val(item.par);
                 $('#hidden_handicap_' + item.number).val(item.handicap);
