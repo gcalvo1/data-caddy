@@ -57,6 +57,7 @@ var roundSchema = new mongoose.Schema({
             },
             putts: Number,
             score: Number,
+            handicap: Number,
         }
     ],
     loadDate: Date

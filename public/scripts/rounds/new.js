@@ -78,8 +78,10 @@ function courseDropdownChange() {
             $('#input_img').addClass("thumb_img");
             
             $.each(data.course.holes, function(i, item) {
+                console.log(item.handicap);
                 $('#hole_' + item.number).html('<p><strong>' + item.number + '</strong></p><p>Par '+ item.par +'</p>');
                 $('#hidden_par_' + item.number).val(item.par);
+                $('#hidden_handicap_' + item.number).val(item.handicap);
             });
             
         } else {
@@ -104,6 +106,7 @@ function teeDropdownChange() {
                 $('#hole_' + item.number).html($('#hole_' + item.number).html() + '<p class="hole_desc_yardage">'+item.yardage[teeSelection]+' yds</p>');
             }
             $('#hidden_par_' + item.number).val(item.par);
+            $('#hidden_handicap_' + item.number).val(item.handicap);
             $('#hidden_tees_' + item.number).val($("#tees_dropdown :selected").text());
             var teeColor = $('#hidden_tees_' + item.number).val();
             if(teeColor === 'White'){
@@ -223,6 +226,7 @@ function holeSave(element) {
         datetime = new Date($("#hidden_datetime_" + hole_submitted).val()),
         holeNumber = hole_submitted,
         par = $("#hidden_par_" + hole_submitted).val(),
+        handicap = $("#hidden_handicap_" + hole_submitted).val(),        
         tees = $("#hidden_tees_" + hole_submitted).val(),
         teeShotClub = $("#tsc_" + hole_submitted).val(),
         teeShotLength = $("#tsl_" + hole_submitted).val(),
@@ -323,6 +327,7 @@ function holeSave(element) {
         datetime: datetime,
         holeNumber: holeNumber,
         par: par,
+        handicap: handicap,
         tees: tees,
         teeShotClub: teeShotClub,
         teeShotLength: teeShotLength,
@@ -348,7 +353,9 @@ function holeSave(element) {
         url: '/rounds/', 
         type: 'POST', 
         data: {round: data},
-        error: function () {
+        error: function(xhr, status, error) {
+            var err = eval("(" + xhr.responseText + ")");
+            console.log(err.Message);
             console.log("An error has occured!!!");
         }
     });

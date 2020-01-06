@@ -25,6 +25,9 @@ router.get("/", middleware.isLoggedIn, middleware.emailVerified, function(req, r
 //CREATE
 router.post("/", middleware.isLoggedIn, middleware.emailVerified, function(req, res){
     if(req.body.round.course && req.body.round.numHoles && req.body.round.tees && req.body.round.datetime && (req.body.round.par == 3 || req.body.round.teeShotClub) && (req.body.round.par == 3 || req.body.round.teeShotDirection) && (req.body.round.par == 3 || req.body.round.teeShotResult) && req.body.round.approachToGreen && (req.body.round.approachToGreen === "No" || req.body.round.approachClub) && (req.body.round.approachToGreen === "No" || req.body.round.approachDirection) && (req.body.round.approachToGreen === "No" || req.body.round.approachResult) && req.body.round.putts && req.body.round.score){
+        
+        console.log(req.body.round);
+                
         var isFull = false;
         var approachToGreen = false;
         
@@ -88,7 +91,8 @@ router.post("/", middleware.isLoggedIn, middleware.emailVerified, function(req, 
                     approachResult: req.body.round.approachResult
                 },
                 putts: req.body.round.putts,
-                score: req.body.round.score
+                score: req.body.round.score,                
+                handicap: req.body.round.handicap
             },
             loadDate: Date.now()
             
