@@ -34,7 +34,10 @@ function highChartsScoreByHoleHandicap(scoreByHandicap){
                 formatter: function() {
                    if(this.value > 0) { 
                     return "+"+this.value;
-                   } else {
+                   } else if(this.value == 0) {
+                    return "E";
+                   }                   
+                   else {
                     return this.value;
                    }
                 }
