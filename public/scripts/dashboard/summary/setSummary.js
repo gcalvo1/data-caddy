@@ -1,12 +1,38 @@
 function setSummary(parameters){
     $.get( '/dashboard/roundsdata', parameters, function(data) {
         
-        var coursePlayed = [];
-        var favClubs = [];
+        var coursePlayed = [],
+            favClubs = [],
+            scoreByHandicap = [
+                { handicap: "1", totalScoreToPar: 0, timesPlayed: 0},
+                { handicap: "2", totalScoreToPar: 0, timesPlayed: 0},
+                { handicap: "3", totalScoreToPar: 0, timesPlayed: 0},
+                { handicap: "4", totalScoreToPar: 0, timesPlayed: 0},
+                { handicap: "5", totalScoreToPar: 0, timesPlayed: 0},
+                { handicap: "6", totalScoreToPar: 0, timesPlayed: 0},
+                { handicap: "7", totalScoreToPar: 0, timesPlayed: 0},
+                { handicap: "8", totalScoreToPar: 0, timesPlayed: 0},
+                { handicap: "9", totalScoreToPar: 0, timesPlayed: 0},
+                { handicap: "10", totalScoreToPar: 0, timesPlayed: 0},
+                { handicap: "11", totalScoreToPar: 0, timesPlayed: 0},
+                { handicap: "12", totalScoreToPar: 0, timesPlayed: 0},
+                { handicap: "13", totalScoreToPar: 0, timesPlayed: 0},
+                { handicap: "14", totalScoreToPar: 0, timesPlayed: 0},
+                { handicap: "15", totalScoreToPar: 0, timesPlayed: 0},
+                { handicap: "16", totalScoreToPar: 0, timesPlayed: 0},
+                { handicap: "17", totalScoreToPar: 0, timesPlayed: 0},
+                { handicap: "18", totalScoreToPar: 0, timesPlayed: 0},
+            ];
         data.rounds.forEach(function(round){
-            var totalScore = 0;
+            var totalScore = 0;                
             round.holes.forEach(function(hole){
                 totalScore += hole.score;
+                scoreByHandicap.forEach(function(score){
+                    if(score.handicap == hole.handicap ){
+                        score.totalScoreToPar += hole.score - hole.par;
+                        score.timesPlayed++;
+                    }
+                });
                 if(favClubs.length == 0){
                     if(hole.teeShot.teeShotClub){
                         favClubs.push({
@@ -53,6 +79,7 @@ function setSummary(parameters){
                     }
                 }
             });
+            
             if(coursePlayed.length == 0){
                 coursePlayed.push({
                     name: round.course[0].name,
@@ -125,6 +152,8 @@ function setSummary(parameters){
         highChartsScoreByDate(data.avgScore.scoreByDate);
         //Score Name Pie Chart
         highChartsScoreByName(data.scoreNames);
+        //Score By Handicap Column Chart
+        highChartsScoreByHoleHandicap(scoreByHandicap);        
         
         //fav courses
         var favCourseHtml = "<table class='table'><thead><tr><th>Course Name</th><th>Times Played</th><th>Average Score</th></tr></thead><tbody>",
