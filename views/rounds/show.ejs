@@ -104,6 +104,29 @@
                 <% } %>
                 <td scope="col"><div><strong><%= outPar + inPar %></strong></div></td>
             </tr>
+            <!--Handicap-->
+            <tr id="handicap_row">
+                <th scope="row">
+                    <div>
+                        Handicap
+                    </div>
+                </th>
+                <%  var outPar = 0,
+                        inPar = 0;
+                    if(round.isFull || round.roundType === "Front 9") {
+                        for(let i=1; i<=9; i++){ %>
+                            <td scope="col"><div><strong><%= round.course[0].holes[i - 1].handicap %></strong></div></td>
+                       <% } %>
+                        <td scope="col"><div></div></td>
+                  <% } %>
+                <% if(round.isFull || round.roundType == "Back 9") {
+                       for(let i=10; i<=18; i++){ %>
+                            <td scope="col"><div><strong><%= round.course[0].holes[i - 1].handicap; %></strong></div></td>
+                       <% } %>
+                        <td scope="col"><div class='tee_color'></div></div></td>
+                <% } %>
+                <td scope="col"><div></div></td>
+            </tr>
             <!--Score-->
             <tr id="score_row">
                 <th id="player_name" scope="row"><%= user.name %></th>
