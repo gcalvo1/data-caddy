@@ -111,9 +111,7 @@
                         Handicap
                     </div>
                 </th>
-                <%  var outPar = 0,
-                        inPar = 0;
-                    if(round.isFull || round.roundType === "Front 9") {
+                <%  if(round.isFull || round.roundType === "Front 9") {
                         for(let i=1; i<=9; i++){ %>
                             <td scope="col"><div><strong><%= round.course[0].holes[i - 1].handicap %></strong></div></td>
                        <% } %>
@@ -151,7 +149,6 @@
                     } %>
                     <td <% if(outScore < outPar){ %> style="color:red" <% } %>><strong><%= outScore %></strong></td>
              <% } %>
-                
                 <% if(round.isFull || round.roundType === "Back 9") {
                     var inScore = 0;
                     for(let i=10; i<=18; i++){
