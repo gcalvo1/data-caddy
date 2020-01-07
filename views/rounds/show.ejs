@@ -182,7 +182,15 @@
             <% } %>
             </tr>
           </tbody>
-        </table>
+          <% var rating = 0, slope = 0;
+                round.course[0].tees.forEach(function(tee){
+                    if(round.tees == tee.color){
+                        rating = tee.rating;
+                        slope = tee.slope;
+                    } 
+                }); %>
+          <div class='tee_color'>Rating: <%= rating %> / Slope: <%= slope %> </div>
+        </table>        
     </div>
 </div>
 <script src="../scripts/rounds/show.js"></script>
