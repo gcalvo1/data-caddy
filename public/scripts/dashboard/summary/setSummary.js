@@ -1,8 +1,6 @@
 function setSummary(parameters){
     $.get( '/dashboard/roundsdata', parameters, function(data) {
         
-        data.rounds[0].course[0].tees        
-
         var coursePlayed = [],
             favClubs = [],
             scoreToParByRating = [],
