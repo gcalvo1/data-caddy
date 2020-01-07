@@ -376,6 +376,11 @@ input, label {
     height: 75px;
 }
 
+.thumbnail .caption {
+    padding: 6px;
+    color: #333;
+}
+
 .banner_img {
     width: 100px;
     height: 100px;
