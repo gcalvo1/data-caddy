@@ -1,9 +1,5 @@
 function setSummary(parameters){
     $.get( '/dashboard/roundsdata', parameters, function(data) {
-        console.log(data);
-        
-        console.log(data.rounds[0].tees);
-        console.log(data.rounds[0].course[0].tees);
         
         data.rounds[0].course[0].tees        
 
