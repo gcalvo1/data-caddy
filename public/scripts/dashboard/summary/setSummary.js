@@ -1,8 +1,16 @@
 function setSummary(parameters){
     $.get( '/dashboard/roundsdata', parameters, function(data) {
+        console.log(data);
         
+        console.log(data.rounds[0].tees);
+        console.log(data.rounds[0].course[0].tees);
+        
+        data.rounds[0].course[0].tees        
+
         var coursePlayed = [],
             favClubs = [],
+            scoreToParByRating = [],
+            scoreToParBySlope = [],
             scoreByHandicap = [
                 { handicap: "1", totalScoreToPar: 0, timesPlayed: 0},
                 { handicap: "2", totalScoreToPar: 0, timesPlayed: 0},
@@ -24,9 +32,22 @@ function setSummary(parameters){
                 { handicap: "18", totalScoreToPar: 0, timesPlayed: 0},
             ];
         data.rounds.forEach(function(round){
-            var totalScore = 0;                
+            var totalScore = 0,
+                totalScoreToPar = 0,
+                rating = 0,
+                slope = 0;
+
+            //Get slope/rating for the course
+            round.course[0].tees.forEach(function(tee){
+                if(round.tees == tee.color){
+                    rating = tee.rating;
+                    slope = tee.slope;
+                } 
+            });
+                           
             round.holes.forEach(function(hole){
                 totalScore += hole.score;
+                totalScoreToPar += hole.score - hole.par;
                 scoreByHandicap.forEach(function(score){
                     if(score.handicap == hole.handicap ){
                         score.totalScoreToPar += hole.score - hole.par;
@@ -79,6 +100,10 @@ function setSummary(parameters){
                     }
                 }
             });
+
+            //Push data to score by rating/slope array for highchart on summary dashboard
+            scoreToParByRating.push([rating,totalScoreToPar]);
+            scoreToParBySlope.push([slope,totalScoreToPar]);
             
             if(coursePlayed.length == 0){
                 coursePlayed.push({
@@ -104,6 +129,9 @@ function setSummary(parameters){
                 }
             }
         });
+
+        console.log(scoreToParByRating);
+        console.log(scoreToParBySlope);
         
         function Coursecompare(a,b) {
           if (a.timesPlayed < b.timesPlayed)
@@ -153,7 +181,10 @@ function setSummary(parameters){
         //Score Name Pie Chart
         highChartsScoreByName(data.scoreNames);
         //Score By Handicap Column Chart
-        highChartsScoreByHoleHandicap(scoreByHandicap);        
+        highChartsScoreByHoleHandicap(scoreByHandicap);   
+        //Score By Rating Column Chart
+        highChartsScoreBySlopeRatingScatter('score-to-par-by-rating','Score to Par By Course Rating','Rating','Score to Par',scoreToParByRating);
+     
         
         //fav courses
         var favCourseHtml = "<table class='table'><thead><tr><th>Course Name</th><th>Times Played</th><th>Average Score</th></tr></thead><tbody>",
