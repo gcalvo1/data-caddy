@@ -446,6 +446,10 @@ input, label {
     border-bottom: 2px solid gray;
 }
 
+#handicap {
+    font-size: 15px;
+}
+
 #score_row td {
     padding-top: 20px;
     padding-bottom: 20px;

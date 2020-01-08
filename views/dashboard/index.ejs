@@ -19,7 +19,8 @@
             </div>
             <div id="dash-name" class="row">
                 <strong><%= user.name %></strong>
-            </div>
+                <div id="handicap"> </div>
+            </div>            
             <div class="row">
                 <div class="col-md-12">
                     <div id="date-input-row" class="row">
@@ -110,8 +111,8 @@
                             <div class="row">
                                 <div class="col-md-2">
                                     <div class="counter">
-                                        <h2 id="handicap" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                        <p id="handicap-label" class="count-text ">Handicap</p>
+                                        <h2 id="num-rounds-num" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                        <p class="count-text ">Rounds</p>
                                     </div>  
                                 </div>
                                 <div class="col-md-2">
@@ -1158,10 +1159,10 @@
     //Handicap Calculator
     $.get( '/dashboard/handicapdata', function(data) {
         if(!data.handicapIndex){
-            $('#handicap').html("N/A");
-            $('#handicap-label').html("5+ Rounds for Handicap");
+            $('#handicap').html("");
+            $('#handicap-label').html("");
         } else {
-            $('#handicap').html(data.handicapIndex);
+            $('#handicap').html("Index: " + data.handicapIndex);
             $('#handicap').attr("data-to",data.handicapIndex);
         }
     });

@@ -189,6 +189,7 @@ function updateDashboard(club, updateSource){
 
     //Update number of rounds played
     $.get( '/dashboard/roundsdata', { isFull: isFull, dateFrom: dateFrom, dateTo:dateTo }, function(data) {
+        $('#num-rounds-num').html(data.rounds.length);
         if(data.rounds.length === 0){
             $('#no-round-data').removeClass("hidden");
             $('#no-round-data').addClass("no-round-data");
