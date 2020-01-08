@@ -26,8 +26,7 @@ function highChartsScoreByHoleHandicap(scoreByHandicap){
         },
         yAxis: {
             title: {
-                text: 'Avg Score to Par',
-                align: 'high'
+                text: 'Avg Score to Par'
             },
             labels: {
                 overflow: 'justify',
