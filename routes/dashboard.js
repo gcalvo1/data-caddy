@@ -678,6 +678,7 @@ router.get("/byhole", middleware.isLoggedIn, function(req, res){
                 totalSandSaves = 0,
                 totalPutts = 0,
                 totalThreePutts = 0,
+                totalOnePutts = 0,
                 course;
             rounds.forEach(function(round){
                 course = round.course;
@@ -805,9 +806,12 @@ router.get("/byhole", middleware.isLoggedIn, function(req, res){
                             }
                         }
                         totalPutts += hole.putts;
-                        if(hole.putts >= 3){
+                        if(hole.putts == 1){
+                            totalOnePutts++;
+                        } else if(hole.putts >= 3){
                             totalThreePutts++;
                         }
+                        console.log(totalOnePutts);
                     } 
                 });
             });
@@ -878,6 +882,7 @@ router.get("/byhole", middleware.isLoggedIn, function(req, res){
                         avgPutts: avgPutts,
                         scramblePercent: scramblePercent,
                         totalThreePutts: totalThreePutts,
+                        totalOnePutts: totalOnePutts,
                         sandSavePercent: sandSavePercent
                     },
                     avgParThreeDistance: avgParThreeDistance,

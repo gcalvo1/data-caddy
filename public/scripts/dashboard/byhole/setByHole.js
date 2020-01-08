@@ -84,6 +84,7 @@ function setByHole(parameters) {
             $('#by-hole-scramble-sand-save-percent').html(data.shortgame.sandSavePercent);
             $('#by-hole-scramble-putts-per-round').html(data.shortgame.avgPutts);
             $('#by-hole-scramble-three-putts').html(data.shortgame.totalThreePutts);
+            $('#by-hole-scramble-one-putts').html(data.shortgame.totalOnePutts);
         });
     }
 }
