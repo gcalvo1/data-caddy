@@ -123,9 +123,6 @@ function setSummary(parameters){
                 }
             }
         });
-
-        console.log(scoreToParByRating);
-        console.log(scoreToParBySlope);
         
         function Coursecompare(a,b) {
           if (a.timesPlayed < b.timesPlayed)

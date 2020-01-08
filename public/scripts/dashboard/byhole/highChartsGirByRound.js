@@ -1,7 +1,6 @@
 function highChartsGirByRound(id,height,girByDate){
-    console.log("high");
+
     var series = girByDate;
-    console.log(series);
     //Sort Data
     function compare(a,b) {
       if (a < b)
@@ -18,9 +17,7 @@ function highChartsGirByRound(id,height,girByDate){
         totalGIR = totalGIR + pair[1];
     });
     var avgGIR = totalGIR / series.length;;
-    
-    console.log(series);
-    
+        
     //Create the chart
     Highcharts.chart(id, {
         chart: {
