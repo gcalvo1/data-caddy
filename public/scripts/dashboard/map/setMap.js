@@ -40,7 +40,8 @@ function setMap(parameters) {
         for (i = 0; i < courseList.length; i++) {  
           marker = new google.maps.Marker({
             position: new google.maps.LatLng(courseList[i][1], courseList[i][2]),
-            map: map
+            map: map,
+            icon: "../../img/golf_pin.png"
           });
           
           //Fit map to screen based on points
