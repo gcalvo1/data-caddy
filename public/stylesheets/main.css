@@ -534,6 +534,11 @@ input, label {
     margin: auto;
 }
 
+.round-index {
+    margin-right: -25px;
+    margin-left: -25px;
+}
+
 #rounds_hr {
     margin-bottom: 20px;
 }

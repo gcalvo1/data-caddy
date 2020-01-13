@@ -10,13 +10,13 @@
               return 0;
             }
             rounds.sort(compare); %>
-            <div id="page1" class="row text-center page">
+            <div id="page1" class="row text-center page round-index">
             <% var page = 1
             var last = false;
             for(let i=1; i<=rounds.length; i++) {
                 if(last) {
                     page++; %>
-                    <div id="page<%=page%>" class="row text-center page">
+                    <div id="page<%=page%>" class="row text-center page round-index">
              <% }
                 last = false;
                 if(i % 16 === 0) {
