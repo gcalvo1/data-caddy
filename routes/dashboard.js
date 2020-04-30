@@ -567,7 +567,6 @@ router.get("/roundsdata", middleware.isLoggedIn, function(req, res){
                 windSpeed: windSpeed,
                 temperature: temperature
             };
-        console.log(dataToSend)
         res.send(dataToSend);
     });
 });

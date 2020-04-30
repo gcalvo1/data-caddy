@@ -475,6 +475,28 @@ input, label {
     text-align: center;
 }
 
+#fir-row {
+    text-align: center;
+    background-color: rgb(217,217,217,0.4);
+}
+
+#fir-name {
+    text-align: center;
+    font-weight: normal;
+    font-size: 90%;
+}
+
+#gir-row {
+    text-align: center;
+    background-color: rgb(217,217,217,0.4);
+}
+
+#gir-name {
+    text-align: center;
+    font-weight: normal;
+    font-size: 90%;
+}
+
 .table>tbody>tr>td {
     vertical-align: middle;
 }
