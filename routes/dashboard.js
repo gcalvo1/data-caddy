@@ -428,7 +428,7 @@ router.get("/roundsdata", middleware.isLoggedIn, function(req, res){
                                 speed.score += roundScore;
                                 speed.scoreToPar += roundScore - roundPar;
                                 speed.roundTeeShots += roundTeeShots;
-                                speed,roundFirs += roundFirs;
+                                speed.roundFirs += roundFirs;
                                 speed.roundApproaches += roundApproaches;
                                 speed.roundGirs += roundGirs;
                                 speed.rounds++;
@@ -487,7 +487,7 @@ router.get("/roundsdata", middleware.isLoggedIn, function(req, res){
                                 temp.score += roundScore;
                                 temp.scoreToPar += roundScore - roundPar;
                                 temp.roundTeeShots += roundTeeShots;
-                                temp,roundFirs += roundFirs;
+                                temp.roundFirs += roundFirs;
                                 temp.roundApproaches += roundApproaches;
                                 temp.roundGirs += roundGirs;
                                 temp.rounds++;
@@ -567,6 +567,7 @@ router.get("/roundsdata", middleware.isLoggedIn, function(req, res){
                 windSpeed: windSpeed,
                 temperature: temperature
             };
+        console.log(dataToSend)
         res.send(dataToSend);
     });
 });
