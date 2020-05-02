@@ -190,7 +190,7 @@
                                 found = true; %>
                                 <td id="gir-td_<%=round.holes[z - 1].holeNumber%>">
                                     <div id="gir-<%=round.holes[z - 1].holeNumber%>">
-                                        <% if(round.holes[z - 1].approach.approachResult == "GIR") { 
+                                        <% if(round.holes[z - 1].approach.approachResult == "GIR" || round.holes[z - 1].approach.approachResult == "Under GIR") { 
                                                 outGir++;
                                         %>
                                             <!--<span style="color:green;"> &#10004; </span> -->
@@ -217,7 +217,7 @@
                                 found = true; %>                               
                                 <td id="gir-td_<%=round.holes[z - 1].holeNumber%>">
                                     <div id="gir-<%=round.holes[z - 1].holeNumber%>">
-                                        <% if(round.holes[z - 1].approach.approachResult == "GIR") { 
+                                        <% if(round.holes[z - 1].approach.approachResult == "GIR" || round.holes[z - 1].approach.approachResult == "Under GIR") { 
                                             inGir++ %>
                                             <img src = "../img/green_target.png" width="15px;" height="15px;" />
                                         <% } else { %>
