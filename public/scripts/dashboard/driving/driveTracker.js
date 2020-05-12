@@ -162,6 +162,12 @@ function driveTracker(parameters, club) {
             		middlePosYOrig = 25;
             		randx = Math.floor(Math.random() * 40);
             		randy = Math.floor(Math.random() * 10);
+                } else if(driveStats[i].teeShotDirection === 'Long' && driveStats[i].teeShotResult === 'Bunker') {
+            		arrowEndPosYOrig = 20;
+            		arrowEndPosXOrig = 175;
+            		middlePosYOrig = 20;
+            		randx = Math.floor(Math.random() * 10);
+            		randy = Math.floor(Math.random() * 5);
             	} else if(driveStats[i].teeShotDirection === 'Short' && (driveStats[i].teeShotResult === 'Rough' || driveStats[i].teeShotResult === 'Fescue')) {
             		arrowEndPosYOrig = 225;
             		arrowEndPosXOrig = 180;
