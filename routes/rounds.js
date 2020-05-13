@@ -6,7 +6,6 @@ var User = require("../models/user");
 var middleware = require("../middleware");
 var request = require('request');
 var AWS = require('aws-sdk');
-var http = require('http');
 
 var s3Bucket = new AWS.S3({ params: {Bucket: 'data-caddy-profile-pics'} });
 
