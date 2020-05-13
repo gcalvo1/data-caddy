@@ -6,6 +6,7 @@ var User = require("../models/user");
 var middleware = require("../middleware");
 var request = require('request');
 var AWS = require('aws-sdk');
+var http = require('http');
 
 var s3Bucket = new AWS.S3({ params: {Bucket: 'data-caddy-profile-pics'} });
 
@@ -213,6 +214,128 @@ router.post("/", middleware.isLoggedIn, middleware.emailVerified, function(req, 
                 }
             }
         });
+
+        //Update user handicap index
+        var handicapIndex = null;
+        Round.find({"player.id": req.user._id, isFull:true, isComplete:true}).populate("course").exec(function(err, rounds){
+            if(err){
+                console.log(err);
+            } else {
+                function compare(a,b) {
+                  if (a.date < b.date)
+                    return 1;
+                  if (a.date > b.date)
+                    return -1;
+                  return 0;
+                }
+                rounds.sort(compare);
+                //get latest 20 rounds
+                //Change to 5
+                if(rounds.length >= 5){
+                    var roundsTwenty = []
+                    if(rounds.length > 20){
+                        for(let i=0; i<20; i++){
+                            roundsTwenty.push(rounds[i]);
+                        }
+                    } else {
+                        rounds.forEach(function(round){
+                            roundsTwenty.push(round);
+                        });
+                    }
+                    var differentials = [];
+                    roundsTwenty.forEach(function(round){
+                        var ags = 0;
+                        round.holes.forEach(function(hole){
+                            if(hole.score - hole.par > 2){
+                                hole.score = hole.par + 2
+                            }
+                            ags += hole.score;
+                        });
+                        
+                        var slope = 0,
+                            rating = 0;
+                        round.course[0].tees.forEach(function(tee){
+                            if(round.tees === tee.color){
+                                slope = tee.slope;
+                                rating = tee.rating;
+                            }
+                        });
+                        
+                        var handicapDifferential = (ags - rating) * 113 / slope;
+                        differentials.push(handicapDifferential);
+                    });
+                    
+                    differentials.sort();
+                    //determine what differentials to use based on the number of rounds recorded
+                    var selectedDifferentials = [];
+                    if(differentials.length <= 6){
+                        for(let i=0; i<1; i++){
+                            selectedDifferentials.push(differentials[i]);
+                        }
+                    } else if(differentials.length >= 7 && differentials.length <= 8){
+                        for(let i=0; i<2; i++){
+                            selectedDifferentials.push(differentials[i]);
+                        }
+                    } else if(differentials.length >= 9 && differentials.length <= 10){
+                        for(let i=0; i<3; i++){
+                            selectedDifferentials.push(differentials[i]);
+                        }
+                    } else if(differentials.length >= 11 && differentials.length <= 12){
+                        for(let i=0; i<4; i++){
+                            selectedDifferentials.push(differentials[i]);
+                        }
+                    } else if(differentials.length >= 13 && differentials.length <= 14){
+                        for(let i=0; i<5; i++){
+                            selectedDifferentials.push(differentials[i]);
+                        }
+                    } else if(differentials.length >= 15 && differentials.length <= 16){
+                        for(let i=0; i<6; i++){
+                            selectedDifferentials.push(differentials[i]);
+                        }
+                    } else if(differentials.length == 17){
+                        for(let i=0; i<7; i++){
+                            selectedDifferentials.push(differentials[i]);
+                        }
+                    } else if(differentials.length == 18){
+                        for(let i=0; i<8; i++){
+                            selectedDifferentials.push(differentials[i]);
+                        }
+                    } else if(differentials.length == 19){
+                        for(let i=0; i<9; i++){
+                            selectedDifferentials.push(differentials[i]);
+                        }
+                    } else if(differentials.length == 20){
+                        for(let i=0; i<10; i++){
+                            selectedDifferentials.push(differentials[i]);
+                        }
+                    }
+                    
+                    var count = 0,
+                        differentialSum = 0;
+                    selectedDifferentials.forEach(function(differential){
+                        count++;
+                        differentialSum += differential;
+                    });
+                    var handicapIndexFull = (differentialSum / count) * .96;
+                    console.log(handicapIndexFull);
+                    handicapIndex = parseInt('' + (handicapIndexFull * 10)) / 10;
+                    console.log(handicapIndex);
+
+                    var conditions = { email: req.user.email }, 
+                        update = { $set: { 'handicapIndex': handicapIndex }}, 
+                        options = { multi: false };
+
+                    User.update(conditions, update, options, function(err, updated){
+                        if(err){
+                            console.log(err);
+                        } else {
+                            console.log("handicap update");
+                            res.end();
+                        }
+                    });
+                }
+            }
+        });        
     }
 });
 
@@ -235,7 +358,7 @@ router.get("/:id", middleware.isLoggedIn, middleware.emailVerified, function(req
     Round.findById(req.params.id).populate("course").exec(function(err, foundRound){
       if(err){
           console.log(err);
-      } else {
+      } else {    
           var urlParams = {Bucket: 'data-caddy-profile-pics', Key: req.user.username + req.user.imgExt};
           s3Bucket.getSignedUrl('getObject', urlParams, function(err, url){
             res.render("rounds/show", {round: foundRound, user: req.user, userImg: url});

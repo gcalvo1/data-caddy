@@ -19,7 +19,7 @@
             </div>
             <div id="dash-name" class="row">
                 <strong><%= user.name %></strong>
-                <div id="handicap"> </div>
+                <div id="handicap"> <% if(user.handicapIndex){ %> Index: <%= user.handicapIndex %> <% } %> </div>
             </div>            
             <div class="row">
                 <div class="col-md-12">
@@ -1155,17 +1155,6 @@
             return m.toUpperCase();
         });
     };
-    
-    //Handicap Calculator
-    $.get( '/dashboard/handicapdata', function(data) {
-        if(!data.handicapIndex){
-            $('#handicap').html("");
-            $('#handicap-label').html("");
-        } else {
-            $('#handicap').html("Index: " + data.handicapIndex);
-            $('#handicap').attr("data-to",data.handicapIndex);
-        }
-    });
     
     //Set hash in url
     $(function(){

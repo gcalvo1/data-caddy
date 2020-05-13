@@ -14,6 +14,7 @@ var UserSchema = new mongoose.Schema({
     imgExt: String,
     role: String,
     signUpDate: Date,
+    handicapIndex: Number,
     bag:[
             {
                 club: String,
