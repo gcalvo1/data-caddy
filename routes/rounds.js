@@ -112,55 +112,76 @@ router.post("/", middleware.isLoggedIn, middleware.emailVerified, function(req, 
                                 if(err){
                                     console.log(err);
                                 } else {
-                                    //Get weather
-                                    var date = new Date(newRound.date).getTime() / 1000;
-                                    request('https://api.darksky.net/forecast/eabbc6c00a33a5c6b6bb82cdd4955a48/'+foundCourse.location.latitude+','+foundCourse.location.longitude+','+date+'?exclude=minutely,daily,flags', function(error, response, body) {
-                                        if(!error && response.statusCode == 200){
-                                            var parsedData = JSON.parse(body);
-                                            newRound.weather.summary = parsedData["currently"]["summary"];
-                                            newRound.weather.icon = parsedData["currently"]["icon"];
-                                            newRound.weather.precipIntensity = parsedData["currently"]["precipIntensity"];
-                                            newRound.weather.precipProbability = parsedData["currently"]["precipProbability"];
-                                            newRound.weather.temperature = parsedData["currently"]["temperature"];
-                                            newRound.weather.apparentTemperature = parsedData["currently"]["apparentTemperature"];
-                                            newRound.weather.dewPoint = parsedData["currently"]["dewPoint"];
-                                            newRound.weather.humidity = parsedData["currently"]["humidity"];
-                                            newRound.weather.pressure = parsedData["currently"]["pressure"];
-                                            newRound.weather.windSpeed = parsedData["currently"]["windSpeed"];
-                                            newRound.weather.windGust = parsedData["currently"]["windGust"];
-                                            newRound.weather.windBearing = parsedData["currently"]["windBearing"];
-                                            newRound.weather.cloudCover = parsedData["currently"]["cloudCover"];
-                                            newRound.weather.uvIndex = parsedData["currently"]["uvIndex"];
-                                            newRound.weather.visibility = parsedData["currently"]["visibility"];
-                                            
-                                            newRound.course.push(foundCourse._id);
-                                            newRound.save(function(err, data){  
-                                                if(err){
-                                                    console.log(err);
-                                                } else {
-                                                    res.writeHead(200, { 'Content-Type': 'application/json' });
-                                                    res.write(JSON.stringify({ status: "OK" }));
-                                                    res.end();
-                                                }
-                                            });
+                                    //Add current handicap to round
+                                    var handicapIndex = null;
+                                    Round.find({"player.id": req.user._id, isFull:true, isComplete:true}).populate("course").exec(function(err, rounds){
+                                        if(err){
+                                            console.log(err);
                                         } else {
-                                            newRound.course.push(foundCourse._id);
-                                            newRound.save(function(err, data){  
+                                            handicapIndex = handicapCalculator(rounds);
+                                            newRound.player.handicapIndex = handicapIndex;
+                                            //Update user handicap
+                                            var conditions = { email: req.user.email }, 
+                                                update = { $set: { 'handicapIndex': handicapIndex }}, 
+                                                options = { multi: false };
+
+                                            User.update(conditions, update, options, function(err, updated){
                                                 if(err){
                                                     console.log(err);
                                                 } else {
-                                                    res.writeHead(200, { 'Content-Type': 'application/json' });
-                                                    res.write(JSON.stringify({ status: "OK" }));
-                                                    res.end();
+                                                    //Get weather
+                                                    var date = new Date(newRound.date).getTime() / 1000;
+                                                    request('https://api.darksky.net/forecast/eabbc6c00a33a5c6b6bb82cdd4955a48/'+foundCourse.location.latitude+','+foundCourse.location.longitude+','+date+'?exclude=minutely,daily,flags', function(error, response, body) {
+                                                        if(!error && response.statusCode == 200){
+                                                            var parsedData = JSON.parse(body);
+                                                            newRound.weather.summary = parsedData["currently"]["summary"];
+                                                            newRound.weather.icon = parsedData["currently"]["icon"];
+                                                            newRound.weather.precipIntensity = parsedData["currently"]["precipIntensity"];
+                                                            newRound.weather.precipProbability = parsedData["currently"]["precipProbability"];
+                                                            newRound.weather.temperature = parsedData["currently"]["temperature"];
+                                                            newRound.weather.apparentTemperature = parsedData["currently"]["apparentTemperature"];
+                                                            newRound.weather.dewPoint = parsedData["currently"]["dewPoint"];
+                                                            newRound.weather.humidity = parsedData["currently"]["humidity"];
+                                                            newRound.weather.pressure = parsedData["currently"]["pressure"];
+                                                            newRound.weather.windSpeed = parsedData["currently"]["windSpeed"];
+                                                            newRound.weather.windGust = parsedData["currently"]["windGust"];
+                                                            newRound.weather.windBearing = parsedData["currently"]["windBearing"];
+                                                            newRound.weather.cloudCover = parsedData["currently"]["cloudCover"];
+                                                            newRound.weather.uvIndex = parsedData["currently"]["uvIndex"];
+                                                            newRound.weather.visibility = parsedData["currently"]["visibility"];
+                                                            
+                                                            newRound.course.push(foundCourse._id);
+                                                            newRound.save(function(err, data){  
+                                                                if(err){
+                                                                    console.log(err);
+                                                                } else {
+                                                                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                                                                    res.write(JSON.stringify({ status: "OK" }));
+                                                                    res.end();
+                                                                }
+                                                            });
+                                                        } else {                                                    
+                                                            newRound.course.push(foundCourse._id);
+                                                            newRound.save(function(err, data){  
+                                                                if(err){
+                                                                    console.log(err);
+                                                                } else {
+                                                                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                                                                    res.write(JSON.stringify({ status: "OK" }));
+                                                                    res.end();
+                                                                }
+                                                            });
+                                                            console.log(error);
+                                                        }
+                                                    });
                                                 }
-                                            });
-                                            console.log(error);
-                                        }
-                                    });
+                                            });                                            
+                                        }                                        
+                                    });                                    
                                 }
                             });
                         }
-                    }); 
+                    });                     
                 } else {
                     //found round
                     var foundHole = false;
@@ -215,126 +236,26 @@ router.post("/", middleware.isLoggedIn, middleware.emailVerified, function(req, 
         });
 
         //Update user handicap index
-        var handicapIndex = null;
+        /*var handicapIndex = null;
         Round.find({"player.id": req.user._id, isFull:true, isComplete:true}).populate("course").exec(function(err, rounds){
             if(err){
                 console.log(err);
             } else {
-                function compare(a,b) {
-                  if (a.date < b.date)
-                    return 1;
-                  if (a.date > b.date)
-                    return -1;
-                  return 0;
-                }
-                rounds.sort(compare);
-                //get latest 20 rounds
-                //Change to 5
-                if(rounds.length >= 5){
-                    var roundsTwenty = []
-                    if(rounds.length > 20){
-                        for(let i=0; i<20; i++){
-                            roundsTwenty.push(rounds[i]);
-                        }
+                handicapIndex = handicapCalculator(rounds);
+                var conditions = { email: req.user.email }, 
+                    update = { $set: { 'handicapIndex': handicapIndex }}, 
+                    options = { multi: false };
+
+                User.update(conditions, update, options, function(err, updated){
+                    if(err){
+                        console.log(err);
                     } else {
-                        rounds.forEach(function(round){
-                            roundsTwenty.push(round);
-                        });
+                        res.end();
                     }
-                    var differentials = [];
-                    roundsTwenty.forEach(function(round){
-                        var ags = 0;
-                        round.holes.forEach(function(hole){
-                            if(hole.score - hole.par > 2){
-                                hole.score = hole.par + 2
-                            }
-                            ags += hole.score;
-                        });
-                        
-                        var slope = 0,
-                            rating = 0;
-                        round.course[0].tees.forEach(function(tee){
-                            if(round.tees === tee.color){
-                                slope = tee.slope;
-                                rating = tee.rating;
-                            }
-                        });
-                        
-                        var handicapDifferential = (ags - rating) * 113 / slope;
-                        differentials.push(handicapDifferential);
-                    });
-                    
-                    differentials.sort();
-                    //determine what differentials to use based on the number of rounds recorded
-                    var selectedDifferentials = [];
-                    if(differentials.length <= 6){
-                        for(let i=0; i<1; i++){
-                            selectedDifferentials.push(differentials[i]);
-                        }
-                    } else if(differentials.length >= 7 && differentials.length <= 8){
-                        for(let i=0; i<2; i++){
-                            selectedDifferentials.push(differentials[i]);
-                        }
-                    } else if(differentials.length >= 9 && differentials.length <= 10){
-                        for(let i=0; i<3; i++){
-                            selectedDifferentials.push(differentials[i]);
-                        }
-                    } else if(differentials.length >= 11 && differentials.length <= 12){
-                        for(let i=0; i<4; i++){
-                            selectedDifferentials.push(differentials[i]);
-                        }
-                    } else if(differentials.length >= 13 && differentials.length <= 14){
-                        for(let i=0; i<5; i++){
-                            selectedDifferentials.push(differentials[i]);
-                        }
-                    } else if(differentials.length >= 15 && differentials.length <= 16){
-                        for(let i=0; i<6; i++){
-                            selectedDifferentials.push(differentials[i]);
-                        }
-                    } else if(differentials.length == 17){
-                        for(let i=0; i<7; i++){
-                            selectedDifferentials.push(differentials[i]);
-                        }
-                    } else if(differentials.length == 18){
-                        for(let i=0; i<8; i++){
-                            selectedDifferentials.push(differentials[i]);
-                        }
-                    } else if(differentials.length == 19){
-                        for(let i=0; i<9; i++){
-                            selectedDifferentials.push(differentials[i]);
-                        }
-                    } else if(differentials.length == 20){
-                        for(let i=0; i<10; i++){
-                            selectedDifferentials.push(differentials[i]);
-                        }
-                    }
-                    
-                    var count = 0,
-                        differentialSum = 0;
-                    selectedDifferentials.forEach(function(differential){
-                        count++;
-                        differentialSum += differential;
-                    });
-                    var handicapIndexFull = (differentialSum / count) * .96;
-                    console.log(handicapIndexFull);
-                    handicapIndex = parseInt('' + (handicapIndexFull * 10)) / 10;
-                    console.log(handicapIndex);
-
-                    var conditions = { email: req.user.email }, 
-                        update = { $set: { 'handicapIndex': handicapIndex }}, 
-                        options = { multi: false };
-
-                    User.update(conditions, update, options, function(err, updated){
-                        if(err){
-                            console.log(err);
-                        } else {
-                            console.log("handicap update");
-                            res.end();
-                        }
-                    });
-                }
+                });
             }
-        });        
+            
+        });        */
     }
 });
 
@@ -417,3 +338,106 @@ router.delete("/:id", middleware.checkRoundOwnership, function(req, res){
 });
 
 module.exports = router;
+
+function compare(a,b) {
+    if (a.date < b.date)
+        return 1;
+    if (a.date > b.date)
+        return -1;
+    return 0;
+}
+
+function handicapCalculator(rounds) {    
+    rounds.sort(compare);
+    //get latest 20 rounds
+    //Change to 5
+    if(rounds.length >= 5){
+        var roundsTwenty = []
+        if(rounds.length > 20){
+            for(let i=0; i<20; i++){
+                roundsTwenty.push(rounds[i]);
+            }
+        } else {
+            rounds.forEach(function(round){
+                roundsTwenty.push(round);
+            });
+        }
+        var differentials = [];
+        roundsTwenty.forEach(function(round){
+            var ags = 0;
+            round.holes.forEach(function(hole){
+                if(hole.score - hole.par > 2){
+                    hole.score = hole.par + 2
+                }
+                ags += hole.score;
+            });
+        
+            var slope = 0,
+                rating = 0;
+            round.course[0].tees.forEach(function(tee){
+                if(round.tees === tee.color){
+                    slope = tee.slope;
+                    rating = tee.rating;
+                }
+            });
+        
+            var handicapDifferential = (ags - rating) * 113 / slope;
+            differentials.push(handicapDifferential);
+        });
+
+        differentials.sort();
+        //determine what differentials to use based on the number of rounds recorded
+        var selectedDifferentials = [];
+        if(differentials.length <= 6){
+            for(let i=0; i<1; i++){
+                selectedDifferentials.push(differentials[i]);
+            }
+        } else if(differentials.length >= 7 && differentials.length <= 8){
+            for(let i=0; i<2; i++){
+                selectedDifferentials.push(differentials[i]);
+            }
+        } else if(differentials.length >= 9 && differentials.length <= 10){
+            for(let i=0; i<3; i++){
+                selectedDifferentials.push(differentials[i]);
+            }
+        } else if(differentials.length >= 11 && differentials.length <= 12){
+            for(let i=0; i<4; i++){
+                selectedDifferentials.push(differentials[i]);
+            }
+        } else if(differentials.length >= 13 && differentials.length <= 14){
+            for(let i=0; i<5; i++){
+                selectedDifferentials.push(differentials[i]);
+            }
+        } else if(differentials.length >= 15 && differentials.length <= 16){
+            for(let i=0; i<6; i++){
+                selectedDifferentials.push(differentials[i]);
+            }
+        } else if(differentials.length == 17){
+            for(let i=0; i<7; i++){
+                selectedDifferentials.push(differentials[i]);
+            }
+        } else if(differentials.length == 18){
+            for(let i=0; i<8; i++){
+                selectedDifferentials.push(differentials[i]);
+            }
+        } else if(differentials.length == 19){
+            for(let i=0; i<9; i++){
+                selectedDifferentials.push(differentials[i]);
+            }
+        } else if(differentials.length == 20){
+            for(let i=0; i<10; i++){
+                selectedDifferentials.push(differentials[i]);
+            }
+        }
+
+        var count = 0,
+            differentialSum = 0;
+        selectedDifferentials.forEach(function(differential){
+            count++;
+            differentialSum += differential;
+        });
+        var handicapIndexFull = (differentialSum / count) * .96;
+        handicapIndex = parseInt('' + (handicapIndexFull * 10)) / 10;
+        return handicapIndex;
+    }
+}

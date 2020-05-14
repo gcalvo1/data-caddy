@@ -125,9 +125,111 @@
                 <% } %>
                 <td scope="col"><div></div></td>
             </tr>
+            <!--Stroke Dots-->
+            <tr id="dot-row" class="scorecard">
+                <!--Strokes to give calculation-->
+                <%  var slope = 0,
+                        handicapIndex = null;
+                    round.course[0].tees.forEach(function(tee){
+                        if(round.tees == tee.color){
+                            slope = tee.slope;
+                        } 
+                    });
+
+                    if(round.player.handicapIndex){
+                        handicapIndex = round.player.handicapIndex;
+                    } else {
+                        handicapIndex = user.handicapIndex;
+                    }
+                    var courseHandicap = Math.round(handicapIndex * slope / 113),
+                        strokesOut = Math.round(courseHandicap / 2),
+                        strokesIn = courseHandicap - strokesOut; %>
+                <th class="borderless-bottom" scope="row"></th>
+                <%  if(round.isFull || round.roundType === "Front 9") {
+                    //top out handicaps
+                    var outHandicapSort = [];
+                    for(let y=1; y<=round.holes.length; y++) {
+                        if(round.holes[y - 1].holeNumber <= 9){ 
+                            outHandicapSort.push(round.course[0].holes[y - 1].handicap);
+                        }
+                    }
+                    outHandicapSort.sort((a,b)=>a-b);
+                    for(let i=1; i<=9; i++){
+                        var found = false;
+                        for(let z=1; z<=round.holes.length; z++) {
+                            if(round.holes[z - 1].holeNumber == (i)){ 
+                                found = true;
+                                var getStroke = false;                                        
+                                for(let h=0; h < strokesOut; h++) {
+                                    if(round.holes[z - 1].handicap == outHandicapSort[h]) {
+                                        getStroke = true;
+                                    }
+                                }
+                                if(getStroke){ %>
+                                <td class="borderless-bottom">
+                                    <div id="stroke_<%=round.holes[z - 1].holeNumber%>"> 
+                                        <div class="stroke-dot"> &#x25CF; </div>
+                                    </div>
+                                </td>
+                                <% } else { %>
+                                <td class="borderless-bottom"></td>
+                            <%  }
+                            }
+                        } 
+                        if(!found){ %>
+                            <td class="borderless-bottom"></td>
+                     <% }
+                    } %>
+                    <td class="borderless-bottom"></td>
+             <% } %>
+                <% if(round.isFull || round.roundType === "Back 9") {
+                    var inHandicapSort = [];
+                    for(let y=10; y<= 18; y++) {
+                        if(round.holes[y - 1].holeNumber > 9){ 
+                            inHandicapSort.push(round.course[0].holes[y - 1].handicap);
+                        }
+                    }
+                    inHandicapSort.sort((a,b)=>a-b);
+                    for(let i=10; i<=18; i++){
+                        var found = false;
+                        for(let z=1; z<=round.holes.length; z++) {
+                            if(round.holes[z - 1].holeNumber == (i)){ 
+                                found = true; 
+                                var getStroke = false;                                        
+                                for(let h=0; h < strokesIn; h++) {
+                                    if(round.holes[z - 1].handicap == inHandicapSort[h]) {
+                                        getStroke = true;
+                                    }
+                                }
+                                if(getStroke){ %>
+                                    <td class="borderless-bottom">
+                                        <div id="stroke_<%=round.holes[z - 1].holeNumber%>"> 
+                                            <div class="stroke-dot"> &#x25CF; </div>
+                                        </div>
+                                    </td>
+                                <% } else { %>
+                                    <td class="borderless-bottom"></td>
+                                <% } %>                                
+                         <% }
+                        }
+                        if(!found){ %>
+                            <td class="borderless-bottom"></td>
+                     <% }
+                    } %>
+                    <td class="borderless-bottom"></td>
+             <% }  
+                if(round.isFull) { %>
+                <td class="borderless-bottom"></td>
+            <% } else if(round.roundType === "Front 9") { %>
+                    <td class="borderless-bottom"></td>
+            <% } else if(round.roundType === "Back 9") { %>
+                    <td class="borderless-bottom"></td>
+            <% } %>
+            </tr>
             <!--Gross Score-->
             <tr id="score_row" class="scorecard">
-                <th id="player_name" scope="row"><%= user.name %></th>
+                <!--Strokes to give calculation-->                
+                <th id="player_name" class="borderless-top" scope="row"><%= user.name %></th>
                 <%  if(round.isFull || round.roundType === "Front 9") {
                     var outScore = 0;
                     for(let i=1; i<=9; i++){
@@ -136,18 +238,18 @@
                             if(round.holes[z - 1].holeNumber == (i)){ 
                                 found = true;
                                 outScore += round.holes[z - 1].score %>
-                                <td>
+                                <td class="borderless-top">
                                     <div id="score_<%=round.holes[z - 1].holeNumber%>">
                                         <%= round.holes[z - 1].score %>
                                     </div>
                                 </td>
-                            <% }
+                        <%  }
                         } 
                         if(!found){ %>
-                            <td></td>
+                            <td class="borderless-top"></td>
                      <% }
                     } %>
-                    <td <% if(outScore < outPar){ %> style="color:red" <% } %>><strong><%= outScore %></strong></td>
+                    <td class="borderless-top" <% if(outScore < outPar){ %> style="color:red" <% } %>><strong><%= outScore %></strong></td>
              <% } %>
                 <% if(round.isFull || round.roundType === "Back 9") {
                     var inScore = 0;
@@ -157,7 +259,7 @@
                             if(round.holes[z - 1].holeNumber == (i)){ 
                                 found = true;
                                 inScore += round.holes[z - 1].score %>
-                                <td>
+                                <td class="borderless-top">
                                     <div id="score_<%=round.holes[z - 1].holeNumber%>">
                                         <%= round.holes[z - 1].score %>
                                     </div>
@@ -165,47 +267,27 @@
                          <% }
                         }
                         if(!found){ %>
-                            <td></td>
+                            <td class="borderless-top"></td>
                      <% }
                     } %>
-                    <td <% if(inScore < inPar){ %> style="color:red" <% } %>><strong><%= inScore %></strong></td>
+                    <td class="borderless-top" <% if(inScore < inPar){ %> style="color:red" <% } %>><strong><%= inScore %></strong></td>
              <% }  
                 if(round.isFull) { %>
-                <td <% if(outScore + inScore < outPar + inPar){ %> style="color:red" <% } %>><strong><%= outScore + inScore %></strong></td>
+                <td class="borderless-top" <% if(outScore + inScore < outPar + inPar){ %> style="color:red" <% } %>><strong><%= outScore + inScore %></strong></td>
             <% } else if(round.roundType === "Front 9") { %>
-                    <td <% if(outScore < outPar){ %> style="color:red" <% } %>><strong><%= outScore %></strong></td>
+                    <td class="borderless-top" <% if(outScore < outPar){ %> style="color:red" <% } %>><strong><%= outScore %></strong></td>
             <% } else if(round.roundType === "Back 9") { %>
-                    <td <% if(inScore < inPar){ %> style="color:red" <% } %>><strong><%= inScore %></strong></td>
+                    <td class="borderless-top" <% if(inScore < inPar){ %> style="color:red" <% } %>><strong><%= inScore %></strong></td>
             <% } %>
             </tr>
             <!--Net Score-->
-            <% if(user.handicapIndex){ %>
-            <tr id="netscore_row" class="scorecard">             
-                <%  var slope = 0;
-                    round.course[0].tees.forEach(function(tee){
-                        if(round.tees == tee.color){
-                            slope = tee.slope;
-                        } 
-                    });
-
-                    var courseHandicap = Math.round(user.handicapIndex * slope / 113),
-                        strokesOut = Math.round(courseHandicap / 2),
-                        strokesIn = courseHandicap - strokesOut; %>                
+            <% if(round.player.handicapIndex || user.handicapIndex){ %>
+            <tr id="netscore_row" class="scorecard">                               
                 <th id="nethandicap" scope="row"> Net: CH <%= courseHandicap %> </th>   
                 <% if(round.isFull || round.roundType === "Front 9") {
-                    var outScore = 0;
-                    //top out handicaps
-                    var outHandicapSort = [];
-                    for(let y=1; y<=round.holes.length; y++) {
-                        if(round.holes[y - 1].holeNumber <= 9){ 
-                            outHandicapSort.push(round.course[0].holes[y - 1].handicap);
-                        }
-                    }               
-
-                    outHandicapSort.sort((a,b)=>a-b);
+                    var outScore = 0;                    
                     for(let i=1; i<=9; i++){
                         var found = false;
-                        round.course[0].holes[i - 1].handicap
                         for(let z=1; z<=round.holes.length; z++) {
                             if(round.holes[z - 1].holeNumber == (i)){ 
                                 found = true;

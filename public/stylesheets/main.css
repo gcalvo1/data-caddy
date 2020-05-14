@@ -451,8 +451,8 @@ input, label {
 }
 
 #score_row td {
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: 0px;
+    padding-bottom: 10px;
 }
 
 #score_row td div {
@@ -473,6 +473,14 @@ input, label {
 
 .scorecard td {
     text-align: center;
+}
+
+.borderless-bottom {
+    border-bottom: none !important;
+}
+
+.borderless-top {
+    border-top: none !important;
 }
 
 #fir-row {
@@ -502,6 +510,8 @@ input, label {
 }
 
 #player_name {
+    padding-top: 0px;
+    padding-bottom: 10px;
     vertical-align: middle;
 }
 

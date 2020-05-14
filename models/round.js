@@ -36,7 +36,8 @@ var roundSchema = new mongoose.Schema({
          type: mongoose.Schema.Types.ObjectId,
          ref: "User"
       },
-      username: String
+      username: String,
+      handicapIndex: Number
     },
     holes: [
         {
