@@ -1,5 +1,5 @@
 function setShortGame(parameters) {
-    $.get( '/dashboard/roundsdata', parameters, function(data) {
+    $.get('/dashboard/roundsdata', parameters, function (data) {
         var totalScrambleAttempts = 0,
             totalScrambles = 0,
             totalSandSaveAttempts = 0,
@@ -8,7 +8,7 @@ function setShortGame(parameters) {
             totalThreePutts = 0,
             totalOnePutts = 0,
             totalRounds = 0,
-            traps = [ 
+            traps = [
                 {
                     name: "bunker",
                     found: false,
@@ -292,118 +292,118 @@ function setShortGame(parameters) {
             ],
             scramblingByDate = [],
             puttsByDate = [];
-        data.rounds.forEach(function(round){
+        data.rounds.forEach(function (round) {
             totalRounds++;
             var roundPutts = 0,
-            roundScrambles = 0,
-            roundScrambleAttempts = 0,
-            roundScramblingData = [],
-            roundPuttsData = [];
+                roundScrambles = 0,
+                roundScrambleAttempts = 0,
+                roundScramblingData = [],
+                roundPuttsData = [];
             roundScramblingData.push(round.date);
             roundPuttsData.push(round.date);
-            round.holes.forEach(function(hole){
-                traps.forEach(function(trap){
-                    if(trap.name === hole.approach.approachResult.toLowerCase()){
+            round.holes.forEach(function (hole) {
+                traps.forEach(function (trap) {
+                    if (trap.name === hole.approach.approachResult.toLowerCase()) {
                         trap.found = true;
                         trap.timesInTrap++;
                         //Set Score Names
-                        if(hole.score - hole.par === 0){
-                            trap.score.forEach(function(score){
-                                if(score.name === "par"){
+                        if (hole.score - hole.par === 0) {
+                            trap.score.forEach(function (score) {
+                                if (score.name === "par") {
                                     score.total++;
                                 }
                             });
-                        } else if(hole.score - hole.par === 1){
-                            trap.score.forEach(function(score){
-                                if(score.name === "bogey"){
+                        } else if (hole.score - hole.par === 1) {
+                            trap.score.forEach(function (score) {
+                                if (score.name === "bogey") {
                                     score.total++;
                                 }
                             });
-                        } else if(hole.score - hole.par === -1){
-                            trap.score.forEach(function(score){
-                                if(score.name === "birdie"){
+                        } else if (hole.score - hole.par === -1) {
+                            trap.score.forEach(function (score) {
+                                if (score.name === "birdie") {
                                     score.total++;
                                 }
                             });
-                        } else if(hole.score - hole.par === 2){
-                            trap.score.forEach(function(score){
-                                if(score.name === "doubleBogey"){
+                        } else if (hole.score - hole.par === 2) {
+                            trap.score.forEach(function (score) {
+                                if (score.name === "doubleBogey") {
                                     score.total++;
                                 }
                             });
-                        } else if(hole.score - hole.par === -2){
-                            trap.score.forEach(function(score){
-                                if(score.name === "eagle"){
+                        } else if (hole.score - hole.par === -2) {
+                            trap.score.forEach(function (score) {
+                                if (score.name === "eagle") {
                                     score.total++;
                                 }
                             });
-                        } else if(hole.score - hole.par > 2){
-                            trap.score.forEach(function(score){
-                                if(score.name === "bogeyWorse"){
+                        } else if (hole.score - hole.par > 2) {
+                            trap.score.forEach(function (score) {
+                                if (score.name === "bogeyWorse") {
                                     score.total++;
                                 }
                             });
-                        } else if(hole.score - hole.par < -2){
-                            trap.score.forEach(function(score){
-                                if(score.name === "eagleBetter"){
+                        } else if (hole.score - hole.par < -2) {
+                            trap.score.forEach(function (score) {
+                                if (score.name === "eagleBetter") {
                                     score.total++;
                                 }
                             });
                         }
                     }
                 });
-                 
+
                 totalPutts += hole.putts;
                 roundPutts += hole.putts;
-                if(hole.putts == 1){
+                if (hole.putts == 1) {
                     totalOnePutts++;
-                } else if(hole.putts >= 3){
+                } else if (hole.putts >= 3) {
                     totalThreePutts++;
                 }
-                if(!hole.approach.approachResult || hole.approach.approachResult != "GIR"){
+                if (!hole.approach.approachResult || (hole.approach.approachResult != "GIR" && hole.approach.approachResult != "Under GIR")) {
                     totalScrambleAttempts++;
                     roundScrambleAttempts++;
-                    if(hole.score === hole.par){
+                    if (hole.score <= hole.par) {
                         totalScrambles++;
                         roundScrambles++
                     }
                 }
-                if(hole.approach.approachResult === "Bunker"){
+                if (hole.approach.approachResult === "Bunker") {
                     totalSandSaveAttempts++;
-                    if(hole.score === hole.par){
+                    if (hole.score <= hole.par) {
                         totalSandSaves++;
                     }
                 }
             });
-            roundScramblingData.push(Math.round((( roundScrambles / roundScrambleAttempts ) * 100) * 10) / 10);
+            roundScramblingData.push(Math.round(((roundScrambles / roundScrambleAttempts) * 100) * 10) / 10);
             roundPuttsData.push(roundPutts);
             scramblingByDate.push(roundScramblingData);
             puttsByDate.push(roundPuttsData);
         });
-        var scramblePercent = ( totalScrambles / totalScrambleAttempts ) * 100,
-            sandSavePercent = ( totalSandSaves / totalSandSaveAttempts ) * 100,
+        var scramblePercent = (totalScrambles / totalScrambleAttempts) * 100,
+            sandSavePercent = (totalSandSaves / totalSandSaveAttempts) * 100,
             puttsPerRound = (totalPutts / totalRounds),
             threePuttsPerRound = (totalThreePutts / totalRounds),
             onePuttsPerRound = (totalOnePutts / totalRounds);
-            
+
         //Protect against divide by zero
-        if(totalScrambleAttempts === 0){
+        if (totalScrambleAttempts === 0) {
             $("#scramble-percent").html("N/A");
             $("#scramble-ratio").html("");
         } else {
             $("#scramble-percent").html(Math.round(scramblePercent * 10) / 10 + "%");
-            $("#scramble-percent").attr("data-to",Math.round(scramblePercent * 10) / 10 + "%");
+            $("#scramble-percent").attr("data-to", Math.round(scramblePercent * 10) / 10 + "%");
             $("#scramble-ratio").html(totalScrambles + "/" + totalScrambleAttempts);
         }
-        if(totalSandSaveAttempts === 0){
+        if (totalSandSaveAttempts === 0) {
             $("#sand-save-percent").html("N/A");
             $("#sand-save-ratio").html("");
         } else {
             $("#sand-save-percent").html(Math.round(sandSavePercent * 10) / 10 + "%");
-            $("#sand-save-percent").attr("data-to",Math.round(sandSavePercent * 10) / 10 + "%");
+            $("#sand-save-percent").attr("data-to", Math.round(sandSavePercent * 10) / 10 + "%");
             $("#sand-save-ratio").html(totalSandSaves + "/" + totalSandSaveAttempts);
         }
-        if(totalPutts === 0){
+        if (totalPutts === 0) {
             $("#putts-per-round").html("N/A");
             $("#three-putts-per-round").html("N/A");
             $("#three-putt-ratio").html("");
@@ -413,24 +413,24 @@ function setShortGame(parameters) {
             $("#three-putt-ratio").html(totalThreePutts + "/" + totalRounds);
             $("#one-putt-ratio").html(totalOnePutts + "/" + totalRounds);
             $("#putts-per-round").html(Math.round(puttsPerRound * 10) / 10);
-            $("#putts-per-round").attr("data-to",Math.round(puttsPerRound * 10) / 10);
+            $("#putts-per-round").attr("data-to", Math.round(puttsPerRound * 10) / 10);
             $("#three-putts-per-round").html(Math.round(threePuttsPerRound * 10) / 10);
-            $("#three-putts-per-round").attr("data-to",Math.round(threePuttsPerRound * 10) / 10);
+            $("#three-putts-per-round").attr("data-to", Math.round(threePuttsPerRound * 10) / 10);
             $("#one-putts-per-round").html(Math.round(onePuttsPerRound * 10) / 10);
-            $("#one-putts-per-round").attr("data-to",Math.round(onePuttsPerRound * 10) / 10);
+            $("#one-putts-per-round").attr("data-to", Math.round(onePuttsPerRound * 10) / 10);
         }
-        
+
         //Pie Chart
         highChartsScoreByAR(traps);
-        
+
         //Scrambling % by round
-        highChartsByRound('scrambling-by-date',400,scramblingByDate,'Scrambling %','%');
-        
+        highChartsByRound('scrambling-by-date', 400, scramblingByDate, 'Scrambling %', '%');
+
         //Putts by round
-        highChartsByRound('putts-by-date',400,puttsByDate,'Putts','');
-        
+        highChartsByRound('putts-by-date', 400, puttsByDate, 'Putts', '');
+
         //Scrambling % by trap bar chart
         highChartsScramblingByTrap(traps);
-        
+
     });
 };

@@ -1,314 +1,354 @@
 <% include ../partials/header %>
 
-    <div id= dashboard-container class="container-fluid">  
-        <div id="dash-left-pane" class="col-md-2">
-            <% if(!user.emailConfirmed) { %>
-                    <div id="dash-email-status" class="row">
-                        Email Address Not Verified
-                    </div>
-            <% } %>
-            <div class="row">
-                    <!--<span class="glyphicon glyphicon-user"></span>-->
-                    <span id="dash-img-span"> 
-                        <% if(user.hasImg) { %>
-                                <img id='dash-prof-pic' src="<%= userImg %>" onerror='imgError(this);'>
-                        <% } else { %>
-                                <img id='dash-prof-pic' src="../img/blank_user.jpg" onerror='imgError(this);'>
-                        <% } %>
-                    </span>
-            </div>
-            <div id="dash-name" class="row">
-                <strong><%= user.name %></strong>
-                <div id="handicap"> <% if(user.handicapIndex){ %> Index: <%= user.handicapIndex %> <% } %> </div>
-            </div>            
-            <div class="row">
-                <div class="col-md-12">
-                    <div id="date-input-row" class="row">
-                        <div id="no-round-data" class="hidden">No Rounds Found <span class="info-tooltip" tooltip="Enter round data for the selected date range and it will show in the dashboard" flow="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span></div>
-                        <div id="date-filter" class="form-group fg_input_head">
-                            <label for="date-filter">Choose Date Range:</label>
-                            <div class="col-md-6">
-                                <div class="from-to-date-div">
-                                    <label for="date-filter">From:</label>
-                                    <span><input id="date-from" class="date-filter form-control" data-toggle="datepicker"></span>
-                                </div>
+<div id=dashboard-container class="container-fluid">
+    <div id="dash-left-pane" class="col-md-2">
+        <% if(!user.emailConfirmed) { %>
+        <div id="dash-email-status" class="row">
+            Email Address Not Verified
+        </div>
+        <% } %>
+        <div class="row">
+            <!--<span class="glyphicon glyphicon-user"></span>-->
+            <span id="dash-img-span">
+                <% if(user.hasImg) { %>
+                <img id='dash-prof-pic' src="<%= userImg %>" onerror='imgError(this);'>
+                <% } else { %>
+                <img id='dash-prof-pic' src="../img/blank_user.jpg" onerror='imgError(this);'>
+                <% } %>
+            </span>
+        </div>
+        <div id="dash-name" class="row">
+            <strong><%= user.name %></strong>
+            <div id="handicap"> <% if(user.handicapIndex || user.handicapIndex == 0){ %> Index:
+                <%= user.handicapIndex %> <% } %> </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div id="date-input-row" class="row">
+                    <div id="no-round-data" class="hidden">No Rounds Found <span class="info-tooltip"
+                            tooltip="Enter round data for the selected date range and it will show in the dashboard"
+                            flow="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span></div>
+                    <div id="date-filter" class="form-group fg_input_head">
+                        <label for="date-filter">Choose Date Range:</label>
+                        <div class="col-md-6">
+                            <div class="from-to-date-div">
+                                <label for="date-filter">From:</label>
+                                <span><input id="date-from" class="date-filter form-control"
+                                        data-toggle="datepicker"></span>
                             </div>
-                            <div class="col-md-6">
-                                <div class="from-to-date-div">
-                                    <label id="date-to-label" for="date-filter">To:</label>
-                                    <span><input id="date-to" class="date-filter form-control" data-toggle="datepicker"></span>
-                                </div>
-                            </div>  
+                        </div>
+                        <div class="col-md-6">
+                            <div class="from-to-date-div">
+                                <label id="date-to-label" for="date-filter">To:</label>
+                                <span><input id="date-to" class="date-filter form-control"
+                                        data-toggle="datepicker"></span>
+                            </div>
                         </div>
                     </div>
-                    <div id="num-holes-dropdown-div" class="form-group fg_input_head">
-                        <label for="num_holes_dropdown">Number of Holes:</label>
-                        <select class="form-control" id="num-holes-dropdown">
-                            <% roundTypes.forEach(function(type){
-                                if(type.found){ %>
-                                    <option value="<%= type.numHoles %>"><%= type.numHoles %></option>
-                             <% }     
-                            }); %>
-                        </select>
-                    </div>
-                    <div id="tee-club-dropdown-div" class="form-group fg_input_head hidden">
-                        <label for="tee_club_dropdown">Choose Club:</label>
-                        <select class="form-control" id="tee-club-dropdown">
-                        </select>
-                    </div>
-                    <div id="approach-club-dropdown-div" class="form-group fg_input_head hidden">
-                        <label for="approach_club_dropdown">Choose Club:</label>
-                        <select class="form-control" id="approach-club-dropdown">
-                        </select>
-                    </div>
-                    <div id="courses-dropdown-div" class="form-group fg_input_head hidden">
-                        <label class="left-align" for="course_dropdown">Course:</label>
-                        <select class="form-control" id="course-dropdown">
-                        </select>
-                    </div>
-                    <div id="holes-dropdown-div" class="form-group fg_input_head hidden">
-                        <label class="left-align" for="hole_dropdown">Hole:</label>
-                        <select class="form-control" id="hole-dropdown">
-                        </select>
-                    </div>
-                    <div id="num-rounds" class="hidden"></div>
                 </div>
+                <div id="num-holes-dropdown-div" class="form-group fg_input_head">
+                    <label for="num_holes_dropdown">Number of Holes:</label>
+                    <select class="form-control" id="num-holes-dropdown">
+                        <% roundTypes.forEach(function(type){
+                                if(type.found){ %>
+                        <option value="<%= type.numHoles %>"><%= type.numHoles %></option>
+                        <% }     
+                            }); %>
+                    </select>
+                </div>
+                <div id="tee-club-dropdown-div" class="form-group fg_input_head hidden">
+                    <label for="tee_club_dropdown">Choose Club:</label>
+                    <select class="form-control" id="tee-club-dropdown">
+                    </select>
+                </div>
+                <div id="approach-club-dropdown-div" class="form-group fg_input_head hidden">
+                    <label for="approach_club_dropdown">Choose Club:</label>
+                    <select class="form-control" id="approach-club-dropdown">
+                    </select>
+                </div>
+                <div id="courses-dropdown-div" class="form-group fg_input_head hidden">
+                    <label class="left-align" for="course_dropdown">Course:</label>
+                    <select class="form-control" id="course-dropdown">
+                    </select>
+                </div>
+                <div id="holes-dropdown-div" class="form-group fg_input_head hidden">
+                    <label class="left-align" for="hole_dropdown">Hole:</label>
+                    <select class="form-control" id="hole-dropdown">
+                    </select>
+                </div>
+                <div id="num-rounds" class="hidden"></div>
             </div>
         </div>
-        <div id="dashboard-viz" class="col-md-10">
-            <div class="row">
-                <div class="col-md-12">
-                    <div id="dash-tab-menu">
-                        <ul class="nav nav-tabs" id="myTab" role="tablist">
-                          <li id="summary-tab-li" class="nav-item">
-                            <a class="nav-link non-driving-tab non-approach-tab" id="summary-tab" data-toggle="tab" href="#summary" role="tab" aria-controls="summary" aria-selected="true">Summary</a>
-                          </li>
-                          <li id="driving-tab-li" class="nav-item">
-                            <a class="nav-link non-home-tab non-approach-tab" id="driving-tab" data-toggle="tab" href="#driving" role="tab" aria-controls="driving" aria-selected="false">Driving</a>
-                          </li>
-                          <li id="approach-tab-li" class="nav-item">
-                            <a class="nav-link non-home-tab non-driving-tab" id="approach-tab" data-toggle="tab" href="#approach" role="tab" aria-controls="approach" aria-selected="false">Approach</a>
-                          </li>
-                          <li id="short-game-tab-li" class="nav-item">
-                            <a class="nav-link non-home-tab non-driving-tab non-approach-tab" id="short-game-tab" data-toggle="tab" href="#short-game" role="tab" aria-controls="short-game" aria-selected="false">Short Game</a>
-                          </li>
-                          <li id="by-hole-tab-li" class="nav-item">
-                            <a class="nav-link non-home-tab non-driving-tab non-approach-tab" id="by-hole-tab" data-toggle="tab" href="#by-hole" role="tab" aria-controls="by-hole" aria-selected="false">By Hole</a>
-                          </li>
-                          <li id="weather-tab-li" class="nav-item">
-                            <a class="nav-link non-home-tab non-driving-tab non-approach-tab" id="weather-tab" data-toggle="tab" href="#weather" role="tab" aria-controls="weather" aria-selected="false">Weather</a>
-                          </li>
-                          <li id="map-tab-li" class="nav-item">
-                            <a class="nav-link non-home-tab non-driving-tab non-approach-tab" id="map-tab" data-toggle="tab" href="#map" role="tab" aria-controls="map" aria-selected="false">Map</a>
-                          </li>
-                          <li id="yoy-tab-li" class="nav-item">
-                            <a class="nav-link non-home-tab non-driving-tab non-approach-tab" id="yoy-tab" data-toggle="tab" href="#yoy" role="tab" aria-controls="yoy" aria-selected="false">YoY</a>
-                          </li>
-                        </ul>
+    </div>
+    <div id="dashboard-viz" class="col-md-10">
+        <div class="row">
+            <div class="col-md-12">
+                <div id="dash-tab-menu">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li id="summary-tab-li" class="nav-item">
+                            <a class="nav-link non-driving-tab non-approach-tab" id="summary-tab" data-toggle="tab"
+                                href="#summary" role="tab" aria-controls="summary" aria-selected="true">Summary</a>
+                        </li>
+                        <li id="driving-tab-li" class="nav-item">
+                            <a class="nav-link non-home-tab non-approach-tab" id="driving-tab" data-toggle="tab"
+                                href="#driving" role="tab" aria-controls="driving" aria-selected="false">Driving</a>
+                        </li>
+                        <li id="approach-tab-li" class="nav-item">
+                            <a class="nav-link non-home-tab non-driving-tab" id="approach-tab" data-toggle="tab"
+                                href="#approach" role="tab" aria-controls="approach" aria-selected="false">Approach</a>
+                        </li>
+                        <li id="short-game-tab-li" class="nav-item">
+                            <a class="nav-link non-home-tab non-driving-tab non-approach-tab" id="short-game-tab"
+                                data-toggle="tab" href="#short-game" role="tab" aria-controls="short-game"
+                                aria-selected="false">Short Game</a>
+                        </li>
+                        <li id="by-hole-tab-li" class="nav-item">
+                            <a class="nav-link non-home-tab non-driving-tab non-approach-tab" id="by-hole-tab"
+                                data-toggle="tab" href="#by-hole" role="tab" aria-controls="by-hole"
+                                aria-selected="false">By Hole</a>
+                        </li>
+                        <li id="weather-tab-li" class="nav-item">
+                            <a class="nav-link non-home-tab non-driving-tab non-approach-tab" id="weather-tab"
+                                data-toggle="tab" href="#weather" role="tab" aria-controls="weather"
+                                aria-selected="false">Weather</a>
+                        </li>
+                        <li id="map-tab-li" class="nav-item">
+                            <a class="nav-link non-home-tab non-driving-tab non-approach-tab" id="map-tab"
+                                data-toggle="tab" href="#map" role="tab" aria-controls="map"
+                                aria-selected="false">Map</a>
+                        </li>
+                        <li id="yoy-tab-li" class="nav-item">
+                            <a class="nav-link non-home-tab non-driving-tab non-approach-tab" id="yoy-tab"
+                                data-toggle="tab" href="#yoy" role="tab" aria-controls="yoy"
+                                aria-selected="false">YoY</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade in" id="summary" role="tabpanel" aria-labelledby="summary-tab">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="counter">
+                                    <h2 id="num-rounds-num" class="timer count-title count-number" data-to=""
+                                        data-speed="1500"></h2>
+                                    <p class="count-text ">Rounds</p>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="counter">
+                                    <h2 id="scoring-avg" class="timer count-title count-number" data-to=""
+                                        data-speed="1500"></h2>
+                                    <p class="count-text ">Scoring Average</p>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="counter">
+                                    <h2 id="avg-score-to-par" class="timer count-title count-number-sign" data-to=""
+                                        data-speed="1500"></h2>
+                                    <p class="count-text ">Average Score to Par</p>
+                                </div>
+                            </div>
+                            <div id="left-avg-col" class="col-md-2">
+                                <div class="counter">
+                                    <h2 id="par-three-scoring-avg" class="timer count-title count-number" data-to=""
+                                        data-speed="1500"></h2>
+                                    <p class="count-text ">Par 3 Scoring Avg</p>
+                                </div>
+                            </div>
+                            <div id="middle-avg-col" class="col-md-2">
+                                <div class="counter">
+                                    <h2 id="par-four-scoring-avg" class="timer count-title count-number" data-to=""
+                                        data-speed="1500"></h2>
+                                    <p class="count-text ">Par 4 Scoring Avg</p>
+                                </div>
+                            </div>
+                            <div id="right-avg-col" class="col-md-2">
+                                <div class="counter">
+                                    <h2 id="par-five-scoring-avg" class="timer count-title count-number" data-to=""
+                                        data-speed="1500"></h2>
+                                    <p class="count-text ">Par 5 Scoring Avg</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div id="rbd-line" class="dash-highchart"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <div id="score-name-pie" class="dash-highchart">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div id="score-by-handicap" class="dash-highchart"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <div id="score-to-par-by-rating" class="dash-highchart"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="counter">
+                                    <div id="fav-courses-title" class="fav-title"><strong>Favorite Courses</strong>
+                                    </div>
+                                    <div id="fav-courses" class="fav-div"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="counter">
+                                    <div id="fav-clubs-title" class="fav-title"><strong>Favorite Clubs</strong></div>
+                                    <div id="fav-clubs" class="fav-div"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade in" id="summary" role="tabpanel" aria-labelledby="summary-tab">
-                            <div class="row">
-                                <div class="col-md-2">
-                                    <div class="counter">
-                                        <h2 id="num-rounds-num" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                        <p class="count-text ">Rounds</p>
-                                    </div>  
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="counter">
-                                        <h2 id="scoring-avg" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                        <p class="count-text ">Scoring Average</p>
-                                    </div>  
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="counter">
-                                        <h2 id ="avg-score-to-par" class="timer count-title count-number-sign" data-to="" data-speed="1500"></h2>
-                                        <p class="count-text ">Average Score to Par</p>
-                                    </div>
-                                </div>
-                                <div id="left-avg-col" class="col-md-2">
-                                    <div class="counter">
-                                        <h2 id="par-three-scoring-avg" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                        <p class="count-text ">Par 3 Scoring Avg</p>
-                                    </div>
-                                </div>   
-                                <div id="middle-avg-col" class="col-md-2">
-                                    <div class="counter">
-                                        <h2 id="par-four-scoring-avg" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                        <p class="count-text ">Par 4 Scoring Avg</p>
-                                    </div>
-                                </div> 
-                                <div id="right-avg-col" class="col-md-2">
-                                    <div class="counter">
-                                        <h2 id="par-five-scoring-avg" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                        <p class="count-text ">Par 5 Scoring Avg</p>
-                                    </div>
-                                </div> 
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div id="rbd-line" class="dash-highchart"></div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div id="score-name-pie" class="dash-highchart">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div id="score-by-handicap" class="dash-highchart"></div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div id="score-to-par-by-rating" class="dash-highchart"></div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="counter">
-                                        <div id="fav-courses-title" class="fav-title"><strong>Favorite Courses</strong></div>
-                                        <div id="fav-courses" class="fav-div"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="counter">
-                                        <div id="fav-clubs-title" class="fav-title"><strong>Favorite Clubs</strong></div>
-                                        <div id="fav-clubs" class="fav-div"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="driving" role="tabpanel" aria-labelledby="driving-tab">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="row top-dashboard-stats">
-                                        <div class="col-md-6">
-                                            <div class="counter">
-                                                <span id="fir-ratio" class="dashboard-ratio">
-                                                </span>
-                                                <div>
-                                                    <h2 id="fir-percent" class="timer count-title count-number-percent with-ratio" data-to="" data-speed="1500"></h2>
-                                                    <p class="count-text ">FIR %</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="counter">
-                                                <h2 id="driving-distance" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                                <p class="count-text ">Average Tee Shot Distance</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div id="fir-per-round-line"></div>
-                                        </div>
-                                    </div>
-                                </div>    
-                                <div class="col-md-6">
-                                    <h4 id="drive-tracker-title"><div>DriveTracker - <select id="drivetracker-rounds" class="form-control"></select></div></h4>
-                                    <div id='canv-container'>
-                                        <canvas id="driveTracker" width="500" height="500"></canvas>
-                                    </div>
-                                    <div id='drive-tracker-legend'>
-                                        <h5>Legend</h5>
-                                        <div id='legend-values'>
+                    <div class="tab-pane fade" id="driving" role="tabpanel" aria-labelledby="driving-tab">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row top-dashboard-stats">
+                                    <div class="col-md-6">
+                                        <div class="counter">
+                                            <span id="fir-ratio" class="dashboard-ratio">
+                                            </span>
                                             <div>
-                                                <span id="par-circle"> </span><span class="legend-score-name"></span>
+                                                <h2 id="fir-percent"
+                                                    class="timer count-title count-number-percent with-ratio" data-to=""
+                                                    data-speed="1500"></h2>
+                                                <p class="count-text ">FIR %</p>
                                             </div>
                                         </div>
-                                        <button id="reset-drive-tracker" class="btn btn-info">Play Again</button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="counter">
+                                            <h2 id="driving-distance" class="timer count-title count-number" data-to=""
+                                                data-speed="1500"></h2>
+                                            <p class="count-text ">Average Tee Shot Distance</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div id="fir-per-round-line"></div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="counter">
-                                        <span id="tee-miss-left-ratio" class="dashboard-ratio">
-                                        </span>
-                                        <div>
-                                            <h2 id="tee-miss-left" class="timer count-title count-number with-ratio" data-to="" data-speed="1500"></h2>
-                                            <p class="count-text ">Miss Left %</p>
-                                        </div>
-                                    </div>  
+                            <div class="col-md-6">
+                                <h4 id="drive-tracker-title">
+                                    <div>DriveTracker - <select id="drivetracker-rounds" class="form-control"></select>
+                                    </div>
+                                </h4>
+                                <div id='canv-container'>
+                                    <canvas id="driveTracker" width="500" height="500"></canvas>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="counter">
-                                        <span id="tee-miss-right-ratio" class="dashboard-ratio">
-                                        </span>
+                                <div id='drive-tracker-legend'>
+                                    <h5>Legend</h5>
+                                    <div id='legend-values'>
                                         <div>
-                                            <h2 id="tee-miss-right" class="timer count-title count-number with-ratio" data-to="" data-speed="1500"></h2>
-                                            <p class="count-text ">Miss Right %</p>
+                                            <span id="par-circle"> </span><span class="legend-score-name"></span>
                                         </div>
-                                    </div>  
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="counter">
-                                        <span id="tee-miss-short-ratio" class="dashboard-ratio">
-                                        </span>
-                                        <div>
-                                            <h2 id="tee-miss-short" class="timer count-title count-number with-ratio" data-to="" data-speed="1500"></h2>
-                                            <p class="count-text ">Miss Short %</p>
-                                        </div>
-                                    </div>  
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="counter">
-                                        <span id="tee-miss-long-ratio" class="dashboard-ratio">
-                                        </span>
-                                        <div>
-                                            <h2 id="tee-miss-long" class="timer count-title count-number with-ratio" data-to="" data-speed="1500"></h2>
-                                            <p class="count-text ">Miss Long %</p>
-                                        </div>
-                                    </div>  
+                                    </div>
+                                    <button id="reset-drive-tracker" class="btn btn-info">Play Again</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="approach" role="tabpanel" aria-labelledby="approach-tab">
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <div class="row top-dashboard-stats">
-                                        <div class="col-md-4">
-                                            <div class="counter">
-                                                <span id="gir-ratio" class="dashboard-ratio">
-                                                </span>
-                                                <div>
-                                                    <h2 id="gir-percent" class="timer count-title count-number-percent with-ratio" data-to="" data-speed="1500"></h2>
-                                                    <p class="count-text ">GIR %</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="counter">
-                                                <h2 id="approach-distance" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                                <p class="count-text ">Average Approach Distance</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="counter">
-                                                <span id="punch-ratio" class="dashboard-ratio">
-                                                </span>
-                                                <div>
-                                                    <h2 id="punch-percent" class="timer count-title count-number-percent with-ratio" data-to="" data-speed="1500"></h2>
-                                                    <p class="count-text ">Punch Out %</p>
-                                                </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="counter">
+                                    <span id="tee-miss-left-ratio" class="dashboard-ratio">
+                                    </span>
+                                    <div>
+                                        <h2 id="tee-miss-left" class="timer count-title count-number with-ratio"
+                                            data-to="" data-speed="1500"></h2>
+                                        <p class="count-text ">Miss Left %</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="counter">
+                                    <span id="tee-miss-right-ratio" class="dashboard-ratio">
+                                    </span>
+                                    <div>
+                                        <h2 id="tee-miss-right" class="timer count-title count-number with-ratio"
+                                            data-to="" data-speed="1500"></h2>
+                                        <p class="count-text ">Miss Right %</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="counter">
+                                    <span id="tee-miss-short-ratio" class="dashboard-ratio">
+                                    </span>
+                                    <div>
+                                        <h2 id="tee-miss-short" class="timer count-title count-number with-ratio"
+                                            data-to="" data-speed="1500"></h2>
+                                        <p class="count-text ">Miss Short %</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="counter">
+                                    <span id="tee-miss-long-ratio" class="dashboard-ratio">
+                                    </span>
+                                    <div>
+                                        <h2 id="tee-miss-long" class="timer count-title count-number with-ratio"
+                                            data-to="" data-speed="1500"></h2>
+                                        <p class="count-text ">Miss Long %</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="approach" role="tabpanel" aria-labelledby="approach-tab">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="row top-dashboard-stats">
+                                    <div class="col-md-4">
+                                        <div class="counter">
+                                            <span id="gir-ratio" class="dashboard-ratio">
+                                            </span>
+                                            <div>
+                                                <h2 id="gir-percent"
+                                                    class="timer count-title count-number-percent with-ratio" data-to=""
+                                                    data-speed="1500"></h2>
+                                                <p class="count-text ">GIR %</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div id="gir-by-date"></div>
+                                    <div class="col-md-4">
+                                        <div class="counter">
+                                            <h2 id="approach-distance" class="timer count-title count-number" data-to=""
+                                                data-speed="1500"></h2>
+                                            <p class="count-text ">Average Approach Distance</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="counter">
+                                            <span id="punch-ratio" class="dashboard-ratio">
+                                            </span>
+                                            <div>
+                                                <h2 id="punch-percent"
+                                                    class="timer count-title count-number-percent with-ratio" data-to=""
+                                                    data-speed="1500"></h2>
+                                                <p class="count-text ">Punch Out %</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="row top-dashboard-stats">
-                                        <div id="approach-miss-table-div" class="counter">
-                                            <div id="miss-spread-title">
-                                                Miss Trap Spread
-                                            </div>
-                                            <table id='approach-miss-table' class="table table-bordered">
-                                              <tbody>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div id="gir-by-date"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="row top-dashboard-stats">
+                                    <div id="approach-miss-table-div" class="counter">
+                                        <div id="miss-spread-title">
+                                            Miss Trap Spread
+                                        </div>
+                                        <table id='approach-miss-table' class="table table-bordered">
+                                            <tbody>
                                                 <tr>
                                                     <td id="approach-fringe-td">
                                                         <div class="approach-miss-label">
@@ -369,455 +409,517 @@
                                                         </div>
                                                     </td>
                                                 </tr>
-                                              </tbody>
-                                            </table>
-                                            <div id="miss-spread-footnote">
-                                                *Not all misses included
-                                            </div>
+                                            </tbody>
+                                        </table>
+                                        <div id="miss-spread-footnote">
+                                            *Not all misses included
                                         </div>
                                     </div>
-                                </div>    
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="counter">
-                                        <span id="approach-miss-left-ratio" class="dashboard-ratio">
-                                        </span>
-                                        <div>
-                                            <h2 id="approach-miss-left" class="timer count-title count-number with-ratio" data-to="" data-speed="1500"></h2>
-                                            <p class="count-text ">Miss Left %</p>
-                                        </div>
-                                    </div>  
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="counter">
-                                        <span id="approach-miss-right-ratio" class="dashboard-ratio">
-                                        </span>
-                                        <div>
-                                            <h2 id="approach-miss-right" class="timer count-title count-number with-ratio" data-to="" data-speed="1500"></h2>
-                                            <p class="count-text ">Miss Right %</p>
-                                        </div>
-                                    </div>  
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="counter">
-                                        <span id="approach-miss-short-ratio" class="dashboard-ratio">
-                                        </span>
-                                        <div>
-                                            <h2 id="approach-miss-short" class="timer count-title count-number with-ratio" data-to="" data-speed="1500"></h2>
-                                            <p class="count-text ">Miss Short %</p>
-                                        </div>
-                                    </div>  
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="counter">
-                                        <span id="approach-miss-long-ratio" class="dashboard-ratio">
-                                        </span>
-                                        <div>
-                                            <h2 id="approach-miss-long" class="timer count-title count-number with-ratio" data-to="" data-speed="1500"></h2>
-                                            <p class="count-text ">Miss Long %</p>
-                                        </div>
-                                    </div>  
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div id="approach-spray-area"></div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div id="score-to-par-by-approach-distance"></div>
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="short-game" role="tabpanel" aria-labelledby="short-game-tab">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="counter">
-                                        <span id="scramble-ratio" class="dashboard-ratio">
-                                        </span>
-                                        <div>
-                                            <h2 id="scramble-percent" class="timer count-title count-number-percent with-ratio" data-to="" data-speed="1500"></h2>
-                                            <p class="count-text ">Scramble %</p>
-                                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="counter">
+                                    <span id="approach-miss-left-ratio" class="dashboard-ratio">
+                                    </span>
+                                    <div>
+                                        <h2 id="approach-miss-left" class="timer count-title count-number with-ratio"
+                                            data-to="" data-speed="1500"></h2>
+                                        <p class="count-text ">Miss Left %</p>
                                     </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="counter">
-                                        <span id="sand-save-ratio" class="dashboard-ratio">
-                                        </span>
-                                        <div>
-                                            <h2 id="sand-save-percent" class="timer count-title count-number-percent with-ratio" data-to="" data-speed="1500"></h2>
-                                            <p class="count-text ">Sand Save %</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="left-avg-col" class="col-md-2">
-                                    <div class="counter">
-                                        <h2 id="putts-per-round" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                        <p class="count-text ">Putts Per Round</p>
-                                    </div>
-                                </div>   
-                                <div id="middle-avg-col" class="col-md-2">
-                                    <div class="counter">
-                                        <span id="one-putt-ratio" class="dashboard-ratio"></span>
-                                        <h2 id="one-putts-per-round" class="timer count-title count-number with-ratio" data-to="" data-speed="1500"></h2>
-                                        <p class="count-text ">One-Putts Per Round</p>
-                                    </div>
-                                </div> 
-                                <div id="right-avg-col" class="col-md-2">
-                                    <div class="counter">
-                                        <span id="three-putt-ratio" class="dashboard-ratio"></span>
-                                        <h2 id="three-putts-per-round" class="timer count-title count-number with-ratio" data-to="" data-speed="1500"></h2>
-                                        <p class="count-text ">Three-Putts Per Round</p>
-                                    </div>
-                                </div> 
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div id="scrambling-by-date"></div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div id="putts-by-date"></div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div id="ar-score-pie"></div>
+                            <div class="col-md-3">
+                                <div class="counter">
+                                    <span id="approach-miss-right-ratio" class="dashboard-ratio">
+                                    </span>
+                                    <div>
+                                        <h2 id="approach-miss-right" class="timer count-title count-number with-ratio"
+                                            data-to="" data-speed="1500"></h2>
+                                        <p class="count-text ">Miss Right %</p>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div id="scrambling-by-trap"></div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="counter">
+                                    <span id="approach-miss-short-ratio" class="dashboard-ratio">
+                                    </span>
+                                    <div>
+                                        <h2 id="approach-miss-short" class="timer count-title count-number with-ratio"
+                                            data-to="" data-speed="1500"></h2>
+                                        <p class="count-text ">Miss Short %</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="counter">
+                                    <span id="approach-miss-long-ratio" class="dashboard-ratio">
+                                    </span>
+                                    <div>
+                                        <h2 id="approach-miss-long" class="timer count-title count-number with-ratio"
+                                            data-to="" data-speed="1500"></h2>
+                                        <p class="count-text ">Miss Long %</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="weather" role="tabpanel" aria-labelledby="weather-tab">
-                            <div class="row">
-                                <div id="weather-cards" class="col-md-12">
-                                    <div class="card-wrapper">
-                                        <section id="clear-day" class="card anim-flip hidden">
-                                            <header>
-                                                <h1 class="card-header">Sunny</h1>
-                                            </header>
-                                            <div class="sunny"></div>
-                                            <p class="card-temp box-highlight"></p>
-                                        </section>
-                                        <section id="rain" class="card anim-flip hidden">
-                                            <header>
-                                                <h1 class="card-header">Rain</h1>
-                                            </header>
-                                            <div class="rainy"></div>
-                                            <p class="card-temp box-highlight"></p>
-                                        </section>
-                                        <section id="cloudy" class="card anim-flip hidden">
-                                            <header>
-                                                <h1 class="card-header">Cloudy</h1>
-                                            </header>
-                                            <div class="cloudy"></div>
-                                            <p class="card-temp box-highlight"></p>
-                                        </section>
-                                        <section id="partly-cloudy-day" class="card anim-flip hidden">
-                                            <header>
-                                                <h1 class="card-header">Partly Cloudy</h1>
-                                            </header>
-                                            <div class="forecast__cloudy">
-                                                <img id="partly-cloudy-img" src="./img/partly_cloudy.png">
-                                            </div>
-                                            <p class="card-temp box-highlight"></p>
-                                        </section>
-                                        <section id="wind" class="card anim-flip hidden">
-                                            <header>
-                                                <h1 class="card-header">Wind</h1>
-                                            </header>
-                                            <div class="forecast__cloudy">
-                                                <img id="windy-img" src="./img/windy.png">
-                                            </div>
-                                            <p class="card-temp box-highlight"></p>
-                                        </section>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="approach-spray-area"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="score-to-par-by-approach-distance"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="short-game" role="tabpanel" aria-labelledby="short-game-tab">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="counter">
+                                    <span id="scramble-ratio" class="dashboard-ratio">
+                                    </span>
+                                    <div>
+                                        <h2 id="scramble-percent"
+                                            class="timer count-title count-number-percent with-ratio" data-to=""
+                                            data-speed="1500"></h2>
+                                        <p class="count-text ">Scramble %</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div id="wind-div" class="weather-div"></div>
+                            <div class="col-md-3">
+                                <div class="counter">
+                                    <span id="sand-save-ratio" class="dashboard-ratio">
+                                    </span>
+                                    <div>
+                                        <h2 id="sand-save-percent"
+                                            class="timer count-title count-number-percent with-ratio" data-to=""
+                                            data-speed="1500"></h2>
+                                        <p class="count-text ">Sand Save %</p>
+                                    </div>
+                                </div>
                             </div>
-                            <hr class="weather-hr">
-                            <div class="row">
-                                <div id="temp-div" class="weather-div">
+                            <div id="left-avg-col" class="col-md-2">
+                                <div class="counter">
+                                    <h2 id="putts-per-round" class="timer count-title count-number" data-to=""
+                                        data-speed="1500"></h2>
+                                    <p class="count-text ">Putts Per Round</p>
+                                </div>
+                            </div>
+                            <div id="middle-avg-col" class="col-md-2">
+                                <div class="counter">
+                                    <span id="one-putt-ratio" class="dashboard-ratio"></span>
+                                    <h2 id="one-putts-per-round" class="timer count-title count-number with-ratio"
+                                        data-to="" data-speed="1500"></h2>
+                                    <p class="count-text ">One-Putts Per Round</p>
+                                </div>
+                            </div>
+                            <div id="right-avg-col" class="col-md-2">
+                                <div class="counter">
+                                    <span id="three-putt-ratio" class="dashboard-ratio"></span>
+                                    <h2 id="three-putts-per-round" class="timer count-title count-number with-ratio"
+                                        data-to="" data-speed="1500"></h2>
+                                    <p class="count-text ">Three-Putts Per Round</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="map" role="tabpanel" aria-labelledby="map-tab">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div id="map-api"></div>
-                                </div>
-                            </div>    
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div id="scrambling-by-date"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <div id="putts-by-date"></div>
+                            </div>
                         </div>
-                        <div class="tab-pane fade" id="by-hole" role="tabpanel" aria-labelledby="by-hole-tab">
-                            <div id="no-course" class="row hidden">
-                                <div class="col-md-12">
-                                    <h1>Please Choose a Course</h1>
-                                </div>
-                            </div>    
-                            <div id="no-hole" class="row hidden">
-                                <div class="col-md-12">
-                                    <h1>Please Choose a Hole</h1>
-                                </div>
-                            </div> 
-                            <div id="hole-data" class="row banner hidden">
-                                <div class="col-md-3">
-                                    <div class="col-md-5">
-                                        <div id="course_img_div"></div>
-                                    </div>
-                                    <div id="hole-info" class="col-md-5">
-                                        <div id="hole-number-row" class="row">
-                                            <span id="hole-number"></span>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div id="ar-score-pie"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <div id="scrambling-by-trap"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="weather" role="tabpanel" aria-labelledby="weather-tab">
+                        <div class="row">
+                            <div id="weather-cards" class="col-md-12">
+                                <div class="card-wrapper">
+                                    <section id="clear-day" class="card anim-flip hidden">
+                                        <header>
+                                            <h1 class="card-header">Sunny</h1>
+                                        </header>
+                                        <div class="sunny"></div>
+                                        <p class="card-temp box-highlight"></p>
+                                    </section>
+                                    <section id="rain" class="card anim-flip hidden">
+                                        <header>
+                                            <h1 class="card-header">Rain</h1>
+                                        </header>
+                                        <div class="rainy"></div>
+                                        <p class="card-temp box-highlight"></p>
+                                    </section>
+                                    <section id="cloudy" class="card anim-flip hidden">
+                                        <header>
+                                            <h1 class="card-header">Cloudy</h1>
+                                        </header>
+                                        <div class="cloudy"></div>
+                                        <p class="card-temp box-highlight"></p>
+                                    </section>
+                                    <section id="partly-cloudy-day" class="card anim-flip hidden">
+                                        <header>
+                                            <h1 class="card-header">Partly Cloudy</h1>
+                                        </header>
+                                        <div class="forecast__cloudy">
+                                            <img id="partly-cloudy-img" src="./img/partly_cloudy.png">
                                         </div>
-                                        <div id="hole-par-row" class="row">
-                                            <span id="hole-par"></span>
+                                        <p class="card-temp box-highlight"></p>
+                                    </section>
+                                    <section id="wind" class="card anim-flip hidden">
+                                        <header>
+                                            <h1 class="card-header">Wind</h1>
+                                        </header>
+                                        <div class="forecast__cloudy">
+                                            <img id="windy-img" src="./img/windy.png">
                                         </div>
-                                    </div>
-                                    <div id="hole-tees" class="col-md-2">
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="counter">
-                                        <h2 id="hole-times-played" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                        <p class="count-text ">Times Played</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="counter">
-                                        <h2 id="hole-scoring-avg" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                        <p class="count-text ">Scoring Average</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="counter">
-                                        <h2 id="hole-strokes-to-par-avg" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                        <p class="count-text ">Strokes to Par Average</p>
-                                    </div>
+                                        <p class="card-temp box-highlight"></p>
+                                    </section>
                                 </div>
                             </div>
-                            <div id="by-hole-accordion" class="panel-group hidden">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse-tee-shot">Tee Shot</a>
-                                        </h4>
+                        </div>
+                        <div class="row">
+                            <div id="wind-div" class="weather-div"></div>
+                        </div>
+                        <hr class="weather-hr">
+                        <div class="row">
+                            <div id="temp-div" class="weather-div">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="map" role="tabpanel" aria-labelledby="map-tab">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="map-api"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="by-hole" role="tabpanel" aria-labelledby="by-hole-tab">
+                        <div id="no-course" class="row hidden">
+                            <div class="col-md-12">
+                                <h1>Please Choose a Course</h1>
+                            </div>
+                        </div>
+                        <div id="no-hole" class="row hidden">
+                            <div class="col-md-12">
+                                <h1>Please Choose a Hole</h1>
+                            </div>
+                        </div>
+                        <div id="hole-data" class="row banner hidden">
+                            <div class="col-md-3">
+                                <div class="col-md-5">
+                                    <div id="course_img_div"></div>
+                                </div>
+                                <div id="hole-info" class="col-md-5">
+                                    <div id="hole-number-row" class="row">
+                                        <span id="hole-number"></span>
                                     </div>
-                                    <div id="collapse-tee-shot" class="panel-collapse collapse in">
-                                        <div id="non-par-three-panel" class="panel-body hidden">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="row top-dashboard-stats">
-                                                        <div class="col-md-6">
-                                                            <div class="counter">
-                                                                <h2 id="by-hole-fir-percent" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                                                <p class="count-text ">FIR %</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="counter">
-                                                                <h2 id="by-hole-avg-tee-shot-distance" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                                                <p class="count-text ">Average Tee Shot Distance</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div id="by-hole-fir-line"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div id="score-by-tee-club"></div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-3">
-                                                    <div class="counter">
-                                                        <h2 id="by-hole-tee-left-percent" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                                        <p class="count-text ">Miss Left %</p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <div class="counter">
-                                                        <h2 id="by-hole-tee-right-percent" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                                        <p class="count-text ">Miss Right %</p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <div class="counter">
-                                                        <h2 id="by-hole-tee-short-percent" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                                        <p class="count-text ">Miss Short %</p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <div class="counter">
-                                                        <h2 id="by-hole-tee-long-percent" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                                        <p class="count-text ">Miss Long %</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div id="par-three-panel" class="panel-body hidden">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="row top-dashboard-stats">
-                                                        <div class="col-md-6">
-                                                            <div class="counter">
-                                                                <h2 id="by-hole-gir-percent" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                                                <p class="count-text ">GIR %</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="counter">
-                                                                <h2 id="by-hole-avg-approach-shot-distance" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                                                <p class="count-text ">Average Approach Shot Distance</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div id="by-hole-gir-line"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div id="score-by-approach-distance"></div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-3">
-                                                    <div class="counter">
-                                                        <h2 id="by-hole-approach-left-percent" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                                        <p class="count-text ">Miss Left %</p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <div class="counter">
-                                                        <h2 id="by-hole-approach-right-percent" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                                        <p class="count-text ">Miss Right %</p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <div class="counter">
-                                                        <h2 id="by-hole-approach-short-percent" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                                        <p class="count-text ">Miss Short %</p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <div class="counter">
-                                                        <h2 id="by-hole-approach-long-percent" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                                        <p class="count-text ">Miss Long %</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div id="hole-par-row" class="row">
+                                        <span id="hole-par"></span>
                                     </div>
                                 </div>
-                                <div id="approach-panel" class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse-approach">Approach</a>
-                                        </h4>
-                                    </div>
-                                    <div id="collapse-approach" class="panel-collapse collapse">
-                                        <div class="panel-body">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="row top-dashboard-stats">
-                                                        <div class="col-md-6">
-                                                            <div class="counter">
-                                                                <h2 id="by-hole-gir-percent-approach" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                                                <p class="count-text ">GIR %</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="counter">
-                                                                <h2 id="by-hole-avg-approach-shot-distance-approach" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                                                <p class="count-text ">Average Approach Shot Distance</p>
-                                                            </div>
+                                <div id="hole-tees" class="col-md-2">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="counter">
+                                    <h2 id="hole-times-played" class="timer count-title count-number" data-to=""
+                                        data-speed="1500"></h2>
+                                    <p class="count-text ">Times Played</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="counter">
+                                    <h2 id="hole-scoring-avg" class="timer count-title count-number" data-to=""
+                                        data-speed="1500"></h2>
+                                    <p class="count-text ">Scoring Average</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="counter">
+                                    <h2 id="hole-strokes-to-par-avg" class="timer count-title count-number" data-to=""
+                                        data-speed="1500"></h2>
+                                    <p class="count-text ">Strokes to Par Average</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="by-hole-accordion" class="panel-group hidden">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse-tee-shot">Tee
+                                            Shot</a>
+                                    </h4>
+                                </div>
+                                <div id="collapse-tee-shot" class="panel-collapse collapse in">
+                                    <div id="non-par-three-panel" class="panel-body hidden">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="row top-dashboard-stats">
+                                                    <div class="col-md-6">
+                                                        <div class="counter">
+                                                            <h2 id="by-hole-fir-percent"
+                                                                class="timer count-title count-number" data-to=""
+                                                                data-speed="1500"></h2>
+                                                            <p class="count-text ">FIR %</p>
                                                         </div>
                                                     </div>
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div id="by-hole-gir-line-approach"></div>
+                                                    <div class="col-md-6">
+                                                        <div class="counter">
+                                                            <h2 id="by-hole-avg-tee-shot-distance"
+                                                                class="timer count-title count-number" data-to=""
+                                                                data-speed="1500"></h2>
+                                                            <p class="count-text ">Average Tee Shot Distance</p>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <div id="score-by-approach-distance-approach"></div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div id="by-hole-fir-line"></div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-md-3">
-                                                    <div class="counter">
-                                                        <h2 id="by-hole-approach-left-percent-approach" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                                        <p class="count-text ">Miss Left %</p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <div class="counter">
-                                                        <h2 id="by-hole-approach-right-percent-approach" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                                        <p class="count-text ">Miss Right %</p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <div class="counter">
-                                                        <h2 id="by-hole-approach-short-percent-approach" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                                        <p class="count-text ">Miss Short %</p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <div class="counter">
-                                                        <h2 id="by-hole-approach-long-percent-approach" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                                        <p class="count-text ">Miss Long %</p>
-                                                    </div>
-                                                </div>
+                                            <div class="col-md-6">
+                                                <div id="score-by-tee-club"></div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse-short-game">Short Game</a>
-                                        </h4>
-                                    </div>
-                                    <div id="collapse-short-game" class="panel-collapse collapse">
-                                        <div class="panel-body">
-                                            <div class="row top-dashboard-stats">
-                                                <div class="col-md-3">
-                                                    <div class="counter">
-                                                        <h2 id="by-hole-scramble-percent" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                                        <p class="count-text ">Scramble %</p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <div class="counter">
-                                                        <h2 id="by-hole-scramble-sand-save-percent" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                                        <p class="count-text ">Sand Save %</p>
-                                                    </div>
-                                                </div>
-                                                <div id="left-avg-col" class="col-md-2">
+                                        <div class="row">
+                                            <div class="col-md-3">
                                                 <div class="counter">
-                                                    <h2 id="by-hole-scramble-putts-per-round" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
+                                                    <h2 id="by-hole-tee-left-percent"
+                                                        class="timer count-title count-number" data-to=""
+                                                        data-speed="1500"></h2>
+                                                    <p class="count-text ">Miss Left %</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="counter">
+                                                    <h2 id="by-hole-tee-right-percent"
+                                                        class="timer count-title count-number" data-to=""
+                                                        data-speed="1500"></h2>
+                                                    <p class="count-text ">Miss Right %</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="counter">
+                                                    <h2 id="by-hole-tee-short-percent"
+                                                        class="timer count-title count-number" data-to=""
+                                                        data-speed="1500"></h2>
+                                                    <p class="count-text ">Miss Short %</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="counter">
+                                                    <h2 id="by-hole-tee-long-percent"
+                                                        class="timer count-title count-number" data-to=""
+                                                        data-speed="1500"></h2>
+                                                    <p class="count-text ">Miss Long %</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="par-three-panel" class="panel-body hidden">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="row top-dashboard-stats">
+                                                    <div class="col-md-6">
+                                                        <div class="counter">
+                                                            <h2 id="by-hole-gir-percent"
+                                                                class="timer count-title count-number" data-to=""
+                                                                data-speed="1500"></h2>
+                                                            <p class="count-text ">GIR %</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="counter">
+                                                            <h2 id="by-hole-avg-approach-shot-distance"
+                                                                class="timer count-title count-number" data-to=""
+                                                                data-speed="1500"></h2>
+                                                            <p class="count-text ">Average Approach Shot Distance</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div id="by-hole-gir-line"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div id="score-by-approach-distance"></div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="counter">
+                                                    <h2 id="by-hole-approach-left-percent"
+                                                        class="timer count-title count-number" data-to=""
+                                                        data-speed="1500"></h2>
+                                                    <p class="count-text ">Miss Left %</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="counter">
+                                                    <h2 id="by-hole-approach-right-percent"
+                                                        class="timer count-title count-number" data-to=""
+                                                        data-speed="1500"></h2>
+                                                    <p class="count-text ">Miss Right %</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="counter">
+                                                    <h2 id="by-hole-approach-short-percent"
+                                                        class="timer count-title count-number" data-to=""
+                                                        data-speed="1500"></h2>
+                                                    <p class="count-text ">Miss Short %</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="counter">
+                                                    <h2 id="by-hole-approach-long-percent"
+                                                        class="timer count-title count-number" data-to=""
+                                                        data-speed="1500"></h2>
+                                                    <p class="count-text ">Miss Long %</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="approach-panel" class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion"
+                                            href="#collapse-approach">Approach</a>
+                                    </h4>
+                                </div>
+                                <div id="collapse-approach" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="row top-dashboard-stats">
+                                                    <div class="col-md-6">
+                                                        <div class="counter">
+                                                            <h2 id="by-hole-gir-percent-approach"
+                                                                class="timer count-title count-number" data-to=""
+                                                                data-speed="1500"></h2>
+                                                            <p class="count-text ">GIR %</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="counter">
+                                                            <h2 id="by-hole-avg-approach-shot-distance-approach"
+                                                                class="timer count-title count-number" data-to=""
+                                                                data-speed="1500"></h2>
+                                                            <p class="count-text ">Average Approach Shot Distance</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div id="by-hole-gir-line-approach"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div id="score-by-approach-distance-approach"></div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="counter">
+                                                    <h2 id="by-hole-approach-left-percent-approach"
+                                                        class="timer count-title count-number" data-to=""
+                                                        data-speed="1500"></h2>
+                                                    <p class="count-text ">Miss Left %</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="counter">
+                                                    <h2 id="by-hole-approach-right-percent-approach"
+                                                        class="timer count-title count-number" data-to=""
+                                                        data-speed="1500"></h2>
+                                                    <p class="count-text ">Miss Right %</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="counter">
+                                                    <h2 id="by-hole-approach-short-percent-approach"
+                                                        class="timer count-title count-number" data-to=""
+                                                        data-speed="1500"></h2>
+                                                    <p class="count-text ">Miss Short %</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="counter">
+                                                    <h2 id="by-hole-approach-long-percent-approach"
+                                                        class="timer count-title count-number" data-to=""
+                                                        data-speed="1500"></h2>
+                                                    <p class="count-text ">Miss Long %</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion"
+                                            href="#collapse-short-game">Short Game</a>
+                                    </h4>
+                                </div>
+                                <div id="collapse-short-game" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <div class="row top-dashboard-stats">
+                                            <div class="col-md-3">
+                                                <div class="counter">
+                                                    <h2 id="by-hole-scramble-percent"
+                                                        class="timer count-title count-number" data-to=""
+                                                        data-speed="1500"></h2>
+                                                    <p class="count-text ">Scramble %</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="counter">
+                                                    <h2 id="by-hole-scramble-sand-save-percent"
+                                                        class="timer count-title count-number" data-to=""
+                                                        data-speed="1500"></h2>
+                                                    <p class="count-text ">Sand Save %</p>
+                                                </div>
+                                            </div>
+                                            <div id="left-avg-col" class="col-md-2">
+                                                <div class="counter">
+                                                    <h2 id="by-hole-scramble-putts-per-round"
+                                                        class="timer count-title count-number" data-to=""
+                                                        data-speed="1500"></h2>
                                                     <p class="count-text ">Average Putts</p>
                                                 </div>
-                                                </div>   
-                                                <div id="middle-avg-col" class="col-md-2">
-                                                    <div class="counter">
-                                                        <h2 id="by-hole-scramble-one-putts" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                                        <p class="count-text ">Total One Putts</p>
-                                                    </div>
-                                                </div> 
-                                                <div id="right-avg-col" class="col-md-2">
-                                                    <div class="counter">
-                                                        <h2 id="by-hole-scramble-three-putts" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                                        <p class="count-text ">Total Three Putts</p>
-                                                    </div>
+                                            </div>
+                                            <div id="middle-avg-col" class="col-md-2">
+                                                <div class="counter">
+                                                    <h2 id="by-hole-scramble-one-putts"
+                                                        class="timer count-title count-number" data-to=""
+                                                        data-speed="1500"></h2>
+                                                    <p class="count-text ">Total One Putts</p>
+                                                </div>
+                                            </div>
+                                            <div id="right-avg-col" class="col-md-2">
+                                                <div class="counter">
+                                                    <h2 id="by-hole-scramble-three-putts"
+                                                        class="timer count-title count-number" data-to=""
+                                                        data-speed="1500"></h2>
+                                                    <p class="count-text ">Total Three Putts</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -825,107 +927,119 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane fade in" id="yoy" role="tabpanel" aria-labelledby="yoy-tab">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="counter">
-                                        <h2 id="yoy-title" class="timer count-title count-number"></h2>
-                                        <p id="yoy-years" class="count-text "></p>
-                                    </div>
+                    </div>
+                    <div class="tab-pane fade in" id="yoy" role="tabpanel" aria-labelledby="yoy-tab">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="counter">
+                                    <h2 id="yoy-title" class="timer count-title count-number"></h2>
+                                    <p id="yoy-years" class="count-text "></p>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-2 left-yoy-col">
-                                    <div class="counter">
-                                        <h2 id="current-year-strokes-to-par" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                        <p id="current-year-strokes-to-par-p" class="count-text">Strokes to Par</p>
-                                    </div>
-                                </div>   
-                                <div class="col-md-2 middle-yoy-col">
-                                    <div class="counter">
-                                        <h2 id="prev-year-strokes-to-par" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                        <p id="prev-year-strokes-to-par-p" class="count-text">Strokes to Par</p>
-                                    </div>
-                                </div> 
-                                <div class="col-md-2 right-yoy-col shrink-right-yoy" style="margin-right:18px;">
-                                    <div class="counter">
-                                        <h2 id="strokes-to-par-change" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                        <p class="count-text current-year-p">% Change</p>
-                                    </div>
-                                </div> 
-                                <div class="col-md-2 left-yoy-col">
-                                    <div class="counter">
-                                        <h2 id="current-year-score" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                        <p id="current-year-score-p" class="count-text">Strokes to Par</p>
-                                    </div>
-                                </div>   
-                                <div class="col-md-2 middle-yoy-col">
-                                    <div class="counter">
-                                        <h2 id="prev-year-score" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                        <p id="prev-year-score-p" class="count-text">Strokes to Par</p>
-                                    </div>
-                                </div> 
-                                <div class="col-md-2 right-yoy-col shrink-right-yoy">
-                                    <div class="counter">
-                                        <h2 id="score-change" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                        <p class="count-text current-year-p">% Change</p>
-                                    </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 left-yoy-col">
+                                <div class="counter">
+                                    <h2 id="current-year-strokes-to-par" class="timer count-title count-number"
+                                        data-to="" data-speed="1500"></h2>
+                                    <p id="current-year-strokes-to-par-p" class="count-text">Strokes to Par</p>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div id="yoy-score-by-round" class="dash-highchart"></div>
+                            <div class="col-md-2 middle-yoy-col">
+                                <div class="counter">
+                                    <h2 id="prev-year-strokes-to-par" class="timer count-title count-number" data-to=""
+                                        data-speed="1500"></h2>
+                                    <p id="prev-year-strokes-to-par-p" class="count-text">Strokes to Par</p>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-2 left-yoy-col">
-                                    <div class="counter">
-                                        <span id="current-year-fir-ratio" class="dashboard-ratio"></span>
-                                        <h2 id="current-year-fir" class="timer count-title count-number-percent with-ratio" data-to="" data-speed="1500"></h2>
-                                        <p id="current-year-fir-p" class="count-text">FIR %</p>
-                                    </div>
-                                </div>   
-                                <div class="col-md-2 middle-yoy-col">
-                                    <div class="counter">
-                                        <span id="prev-year-fir-ratio" class="dashboard-ratio"></span>
-                                        <h2 id="prev-year-fir" class="timer count-title count-number-percent with-ratio" data-to="" data-speed="1500"></h2>
-                                        <p id="prev-year-fir-p" class="count-text">FIR %</p>
-                                    </div>
-                                </div> 
-                                <div class="col-md-2 right-yoy-col shrink-right-yoy" style="margin-right:18px;">
-                                    <div class="counter">
-                                        <h2 id="fir-change" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                        <p class="count-text">% Change</p>
-                                    </div>
+                            <div class="col-md-2 right-yoy-col shrink-right-yoy" style="margin-right:18px;">
+                                <div class="counter">
+                                    <h2 id="strokes-to-par-change" class="timer count-title count-number" data-to=""
+                                        data-speed="1500"></h2>
+                                    <p class="count-text current-year-p">% Change</p>
                                 </div>
-                                <div class="col-md-2 left-yoy-col">
-                                    <div class="counter">
-                                        <span id="current-year-gir-ratio" class="dashboard-ratio"></span>
-                                        <h2 id="current-year-gir" class="timer count-title count-number-percent with-ratio" data-to="" data-speed="1500"></h2>
-                                        <p id="current-year-gir-p" class="count-text">GIR %</p>
-                                    </div>
-                                </div>   
-                                <div class="col-md-2 middle-yoy-col">
-                                    <div class="counter">
-                                        <span id="prev-year-gir-ratio" class="dashboard-ratio"></span>
-                                        <h2 id="prev-year-gir" class="timer count-title count-number-percent with-ratio" data-to="" data-speed="1500"></h2>
-                                        <p id="prev-year-gir-p" class="count-text">FIR %</p>
-                                    </div>
-                                </div> 
-                                <div class="col-md-2 right-yoy-col shrink-right-yoy">
-                                    <div class="counter">
-                                        <h2 id="gir-change" class="timer count-title count-number" data-to="" data-speed="1500"></h2>
-                                        <p class="count-text">% Change</p>
-                                    </div>
-                                </div> 
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div id="yoy-fir-by-round" class="dash-highchart"></div>
+                            <div class="col-md-2 left-yoy-col">
+                                <div class="counter">
+                                    <h2 id="current-year-score" class="timer count-title count-number" data-to=""
+                                        data-speed="1500"></h2>
+                                    <p id="current-year-score-p" class="count-text">Strokes to Par</p>
                                 </div>
-                                <div class="col-md-6">
-                                    <div id="yoy-gir-by-round" class="dash-highchart"></div>
+                            </div>
+                            <div class="col-md-2 middle-yoy-col">
+                                <div class="counter">
+                                    <h2 id="prev-year-score" class="timer count-title count-number" data-to=""
+                                        data-speed="1500"></h2>
+                                    <p id="prev-year-score-p" class="count-text">Strokes to Par</p>
                                 </div>
+                            </div>
+                            <div class="col-md-2 right-yoy-col shrink-right-yoy">
+                                <div class="counter">
+                                    <h2 id="score-change" class="timer count-title count-number" data-to=""
+                                        data-speed="1500"></h2>
+                                    <p class="count-text current-year-p">% Change</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="yoy-score-by-round" class="dash-highchart"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 left-yoy-col">
+                                <div class="counter">
+                                    <span id="current-year-fir-ratio" class="dashboard-ratio"></span>
+                                    <h2 id="current-year-fir" class="timer count-title count-number-percent with-ratio"
+                                        data-to="" data-speed="1500"></h2>
+                                    <p id="current-year-fir-p" class="count-text">FIR %</p>
+                                </div>
+                            </div>
+                            <div class="col-md-2 middle-yoy-col">
+                                <div class="counter">
+                                    <span id="prev-year-fir-ratio" class="dashboard-ratio"></span>
+                                    <h2 id="prev-year-fir" class="timer count-title count-number-percent with-ratio"
+                                        data-to="" data-speed="1500"></h2>
+                                    <p id="prev-year-fir-p" class="count-text">FIR %</p>
+                                </div>
+                            </div>
+                            <div class="col-md-2 right-yoy-col shrink-right-yoy" style="margin-right:18px;">
+                                <div class="counter">
+                                    <h2 id="fir-change" class="timer count-title count-number" data-to=""
+                                        data-speed="1500"></h2>
+                                    <p class="count-text">% Change</p>
+                                </div>
+                            </div>
+                            <div class="col-md-2 left-yoy-col">
+                                <div class="counter">
+                                    <span id="current-year-gir-ratio" class="dashboard-ratio"></span>
+                                    <h2 id="current-year-gir" class="timer count-title count-number-percent with-ratio"
+                                        data-to="" data-speed="1500"></h2>
+                                    <p id="current-year-gir-p" class="count-text">GIR %</p>
+                                </div>
+                            </div>
+                            <div class="col-md-2 middle-yoy-col">
+                                <div class="counter">
+                                    <span id="prev-year-gir-ratio" class="dashboard-ratio"></span>
+                                    <h2 id="prev-year-gir" class="timer count-title count-number-percent with-ratio"
+                                        data-to="" data-speed="1500"></h2>
+                                    <p id="prev-year-gir-p" class="count-text">FIR %</p>
+                                </div>
+                            </div>
+                            <div class="col-md-2 right-yoy-col shrink-right-yoy">
+                                <div class="counter">
+                                    <h2 id="gir-change" class="timer count-title count-number" data-to=""
+                                        data-speed="1500"></h2>
+                                    <p class="count-text">% Change</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div id="yoy-fir-by-round" class="dash-highchart"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <div id="yoy-gir-by-round" class="dash-highchart"></div>
                             </div>
                         </div>
                     </div>
@@ -933,12 +1047,13 @@
             </div>
         </div>
     </div>
-    
+</div>
+
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/series-label.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="../scripts/dashboard/themes/dark-unica.js"></script>
-<script src="https://code.createjs.com/easeljs-0.8.1.min.js"></script>  
+<script src="https://code.createjs.com/easeljs-0.8.1.min.js"></script>
 <script src="https://code.createjs.com/tweenjs-0.6.1.min.js"></script>
 <script src="../scripts/dashboard/summary/setSummary.js"></script>
 <script src="../scripts/dashboard/summary/highChartsScoreByDate.js"></script>
@@ -968,19 +1083,19 @@
 
 <script>
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         document.title = 'Dashboard';
     });
 
     $('.menu_options li').removeClass('active');
     $('#dashboard_menu_option').addClass('active');
-    
+
     var activeTab = window.location.hash.substr(1);
-    
+
     //numCounterUpdate();
-    $(function() {
+    $(function () {
         var currentDate = new Date();
-        
+
         $('#date-from').datepicker(
             {
                 date: new Date(currentDate.getFullYear(), 0, 1),
@@ -993,35 +1108,35 @@
                 format: 'm/d/yyyy'
             });
         $('#date-to').val(currentDate.getMonth() + 1 + '/' + currentDate.getDate() + '/' + currentDate.getFullYear());
-        
+
         updateDashboard();
-        
+
         var fromDate = $('#date-from').datepicker('getDate');
-        
-        
+
+
     });
-    
+
     //Add filters on refresh
-    if(activeTab === "driving"){
+    if (activeTab === "driving") {
         $('#num-holes-dropdown-div').removeClass("hidden");
         $('#tee-club-dropdown-div').removeClass("hidden");
         $('#courses-dropdown-div').addClass("hidden");
         $('#holes-dropdown-div').addClass("hidden");
     }
-    if(activeTab === "approach"){
+    if (activeTab === "approach") {
         $('#num-holes-dropdown-div').removeClass("hidden");
         $('#approach-club-dropdown-div').removeClass("hidden");
         $('#courses-dropdown-div').addClass("hidden");
         $('#holes-dropdown-div').addClass("hidden");
     }
-    if(activeTab === "by-hole"){
+    if (activeTab === "by-hole") {
         $('#num-holes-dropdown-div').addClass("hidden");
         $('#courses-dropdown-div').removeClass("hidden");
         $('#holes-dropdown-div').removeClass("hidden");
     }
-    
+
     //Toggle filters
-    $('#driving-tab').on('click', function(){
+    $('#driving-tab').on('click', function () {
         activeTab = 'driving';
         $('#num-holes-dropdown-div').removeClass("hidden");
         $('#tee-club-dropdown-div').removeClass("hidden");
@@ -1029,10 +1144,10 @@
         $('#holes-dropdown-div').addClass("hidden");
         updateDashboard('All');
     });
-    $('.non-driving-tab').on('click', function(){
+    $('.non-driving-tab').on('click', function () {
         $('#tee-club-dropdown-div').addClass("hidden");
     });
-    $('#approach-tab').on('click', function(){
+    $('#approach-tab').on('click', function () {
         activeTab = 'approach';
         $('#num-holes-dropdown-div').removeClass("hidden");
         $('#approach-club-dropdown-div').removeClass("hidden");
@@ -1040,28 +1155,28 @@
         $('#holes-dropdown-div').addClass("hidden");
         updateDashboard('All');
     });
-    $('#short-game-tab').on('click', function(){
+    $('#short-game-tab').on('click', function () {
         activeTab = 'short-game';
         $('#num-holes-dropdown-div').removeClass("hidden");
         $('#courses-dropdown-div').addClass("hidden");
         $('#holes-dropdown-div').addClass("hidden");
         updateDashboard();
     });
-    $('#summary-tab').on('click', function(){
+    $('#summary-tab').on('click', function () {
         activeTab = 'summary';
         $('#num-holes-dropdown-div').removeClass("hidden");
         $('#courses-dropdown-div').addClass("hidden");
         $('#holes-dropdown-div').addClass("hidden");
         updateDashboard();
     });
-    $('#weather-tab').on('click', function(){
+    $('#weather-tab').on('click', function () {
         activeTab = 'weather';
         $('#num-holes-dropdown-div').removeClass("hidden");
         $('#courses-dropdown-div').addClass("hidden");
         $('#holes-dropdown-div').addClass("hidden");
         updateDashboard();
     });
-    $('#map-tab').on('click', function(){
+    $('#map-tab').on('click', function () {
         activeTab = 'map';
         $('#num-holes-dropdown-div').removeClass("hidden");
         $('#courses-dropdown-div').addClass("hidden");
@@ -1070,83 +1185,83 @@
         google.maps.event.trigger(map, "resize");
         updateDashboard();
     });
-    $('#by-hole-tab').on('click', function(){
+    $('#by-hole-tab').on('click', function () {
         activeTab = 'by-hole';
         $('#num-holes-dropdown-div').addClass("hidden");
         $('#courses-dropdown-div').removeClass("hidden");
         $('#holes-dropdown-div').removeClass("hidden");
         updateDashboard();
     });
-    $('#yoy-tab').on('click', function(){
+    $('#yoy-tab').on('click', function () {
         activeTab = 'yoy';
         $('#num-holes-dropdown-div').removeClass("hidden");
         $('#courses-dropdown-div').addClass("hidden");
         $('#holes-dropdown-div').addClass("hidden");
         updateDashboard();
     });
-    $('.non-approach-tab').on('click', function(){
+    $('.non-approach-tab').on('click', function () {
         $('#approach-club-dropdown-div').addClass("hidden");
     });
-    
-    $('.date-filter').change(function(){
+
+    $('.date-filter').change(function () {
         updateDashboard();
     });
 
-    $(function() {
-        $('#tee-club-dropdown').change(function(){
-           updateDashboard(null,"teeClub");
-           //$('#drivetracker-rounds').trigger("change");
+    $(function () {
+        $('#tee-club-dropdown').change(function () {
+            updateDashboard(null, "teeClub");
+            //$('#drivetracker-rounds').trigger("change");
         });
-        $('#approach-club-dropdown').change(function(){
-            updateDashboard(null,"approachClub");
+        $('#approach-club-dropdown').change(function () {
+            updateDashboard(null, "approachClub");
         });
-        $('#num-holes-dropdown').change(function(){
+        $('#num-holes-dropdown').change(function () {
             updateDashboard();
         });
-        $('#course-dropdown').change(function(){
-            updateDashboard(null,"course");
+        $('#course-dropdown').change(function () {
+            updateDashboard(null, "course");
             updateHoleFilter();
         });
-        $('#hole-dropdown').change(function(){
-            updateDashboard(null,"hole");
+        $('#hole-dropdown').change(function () {
+            updateDashboard(null, "hole");
         });
     });
-    
-    $('#drivetracker-rounds').change(function(){
+
+    $('#drivetracker-rounds').change(function () {
         var numHoles = $("#num-holes-dropdown :selected").text(),
             club = $("#tee-club-dropdown :selected").text(),
             isFull = true;
         if (numHoles === "9 Holes") {
             isFull = false;
         }
-        if($("#drivetracker-rounds :selected").val()){
+        if ($("#drivetracker-rounds :selected").val()) {
             var driveTrackerDateFrom = new Date($("#drivetracker-rounds :selected").val());
             var driveTrackerDateTo = new Date($("#drivetracker-rounds :selected").val());
-            driveTrackerDateFrom.setHours(0,0,0,0);
-            driveTrackerDateTo.setHours(23,59,59,0);
+            driveTrackerDateFrom.setHours(0, 0, 0, 0);
+            driveTrackerDateTo.setHours(23, 59, 59, 0);
             var dtDateFrom = driveTrackerDateFrom.toISOString();
             var dtDateTo = driveTrackerDateTo.toISOString();
         }
-        var parameters = { isFull: isFull, club: club, dtDateFrom:dtDateFrom, dtDateTo:dtDateTo };
+        var parameters = { isFull: isFull, club: club, dtDateFrom: dtDateFrom, dtDateTo: dtDateTo };
         driveTracker(parameters, club);
     });
-    
-    $('#reset-drive-tracker').click(function() {
+
+    $('#reset-drive-tracker').click(function () {
         var numHoles = $("#num-holes-dropdown :selected").text(),
             club = $("#tee-club-dropdown :selected").text(),
             isFull = true;
         if (numHoles === "9 Holes") {
             isFull = false;
         }
-        if($("#drivetracker-rounds :selected").val()){
+        if ($("#drivetracker-rounds :selected").val()) {
             var driveTrackerDateFrom = new Date($("#drivetracker-rounds :selected").val());
             var driveTrackerDateTo = new Date($("#drivetracker-rounds :selected").val());
-            driveTrackerDateFrom.setHours(0,0,0,0);
-            driveTrackerDateTo.setHours(23,59,59,0);
+            driveTrackerDateFrom.setHours(0, 0, 0, 0);
+            driveTrackerDateTo.setHours(23, 59, 59, 0);
             var dtDateFrom = driveTrackerDateFrom.toISOString();
             var dtDateTo = driveTrackerDateTo.toISOString();
         }
-        var parameters = { isFull: isFull, club: club, dtDateFrom:dtDateFrom, dtDateTo:dtDateTo };
+        var parameters = { isFull: isFull, club: club, dtDateFrom: dtDateFrom, dtDateTo: dtDateTo };
         driveTracker(parameters, club);
     });
 
@@ -1155,19 +1270,19 @@
             return m.toUpperCase();
         });
     };
-    
+
     //Set hash in url
-    $(function(){
-      var hash = window.location.hash;
-      hash && $('ul.nav a[href="' + hash + '"]').tab('show');
-    
-      $('.nav-tabs a').click(function (e) {
-        $(this).tab('show');
-        var scrollmem = $('body').scrollTop() || $('html').scrollTop();
-        window.location.hash = this.hash;
-        $('html,body').scrollTop(scrollmem);
-      });
+    $(function () {
+        var hash = window.location.hash;
+        hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
+        $('.nav-tabs a').click(function (e) {
+            $(this).tab('show');
+            var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+            window.location.hash = this.hash;
+            $('html,body').scrollTop(scrollmem);
+        });
     });
-    
+
 </script>
 <% include ../partials/footer %>
